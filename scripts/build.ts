@@ -13,6 +13,13 @@ import {
 import assert from 'node:assert';
 import { Value } from '@sinclair/typebox/value';
 import { Type } from '@sinclair/typebox';
+import type {
+  CraftId,
+  JCraftable,
+  JIng,
+  JProduct,
+  JRecipe,
+} from '@/lib/j-types';
 
 function main() {
   const obj: Record<string, Record<string, RPrototypeBase>> = JSON.parse(
@@ -256,67 +263,6 @@ function cleanUndefined<T>(
   return Object.fromEntries(
     Object.entries(obj).filter(([_, v]) => v !== undefined),
   ) as Record<string, T>;
-}
-
-type JColour = [number, number, number];
-
-type CraftId = string;
-
-interface JCraftable {
-  id: CraftId;
-  type: RKnownType;
-  human: string;
-  description?: string;
-  order?: string;
-  subGroup?: string;
-  stackSize?: number;
-  // baseColor?: JColour;
-}
-
-type JIng = [
-  CraftId,
-  // amount
-  number,
-  {
-    // both
-    catalystAmount?: number;
-
-    // just fluids
-    temp?: number;
-    minTemp?: number;
-    maxTemp?: number;
-    fluidboxIndex?: number;
-  }?,
-];
-
-type JProduct = [
-  CraftId,
-  (
-    | number
-    | {
-        amount?: number;
-        amountMin?: number;
-        amountMax?: number;
-        probability?: number;
-        catalystAmount?: number;
-
-        // fluids
-        temp?: number;
-        fluidboxIndex?: number;
-      }
-  ),
-];
-
-interface JRecipe {
-  id: string;
-  human: string;
-  description?: string;
-  category?: string;
-  order?: string;
-  subgroup?: string;
-
-  ing: JIng[];
-  results: JProduct[];
 }
 
 main();
