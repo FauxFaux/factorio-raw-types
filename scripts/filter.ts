@@ -16,7 +16,6 @@ function main() {
     'gui-style',
     'corpse',
     'lamp',
-    'car',
     'tips-and-tricks-item',
     'simple-entity',
     'spider-leg',
@@ -64,6 +63,9 @@ function main() {
       delete v.damaged_trigger_effect;
       delete v.connector_frame_sprites;
       delete v.belt_animation_set;
+      delete v.minimap_representation;
+      delete v.selected_minimap_representation;
+      delete v.track_particle_triggers;
 
       for (const box in v.fluid_boxes ?? []) {
         delete v.pipe_picture;
@@ -77,7 +79,7 @@ function main() {
     console.log(v, k);
   }
 
-  writeFileSync('raw-data/data.json', JSON.stringify(obj));
+  writeFileSync('sample-data/data.json', JSON.stringify(obj));
 }
 
 main();
