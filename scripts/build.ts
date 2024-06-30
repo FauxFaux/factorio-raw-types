@@ -4,17 +4,15 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import {
   RCraftable,
   RCraftingSetup,
-  RIngredient,
+  RFluidIngredient,
+  RFluidProduct,
   RKnownType,
   RLocale,
   RPrototypeBase,
 } from './raw-data';
 import assert from 'node:assert';
 import { Value } from '@sinclair/typebox/value';
-
-function stripType(colon: CraftId) {
-  return colon.split(':')[1];
-}
+import { Type } from '@sinclair/typebox';
 
 function main() {
   const obj: Record<string, Record<string, RPrototypeBase>> = JSON.parse(
@@ -30,6 +28,7 @@ function main() {
   const locale = {
     item: loadLocale('item'),
     fluid: loadLocale('fluid'),
+    recipe: loadLocale('recipe'),
   } as const;
 
   const craftables: JCraftable[] = [];
@@ -112,7 +111,9 @@ function main() {
 
     const craft = ('normal' in recp ? recp.normal : recp) as RCraftingSetup;
     const cand: JRecipe = {
-      name: recp.name,
+      id: recp.name,
+      human: locale.recipe.names[recp.name],
+      description: locale.recipe.descriptions[recp.name],
       ing: fixIng(nameLookup, craft.ingredients),
       results: fixResults(nameLookup, craft),
     };
@@ -167,26 +168,40 @@ function fixIng(
   ings: RCraftingSetup['ingredients'],
 ): JIng[] {
   return coalesce(ings).map((ing) => {
-    // TODO: nope: these can be modules, or capsules, or who knows what
     if (Array.isArray(ing)) {
       assert.equal(2, ing.length);
       const [item, amount] = ing;
       return [nameLookup(item), amount];
     }
+
     const id = nameLookup(ing.name);
-    if (ing.catalyst_amount) {
-      return [id, ing.amount, { cat: ing.catalyst_amount }];
+    if (!Value.Check(Type.Omit(RFluidIngredient, ['type']), ing)) {
+      console.log(ing);
+      throw new Error('unreachable: fluid extends item');
     }
-    return [id, ing.amount];
+
+    const props: JIng[2] = cleanUndefined({
+      catalystAmount: ing.catalyst_amount,
+      temp: ing.temperature,
+      minTemp: ing.minimum_temperature,
+      maxTemp: ing.maximum_temperature,
+      fluidboxIndex: ing.fluidbox_index,
+    });
+
+    if (Object.keys(props).length === 0) {
+      return [id, ing.amount];
+    }
+
+    return [id, ing.amount, props];
   });
 }
 
 function fixResults(
   nameLookup: (name: string) => CraftId,
   craft: RCraftingSetup,
-): JIng[] {
+): JProduct[] {
   if (craft.results) {
-    return fixIng(nameLookup, craft.results as RIngredient[]);
+    return fixPluralResults(nameLookup, craft.results);
   }
 
   if (craft.result) {
@@ -194,6 +209,53 @@ function fixResults(
   }
 
   throw new Error('no results');
+}
+
+function fixPluralResults(
+  nameLookup: (name: string) => CraftId,
+  results: RCraftingSetup['results'],
+): JProduct[] {
+  return coalesce(results!).map((prod) => {
+    if (Array.isArray(prod)) {
+      assert.equal(2, prod.length);
+      const [item, amount] = prod;
+      return [nameLookup(item), amount];
+    }
+
+    const id = nameLookup(prod.name);
+    if (!Value.Check(Type.Omit(RFluidProduct, ['type']), prod)) {
+      throw new Error('unreachable: fluid extends item');
+    }
+
+    const props = cleanUndefined({
+      amountMin: prod.amount_min,
+      amountMax: prod.amount_max,
+      probability: prod.probability,
+      catalystAmount: prod.catalyst_amount,
+      temp: prod.temperature,
+      fluidboxIndex: prod.fluidbox_index,
+    });
+
+    if (Object.keys(props).length === 0 && prod.amount) {
+      return [id, prod.amount];
+    }
+
+    return [
+      id,
+      {
+        amount: prod.amount,
+        ...props,
+      } as JProduct[1],
+    ];
+  });
+}
+
+function cleanUndefined<T>(
+  obj: Record<string, T | undefined>,
+): Record<string, T> {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([_, v]) => v !== undefined),
+  ) as Record<string, T>;
 }
 
 type JColour = [number, number, number];
@@ -213,21 +275,48 @@ interface JCraftable {
 
 type JIng = [
   CraftId,
+  // amount
   number,
   {
-    cat?: number;
-    // min temp, max temp?
+    // both
+    catalystAmount?: number;
+
+    // just fluids
+    temp?: number;
+    minTemp?: number;
+    maxTemp?: number;
+    fluidboxIndex?: number;
   }?,
 ];
 
+type JProduct = [
+  CraftId,
+  (
+    | number
+    | {
+        amount?: number;
+        amountMin?: number;
+        amountMax?: number;
+        probability?: number;
+        catalystAmount?: number;
+
+        // fluids
+        temp?: number;
+        fluidboxIndex?: number;
+      }
+  ),
+];
+
 interface JRecipe {
-  name: string;
+  id: string;
+  human: string;
+  description?: string;
   category?: string;
   order?: string;
   subgroup?: string;
 
   ing: JIng[];
-  results: JIng[];
+  results: JProduct[];
 }
 
 main();

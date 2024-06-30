@@ -240,31 +240,61 @@ export const RCraftable = Type.Composite([
 export const RItemPrototype = Type.Composite([RPrototypeBase, RCraftable]);
 export type RItemPrototype = Static<typeof RItemPrototype>;
 
+const RItemIngredient = Type.Object({
+  type: Type.Optional(Type.Literal('item')),
+  name: Type.String(),
+  amount: Type.Number(),
+  catalyst_amount: Type.Optional(Type.Number()),
+});
+
+export const RFluidIngredient = Type.Object({
+  type: Type.Literal('fluid'),
+  name: Type.String(),
+  amount: Type.Number(),
+  temperature: Type.Optional(Type.Number()),
+  minimum_temperature: Type.Optional(Type.Number()),
+  maximum_temperature: Type.Optional(Type.Number()),
+  catalyst_amount: Type.Optional(Type.Number()),
+  fluidbox_index: Type.Optional(Type.Number()),
+});
+
 const RIngredient = Type.Union([
-  Type.Object({
-    type: Type.Optional(
-      Type.Union([Type.Literal('item'), Type.Literal('fluid')]),
-    ),
-    name: Type.String(),
-    amount: Type.Number(),
-    catalyst_amount: Type.Optional(Type.Number()),
-  }),
+  RItemIngredient,
+  RFluidIngredient,
   Type.Tuple([Type.String(), Type.Number()]),
 ]);
 export type RIngredient = Static<typeof RIngredient>;
 
-const RResult = Type.Union([
+const RProductBase = Type.Object({
+  name: Type.String(),
+  amount: Type.Optional(Type.Number()),
+  amount_min: Type.Optional(Type.Number()),
+  amount_max: Type.Optional(Type.Number()),
+  probability: Type.Optional(Type.Number()),
+  catalyst_amount: Type.Optional(Type.Number()),
+  show_details_in_recipe_tooltip: Type.Optional(Type.Boolean()),
+});
+
+const RItemProduct = Type.Composite([
+  RProductBase,
   Type.Object({
-    type: Type.Optional(
-      Type.Union([Type.Literal('item'), Type.Literal('fluid')]),
-    ),
-    name: Type.String(),
-    amount: Type.Optional(Type.Number()),
-    amount_min: Type.Optional(Type.Number()),
-    amount_max: Type.Optional(Type.Number()),
-    catalyst_amount: Type.Optional(Type.Number()),
+    type: Type.Optional(Type.Literal('item')),
+  }),
+]);
+
+export const RFluidProduct = Type.Composite([
+  RProductBase,
+  Type.Object({
+    type: Type.Literal('fluid'),
+
+    temperature: Type.Optional(Type.Number()),
     fluidbox_index: Type.Optional(Type.Number()),
   }),
+]);
+
+const RProduct = Type.Union([
+  RItemProduct,
+  RFluidProduct,
   Type.Tuple([Type.String(), Type.Number()]),
 ]);
 
@@ -278,7 +308,7 @@ const RCraftingSetup = Type.Object({
   result: Type.Optional(Type.String()),
   result_count: Type.Optional(Type.Number()),
 
-  results: Type.Optional(Type.Union([Type.Array(RResult), EmptyObj])),
+  results: Type.Optional(Type.Union([Type.Array(RProduct), EmptyObj])),
 });
 export type RCraftingSetup = Static<typeof RCraftingSetup>;
 
