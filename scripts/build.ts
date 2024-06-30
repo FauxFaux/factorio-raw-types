@@ -2,20 +2,28 @@
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import {
+  RCapsule,
   RCraftingSetup,
   RFluid,
   RIngredient,
   RItem,
   RLocale,
+  RModule,
   RRecipe,
 } from './raw-data';
 import assert from 'node:assert';
+
+function stripType(colon: Colon) {
+  return colon.split(':')[1];
+}
 
 function main() {
   const obj: {
     item: Record<string, RItem>;
     fluid: Record<string, RFluid>;
     recipe: Record<string, RRecipe>;
+    module: Record<string, RModule>;
+    capsule: Record<string, RCapsule>;
   } = JSON.parse(readFileSync('sample-data/data.json', 'utf-8'));
 
   const fluidLocale: RLocale = JSON.parse(
@@ -50,6 +58,29 @@ function main() {
       subGroup: item.subgroup,
     });
   }
+  for (const [origKey, module] of Object.entries(obj.module)) {
+    assert.equal(module.name, origKey);
+    colons.push({
+      colon: `capsule:${module.name}`,
+      human: itemLocale.names[module.name],
+      description: itemLocale.descriptions[module.name],
+      order: module.order,
+      stackSize: module.stack_size,
+      subGroup: module.subgroup,
+    });
+  }
+
+  for (const [origKey, capsule] of Object.entries(obj.capsule)) {
+    assert.equal(capsule.name, origKey);
+    colons.push({
+      colon: `capsule:${capsule.name}`,
+      human: itemLocale.names[capsule.name],
+      description: itemLocale.descriptions[capsule.name],
+      order: capsule.order,
+      stackSize: capsule.stack_size,
+      subGroup: capsule.subgroup,
+    });
+  }
 
   for (const [origKey, fluid] of Object.entries(obj.fluid)) {
     assert.equal(fluid.name, origKey);
@@ -66,7 +97,22 @@ function main() {
     });
   }
 
-  const validProducts = new Set(colons.map((c) => c.colon));
+  const validColons = new Set(colons.map((c) => c.colon));
+  const nameLookupData: Record<string, Colon> = {};
+  for (const colon of colons) {
+    const rawName = stripType(colon.colon);
+    if (rawName in nameLookupData) {
+      throw new Error(`duplicate name: ${rawName}`);
+    }
+    nameLookupData[rawName] = colon.colon;
+  }
+
+  const nameLookup = (name: string) => {
+    if (name in nameLookupData) {
+      return nameLookupData[name];
+    }
+    throw new Error(`missing name: ${name}`);
+  };
 
   const recipes: JRecipe[] = [];
   for (const [origKey, recp] of Object.entries(obj.recipe)) {
@@ -82,12 +128,12 @@ function main() {
     const craft = ('normal' in recp ? recp.normal : recp) as RCraftingSetup;
     const cand: JRecipe = {
       name: recp.name,
-      ing: fixIng(craft.ingredients),
-      results: fixResults(craft),
+      ing: fixIng(nameLookup, craft.ingredients),
+      results: fixResults(nameLookup, craft),
     };
 
     // ban recipes that make junk
-    if (cand.results.some(([colon]) => !validProducts.has(colon))) {
+    if (cand.results.some(([colon]) => !validColons.has(colon))) {
       console.log(cand);
       continue;
     }
@@ -99,7 +145,7 @@ function main() {
   writeFileSync('data/recipes.json', JSON.stringify(recipes));
 }
 
-function coalesce<T>(arg: T[]): T[] {
+function coalesce<T>(arg: T[] | Record<string, never>): T[] {
   if (!Array.isArray(arg)) {
     assert.equal('{}', JSON.stringify(arg));
     return [];
@@ -107,12 +153,16 @@ function coalesce<T>(arg: T[]): T[] {
   return arg;
 }
 
-function fixIng(ings: RCraftingSetup['ingredients']): JIng[] {
+function fixIng(
+  nameLookup: (name: string) => Colon,
+  ings: RCraftingSetup['ingredients'],
+): JIng[] {
   return coalesce(ings).map((ing) => {
     // TODO: nope: these can be modules, or capsules, or who knows what
     if (Array.isArray(ing)) {
+      assert.equal(2, ing.length);
       const [item, amount] = ing;
-      return [`item:${item}`, amount];
+      return [nameLookup(item), amount];
     }
     const colon = `${ing.type ?? 'item'}:${ing.name}`;
     if (ing.catalyst_amount) {
@@ -122,13 +172,16 @@ function fixIng(ings: RCraftingSetup['ingredients']): JIng[] {
   });
 }
 
-function fixResults(craft: RCraftingSetup): JIng[] {
-  if ('results' in craft) {
-    return fixIng(craft.results as RIngredient[]);
+function fixResults(
+  nameLookup: (name: string) => Colon,
+  craft: RCraftingSetup,
+): JIng[] {
+  if (craft.results) {
+    return fixIng(nameLookup, craft.results as RIngredient[]);
   }
 
-  if ('result' in craft) {
-    return [[`item:${craft.result}`, craft.result_count ?? 1]];
+  if (craft.result) {
+    return [[nameLookup(craft.result), craft.result_count ?? 1]];
   }
 
   throw new Error('no results');

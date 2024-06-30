@@ -1,8 +1,12 @@
 import { Static, Type } from '@sinclair/typebox';
 
+const EmptyObj = Type.Record(Type.String(), Type.Never());
+
 const RIngredient = Type.Union([
   Type.Object({
-    type: Type.Union([Type.Literal('item'), Type.Literal('fluid')]),
+    type: Type.Optional(
+      Type.Union([Type.Literal('item'), Type.Literal('fluid')]),
+    ),
     name: Type.String(),
     amount: Type.Number(),
     catalyst_amount: Type.Optional(Type.Number()),
@@ -11,25 +15,33 @@ const RIngredient = Type.Union([
 ]);
 export type RIngredient = Static<typeof RIngredient>;
 
-// ingredient list, either embedded in `normal` or not
-const RCraftingSetup = Type.Composite([
+const RResult = Type.Union([
   Type.Object({
-    enabled: Type.Boolean(),
-    ingredients: Type.Array(RIngredient),
-    always_show_products: Type.Optional(Type.Boolean()),
-    always_show_made_in: Type.Optional(Type.Boolean()),
+    type: Type.Optional(
+      Type.Union([Type.Literal('item'), Type.Literal('fluid')]),
+    ),
+    name: Type.String(),
+    amount: Type.Optional(Type.Number()),
+    amount_min: Type.Optional(Type.Number()),
+    amount_max: Type.Optional(Type.Number()),
+    catalyst_amount: Type.Optional(Type.Number()),
+    fluidbox_index: Type.Optional(Type.Number()),
   }),
-  Type.Union([
-    Type.Object({
-      results: Type.Array(RIngredient),
-      // TODO: amount_min, amount_max, probability
-    }),
-    Type.Object({
-      result: Type.String(),
-      result_count: Type.Number(),
-    }),
-  ]),
+  Type.Tuple([Type.String(), Type.Number()]),
 ]);
+
+// ingredient list, either embedded in `normal` or not
+const RCraftingSetup = Type.Object({
+  enabled: Type.Optional(Type.Boolean()),
+  ingredients: Type.Union([Type.Array(RIngredient), EmptyObj]),
+  always_show_products: Type.Optional(Type.Boolean()),
+  always_show_made_in: Type.Optional(Type.Boolean()),
+
+  result: Type.Optional(Type.String()),
+  result_count: Type.Optional(Type.Number()),
+
+  results: Type.Optional(Type.Union([Type.Array(RResult), EmptyObj])),
+});
 export type RCraftingSetup = Static<typeof RCraftingSetup>;
 
 export const RRecipeWithoutCrafting = Type.Object({
@@ -46,12 +58,10 @@ export const RRecipeWithoutCrafting = Type.Object({
 
 export const RRecipe = Type.Composite([
   RRecipeWithoutCrafting,
-  Type.Union([
-    RCraftingSetup,
-    Type.Object({
-      normal: RCraftingSetup,
-    }),
-  ]),
+  Type.Partial(RCraftingSetup),
+  Type.Object({
+    normal: Type.Optional(RCraftingSetup),
+  }),
 ]);
 
 export type RRecipe = Static<typeof RRecipe>;
@@ -65,8 +75,32 @@ export const RItem = Type.Object({
   stack_size: Type.Number(),
   localised_description: Type.Optional(Type.Array(Type.Unknown())),
 });
-
 export type RItem = Static<typeof RItem>;
+
+export const RModule = Type.Object({
+  type: Type.Literal('module'),
+  name: Type.String(),
+  subgroup: Type.Optional(Type.String()),
+  category: Type.String(),
+  order: Type.Optional(Type.String()),
+  stack_size: Type.Number(),
+
+  effect: Type.Unknown(),
+  tier: Type.Unknown(),
+  limitation: Type.Optional(Type.Array(Type.String())),
+  limitation_blacklist: Type.Optional(Type.Array(Type.String())),
+  beacon_tint: Type.Optional(Type.Unknown()),
+});
+export type RModule = Static<typeof RModule>;
+
+export const RCapsule = Type.Object({
+  type: Type.Literal('capsule'),
+  name: Type.String(),
+  subgroup: Type.String(),
+  order: Type.Optional(Type.String()),
+  stack_size: Type.Number(),
+});
+export type RCapsule = Static<typeof RCapsule>;
 
 export const RColourRGB = Type.Object({
   r: Type.Number(),
@@ -74,7 +108,10 @@ export const RColourRGB = Type.Object({
   b: Type.Number(),
 });
 
-export const RColour = Type.Union([RColourRGB, Type.Object({})]);
+export const RColour = Type.Union([
+  RColourRGB,
+  Type.Record(Type.String(), Type.Never()),
+]);
 
 export const RFluid = Type.Object({
   type: Type.Literal('fluid'),
