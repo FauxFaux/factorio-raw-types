@@ -1,16 +1,12 @@
 import raw from '../data/raw-tech.json';
+import { TechnologyPrototype } from '../src/lib/g-protos.js';
 
 type TechName = keyof typeof raw;
 
-interface Tech {
+type Tech = Omit<TechnologyPrototype, 'name' | 'prerequisites'> & {
   name: TechName;
   prerequisites?: TechName[];
-  unit: {
-    count: number;
-    time: number;
-    ingredients: [string, number][];
-  };
-}
+};
 
 const techs = raw as unknown as Record<TechName, Tech>;
 
@@ -33,9 +29,19 @@ function main() {
   const costs: Record<string, number> = {};
   for (const name of [...run]) {
     const tech = techs[name];
-    const count = tech.unit.count;
-    for (const [name, amount] of tech.unit.ingredients) {
-      costs[name] = (costs[name] ?? 0) + amount * count;
+    if (tech.unit) {
+      const count = tech.unit.count;
+      if (count === undefined) {
+        throw new Error('only support fixed count');
+      }
+
+      for (const val of tech.unit.ingredients) {
+        if (!Array.isArray(val)) {
+          throw new Error('only support simple ingredients');
+        }
+        const [name, amount] = val;
+        costs[name] = (costs[name] ?? 0) + amount * count;
+      }
     }
   }
 

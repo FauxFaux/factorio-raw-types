@@ -2,9 +2,18 @@
 
 import { readFileSync } from 'fs';
 import { writeFileSync } from 'node:fs';
+import { type RawData } from '../src/lib/g-protos.js';
+
+type DeepPartial<T> = T extends object
+  ? {
+      [P in keyof T]?: DeepPartial<T[P]>;
+    }
+  : T;
 
 function main() {
-  const obj = JSON.parse(readFileSync(process.argv[2]!, 'utf-8'));
+  const obj = JSON.parse(
+    readFileSync(process.argv[2]!, 'utf-8'),
+  ) as DeepPartial<RawData>;
 
   for (const k of [
     'tile',
@@ -19,7 +28,7 @@ function main() {
     'tips-and-tricks-item',
     'simple-entity',
     'spider-leg',
-  ]) {
+  ] satisfies (keyof RawData)[]) {
     delete obj[k];
   }
 
@@ -30,16 +39,17 @@ function main() {
   //   }
   // }
 
-  for (const v of Object.values(obj.resource) as any[]) {
-    delete v.walking_sound;
-    delete v.autoplace;
-    delete v.stages;
-    delete v.tree_removal_probability;
-    delete v.tree_removal_max_distance;
+  for (const v of Object.values(obj.resource!)) {
+    delete v?.walking_sound;
+    delete v?.autoplace;
+    delete v?.stages;
+    delete v?.tree_removal_probability;
+    delete v?.tree_removal_max_distance;
   }
 
-  for (const survived of Object.values(obj) as any[]) {
-    for (const v of Object.values(survived) as any[]) {
+  for (const survived of Object.values(obj)) {
+    // @ts-expect-error tsc gets bored computing the type but it is valid
+    for (const v of Object.values(survived!)) {
       delete v.icon;
       delete v.icons;
       delete v.icon_mipmaps;

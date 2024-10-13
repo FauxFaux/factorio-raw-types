@@ -1,7 +1,6 @@
 import { Type } from '@sinclair/typebox';
 import * as util from 'node:util';
 import { Value } from '@sinclair/typebox/value';
-import { pascalCase } from 'change-case';
 
 const hacks: Record<string, string> = {
   BlueprintBookPrototype: "'inventory_size'",
@@ -12,204 +11,6 @@ const hacks: Record<string, string> = {
   TransportBeltPrototype: "'animation_set' | 'belt_animation_set'",
   UpgradeItemPrototype: "'selection_mode' | 'alt_selection_mode'",
 };
-
-// jq keys raw-110/data-raw-dump.json
-
-const rawKeys = [
-  'accumulator',
-  'achievement',
-  'active-defense-equipment',
-  'ambient-sound',
-  'ammo',
-  'ammo-category',
-  'ammo-turret',
-  'arithmetic-combinator',
-  'armor',
-  'arrow',
-  'artillery-flare',
-  'artillery-projectile',
-  'artillery-turret',
-  'artillery-wagon',
-  'assembling-machine',
-  'autoplace-control',
-  'battery-equipment',
-  'beacon',
-  'beam',
-  'belt-immunity-equipment',
-  'blueprint',
-  'blueprint-book',
-  'boiler',
-  'build-entity-achievement',
-  'burner-generator',
-  'capsule',
-  'car',
-  'cargo-wagon',
-  'character',
-  'character-corpse',
-  'cliff',
-  'combat-robot',
-  'combat-robot-count',
-  'constant-combinator',
-  'construct-with-robots-achievement',
-  'construction-robot',
-  'container',
-  'copy-paste-tool',
-  'corpse',
-  'curved-rail',
-  'custom-input',
-  'damage-type',
-  'decider-combinator',
-  'deconstruct-with-robots-achievement',
-  'deconstructible-tile-proxy',
-  'deconstruction-item',
-  'deliver-by-robots-achievement',
-  'dont-build-entity-achievement',
-  'dont-craft-manually-achievement',
-  'dont-use-entity-in-energy-production-achievement',
-  'editor-controller',
-  'electric-energy-interface',
-  'electric-pole',
-  'electric-turret',
-  'energy-shield-equipment',
-  'entity-ghost',
-  'equipment-category',
-  'equipment-grid',
-  'explosion',
-  'finish-the-game-achievement',
-  'fire',
-  'fish',
-  'flame-thrower-explosion',
-  'fluid',
-  'fluid-turret',
-  'fluid-wagon',
-  'flying-text',
-  'font',
-  'fuel-category',
-  'furnace',
-  'gate',
-  'generator',
-  'generator-equipment',
-  'god-controller',
-  'group-attack-achievement',
-  'gui-style',
-  'gun',
-  'heat-interface',
-  'heat-pipe',
-  'highlight-box',
-  'infinity-container',
-  'infinity-pipe',
-  'inserter',
-  'item',
-  'item-entity',
-  'item-group',
-  'item-request-proxy',
-  'item-subgroup',
-  'item-with-entity-data',
-  'item-with-inventory',
-  'item-with-label',
-  'item-with-tags',
-  'kill-achievement',
-  'lab',
-  'lamp',
-  'land-mine',
-  'leaf-particle',
-  'linked-belt',
-  'linked-container',
-  'loader',
-  'loader-1x1',
-  'locomotive',
-  'logistic-container',
-  'logistic-robot',
-  'map-gen-presets',
-  'map-settings',
-  'market',
-  'mining-drill',
-  'mining-tool',
-  'module',
-  'module-category',
-  'mouse-cursor',
-  'movement-bonus-equipment',
-  'night-vision-equipment',
-  'noise-expression',
-  'noise-layer',
-  'offshore-pump',
-  'optimized-decorative',
-  'optimized-particle',
-  'particle',
-  'particle-source',
-  'pipe',
-  'pipe-to-ground',
-  'player-damaged-achievement',
-  'player-port',
-  'power-switch',
-  'produce-achievement',
-  'produce-per-hour-achievement',
-  'programmable-speaker',
-  'projectile',
-  'pump',
-  'radar',
-  'rail-chain-signal',
-  'rail-planner',
-  'rail-remnants',
-  'rail-signal',
-  'reactor',
-  'recipe',
-  'recipe-category',
-  'repair-tool',
-  'research-achievement',
-  'resource',
-  'resource-category',
-  'roboport',
-  'roboport-equipment',
-  'rocket-silo',
-  'rocket-silo-rocket',
-  'rocket-silo-rocket-shadow',
-  'selection-tool',
-  'shortcut',
-  'simple-entity',
-  'simple-entity-with-force',
-  'simple-entity-with-owner',
-  'smoke',
-  'smoke-with-trigger',
-  'solar-panel',
-  'solar-panel-equipment',
-  'spectator-controller',
-  'speech-bubble',
-  'spider-leg',
-  'spider-vehicle',
-  'spidertron-remote',
-  'splitter',
-  'sprite',
-  'sticker',
-  'storage-tank',
-  'straight-rail',
-  'stream',
-  'technology',
-  'tile',
-  'tile-effect',
-  'tile-ghost',
-  'tips-and-tricks-item',
-  'tips-and-tricks-item-category',
-  'tool',
-  'train-path-achievement',
-  'train-stop',
-  'transport-belt',
-  'tree',
-  'trigger-target-type',
-  'trivial-smoke',
-  'turret',
-  'tutorial',
-  'underground-belt',
-  'unit',
-  'unit-spawner',
-  'upgrade-item',
-  'utility-constants',
-  'utility-sounds',
-  'utility-sprites',
-  'virtual-signal',
-  'wall',
-  'wind-sound',
-];
 
 interface Type {
   name: string;
@@ -255,6 +56,8 @@ interface Prototype {
       }
     | string;
   properties: PropSpec[];
+  typename?: string;
+  abstract?: boolean;
 }
 
 function toInterface(
@@ -330,26 +133,22 @@ async function main() {
     console.log(toAlias(ty, typeDict));
   }
 
-  const haveProtos = new Set(prototypes.map((v) => v.name));
   console.log('export interface RawData {');
-  for (const key of rawKeys) {
-    const pas = pascalCase(key);
-    let chosen = 'unknown';
-    const withProto = pas + 'Prototype';
-    if (haveProtos.has(withProto)) {
-      chosen = withProto;
-    } else if (haveProtos.has(pas)) {
-      chosen = pas;
+  for (const proto of prototypes) {
+    if (!proto.typename) {
+      if (!proto.abstract) {
+        console.log(`  // ???: Record<???, ${proto.name}>;`);
+      }
+      continue;
     }
 
-    const withId = pas + 'ID';
+    const withId = proto.name.replace(/Prototype$/, '') + 'ID';
+    let key: string = 'string';
     if (typeDict[withId]) {
-      chosen = `Record<${withId}, ${chosen}>`;
-    } else {
-      chosen = `Record<string, ${chosen}>`;
+      key = withId;
     }
 
-    console.log(`  '${key}': ${chosen};`);
+    console.log(`  '${proto.typename}': Record<${key}, ${proto.name}>;`);
   }
   console.log('}');
 }

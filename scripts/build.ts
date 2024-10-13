@@ -1,18 +1,20 @@
 #!/usr/bin/env tsx
 
 import { readFileSync, writeFileSync } from 'node:fs';
-import {
-  RCraftable,
-  RCraftingSetup,
-  RFluidIngredient,
-  RFluidProduct,
-  RKnownType,
-  RLocale,
-  RPrototypeBase,
-} from './raw-data.js';
+
+import type * as R from '../src/lib/g-protos.js';
+
+type RCraftingSetup = R.RecipeData;
+type RCraftable = (R.ItemPrototype | R.FluidPrototype) & {
+  stack_size?: number;
+};
+
+export interface RLocale {
+  names: Record<string, string>;
+  descriptions: Record<string, string>;
+}
+
 import assert from 'node:assert';
-import { Value } from '@sinclair/typebox/value';
-import { Type } from '@sinclair/typebox';
 import type {
   CraftId,
   JCraftable,
@@ -20,9 +22,10 @@ import type {
   JProduct,
   JRecipe,
 } from '../src/lib/j-types.js';
+import { RawData } from '../src/lib/g-protos.js';
 
 function main() {
-  const obj: Record<string, Record<string, RPrototypeBase>> = JSON.parse(
+  const obj: RawData = JSON.parse(
     readFileSync('sample-data/data.json', 'utf-8'),
   );
 
@@ -40,13 +43,9 @@ function main() {
 
   const craftables: JCraftable[] = [];
 
-  const loadCraftable = (locale: RLocale, type: RKnownType) => {
-    for (const [origKey, thing] of Object.entries(obj[type]!)) {
-      if (!Value.Check(RCraftable, thing)) {
-        console.log(thing);
-        throw new Error('bad thing');
-      }
-
+  const loadCraftable = (locale: RLocale, type: keyof RawData) => {
+    for (const [origKey, thingU] of Object.entries(obj[type]!)) {
+      const thing: RCraftable = thingU;
       assert.equal(thing.name, origKey);
       craftables.push({
         id: thing.name,
@@ -182,18 +181,21 @@ function fixIng(
     }
 
     const id = nameLookup(ing.name);
-    if (!Value.Check(Type.Omit(RFluidIngredient, ['type']), ing)) {
-      console.log(ing);
-      throw new Error('unreachable: fluid extends item');
-    }
-
-    const props: JIng[2] = cleanUndefined({
+    let props: JIng[2] = cleanUndefined({
       catalystAmount: ing.catalyst_amount,
-      temp: ing.temperature,
-      minTemp: ing.minimum_temperature,
-      maxTemp: ing.maximum_temperature,
-      fluidboxIndex: ing.fluidbox_index,
     });
+    if (ing.type === 'fluid') {
+      props = {
+        ...props,
+        ...cleanUndefined({
+          catalystAmount: ing.catalyst_amount,
+          temp: ing.temperature,
+          minTemp: ing.minimum_temperature,
+          maxTemp: ing.maximum_temperature,
+          fluidboxIndex: ing.fluidbox_index,
+        }),
+      };
+    }
 
     if (Object.keys(props).length === 0) {
       return [id, ing.amount];
@@ -230,17 +232,14 @@ function fixPluralResults(
     }
 
     const id = nameLookup(prod.name);
-    if (!Value.Check(Type.Omit(RFluidProduct, ['type']), prod)) {
-      throw new Error('unreachable: fluid extends item');
-    }
 
     const props = cleanUndefined({
       amountMin: prod.amount_min,
       amountMax: prod.amount_max,
       probability: prod.probability,
       catalystAmount: prod.catalyst_amount,
-      temp: prod.temperature,
-      fluidboxIndex: prod.fluidbox_index,
+      temp: 'temperature' in prod ? prod.temperature : undefined,
+      fluidboxIndex: 'fluidbox_index' in prod ? prod.fluidbox_index : undefined,
     });
 
     if (Object.keys(props).length === 0 && prod.amount) {

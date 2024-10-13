@@ -1,4 +1,4 @@
-import { RKnownType } from '../../scripts/raw-data.js';
+type RKnownType = string;
 
 export type JColour = [number, number, number];
 
