@@ -7282,3 +7282,228 @@ export type uint16 = number;
 export type uint32 = number;
 export type uint64 = number;
 export type uint8 = number;
+export interface RawData {
+  accumulator: Record<string, AccumulatorPrototype>;
+  achievement: Record<string, AchievementPrototype>;
+  'active-defense-equipment': Record<string, ActiveDefenseEquipmentPrototype>;
+  'ambient-sound': Record<string, AmbientSound>;
+  ammo: Record<string, unknown>;
+  'ammo-category': Record<AmmoCategoryID, AmmoCategory>;
+  'ammo-turret': Record<string, AmmoTurretPrototype>;
+  'arithmetic-combinator': Record<string, ArithmeticCombinatorPrototype>;
+  armor: Record<string, ArmorPrototype>;
+  arrow: Record<string, ArrowPrototype>;
+  'artillery-flare': Record<string, ArtilleryFlarePrototype>;
+  'artillery-projectile': Record<string, ArtilleryProjectilePrototype>;
+  'artillery-turret': Record<string, ArtilleryTurretPrototype>;
+  'artillery-wagon': Record<string, ArtilleryWagonPrototype>;
+  'assembling-machine': Record<string, AssemblingMachinePrototype>;
+  'autoplace-control': Record<AutoplaceControlID, AutoplaceControl>;
+  'battery-equipment': Record<string, BatteryEquipmentPrototype>;
+  beacon: Record<string, BeaconPrototype>;
+  beam: Record<string, BeamPrototype>;
+  'belt-immunity-equipment': Record<string, BeltImmunityEquipmentPrototype>;
+  blueprint: Record<string, unknown>;
+  'blueprint-book': Record<string, BlueprintBookPrototype>;
+  boiler: Record<string, BoilerPrototype>;
+  'build-entity-achievement': Record<string, BuildEntityAchievementPrototype>;
+  'burner-generator': Record<string, BurnerGeneratorPrototype>;
+  capsule: Record<string, CapsulePrototype>;
+  car: Record<string, CarPrototype>;
+  'cargo-wagon': Record<string, CargoWagonPrototype>;
+  character: Record<string, CharacterPrototype>;
+  'character-corpse': Record<string, CharacterCorpsePrototype>;
+  cliff: Record<string, CliffPrototype>;
+  'combat-robot': Record<string, CombatRobotPrototype>;
+  'combat-robot-count': Record<string, unknown>;
+  'constant-combinator': Record<string, ConstantCombinatorPrototype>;
+  'construct-with-robots-achievement': Record<
+    string,
+    ConstructWithRobotsAchievementPrototype
+  >;
+  'construction-robot': Record<string, ConstructionRobotPrototype>;
+  container: Record<string, ContainerPrototype>;
+  'copy-paste-tool': Record<string, CopyPasteToolPrototype>;
+  corpse: Record<string, CorpsePrototype>;
+  'curved-rail': Record<string, CurvedRailPrototype>;
+  'custom-input': Record<string, CustomInputPrototype>;
+  'damage-type': Record<DamageTypeID, DamageType>;
+  'decider-combinator': Record<string, DeciderCombinatorPrototype>;
+  'deconstruct-with-robots-achievement': Record<
+    string,
+    DeconstructWithRobotsAchievementPrototype
+  >;
+  'deconstructible-tile-proxy': Record<
+    string,
+    DeconstructibleTileProxyPrototype
+  >;
+  'deconstruction-item': Record<string, DeconstructionItemPrototype>;
+  'deliver-by-robots-achievement': Record<
+    string,
+    DeliverByRobotsAchievementPrototype
+  >;
+  'dont-build-entity-achievement': Record<
+    string,
+    DontBuildEntityAchievementPrototype
+  >;
+  'dont-craft-manually-achievement': Record<
+    string,
+    DontCraftManuallyAchievementPrototype
+  >;
+  'dont-use-entity-in-energy-production-achievement': Record<
+    string,
+    DontUseEntityInEnergyProductionAchievementPrototype
+  >;
+  'editor-controller': Record<string, EditorControllerPrototype>;
+  'electric-energy-interface': Record<string, ElectricEnergyInterfacePrototype>;
+  'electric-pole': Record<string, ElectricPolePrototype>;
+  'electric-turret': Record<string, ElectricTurretPrototype>;
+  'energy-shield-equipment': Record<string, EnergyShieldEquipmentPrototype>;
+  'entity-ghost': Record<string, EntityGhostPrototype>;
+  'equipment-category': Record<EquipmentCategoryID, EquipmentCategory>;
+  'equipment-grid': Record<EquipmentGridID, EquipmentGridPrototype>;
+  explosion: Record<string, ExplosionPrototype>;
+  'finish-the-game-achievement': Record<
+    string,
+    FinishTheGameAchievementPrototype
+  >;
+  fire: Record<string, unknown>;
+  fish: Record<string, FishPrototype>;
+  'flame-thrower-explosion': Record<string, FlameThrowerExplosionPrototype>;
+  fluid: Record<FluidID, FluidPrototype>;
+  'fluid-turret': Record<string, FluidTurretPrototype>;
+  'fluid-wagon': Record<string, FluidWagonPrototype>;
+  'flying-text': Record<string, FlyingTextPrototype>;
+  font: Record<string, FontPrototype>;
+  'fuel-category': Record<FuelCategoryID, FuelCategory>;
+  furnace: Record<string, FurnacePrototype>;
+  gate: Record<string, GatePrototype>;
+  generator: Record<string, GeneratorPrototype>;
+  'generator-equipment': Record<string, GeneratorEquipmentPrototype>;
+  'god-controller': Record<string, GodControllerPrototype>;
+  'group-attack-achievement': Record<string, GroupAttackAchievementPrototype>;
+  'gui-style': Record<string, GuiStyle>;
+  gun: Record<string, GunPrototype>;
+  'heat-interface': Record<string, HeatInterfacePrototype>;
+  'heat-pipe': Record<string, HeatPipePrototype>;
+  'highlight-box': Record<string, unknown>;
+  'infinity-container': Record<string, InfinityContainerPrototype>;
+  'infinity-pipe': Record<string, InfinityPipePrototype>;
+  inserter: Record<string, InserterPrototype>;
+  item: Record<ItemID, ItemPrototype>;
+  'item-entity': Record<string, ItemEntityPrototype>;
+  'item-group': Record<ItemGroupID, ItemGroup>;
+  'item-request-proxy': Record<string, ItemRequestProxyPrototype>;
+  'item-subgroup': Record<string, unknown>;
+  'item-with-entity-data': Record<string, ItemWithEntityDataPrototype>;
+  'item-with-inventory': Record<string, ItemWithInventoryPrototype>;
+  'item-with-label': Record<string, ItemWithLabelPrototype>;
+  'item-with-tags': Record<string, ItemWithTagsPrototype>;
+  'kill-achievement': Record<string, KillAchievementPrototype>;
+  lab: Record<string, LabPrototype>;
+  lamp: Record<string, LampPrototype>;
+  'land-mine': Record<string, LandMinePrototype>;
+  'leaf-particle': Record<string, LeafParticlePrototype>;
+  'linked-belt': Record<string, LinkedBeltPrototype>;
+  'linked-container': Record<string, LinkedContainerPrototype>;
+  loader: Record<string, LoaderPrototype>;
+  'loader-1x1': Record<string, unknown>;
+  locomotive: Record<string, LocomotivePrototype>;
+  'logistic-container': Record<string, LogisticContainerPrototype>;
+  'logistic-robot': Record<string, LogisticRobotPrototype>;
+  'map-gen-presets': Record<string, MapGenPresets>;
+  'map-settings': Record<string, MapSettings>;
+  market: Record<string, MarketPrototype>;
+  'mining-drill': Record<string, MiningDrillPrototype>;
+  'mining-tool': Record<string, MiningToolPrototype>;
+  module: Record<string, ModulePrototype>;
+  'module-category': Record<ModuleCategoryID, ModuleCategory>;
+  'mouse-cursor': Record<MouseCursorID, MouseCursor>;
+  'movement-bonus-equipment': Record<string, MovementBonusEquipmentPrototype>;
+  'night-vision-equipment': Record<string, NightVisionEquipmentPrototype>;
+  'noise-expression': Record<string, unknown>;
+  'noise-layer': Record<NoiseLayerID, NoiseLayer>;
+  'offshore-pump': Record<string, OffshorePumpPrototype>;
+  'optimized-decorative': Record<string, unknown>;
+  'optimized-particle': Record<string, unknown>;
+  particle: Record<ParticleID, ParticlePrototype>;
+  'particle-source': Record<string, ParticleSourcePrototype>;
+  pipe: Record<string, PipePrototype>;
+  'pipe-to-ground': Record<string, PipeToGroundPrototype>;
+  'player-damaged-achievement': Record<
+    string,
+    PlayerDamagedAchievementPrototype
+  >;
+  'player-port': Record<string, PlayerPortPrototype>;
+  'power-switch': Record<string, PowerSwitchPrototype>;
+  'produce-achievement': Record<string, ProduceAchievementPrototype>;
+  'produce-per-hour-achievement': Record<
+    string,
+    ProducePerHourAchievementPrototype
+  >;
+  'programmable-speaker': Record<string, ProgrammableSpeakerPrototype>;
+  projectile: Record<string, ProjectilePrototype>;
+  pump: Record<string, PumpPrototype>;
+  radar: Record<string, RadarPrototype>;
+  'rail-chain-signal': Record<string, RailChainSignalPrototype>;
+  'rail-planner': Record<string, RailPlannerPrototype>;
+  'rail-remnants': Record<string, RailRemnantsPrototype>;
+  'rail-signal': Record<string, RailSignalPrototype>;
+  reactor: Record<string, ReactorPrototype>;
+  recipe: Record<RecipeID, RecipePrototype>;
+  'recipe-category': Record<RecipeCategoryID, RecipeCategory>;
+  'repair-tool': Record<string, RepairToolPrototype>;
+  'research-achievement': Record<string, ResearchAchievementPrototype>;
+  resource: Record<string, unknown>;
+  'resource-category': Record<ResourceCategoryID, ResourceCategory>;
+  roboport: Record<string, RoboportPrototype>;
+  'roboport-equipment': Record<string, RoboportEquipmentPrototype>;
+  'rocket-silo': Record<string, RocketSiloPrototype>;
+  'rocket-silo-rocket': Record<string, RocketSiloRocketPrototype>;
+  'rocket-silo-rocket-shadow': Record<string, RocketSiloRocketShadowPrototype>;
+  'selection-tool': Record<string, SelectionToolPrototype>;
+  shortcut: Record<string, ShortcutPrototype>;
+  'simple-entity': Record<string, SimpleEntityPrototype>;
+  'simple-entity-with-force': Record<string, SimpleEntityWithForcePrototype>;
+  'simple-entity-with-owner': Record<string, SimpleEntityWithOwnerPrototype>;
+  smoke: Record<string, SmokePrototype>;
+  'smoke-with-trigger': Record<string, SmokeWithTriggerPrototype>;
+  'solar-panel': Record<string, SolarPanelPrototype>;
+  'solar-panel-equipment': Record<string, SolarPanelEquipmentPrototype>;
+  'spectator-controller': Record<string, SpectatorControllerPrototype>;
+  'speech-bubble': Record<string, SpeechBubblePrototype>;
+  'spider-leg': Record<string, SpiderLegPrototype>;
+  'spider-vehicle': Record<string, SpiderVehiclePrototype>;
+  'spidertron-remote': Record<string, SpidertronRemotePrototype>;
+  splitter: Record<string, SplitterPrototype>;
+  sprite: Record<string, SpritePrototype>;
+  sticker: Record<string, StickerPrototype>;
+  'storage-tank': Record<string, StorageTankPrototype>;
+  'straight-rail': Record<string, StraightRailPrototype>;
+  stream: Record<string, unknown>;
+  technology: Record<TechnologyID, TechnologyPrototype>;
+  tile: Record<TileID, TilePrototype>;
+  'tile-effect': Record<string, unknown>;
+  'tile-ghost': Record<string, TileGhostPrototype>;
+  'tips-and-tricks-item': Record<string, TipsAndTricksItem>;
+  'tips-and-tricks-item-category': Record<string, TipsAndTricksItemCategory>;
+  tool: Record<string, ToolPrototype>;
+  'train-path-achievement': Record<string, TrainPathAchievementPrototype>;
+  'train-stop': Record<string, TrainStopPrototype>;
+  'transport-belt': Record<string, TransportBeltPrototype>;
+  tree: Record<string, TreePrototype>;
+  'trigger-target-type': Record<string, TriggerTargetType>;
+  'trivial-smoke': Record<TrivialSmokeID, TrivialSmokePrototype>;
+  turret: Record<string, TurretPrototype>;
+  tutorial: Record<string, unknown>;
+  'underground-belt': Record<string, UndergroundBeltPrototype>;
+  unit: Record<string, UnitPrototype>;
+  'unit-spawner': Record<string, unknown>;
+  'upgrade-item': Record<string, UpgradeItemPrototype>;
+  'utility-constants': Record<string, UtilityConstants>;
+  'utility-sounds': Record<string, UtilitySounds>;
+  'utility-sprites': Record<string, UtilitySprites>;
+  'virtual-signal': Record<VirtualSignalID, VirtualSignalPrototype>;
+  wall: Record<string, WallPrototype>;
+  'wind-sound': Record<string, WindSound>;
+}

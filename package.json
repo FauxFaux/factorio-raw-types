@@ -11,16 +11,17 @@
     "@sinclair/typebox": "^0.33"
   },
   "devDependencies": {
-    "@tsconfig/node22": "^22.0.0",
+    "@tsconfig/node22": "^22",
     "@types/node": "^22",
-    "@types/spritesmith": "^3.4.5",
+    "@types/spritesmith": "^3",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
+    "change-case": "^5",
     "eslint": "^9",
     "prettier": "~3.3",
-    "sharp": "^0.33.4",
-    "spritesmith": "^3.4.1",
-    "tsx": "^4.16.0",
+    "sharp": "^0.33",
+    "spritesmith": "^3",
+    "tsx": "^4",
     "typescript": "~5.5"
   }
 }
