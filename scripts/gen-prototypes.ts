@@ -2,6 +2,16 @@ import { Type } from '@sinclair/typebox';
 import * as util from 'node:util';
 import { Value } from '@sinclair/typebox/value';
 
+const hacks: Record<string, string> = {
+  BlueprintBookPrototype: "'inventory_size'",
+  BlueprintItemPrototype: "'selection_mode' | 'alt_selection_mode'",
+  DeconstructionItemPrototype: "'selection_mode' | 'alt_selection_mode'",
+  InfinityContainerPrototype: "'logistic_mode'",
+  LogisticContainerPrototype: "'picture'",
+  TransportBeltPrototype: "'animation_set' | 'belt_animation_set'",
+  UpgradeItemPrototype: "'selection_mode' | 'alt_selection_mode'",
+};
+
 interface Type {
   name: string;
   abstract?: boolean;
@@ -82,38 +92,37 @@ function toAlias(ty: Type, typeDict: Record<string, Type>) {
 async function main() {
   const { default: doc } = await import('../data/prototype-api.json');
 
-  // infers string, not the actual string literal type :(
-  // type Name = (typeof doc)['prototypes'][number]['name'];
-
   const prototypes: Prototype[] = doc.prototypes;
-
   const types: Type[] = doc.types;
 
-  const protoDict: Record<string, Prototype> = Object.fromEntries(
-    prototypes.map((p) => [p.name, p]),
-  );
   const typeDict: Record<string, Type> = Object.fromEntries(
     types.map((t) => [t.name, t]),
   );
 
-  let here = protoDict['AssemblingMachinePrototype']!;
-  while (here) {
-    const iface = toInterface(here, typeDict);
-    console.log(
-      `export interface ${iface.name} ${iface.extends ? `extends ${iface.extends} ` : ''}{`,
-    );
+  for (const proto of prototypes) {
+    const iface = toInterface(proto, typeDict);
+    if (iface.properties.length === 0 && iface.extends) {
+      console.log(`export type ${iface.name} = ${iface.extends};`);
+      continue;
+    }
+
+    const omits = hacks[iface.name];
+    const extension = iface.extends
+      ? `extends ${omits ? `Omit<${iface.extends}, ${omits}>` : iface.extends} `
+      : '';
+    console.log(`export interface ${iface.name} ${extension}{`);
     for (const prop of iface.properties) {
       console.log(`  ${prop.name}${prop.optional ? '?' : ''}: ${prop.type};`);
     }
     console.log('}');
-    if (!here.parent) break;
-    here = protoDict[here.parent]!;
   }
 
   for (const ty of Object.values(typeDict)) {
-    // references prototypes by name; we're only partially emitting them
+    // hack; to avoid passing prototypes through the rest of it
     if (ty.name === 'AnyPrototype') {
-      console.log('export type AnyPrototype = unknown;');
+      console.log(
+        `export type AnyPrototype = ${prototypes.map(({ name }) => name).join(' | ')};`,
+      );
       continue;
     }
 

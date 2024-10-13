@@ -1,8 +1,525 @@
+export interface AccumulatorPrototype extends EntityWithOwnerPrototype {
+  charge_animation?: Animation;
+  charge_cooldown: uint16;
+  charge_light?: LightDefinition;
+  circuit_connector_sprites?: CircuitConnectorSprites;
+  circuit_wire_connection_point?: WireConnectionPoint;
+  circuit_wire_max_distance?: double;
+  default_output_signal?: SignalIDConnector;
+  discharge_animation?: Animation;
+  discharge_cooldown: uint16;
+  discharge_light?: LightDefinition;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  energy_source: ElectricEnergySource;
+  picture?: Sprite;
+}
+export interface AchievementPrototype extends PrototypeBase {
+  allowed_without_fight?: bool;
+  hidden?: bool;
+  icon?: FileName;
+  icon_mipmaps?: IconMipMapType;
+  icon_size?: SpriteSizeType;
+  icons?: IconData[];
+  steam_stats_name?: string;
+}
+export interface ActiveDefenseEquipmentPrototype extends EquipmentPrototype {
+  attack_parameters: AttackParameters;
+  automatic: bool;
+}
+export interface AmbientSound {
+  name: string;
+  sound: Sound;
+  track_type:
+    | 'menu-track'
+    | 'main-track'
+    | 'early-game'
+    | 'late-game'
+    | 'interlude';
+  type: 'ambient-sound';
+  weight?: double;
+}
+export interface AmmoCategory extends PrototypeBase {
+  bonus_gui_order?: Order;
+}
+export interface AmmoItemPrototype extends ItemPrototype {
+  ammo_type: AmmoType | AmmoType[];
+  magazine_size?: float;
+  reload_time?: float;
+}
+export interface AmmoTurretPrototype extends TurretPrototype {
+  automated_ammo_count: ItemCountType;
+  entity_info_icon_shift?: Vector;
+  inventory_size: ItemStackIndex;
+}
+export interface AnimationPrototype {
+  animation_speed?: float;
+  apply_runtime_tint?: bool;
+  blend_mode?: BlendMode;
+  dice?: uint8;
+  dice_x?: uint8;
+  dice_y?: uint8;
+  draw_as_glow?: bool;
+  draw_as_light?: bool;
+  draw_as_shadow?: bool;
+  filename?: FileName;
+  flags?: SpriteFlags;
+  frame_count?: uint32;
+  frame_sequence?: AnimationFrameSequence;
+  generate_sdf?: bool;
+  height?: SpriteSizeType;
+  hr_version?: Animation;
+  layers?: Animation[];
+  line_length?: uint32;
+  load_in_minimal_mode?: bool;
+  max_advance?: float;
+  mipmap_count?: uint8;
+  name: string;
+  position?: [SpriteSizeType, SpriteSizeType];
+  premul_alpha?: bool;
+  priority?: SpritePriority;
+  repeat_count?: uint8;
+  run_mode?: 'forward' | 'backward' | 'forward-then-backward';
+  scale?: double;
+  shift?: Vector;
+  size?: SpriteSizeType | [SpriteSizeType, SpriteSizeType];
+  stripes?: Stripe[];
+  tint?: Color;
+  type: 'animation';
+  width?: SpriteSizeType;
+  x?: SpriteSizeType;
+  y?: SpriteSizeType;
+}
+export interface ArithmeticCombinatorPrototype extends CombinatorPrototype {
+  and_symbol_sprites?: Sprite4Way;
+  divide_symbol_sprites?: Sprite4Way;
+  left_shift_symbol_sprites?: Sprite4Way;
+  minus_symbol_sprites?: Sprite4Way;
+  modulo_symbol_sprites?: Sprite4Way;
+  multiply_symbol_sprites?: Sprite4Way;
+  or_symbol_sprites?: Sprite4Way;
+  plus_symbol_sprites?: Sprite4Way;
+  power_symbol_sprites?: Sprite4Way;
+  right_shift_symbol_sprites?: Sprite4Way;
+  xor_symbol_sprites?: Sprite4Way;
+}
+export interface ArmorPrototype extends ToolPrototype {
+  equipment_grid?: EquipmentGridID;
+  inventory_size_bonus?: ItemStackIndex;
+  resistances?: Resistance[];
+}
+export interface ArrowPrototype extends EntityPrototype {
+  arrow_picture: Sprite;
+  blinking?: bool;
+  circle_picture?: Sprite;
+  collision_mask?: CollisionMask;
+}
+export interface ArtilleryFlarePrototype extends EntityPrototype {
+  collision_mask?: CollisionMask;
+  creation_shift?: Vector;
+  early_death_ticks?: uint32;
+  ended_in_water_trigger_effect?: TriggerEffect;
+  initial_frame_speed?: float;
+  initial_height?: float;
+  initial_speed?: Vector;
+  initial_vertical_speed?: float;
+  life_time: uint16;
+  map_color: Color;
+  movement_modifier?: double;
+  movement_modifier_when_on_ground?: double;
+  pictures: AnimationVariations;
+  regular_trigger_effect?: TriggerEffect;
+  regular_trigger_effect_frequency?: uint32;
+  render_layer?: RenderLayer;
+  render_layer_when_on_ground?: RenderLayer;
+  selection_priority?: uint8;
+  shadows?: AnimationVariations;
+  shot_category?: AmmoCategoryID;
+  shots_per_flare?: uint32;
+}
+export interface ArtilleryProjectilePrototype extends EntityPrototype {
+  action?: Trigger;
+  chart_picture?: Sprite;
+  collision_box?: BoundingBox;
+  collision_mask?: CollisionMask;
+  final_action?: Trigger;
+  height_from_ground?: float;
+  map_color: Color;
+  picture?: Sprite;
+  reveal_map: bool;
+  rotatable?: bool;
+  shadow?: Sprite;
+}
+export interface ArtilleryTurretPrototype extends EntityWithOwnerPrototype {
+  alert_when_attacking?: bool;
+  ammo_stack_limit: ItemCountType;
+  automated_ammo_count: ItemCountType;
+  base_picture?: Animation4Way;
+  base_picture_render_layer?: RenderLayer;
+  base_picture_secondary_draw_order?: uint8;
+  base_shift?: Vector;
+  cannon_barrel_light_direction?: Vector3D;
+  cannon_barrel_pictures?: RotatedSprite;
+  cannon_barrel_recoil_shiftings?: Vector3D[];
+  cannon_barrel_recoil_shiftings_load_correction_matrix?: Vector3D[];
+  cannon_base_pictures?: RotatedSprite;
+  cannon_parking_frame_count?: uint16;
+  cannon_parking_speed?: float;
+  disable_automatic_firing?: bool;
+  gun: ItemID;
+  inventory_size: ItemStackIndex;
+  is_military_target?: bool;
+  manual_range_modifier: double;
+  rotating_sound?: InterruptibleSound;
+  rotating_stopped_sound?: Sound;
+  turn_after_shooting_cooldown?: uint16;
+  turret_rotation_speed: double;
+}
+export interface ArtilleryWagonPrototype extends RollingStockPrototype {
+  ammo_stack_limit: ItemCountType;
+  cannon_barrel_light_direction?: Vector3D;
+  cannon_barrel_pictures?: RotatedSprite;
+  cannon_barrel_recoil_shiftings?: Vector3D[];
+  cannon_barrel_recoil_shiftings_load_correction_matrix?: Vector3D[];
+  cannon_base_pictures?: RotatedSprite;
+  cannon_base_shiftings?: Vector[];
+  cannon_parking_frame_count?: uint16;
+  cannon_parking_speed?: float;
+  disable_automatic_firing?: bool;
+  gun: ItemID;
+  inventory_size: ItemStackIndex;
+  manual_range_modifier: double;
+  rotating_sound?: InterruptibleSound;
+  rotating_stopped_sound?: Sound;
+  turn_after_shooting_cooldown?: uint16;
+  turret_rotation_speed: double;
+}
 export interface AssemblingMachinePrototype extends CraftingMachinePrototype {
   entity_info_icon_shift?: Vector;
   fixed_recipe?: RecipeID;
   gui_title_key?: string;
   ingredient_count?: uint8;
+}
+export interface AutoplaceControl extends PrototypeBase {
+  can_be_disabled?: bool;
+  category: 'resource' | 'terrain' | 'enemy';
+  richness?: bool;
+}
+export type BatteryEquipmentPrototype = EquipmentPrototype;
+export interface BeaconPrototype extends EntityWithOwnerPrototype {
+  allowed_effects?: EffectTypeLimitation;
+  animation?: Animation;
+  base_picture?: Animation;
+  distribution_effectivity: double;
+  energy_source: ElectricEnergySource | VoidEnergySource;
+  energy_usage: Energy;
+  graphics_set?: BeaconGraphicsSet;
+  module_specification: ModuleSpecification;
+  radius_visualisation_picture?: Sprite;
+  supply_area_distance: double;
+}
+export interface BeamPrototype extends EntityPrototype {
+  action?: Trigger;
+  action_triggered_automatically?: bool;
+  body: AnimationVariations;
+  body_light?: AnimationVariations;
+  collision_mask?: CollisionMask;
+  damage_interval: uint32;
+  ending?: Animation;
+  ending_light?: Animation;
+  ground_light_animations?: BeamAnimationSet;
+  head: Animation;
+  head_light?: Animation;
+  light_animations?: BeamAnimationSet;
+  random_end_animation_rotation?: bool;
+  random_target_offset?: bool;
+  start?: Animation;
+  start_light?: Animation;
+  tail: Animation;
+  tail_light?: Animation;
+  target_offset?: Vector;
+  transparent_start_end_animations?: bool;
+  width: double;
+}
+export interface BeltImmunityEquipmentPrototype extends EquipmentPrototype {
+  energy_consumption: Energy;
+}
+export interface BlueprintBookPrototype
+  extends Omit<ItemWithInventoryPrototype, 'inventory_size'> {
+  draw_label_for_cursor_render?: bool;
+  inventory_size: ItemStackIndex | 'dynamic';
+  stack_size: 1;
+}
+export interface BlueprintItemPrototype
+  extends Omit<
+    SelectionToolPrototype,
+    'selection_mode' | 'alt_selection_mode'
+  > {
+  alt_entity_filter_mode?: 'whitelist' | 'blacklist';
+  alt_entity_filters?: EntityID[];
+  alt_entity_type_filters?: string[];
+  alt_selection_mode?: SelectionModeFlags;
+  alt_tile_filter_mode?: 'whitelist' | 'blacklist';
+  alt_tile_filters?: TileID[];
+  always_include_tiles?: bool;
+  draw_label_for_cursor_render?: bool;
+  entity_filter_mode?: 'whitelist' | 'blacklist';
+  entity_filters?: EntityID[];
+  entity_type_filters?: string[];
+  selection_mode?: SelectionModeFlags;
+  stack_size: 1;
+  tile_filter_mode?: 'whitelist' | 'blacklist';
+  tile_filters?: TileID[];
+}
+export interface BoilerPrototype extends EntityWithOwnerPrototype {
+  burning_cooldown: uint16;
+  energy_consumption: Energy;
+  energy_source: EnergySource;
+  fire: BoilerFire;
+  fire_flicker_enabled?: bool;
+  fire_glow: BoilerFireGlow;
+  fire_glow_flicker_enabled?: bool;
+  fluid_box: FluidBox;
+  mode?: 'heat-water-inside' | 'output-to-separate-pipe';
+  output_fluid_box: FluidBox;
+  patch?: BoilerPatch;
+  structure: BoilerStructure;
+  target_temperature: double;
+}
+export interface BuildEntityAchievementPrototype extends AchievementPrototype {
+  amount?: uint32;
+  limited_to_one_game?: bool;
+  to_build: EntityID;
+  until_second?: uint32;
+}
+export interface BurnerGeneratorPrototype extends EntityWithOwnerPrototype {
+  always_draw_idle_animation?: bool;
+  animation?: Animation4Way;
+  burner: BurnerEnergySource;
+  energy_source: ElectricEnergySource;
+  idle_animation?: Animation4Way;
+  max_power_output: Energy;
+  min_perceived_performance?: double;
+  performance_to_sound_speedup?: double;
+}
+export interface CapsulePrototype extends ItemPrototype {
+  capsule_action: CapsuleAction;
+  radius_color?: Color;
+}
+export interface CarPrototype extends VehiclePrototype {
+  animation: RotatedAnimation;
+  collision_mask?: CollisionMask;
+  consumption: Energy;
+  darkness_to_render_light_animation?: float;
+  effectivity: double;
+  energy_source: BurnerEnergySource | VoidEnergySource;
+  guns?: ItemID[];
+  has_belt_immunity?: bool;
+  immune_to_cliff_impacts?: bool;
+  immune_to_rock_impacts?: bool;
+  immune_to_tree_impacts?: bool;
+  inventory_size: ItemStackIndex;
+  light?: LightDefinition;
+  light_animation?: RotatedAnimation;
+  render_layer?: RenderLayer;
+  rotation_speed: double;
+  sound_no_fuel?: Sound;
+  tank_driving?: bool;
+  track_particle_triggers?: FootstepTriggerEffectList;
+  turret_animation?: RotatedAnimation;
+  turret_return_timeout?: uint32;
+  turret_rotation_speed?: float;
+}
+export interface CargoWagonPrototype extends RollingStockPrototype {
+  inventory_size: ItemStackIndex;
+}
+export interface CharacterCorpsePrototype extends EntityPrototype {
+  armor_picture_mapping?: Record<ItemID, int32>;
+  collision_mask?: CollisionMask;
+  picture?: Animation;
+  pictures?: AnimationVariations;
+  render_layer?: RenderLayer;
+  time_to_live: uint32;
+}
+export interface CharacterPrototype extends EntityWithOwnerPrototype {
+  animations: CharacterArmorAnimation[];
+  build_distance: uint32;
+  character_corpse?: EntityID;
+  collision_mask?: CollisionMask;
+  crafting_categories?: RecipeCategoryID[];
+  damage_hit_tint: Color;
+  distance_per_frame: double;
+  drop_item_distance: uint32;
+  eat: Sound;
+  enter_vehicle_distance?: double;
+  footprint_particles?: FootprintParticle[];
+  footstep_particle_triggers?: FootstepTriggerEffectList;
+  has_belt_immunity?: bool;
+  heartbeat: Sound;
+  inventory_size: ItemStackIndex;
+  is_military_target?: bool;
+  item_pickup_distance: double;
+  left_footprint_frames?: float[];
+  left_footprint_offset?: Vector;
+  light?: LightDefinition;
+  loot_pickup_distance: double;
+  maximum_corner_sliding_distance: double;
+  mining_categories?: ResourceCategoryID[];
+  mining_speed: double;
+  mining_with_tool_particles_animation_positions: float[];
+  reach_distance: uint32;
+  reach_resource_distance: double;
+  respawn_time?: uint32;
+  right_footprint_frames?: float[];
+  right_footprint_offset?: Vector;
+  running_sound_animation_positions: float[];
+  running_speed: double;
+  synced_footstep_particle_triggers?: FootstepTriggerEffectList;
+  ticks_to_keep_aiming_direction: uint32;
+  ticks_to_keep_gun: uint32;
+  ticks_to_stay_in_combat: uint32;
+  tool_attack_distance?: double;
+  tool_attack_result?: Trigger;
+}
+export interface CliffPrototype extends EntityPrototype {
+  cliff_explosive?: ItemID;
+  cliff_height?: float;
+  collision_mask?: CollisionMask;
+  grid_offset: Vector;
+  grid_size: Vector;
+  orientations: OrientedCliffPrototypeSet;
+}
+export interface CombatRobotCountAchievementPrototype
+  extends AchievementPrototype {
+  count?: uint32;
+}
+export interface CombatRobotPrototype extends FlyingRobotPrototype {
+  attack_parameters: AttackParameters;
+  destroy_action?: Trigger;
+  follows_player?: bool;
+  friction?: double;
+  idle: RotatedAnimation;
+  in_motion: RotatedAnimation;
+  light?: LightDefinition;
+  range_from_player?: double;
+  shadow_idle: RotatedAnimation;
+  shadow_in_motion: RotatedAnimation;
+  time_to_live: uint32;
+}
+export interface CombinatorPrototype extends EntityWithOwnerPrototype {
+  active_energy_usage: Energy;
+  activity_led_hold_time?: uint8;
+  activity_led_light?: LightDefinition;
+  activity_led_light_offsets: [Vector, Vector, Vector, Vector];
+  activity_led_sprites?: Sprite4Way;
+  circuit_wire_max_distance?: double;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  energy_source: ElectricEnergySource | VoidEnergySource;
+  input_connection_bounding_box: BoundingBox;
+  input_connection_points: [
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+  ];
+  output_connection_bounding_box: BoundingBox;
+  output_connection_points: [
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+  ];
+  screen_light?: LightDefinition;
+  screen_light_offsets: [Vector, Vector, Vector, Vector];
+  sprites?: Sprite4Way;
+}
+export interface ConstantCombinatorPrototype extends EntityWithOwnerPrototype {
+  activity_led_light?: LightDefinition;
+  activity_led_light_offsets: [Vector, Vector, Vector, Vector];
+  activity_led_sprites?: Sprite4Way;
+  circuit_wire_connection_points: [
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+  ];
+  circuit_wire_max_distance?: double;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  item_slot_count: uint32;
+  sprites?: Sprite4Way;
+}
+export interface ConstructWithRobotsAchievementPrototype
+  extends AchievementPrototype {
+  amount?: uint32;
+  limited_to_one_game: bool;
+  more_than_manually?: bool;
+}
+export interface ConstructionRobotPrototype
+  extends RobotWithLogisticInterfacePrototype {
+  collision_box?: BoundingBox;
+  construction_vector: Vector;
+  repairing_sound?: Sound;
+  shadow_working?: RotatedAnimation;
+  smoke?: Animation;
+  sparks?: AnimationVariations;
+  working?: RotatedAnimation;
+  working_light?: LightDefinition;
+}
+export interface ContainerPrototype extends EntityWithOwnerPrototype {
+  circuit_connector_sprites?: CircuitConnectorSprites;
+  circuit_wire_connection_point?: WireConnectionPoint;
+  circuit_wire_max_distance?: double;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  enable_inventory_bar?: bool;
+  inventory_size: ItemStackIndex;
+  inventory_type?: 'with_bar' | 'with_filters_and_bar';
+  picture: Sprite;
+  scale_info_icons?: bool;
+}
+export interface CopyPasteToolPrototype extends SelectionToolPrototype {
+  alt_entity_filter_mode?: 'whitelist' | 'blacklist';
+  alt_entity_filters?: EntityID[];
+  alt_entity_type_filters?: string[];
+  alt_tile_filter_mode?: 'whitelist' | 'blacklist';
+  alt_tile_filters?: TileID[];
+  always_include_tiles?: bool;
+  cuts?: bool;
+  entity_filter_mode?: 'whitelist' | 'blacklist';
+  entity_filters?: EntityID[];
+  entity_type_filters?: string[];
+  stack_size: 1;
+  tile_filter_mode?: 'whitelist' | 'blacklist';
+  tile_filters?: TileID[];
+}
+export interface CorpsePrototype extends EntityPrototype {
+  animation?: RotatedAnimationVariations;
+  animation_overlay?: RotatedAnimationVariations;
+  animation_overlay_final_render_layer?: RenderLayer;
+  animation_overlay_render_layer?: RenderLayer;
+  animation_render_layer?: RenderLayer;
+  collision_mask?: CollisionMask;
+  direction_shuffle?: uint16[][];
+  dying_speed?: float;
+  final_render_layer?: RenderLayer;
+  ground_patch?: AnimationVariations;
+  ground_patch_fade_in_delay?: float;
+  ground_patch_fade_in_speed?: float;
+  ground_patch_fade_out_duration?: float;
+  ground_patch_fade_out_start?: float;
+  ground_patch_higher?: AnimationVariations;
+  ground_patch_render_layer?: RenderLayer;
+  remove_on_entity_placement?: bool;
+  remove_on_tile_placement?: bool;
+  shuffle_directions_at_frame?: uint8;
+  splash?: AnimationVariations;
+  splash_render_layer?: RenderLayer;
+  splash_speed?: float;
+  time_before_removed?: uint32;
+  time_before_shading_off?: uint32;
+  use_tile_color_for_ground_patch_tint?: bool;
 }
 export interface CraftingMachinePrototype extends EntityWithOwnerPrototype {
   allowed_effects?: EffectTypeLimitation;
@@ -30,28 +547,194 @@ export interface CraftingMachinePrototype extends EntityWithOwnerPrototype {
   status_colors?: StatusColors;
   working_visualisations?: WorkingVisualisation[];
 }
-export interface EntityWithOwnerPrototype extends EntityWithHealthPrototype {
-  allow_run_time_change_of_is_military_target?: bool;
-  is_military_target?: bool;
+export interface CurvedRailPrototype extends RailPrototype {
+  bending_type?: 'turn';
 }
-export interface EntityWithHealthPrototype extends EntityPrototype {
-  alert_when_damaged?: bool;
-  attack_reaction?: AttackReactionItem | AttackReactionItem[];
-  corpse?: EntityID | EntityID[];
-  create_ghost_on_death?: bool;
-  damaged_trigger_effect?: TriggerEffect;
-  dying_explosion?: ExplosionDefinition | ExplosionDefinition[];
-  dying_trigger_effect?: TriggerEffect;
-  healing_per_tick?: float;
-  hide_resistances?: bool;
-  integration_patch?: Sprite4Way;
-  integration_patch_render_layer?: RenderLayer;
-  loot?: LootItem[];
-  max_health?: float;
-  random_corpse_variation?: bool;
-  repair_sound?: Sound;
-  repair_speed_modifier?: float;
-  resistances?: Resistance[];
+export interface CustomInputPrototype extends PrototypeBase {
+  action?:
+    | 'lua'
+    | 'spawn-item'
+    | 'toggle-personal-roboport'
+    | 'toggle-personal-logistic-requests'
+    | 'toggle-equipment-movement-bonus';
+  alternative_key_sequence?: string;
+  consuming?: ConsumingType;
+  controller_alternative_key_sequence?: string;
+  controller_key_sequence?: string;
+  enabled?: bool;
+  enabled_while_in_cutscene?: bool;
+  enabled_while_spectating?: bool;
+  include_selected_prototype?: bool;
+  item_to_spawn?: ItemID;
+  key_sequence: string;
+  linked_game_control?: LinkedGameControl;
+  name: string;
+}
+export interface DamageType extends PrototypeBase {
+  hidden?: bool;
+}
+export interface DeciderCombinatorPrototype extends CombinatorPrototype {
+  equal_symbol_sprites?: Sprite4Way;
+  greater_or_equal_symbol_sprites?: Sprite4Way;
+  greater_symbol_sprites?: Sprite4Way;
+  less_or_equal_symbol_sprites?: Sprite4Way;
+  less_symbol_sprites?: Sprite4Way;
+  not_equal_symbol_sprites?: Sprite4Way;
+}
+export interface DeconstructWithRobotsAchievementPrototype
+  extends AchievementPrototype {
+  amount: uint32;
+}
+export interface DeconstructibleTileProxyPrototype extends EntityPrototype {
+  collision_mask?: CollisionMask;
+}
+export interface DeconstructionItemPrototype
+  extends Omit<
+    SelectionToolPrototype,
+    'selection_mode' | 'alt_selection_mode'
+  > {
+  alt_entity_filter_mode?: 'whitelist' | 'blacklist';
+  alt_entity_filters?: EntityID[];
+  alt_entity_type_filters?: string[];
+  alt_selection_mode?: SelectionModeFlags;
+  alt_tile_filter_mode?: 'whitelist' | 'blacklist';
+  alt_tile_filters?: TileID[];
+  always_include_tiles?: bool;
+  entity_filter_count?: ItemStackIndex;
+  entity_filter_mode?: 'whitelist' | 'blacklist';
+  entity_filters?: EntityID[];
+  entity_type_filters?: string[];
+  selection_mode?: SelectionModeFlags;
+  stack_size: 1;
+  tile_filter_count?: ItemStackIndex;
+  tile_filter_mode?: 'whitelist' | 'blacklist';
+  tile_filters?: TileID[];
+}
+export interface DecorativePrototype extends PrototypeBase {
+  autoplace?: AutoplaceSpecification;
+  collision_box?: BoundingBox;
+  collision_mask?: CollisionMask;
+  decal_overdraw_priority?: uint16;
+  grows_through_rail_path?: bool;
+  pictures: SpriteVariations;
+  render_layer?: RenderLayer;
+  tile_layer?: int16;
+  trigger_effect?: TriggerEffect;
+  walking_sound?: Sound;
+}
+export interface DeliverByRobotsAchievementPrototype
+  extends AchievementPrototype {
+  amount: MaterialAmountType;
+}
+export interface DontBuildEntityAchievementPrototype
+  extends AchievementPrototype {
+  amount?: uint32;
+  dont_build: EntityID | EntityID[];
+}
+export interface DontCraftManuallyAchievementPrototype
+  extends AchievementPrototype {
+  amount: MaterialAmountType;
+}
+export interface DontUseEntityInEnergyProductionAchievementPrototype
+  extends AchievementPrototype {
+  excluded: EntityID | EntityID[];
+  included?: EntityID | EntityID[];
+  last_hour_only?: bool;
+  minimum_energy_produced?: Energy;
+}
+export interface EditorControllerPrototype {
+  adjust_speed_based_off_zoom: bool;
+  enable_flash_light: bool;
+  fill_built_entity_energy_buffers: bool;
+  generate_neighbor_chunks: bool;
+  gun_inventory_size: ItemStackIndex;
+  instant_blueprint_building: bool;
+  instant_deconstruction: bool;
+  instant_rail_planner: bool;
+  instant_upgrading: bool;
+  inventory_size: ItemStackIndex;
+  item_pickup_distance: double;
+  loot_pickup_distance: double;
+  mining_speed: double;
+  movement_speed: double;
+  name: string;
+  placed_corpses_never_expire: bool;
+  render_as_day: bool;
+  show_additional_entity_info_gui: bool;
+  show_character_tab_in_controller_gui: bool;
+  show_entity_health_bars: bool;
+  show_entity_tags: bool;
+  show_hidden_entities: bool;
+  show_infinity_filters_in_controller_gui: bool;
+  show_status_icons: bool;
+  type: 'editor-controller';
+}
+export interface ElectricEnergyInterfacePrototype
+  extends EntityWithOwnerPrototype {
+  allow_copy_paste?: bool;
+  animation?: Animation;
+  animations?: Animation4Way;
+  continuous_animation?: bool;
+  energy_production?: Energy;
+  energy_source: ElectricEnergySource;
+  energy_usage?: Energy;
+  gui_mode?: 'all' | 'none' | 'admins';
+  light?: LightDefinition;
+  picture?: Sprite;
+  pictures?: Sprite4Way;
+  render_layer?: RenderLayer;
+}
+export interface ElectricPolePrototype extends EntityWithOwnerPrototype {
+  active_picture?: Sprite;
+  connection_points: WireConnectionPoint[];
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  light?: LightDefinition;
+  maximum_wire_distance?: double;
+  pictures: RotatedSprite;
+  radius_visualisation_picture?: Sprite;
+  supply_area_distance: double;
+  track_coverage_during_build_by_moving?: bool;
+}
+export interface ElectricTurretPrototype extends TurretPrototype {
+  energy_source: ElectricEnergySource | VoidEnergySource;
+}
+export interface EnemySpawnerPrototype extends EntityWithOwnerPrototype {
+  allow_run_time_change_of_is_military_target?: false;
+  animations: AnimationVariations;
+  call_for_help_radius: double;
+  dying_sound?: Sound;
+  integration?: SpriteVariations;
+  is_military_target?: true;
+  max_count_of_owned_units: uint32;
+  max_darkness_to_spawn?: float;
+  max_friends_around_to_spawn: uint32;
+  max_richness_for_spawn_shift: double;
+  max_spawn_shift: double;
+  min_darkness_to_spawn?: float;
+  pollution_absorption_absolute: double;
+  pollution_absorption_proportional: double;
+  random_animation_offset?: bool;
+  result_units: UnitSpawnDefinition[];
+  spawn_decoration?:
+    | CreateDecorativesTriggerEffectItem
+    | CreateDecorativesTriggerEffectItem[];
+  spawn_decorations_on_expansion?: bool;
+  spawning_cooldown: [double, double];
+  spawning_radius: double;
+  spawning_spacing: double;
+}
+export interface EnergyShieldEquipmentPrototype extends EquipmentPrototype {
+  energy_per_shield: Energy;
+  max_shield_value: float;
+}
+export interface EntityGhostPrototype extends EntityPrototype {
+  collision_mask?: CollisionMask;
+  large_build_sound?: Sound;
+  medium_build_sound?: Sound;
+}
+export interface EntityParticlePrototype extends EntityPrototype {
+  collision_mask?: CollisionMask;
 }
 export interface EntityPrototype extends PrototypeBase {
   additional_pastable_entities?: EntityID[];
@@ -105,12 +788,2527 @@ export interface EntityPrototype extends PrototypeBase {
   water_reflection?: WaterReflectionDefinition;
   working_sound?: WorkingSound;
 }
+export interface EntityWithHealthPrototype extends EntityPrototype {
+  alert_when_damaged?: bool;
+  attack_reaction?: AttackReactionItem | AttackReactionItem[];
+  corpse?: EntityID | EntityID[];
+  create_ghost_on_death?: bool;
+  damaged_trigger_effect?: TriggerEffect;
+  dying_explosion?: ExplosionDefinition | ExplosionDefinition[];
+  dying_trigger_effect?: TriggerEffect;
+  healing_per_tick?: float;
+  hide_resistances?: bool;
+  integration_patch?: Sprite4Way;
+  integration_patch_render_layer?: RenderLayer;
+  loot?: LootItem[];
+  max_health?: float;
+  random_corpse_variation?: bool;
+  repair_sound?: Sound;
+  repair_speed_modifier?: float;
+  resistances?: Resistance[];
+}
+export interface EntityWithOwnerPrototype extends EntityWithHealthPrototype {
+  allow_run_time_change_of_is_military_target?: bool;
+  is_military_target?: bool;
+}
+export type EquipmentCategory = PrototypeBase;
+export interface EquipmentGridPrototype extends PrototypeBase {
+  equipment_categories: EquipmentCategoryID[];
+  height: uint32;
+  locked?: bool;
+  width: uint32;
+}
+export interface EquipmentPrototype extends PrototypeBase {
+  background_border_color?: Color;
+  background_color?: Color;
+  categories: EquipmentCategoryID[];
+  energy_source: ElectricEnergySource;
+  grabbed_background_color?: Color;
+  shape: EquipmentShape;
+  sprite: Sprite;
+  take_result?: ItemID;
+}
+export interface ExplosionPrototype extends EntityPrototype {
+  animations: AnimationVariations;
+  beam?: bool;
+  collision_mask?: CollisionMask;
+  correct_rotation?: bool;
+  fade_in_duration?: uint8;
+  fade_out_duration?: uint8;
+  height?: float;
+  light?: LightDefinition;
+  light_intensity_factor_final?: float;
+  light_intensity_factor_initial?: float;
+  light_intensity_peak_end_progress?: float;
+  light_intensity_peak_start_progress?: float;
+  light_size_factor_final?: float;
+  light_size_factor_initial?: float;
+  light_size_peak_end_progress?: float;
+  light_size_peak_start_progress?: float;
+  render_layer?: RenderLayer;
+  rotate?: bool;
+  scale?: float;
+  scale_animation_speed?: bool;
+  scale_deviation?: float;
+  scale_end?: float;
+  scale_in_duration?: uint8;
+  scale_increment_per_tick?: float;
+  scale_initial?: float;
+  scale_initial_deviation?: float;
+  scale_out_duration?: uint8;
+  smoke?: TrivialSmokeID;
+  smoke_count?: uint16;
+  smoke_slow_down_factor?: float;
+  sound?: Sound;
+}
+export interface FinishTheGameAchievementPrototype
+  extends AchievementPrototype {
+  until_second?: uint32;
+}
+export interface FireFlamePrototype extends EntityPrototype {
+  add_fuel_cooldown?: uint32;
+  burnt_patch_alpha_default?: float;
+  burnt_patch_alpha_variations?: TileAndAlpha[];
+  burnt_patch_lifetime?: uint32;
+  burnt_patch_pictures?: SpriteVariations;
+  collision_mask?: CollisionMask;
+  damage_multiplier_decrease_per_tick?: float;
+  damage_multiplier_increase_per_added_fuel?: float;
+  damage_per_tick: DamagePrototype;
+  delay_between_initial_flames?: uint32;
+  fade_in_duration?: uint32;
+  fade_out_duration?: uint32;
+  flame_alpha?: float;
+  flame_alpha_deviation?: float;
+  initial_flame_count?: uint8;
+  initial_lifetime?: uint32;
+  initial_render_layer?: RenderLayer;
+  lifetime_increase_by?: uint32;
+  lifetime_increase_cooldown?: uint32;
+  light?: LightDefinition;
+  limit_overlapping_particles?: bool;
+  maximum_damage_multiplier?: float;
+  maximum_lifetime?: uint32;
+  maximum_spread_count?: uint16;
+  on_damage_tick_effect?: Trigger;
+  on_fuel_added_action?: Trigger;
+  particle_alpha?: float;
+  particle_alpha_blend_duration?: uint16;
+  particle_alpha_deviation?: float;
+  pictures?: AnimationVariations;
+  render_layer?: RenderLayer;
+  secondary_picture_fade_out_duration?: uint32;
+  secondary_picture_fade_out_start?: uint32;
+  secondary_pictures?: AnimationVariations;
+  secondary_render_layer?: RenderLayer;
+  small_tree_fire_pictures?: AnimationVariations;
+  smoke?: SmokeSource[];
+  smoke_fade_in_duration?: uint32;
+  smoke_fade_out_duration?: uint32;
+  smoke_source_pictures?: AnimationVariations;
+  spawn_entity?: EntityID;
+  spread_delay: uint32;
+  spread_delay_deviation: uint32;
+  tree_dying_factor?: float;
+  uses_alternative_behavior?: bool;
+}
+export interface FishPrototype extends EntityWithHealthPrototype {
+  collision_mask?: CollisionMask;
+  pictures: SpriteVariations;
+}
+export interface FlameThrowerExplosionPrototype extends ExplosionPrototype {
+  damage: DamagePrototype;
+  height?: float;
+  slow_down_factor: double;
+}
+export interface FluidPrototype extends PrototypeBase {
+  auto_barrel?: bool;
+  base_color: Color;
+  default_temperature: double;
+  emissions_multiplier?: double;
+  flow_color: Color;
+  fuel_value?: Energy;
+  gas_temperature?: double;
+  heat_capacity?: Energy;
+  hidden?: bool;
+  icon?: FileName;
+  icon_mipmaps?: IconMipMapType;
+  icon_size?: SpriteSizeType;
+  icons?: IconData[];
+  max_temperature?: double;
+  subgroup?: ItemSubGroupID;
+}
+export interface FluidStreamPrototype extends EntityPrototype {
+  action?: Trigger;
+  collision_mask?: CollisionMask;
+  ground_light?: LightDefinition;
+  initial_action?: Trigger;
+  oriented_particle?: bool;
+  particle?: Animation;
+  particle_alpha_per_part?: float;
+  particle_buffer_size?: uint32;
+  particle_end_alpha?: float;
+  particle_fade_out_duration?: uint16;
+  particle_fade_out_threshold?: float;
+  particle_horizontal_speed: float;
+  particle_horizontal_speed_deviation: float;
+  particle_loop_exit_threshold?: float;
+  particle_loop_frame_count?: uint16;
+  particle_scale_per_part?: float;
+  particle_spawn_interval: uint16;
+  particle_spawn_timeout?: uint16;
+  particle_start_alpha?: float;
+  particle_start_scale?: float;
+  particle_vertical_acceleration: float;
+  progress_to_create_smoke?: float;
+  shadow?: Animation;
+  shadow_scale_enabled?: bool;
+  smoke_sources?: SmokeSource[];
+  special_neutral_target_damage?: DamagePrototype;
+  spine_animation?: Animation;
+  stream_light?: LightDefinition;
+  target_position_deviation?: double;
+  width?: float;
+}
+export interface FluidTurretPrototype extends TurretPrototype {
+  activation_buffer_ratio: float;
+  attack_parameters: StreamAttackParameters;
+  attacking_muzzle_animation_shift?: AnimatedVector;
+  ending_attack_muzzle_animation_shift?: AnimatedVector;
+  enough_fuel_indicator_light?: LightDefinition;
+  enough_fuel_indicator_picture?: Sprite4Way;
+  fluid_box: FluidBox;
+  fluid_buffer_input_flow: float;
+  fluid_buffer_size: float;
+  folded_muzzle_animation_shift?: AnimatedVector;
+  folding_muzzle_animation_shift?: AnimatedVector;
+  muzzle_animation?: Animation;
+  muzzle_light?: LightDefinition;
+  not_enough_fuel_indicator_light?: LightDefinition;
+  not_enough_fuel_indicator_picture?: Sprite4Way;
+  out_of_ammo_alert_icon?: Sprite;
+  prepared_muzzle_animation_shift?: AnimatedVector;
+  preparing_muzzle_animation_shift?: AnimatedVector;
+  starting_attack_muzzle_animation_shift?: AnimatedVector;
+  turret_base_has_direction: true;
+}
+export interface FluidWagonPrototype extends RollingStockPrototype {
+  capacity: double;
+  tank_count?: uint8;
+}
+export interface FlyingRobotPrototype extends EntityWithOwnerPrototype {
+  collision_mask?: CollisionMask;
+  energy_per_move?: Energy;
+  energy_per_tick?: Energy;
+  is_military_target?: bool;
+  max_energy?: Energy;
+  max_speed?: double;
+  max_to_charge?: float;
+  min_to_charge?: float;
+  speed: double;
+  speed_multiplier_when_out_of_energy?: float;
+}
+export interface FlyingTextPrototype extends EntityPrototype {
+  collision_mask?: CollisionMask;
+  speed: float;
+  text_alignment?: 'left' | 'center' | 'right';
+  time_to_live: uint32;
+}
+export interface FontPrototype {
+  border?: bool;
+  border_color?: Color;
+  filtered?: bool;
+  from: string;
+  name: string;
+  size: int32;
+  spacing?: float;
+  type: 'font';
+}
+export type FuelCategory = PrototypeBase;
+export interface FurnacePrototype extends CraftingMachinePrototype {
+  cant_insert_at_source_message_key?: string;
+  entity_info_icon_shift?: Vector;
+  result_inventory_size: ItemStackIndex;
+  source_inventory_size: ItemStackIndex;
+}
+export interface GatePrototype extends EntityWithOwnerPrototype {
+  activation_distance: double;
+  close_sound: Sound;
+  collision_mask?: CollisionMask;
+  fadeout_interval?: uint32;
+  horizontal_animation: Animation;
+  horizontal_rail_animation_left: Animation;
+  horizontal_rail_animation_right: Animation;
+  horizontal_rail_base: Animation;
+  open_sound: Sound;
+  opened_collision_mask?: CollisionMask;
+  opening_speed: float;
+  timeout_to_close: uint32;
+  vertical_animation: Animation;
+  vertical_rail_animation_left: Animation;
+  vertical_rail_animation_right: Animation;
+  vertical_rail_base: Animation;
+  wall_patch: Animation;
+}
+export interface GeneratorEquipmentPrototype extends EquipmentPrototype {
+  burner?: BurnerEnergySource;
+  power: Energy;
+}
+export interface GeneratorPrototype extends EntityWithOwnerPrototype {
+  burns_fluid?: bool;
+  destroy_non_fuel_fluid?: bool;
+  effectivity?: double;
+  energy_source: ElectricEnergySource;
+  fluid_box: FluidBox;
+  fluid_usage_per_tick: double;
+  horizontal_animation?: Animation;
+  max_power_output?: Energy;
+  maximum_temperature: double;
+  min_perceived_performance?: double;
+  performance_to_sound_speedup?: double;
+  scale_fluid_usage?: bool;
+  smoke?: SmokeSource[];
+  vertical_animation?: Animation;
+}
+export interface GodControllerPrototype {
+  crafting_categories?: RecipeCategoryID[];
+  inventory_size: ItemStackIndex;
+  item_pickup_distance: double;
+  loot_pickup_distance: double;
+  mining_categories?: ResourceCategoryID[];
+  mining_speed: double;
+  movement_speed: double;
+  name: string;
+  type: 'god-controller';
+}
+export interface GroupAttackAchievementPrototype extends AchievementPrototype {
+  amount?: uint32;
+}
+export interface GuiStyle extends PrototypeBase {
+  default_sprite_priority?: SpritePriority;
+  default_sprite_scale?: double;
+  default_tileset?: FileName;
+}
+export interface GunPrototype extends ItemPrototype {
+  attack_parameters: AttackParameters;
+}
+export interface HeatInterfacePrototype extends EntityWithOwnerPrototype {
+  gui_mode?: 'all' | 'none' | 'admins';
+  heat_buffer: HeatBuffer;
+  picture?: Sprite;
+}
+export interface HeatPipePrototype extends EntityWithOwnerPrototype {
+  collision_mask?: CollisionMask;
+  connection_sprites: ConnectableEntityGraphics;
+  heat_buffer: HeatBuffer;
+  heat_glow_sprites: ConnectableEntityGraphics;
+}
+export interface HighlightBoxEntityPrototype extends EntityPrototype {
+  collision_mask?: CollisionMask;
+}
+export interface InfinityContainerPrototype
+  extends Omit<LogisticContainerPrototype, 'logistic_mode'> {
+  erase_contents_when_mined: bool;
+  gui_mode?: 'all' | 'none' | 'admins';
+  inventory_size: ItemStackIndex;
+  logistic_mode?:
+    | 'active-provider'
+    | 'passive-provider'
+    | 'requester'
+    | 'storage'
+    | 'buffer';
+  render_not_in_network_icon?: bool;
+}
+export interface InfinityPipePrototype extends PipePrototype {
+  gui_mode?: 'all' | 'none' | 'admins';
+}
+export interface InserterPrototype extends EntityWithOwnerPrototype {
+  allow_burner_leech?: bool;
+  allow_custom_vectors?: bool;
+  chases_belt_items?: bool;
+  circuit_connector_sprites?: [
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+  ];
+  circuit_wire_connection_points?: [
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+  ];
+  circuit_wire_max_distance?: double;
+  default_stack_control_input_signal?: SignalIDConnector;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  draw_held_item?: bool;
+  draw_inserter_arrow?: bool;
+  energy_per_movement?: Energy;
+  energy_per_rotation?: Energy;
+  energy_source: EnergySource;
+  extension_speed: double;
+  filter_count?: uint8;
+  hand_base_picture: Sprite;
+  hand_base_shadow: Sprite;
+  hand_closed_picture: Sprite;
+  hand_closed_shadow: Sprite;
+  hand_open_picture: Sprite;
+  hand_open_shadow: Sprite;
+  hand_size?: double;
+  insert_position: Vector;
+  pickup_position: Vector;
+  platform_picture: Sprite4Way;
+  rotation_speed: double;
+  stack?: bool;
+  stack_size_bonus?: uint8;
+  use_easter_egg?: bool;
+}
+export interface ItemEntityPrototype extends EntityPrototype {
+  collision_box?: BoundingBox;
+  collision_mask?: CollisionMask;
+}
+export interface ItemGroup extends PrototypeBase {
+  icon?: FileName;
+  icon_mipmaps?: IconMipMapType;
+  icon_size?: SpriteSizeType;
+  icons?: IconData[];
+  order_in_recipe?: Order;
+}
+export interface ItemPrototype extends PrototypeBase {
+  burnt_result?: ItemID;
+  close_sound?: Sound;
+  dark_background_icon?: FileName;
+  dark_background_icons?: IconData[];
+  default_request_amount?: ItemCountType;
+  flags?: ItemPrototypeFlags;
+  fuel_acceleration_multiplier?: double;
+  fuel_category?: FuelCategoryID;
+  fuel_emissions_multiplier?: double;
+  fuel_glow_color?: Color;
+  fuel_top_speed_multiplier?: double;
+  fuel_value?: Energy;
+  icon?: FileName;
+  icon_mipmaps?: IconMipMapType;
+  icon_size?: SpriteSizeType;
+  icons?: IconData[];
+  open_sound?: Sound;
+  pictures?: SpriteVariations;
+  place_as_tile?: PlaceAsTile;
+  place_result?: EntityID;
+  placed_as_equipment_result?: EquipmentID;
+  rocket_launch_product?: ItemProductPrototype;
+  rocket_launch_products?: ItemProductPrototype[];
+  stack_size: ItemCountType;
+  subgroup?: ItemSubGroupID;
+  wire_count?: ItemCountType;
+}
+export interface ItemRequestProxyPrototype extends EntityPrototype {
+  collision_mask?: CollisionMask;
+  picture: Sprite;
+  use_target_entity_alert_icon_shift?: bool;
+}
+export interface ItemSubGroup extends PrototypeBase {
+  group: ItemGroupID;
+}
+export interface ItemWithEntityDataPrototype extends ItemPrototype {
+  icon_tintable?: FileName;
+  icon_tintable_mask?: FileName;
+  icon_tintable_masks?: IconData[];
+  icon_tintables?: IconData[];
+}
+export interface ItemWithInventoryPrototype extends ItemWithLabelPrototype {
+  extends_inventory_by_default?: bool;
+  filter_message_key?: string;
+  filter_mode?: 'blacklist' | 'whitelist';
+  insertion_priority_mode?:
+    | 'default'
+    | 'never'
+    | 'always'
+    | 'when-manually-filtered';
+  inventory_size: ItemStackIndex;
+  item_filters?: ItemID[];
+  item_group_filters?: ItemGroupID[];
+  item_subgroup_filters?: ItemSubGroupID[];
+  stack_size: 1;
+}
+export interface ItemWithLabelPrototype extends ItemPrototype {
+  default_label_color?: Color;
+  draw_label_for_cursor_render?: bool;
+}
+export type ItemWithTagsPrototype = ItemWithLabelPrototype;
+export interface KillAchievementPrototype extends AchievementPrototype {
+  amount?: uint32;
+  damage_type?: DamageTypeID;
+  in_vehicle?: bool;
+  personally?: bool;
+  to_kill?: EntityID;
+  type_to_kill?: string;
+}
+export interface LabPrototype extends EntityWithOwnerPrototype {
+  allowed_effects?: EffectTypeLimitation;
+  base_productivity?: float;
+  energy_source: EnergySource;
+  energy_usage: Energy;
+  entity_info_icon_shift?: Vector;
+  inputs: ItemID[];
+  light?: LightDefinition;
+  module_specification?: ModuleSpecification;
+  off_animation: Animation;
+  on_animation: Animation;
+  researching_speed?: double;
+}
+export interface LampPrototype extends EntityWithOwnerPrototype {
+  always_on?: bool;
+  circuit_connector_sprites?: CircuitConnectorSprites;
+  circuit_wire_connection_point?: WireConnectionPoint;
+  circuit_wire_max_distance?: double;
+  darkness_for_all_lamps_off?: float;
+  darkness_for_all_lamps_on?: float;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  energy_source: ElectricEnergySource | VoidEnergySource;
+  energy_usage_per_tick: Energy;
+  glow_color_intensity?: float;
+  glow_render_mode?: 'additive' | 'multiplicative';
+  glow_size?: float;
+  light?: LightDefinition;
+  light_when_colored?: LightDefinition;
+  picture_off: Sprite;
+  picture_on: Sprite;
+  signal_to_color_mapping?: SignalColorMapping[];
+}
+export interface LandMinePrototype extends EntityWithOwnerPrototype {
+  action?: Trigger;
+  ammo_category?: AmmoCategoryID;
+  collision_mask?: CollisionMask;
+  force_die_on_attack?: bool;
+  is_military_target?: bool;
+  picture_safe: Sprite;
+  picture_set: Sprite;
+  picture_set_enemy?: Sprite;
+  timeout?: uint32;
+  trigger_collision_mask?: CollisionMask;
+  trigger_force?: ForceCondition;
+  trigger_radius: double;
+}
+export type LeafParticlePrototype = EntityParticlePrototype;
+export interface LinkedBeltPrototype extends TransportBeltConnectablePrototype {
+  allow_blueprint_connection?: bool;
+  allow_clone_connection?: bool;
+  allow_side_loading?: bool;
+  collision_mask?: CollisionMask;
+  structure: LinkedBeltStructure;
+  structure_render_layer?: RenderLayer;
+}
+export interface LinkedContainerPrototype extends EntityWithOwnerPrototype {
+  circuit_connector_sprites?: CircuitConnectorSprites;
+  circuit_wire_connection_point?: WireConnectionPoint;
+  circuit_wire_max_distance?: double;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  gui_mode?: 'all' | 'none' | 'admins';
+  inventory_size: ItemStackIndex;
+  inventory_type?: 'with_bar' | 'with_filters_and_bar';
+  picture?: Sprite;
+  scale_info_icons?: bool;
+}
+export type Loader1x1Prototype = LoaderPrototype;
+export type Loader1x2Prototype = LoaderPrototype;
+export interface LoaderPrototype extends TransportBeltConnectablePrototype {
+  allow_container_interaction?: bool;
+  allow_rail_interaction?: bool;
+  belt_length?: double;
+  collision_mask?: CollisionMask;
+  container_distance?: double;
+  energy_per_item?: Energy;
+  energy_source?:
+    | ElectricEnergySource
+    | HeatEnergySource
+    | FluidEnergySource
+    | VoidEnergySource;
+  filter_count: uint8;
+  structure: LoaderStructure;
+  structure_render_layer?: RenderLayer;
+}
+export interface LocomotivePrototype extends RollingStockPrototype {
+  darkness_to_render_light_animation?: float;
+  energy_source: BurnerEnergySource | VoidEnergySource;
+  front_light?: LightDefinition;
+  front_light_pictures?: RotatedSprite;
+  max_power: Energy;
+  max_snap_to_train_stop_distance?: float;
+  reversing_power_modifier: double;
+}
+export interface LogisticContainerPrototype
+  extends Omit<ContainerPrototype, 'picture'> {
+  animation?: Animation;
+  animation_sound?: Sound;
+  landing_location_offset?: Vector;
+  logistic_mode:
+    | 'active-provider'
+    | 'passive-provider'
+    | 'requester'
+    | 'storage'
+    | 'buffer';
+  max_logistic_slots?: uint16;
+  opened_duration?: uint8;
+  picture?: Sprite;
+  render_not_in_network_icon?: bool;
+  use_exact_mode?: bool;
+}
+export interface LogisticRobotPrototype
+  extends RobotWithLogisticInterfacePrototype {
+  collision_box?: BoundingBox;
+  idle_with_cargo?: RotatedAnimation;
+  in_motion_with_cargo?: RotatedAnimation;
+  shadow_idle_with_cargo?: RotatedAnimation;
+  shadow_in_motion_with_cargo?: RotatedAnimation;
+}
+export interface MapGenPresets {
+  name: string;
+  type: 'map-gen-presets';
+}
+export interface MapSettings {
+  difficulty_settings: DifficultySettings;
+  enemy_evolution: EnemyEvolutionSettings;
+  enemy_expansion: EnemyExpansionSettings;
+  max_failed_behavior_count: uint32;
+  name: string;
+  path_finder: PathFinderSettings;
+  pollution: PollutionSettings;
+  steering: SteeringSettings;
+  type: 'map-settings';
+  unit_group: UnitGroupSettings;
+}
+export interface MarketPrototype extends EntityWithOwnerPrototype {
+  allow_access_to_all_forces?: bool;
+  picture: Sprite;
+}
+export interface MiningDrillPrototype extends EntityWithOwnerPrototype {
+  allowed_effects?: EffectTypeLimitation;
+  animations?: Animation4Way;
+  base_picture?: Sprite4Way;
+  base_productivity?: float;
+  base_render_layer?: RenderLayer;
+  circuit_connector_sprites?: [
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+  ];
+  circuit_wire_connection_points?: [
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+  ];
+  circuit_wire_max_distance?: double;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  energy_source: EnergySource;
+  energy_usage: Energy;
+  graphics_set?: MiningDrillGraphicsSet;
+  input_fluid_box?: FluidBox;
+  mining_speed: double;
+  module_specification?: ModuleSpecification;
+  monitor_visualization_tint?: Color;
+  output_fluid_box?: FluidBox;
+  radius_visualisation_picture?: Sprite;
+  resource_categories: ResourceCategoryID[];
+  resource_searching_radius: double;
+  vector_to_place_result: Vector;
+  wet_mining_graphics_set?: MiningDrillGraphicsSet;
+}
+export type MiningToolPrototype = ToolPrototype;
+export type ModuleCategory = PrototypeBase;
+export interface ModulePrototype extends ItemPrototype {
+  art_style?: string;
+  beacon_tint?: BeaconVisualizationTints;
+  category: ModuleCategoryID;
+  effect: Effect;
+  limitation?: RecipeID[];
+  limitation_blacklist?: RecipeID[];
+  limitation_message_key?: string;
+  requires_beacon_alt_mode?: bool;
+  tier: uint32;
+}
+export interface MouseCursor {
+  filename?: FileName;
+  hot_pixel_x?: int16;
+  hot_pixel_y?: int16;
+  name: string;
+  system_cursor?:
+    | 'arrow'
+    | 'i-beam'
+    | 'crosshair'
+    | 'wait-arrow'
+    | 'size-all'
+    | 'no'
+    | 'hand';
+  type: 'mouse-cursor';
+}
+export interface MovementBonusEquipmentPrototype extends EquipmentPrototype {
+  energy_consumption: Energy;
+  movement_bonus: double;
+}
+export interface NamedNoiseExpression extends PrototypeBase {
+  expression: NoiseExpression;
+  intended_property?: string;
+  order?: Order;
+}
+export interface NightVisionEquipmentPrototype extends EquipmentPrototype {
+  activate_sound?: Sound;
+  color_lookup: DaytimeColorLookupTable;
+  darkness_to_turn_on?: float;
+  deactivate_sound?: Sound;
+  energy_input: Energy;
+}
+export type NoiseLayer = PrototypeBase;
+export interface OffshorePumpPrototype extends EntityWithOwnerPrototype {
+  adjacent_tile_collision_box?: BoundingBox;
+  adjacent_tile_collision_mask?: CollisionMask;
+  adjacent_tile_collision_test?: CollisionMask;
+  always_draw_fluid?: bool;
+  center_collision_mask?: CollisionMask;
+  check_bounding_box_collides_with_tiles?: bool;
+  circuit_connector_sprites?: [
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+  ];
+  circuit_wire_connection_points?: [
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+  ];
+  circuit_wire_max_distance?: double;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  fluid: FluidID;
+  fluid_box: FluidBox;
+  fluid_box_tile_collision_test?: CollisionMask;
+  graphics_set?: OffshorePumpGraphicsSet;
+  min_perceived_performance?: float;
+  picture?: Animation4Way;
+  placeable_position_visualization?: Sprite;
+  pumping_speed: float;
+  remove_on_tile_collision?: bool;
+}
+export interface ParticlePrototype extends PrototypeBase {
+  draw_shadow_when_on_ground?: bool;
+  ended_in_water_trigger_effect?: TriggerEffect;
+  ended_on_ground_trigger_effect?: TriggerEffect;
+  fade_away_duration?: uint16;
+  life_time: uint16;
+  mining_particle_frame_speed?: float;
+  movement_modifier?: float;
+  movement_modifier_when_on_ground?: float;
+  pictures: AnimationVariations;
+  regular_trigger_effect?: TriggerEffect;
+  regular_trigger_effect_frequency?: uint32;
+  render_layer?: RenderLayer;
+  render_layer_when_on_ground?: RenderLayer;
+  shadows?: AnimationVariations;
+  vertical_acceleration?: float;
+}
+export interface ParticleSourcePrototype extends EntityPrototype {
+  collision_mask?: CollisionMask;
+  height: float;
+  height_deviation?: float;
+  horizontal_speed: float;
+  horizontal_speed_deviation?: float;
+  particle?: ParticleID;
+  smoke?: SmokeSource[];
+  time_before_start: float;
+  time_before_start_deviation?: float;
+  time_to_live: float;
+  time_to_live_deviation?: float;
+  vertical_speed: float;
+  vertical_speed_deviation?: float;
+}
+export interface PipePrototype extends EntityWithOwnerPrototype {
+  fluid_box: FluidBox;
+  horizontal_window_bounding_box: BoundingBox;
+  pictures: PipePictures;
+  vertical_window_bounding_box: BoundingBox;
+}
+export interface PipeToGroundPrototype extends EntityWithOwnerPrototype {
+  draw_fluid_icon_override?: bool;
+  fluid_box: FluidBox;
+  pictures: PipeToGroundPictures;
+}
+export interface PlayerDamagedAchievementPrototype
+  extends AchievementPrototype {
+  minimum_damage: float;
+  should_survive: bool;
+  type_of_dealer?: string;
+}
+export interface PlayerPortPrototype extends EntityWithOwnerPrototype {
+  animation: Animation;
+  collision_mask?: CollisionMask;
+  is_military_target?: bool;
+}
+export interface PowerSwitchPrototype extends EntityWithOwnerPrototype {
+  circuit_wire_connection_point: WireConnectionPoint;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  led_off: Sprite;
+  led_on: Sprite;
+  left_wire_connection_point: WireConnectionPoint;
+  overlay_loop: Animation;
+  overlay_start: Animation;
+  overlay_start_delay: uint8;
+  power_on_animation: Animation;
+  right_wire_connection_point: WireConnectionPoint;
+  wire_max_distance?: double;
+}
+export interface ProduceAchievementPrototype extends AchievementPrototype {
+  amount: MaterialAmountType;
+  fluid_product?: FluidID;
+  item_product?: ItemID;
+  limited_to_one_game: bool;
+}
+export interface ProducePerHourAchievementPrototype
+  extends AchievementPrototype {
+  amount: MaterialAmountType;
+  fluid_product?: FluidID;
+  item_product?: ItemID;
+}
+export interface ProgrammableSpeakerPrototype extends EntityWithOwnerPrototype {
+  audible_distance_modifier?: float;
+  circuit_connector_sprites?: CircuitConnectorSprites;
+  circuit_wire_connection_point?: WireConnectionPoint;
+  circuit_wire_max_distance?: double;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  energy_source: ElectricEnergySource | VoidEnergySource;
+  energy_usage_per_tick: Energy;
+  instruments: ProgrammableSpeakerInstrument[];
+  maximum_polyphony: uint32;
+  sprite: Sprite;
+}
+export interface ProjectilePrototype extends EntityPrototype {
+  acceleration: double;
+  action?: Trigger;
+  animation?: AnimationVariations;
+  collision_mask?: CollisionMask;
+  direction_only?: bool;
+  enable_drawing_with_mask?: bool;
+  final_action?: Trigger;
+  force_condition?: ForceCondition;
+  height?: double;
+  hit_at_collision_position?: bool;
+  hit_collision_mask?: CollisionMask;
+  light?: LightDefinition;
+  max_speed?: double;
+  piercing_damage?: float;
+  rotatable?: bool;
+  shadow?: AnimationVariations;
+  smoke?: SmokeSource[];
+  speed_modifier?: Vector;
+  turn_speed?: float;
+  turning_speed_increases_exponentially_with_projectile_speed?: bool;
+}
 export interface PrototypeBase {
   localised_description?: LocalisedString;
   localised_name?: LocalisedString;
   name: string;
   order?: Order;
   type: string;
+}
+export interface PumpPrototype extends EntityWithOwnerPrototype {
+  animations: Animation4Way;
+  circuit_connector_sprites?: [
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+  ];
+  circuit_wire_connection_points?: [
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+  ];
+  circuit_wire_max_distance?: double;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  energy_source: EnergySource;
+  energy_usage: Energy;
+  fluid_animation?: Animation4Way;
+  fluid_box: FluidBox;
+  fluid_wagon_connector_alignment_tolerance?: double;
+  fluid_wagon_connector_frame_count?: uint8;
+  fluid_wagon_connector_graphics?: FluidWagonConnectorGraphics;
+  fluid_wagon_connector_speed?: double;
+  glass_pictures?: Sprite4Way;
+  pumping_speed: double;
+}
+export interface RadarPrototype extends EntityWithOwnerPrototype {
+  energy_per_nearby_scan: Energy;
+  energy_per_sector: Energy;
+  energy_source: EnergySource;
+  energy_usage: Energy;
+  is_military_target?: bool;
+  max_distance_of_nearby_sector_revealed: uint32;
+  max_distance_of_sector_revealed: uint32;
+  pictures: RotatedSprite;
+  radius_minimap_visualisation_color?: Color;
+  rotation_speed?: double;
+}
+export interface RailChainSignalPrototype extends RailSignalBasePrototype {
+  blue_light?: LightDefinition;
+  default_blue_output_signal?: SignalIDConnector;
+  selection_box_offsets: Vector[];
+}
+export interface RailPlannerPrototype extends ItemPrototype {
+  curved_rail: EntityID;
+  straight_rail: EntityID;
+}
+export interface RailPrototype extends EntityWithOwnerPrototype {
+  build_grid_size?: 2;
+  collision_box?: BoundingBox;
+  collision_mask?: CollisionMask;
+  pictures: RailPictureSet;
+  selection_box?: BoundingBox;
+  walking_sound?: Sound;
+}
+export interface RailRemnantsPrototype extends CorpsePrototype {
+  bending_type: 'straight' | 'turn';
+  build_grid_size?: 2;
+  collision_box?: BoundingBox;
+  pictures: RailPictureSet;
+  selection_box?: BoundingBox;
+}
+export interface RailSignalBasePrototype extends EntityWithOwnerPrototype {
+  animation: RotatedAnimation;
+  circuit_connector_sprites?: CircuitConnectorSprites[];
+  circuit_wire_connection_points?: WireConnectionPoint[];
+  circuit_wire_max_distance?: double;
+  collision_box?: BoundingBox;
+  collision_mask?: CollisionMask;
+  default_green_output_signal?: SignalIDConnector;
+  default_orange_output_signal?: SignalIDConnector;
+  default_red_output_signal?: SignalIDConnector;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  flags?: EntityPrototypeFlags;
+  green_light?: LightDefinition;
+  orange_light?: LightDefinition;
+  rail_piece?: Animation;
+  red_light?: LightDefinition;
+}
+export type RailSignalPrototype = RailSignalBasePrototype;
+export interface ReactorPrototype extends EntityWithOwnerPrototype {
+  connection_patches_connected?: SpriteVariations;
+  connection_patches_disconnected?: SpriteVariations;
+  consumption: Energy;
+  default_fuel_glow_color?: Color;
+  energy_source: EnergySource;
+  heat_buffer: HeatBuffer;
+  heat_connection_patches_connected?: SpriteVariations;
+  heat_connection_patches_disconnected?: SpriteVariations;
+  heat_lower_layer_picture?: Sprite;
+  light?: LightDefinition;
+  lower_layer_picture?: Sprite;
+  meltdown_action?: Trigger;
+  neighbour_bonus?: double;
+  picture?: Sprite;
+  scale_energy_usage?: bool;
+  use_fuel_glow_color?: bool;
+  working_light_picture: Sprite;
+}
+export type RecipeCategory = PrototypeBase;
+export interface RecipePrototype extends PrototypeBase {
+  allow_as_intermediate?: bool;
+  allow_decomposition?: bool;
+  allow_inserter_overload?: bool;
+  allow_intermediates?: bool;
+  always_show_made_in?: bool;
+  always_show_products?: bool;
+  category?: RecipeCategoryID;
+  crafting_machine_tint?: CraftingMachineTint;
+  emissions_multiplier?: double;
+  enabled?: bool;
+  energy_required?: double;
+  expensive?: RecipeData | false;
+  hidden?: bool;
+  hide_from_player_crafting?: bool;
+  hide_from_stats?: bool;
+  icon?: FileName;
+  icon_mipmaps?: IconMipMapType;
+  icon_size?: SpriteSizeType;
+  icons?: IconData[];
+  ingredients?: IngredientPrototype[];
+  main_product?: string;
+  normal?: RecipeData | false;
+  overload_multiplier?: uint32;
+  requester_paste_multiplier?: uint32;
+  result?: ItemID;
+  result_count?: uint16;
+  results?: ProductPrototype[];
+  show_amount_in_title?: bool;
+  subgroup?: ItemSubGroupID;
+  unlock_results?: bool;
+}
+export interface RepairToolPrototype extends ToolPrototype {
+  repair_result?: Trigger;
+  speed: float;
+}
+export interface ResearchAchievementPrototype extends AchievementPrototype {
+  research_all?: bool;
+  technology?: TechnologyID;
+}
+export type ResourceCategory = PrototypeBase;
+export interface ResourceEntityPrototype extends EntityPrototype {
+  category?: ResourceCategoryID;
+  cliff_removal_probability?: double;
+  collision_mask?: CollisionMask;
+  effect_animation_period?: float;
+  effect_animation_period_deviation?: float;
+  effect_darkness_multiplier?: float;
+  highlight?: bool;
+  infinite?: bool;
+  infinite_depletion_amount?: uint32;
+  map_grid?: bool;
+  max_effect_alpha?: float;
+  min_effect_alpha?: float;
+  minimum?: uint32;
+  mining_visualisation_tint?: Color;
+  normal?: uint32;
+  randomize_visual_position?: bool;
+  resource_patch_search_radius?: uint32;
+  stage_counts: uint32[];
+  stages: AnimationVariations;
+  stages_effect?: AnimationVariations;
+  tree_removal_max_distance?: double;
+  tree_removal_probability?: double;
+  walking_sound?: Sound;
+}
+export interface RoboportEquipmentPrototype extends EquipmentPrototype {
+  burner?: BurnerEnergySource;
+  charge_approach_distance: float;
+  charging_distance?: float;
+  charging_energy: Energy;
+  charging_offsets?: Vector[];
+  charging_station_count?: uint32;
+  charging_station_shift?: Vector;
+  charging_threshold_distance?: float;
+  construction_radius: float;
+  draw_construction_radius_visualization?: bool;
+  draw_logistic_radius_visualization?: bool;
+  power?: Energy;
+  recharging_animation: Animation;
+  recharging_light?: LightDefinition;
+  robot_limit?: ItemCountType;
+  robot_vertical_acceleration?: float;
+  robots_shrink_when_entering_and_exiting?: bool;
+  spawn_and_station_height: float;
+  spawn_and_station_shadow_height_offset?: float;
+  spawn_minimum?: Energy;
+  stationing_offset?: Vector;
+}
+export interface RoboportPrototype extends EntityWithOwnerPrototype {
+  base: Sprite;
+  base_animation: Animation;
+  base_patch: Sprite;
+  charge_approach_distance: float;
+  charging_distance?: float;
+  charging_energy: Energy;
+  charging_offsets?: Vector[];
+  charging_station_count?: uint32;
+  charging_station_shift?: Vector;
+  charging_threshold_distance?: float;
+  circuit_connector_sprites?: CircuitConnectorSprites;
+  circuit_wire_connection_point?: WireConnectionPoint;
+  circuit_wire_max_distance?: double;
+  close_door_trigger_effect?: TriggerEffect;
+  construction_radius: float;
+  default_available_construction_output_signal?: SignalIDConnector;
+  default_available_logistic_output_signal?: SignalIDConnector;
+  default_total_construction_output_signal?: SignalIDConnector;
+  default_total_logistic_output_signal?: SignalIDConnector;
+  door_animation_down: Animation;
+  door_animation_up: Animation;
+  draw_circuit_wires?: bool;
+  draw_construction_radius_visualization?: bool;
+  draw_copper_wires?: bool;
+  draw_logistic_radius_visualization?: bool;
+  energy_source: ElectricEnergySource | VoidEnergySource;
+  energy_usage: Energy;
+  logistics_connection_distance?: float;
+  logistics_radius: float;
+  material_slots_count: ItemStackIndex;
+  open_door_trigger_effect?: TriggerEffect;
+  recharge_minimum: Energy;
+  recharging_animation: Animation;
+  recharging_light?: LightDefinition;
+  request_to_open_door_timeout: uint32;
+  robot_limit?: ItemCountType;
+  robot_slots_count: ItemStackIndex;
+  robot_vertical_acceleration?: float;
+  robots_shrink_when_entering_and_exiting?: bool;
+  spawn_and_station_height: float;
+  spawn_and_station_shadow_height_offset?: float;
+  stationing_offset?: Vector;
+}
+export interface RobotWithLogisticInterfacePrototype
+  extends FlyingRobotPrototype {
+  cargo_centered: Vector;
+  destroy_action?: Trigger;
+  draw_cargo?: bool;
+  idle?: RotatedAnimation;
+  in_motion?: RotatedAnimation;
+  max_payload_size: ItemCountType;
+  shadow_idle?: RotatedAnimation;
+  shadow_in_motion?: RotatedAnimation;
+}
+export interface RocketSiloPrototype extends AssemblingMachinePrototype {
+  active_energy_usage: Energy;
+  alarm_sound?: Sound;
+  alarm_trigger?: TriggerEffect;
+  arm_01_back_animation: Animation;
+  arm_02_right_animation: Animation;
+  arm_03_front_animation: Animation;
+  base_day_sprite: Sprite;
+  base_engine_light?: LightDefinition;
+  base_front_sprite: Sprite;
+  base_light?: LightDefinition;
+  base_night_sprite?: Sprite;
+  clamps_off_sound?: Sound;
+  clamps_off_trigger?: TriggerEffect;
+  clamps_on_sound?: Sound;
+  clamps_on_trigger?: TriggerEffect;
+  door_back_open_offset: Vector;
+  door_back_sprite: Sprite;
+  door_front_open_offset: Vector;
+  door_front_sprite: Sprite;
+  door_opening_speed: double;
+  doors_sound?: Sound;
+  doors_trigger?: TriggerEffect;
+  flying_sound?: Sound;
+  hole_clipping_box: BoundingBox;
+  hole_light_sprite: Sprite;
+  hole_sprite: Sprite;
+  lamp_energy_usage: Energy;
+  launch_wait_time?: uint8;
+  light_blinking_speed: double;
+  raise_rocket_sound?: Sound;
+  raise_rocket_trigger?: TriggerEffect;
+  red_lights_back_sprites: Sprite;
+  red_lights_front_sprites: Sprite;
+  rocket_entity: EntityID;
+  rocket_glow_overlay_sprite: Sprite;
+  rocket_parts_required: uint32;
+  rocket_result_inventory_size?: ItemStackIndex;
+  rocket_rising_delay?: uint8;
+  rocket_shadow_overlay_sprite: Sprite;
+  satellite_animation?: Animation;
+  satellite_shadow_animation?: Animation;
+  shadow_sprite: Sprite;
+  silo_fade_out_end_distance: double;
+  silo_fade_out_start_distance: double;
+  times_to_blink: uint8;
+}
+export interface RocketSiloRocketPrototype extends EntityPrototype {
+  dying_explosion?: EntityID;
+  effects_fade_in_end_distance: double;
+  effects_fade_in_start_distance: double;
+  engine_starting_speed: double;
+  flying_acceleration: double;
+  flying_speed: double;
+  flying_trigger?: TriggerEffect;
+  full_render_layer_switch_distance: double;
+  glow_light?: LightDefinition;
+  inventory_size: ItemStackIndex;
+  rising_speed: double;
+  rocket_above_wires_slice_offset_from_center?: float;
+  rocket_air_object_slice_offset_from_center?: float;
+  rocket_flame_animation: Animation;
+  rocket_flame_left_animation: Animation;
+  rocket_flame_left_rotation: float;
+  rocket_flame_right_animation: Animation;
+  rocket_flame_right_rotation: float;
+  rocket_glare_overlay_sprite: Sprite;
+  rocket_initial_offset?: Vector;
+  rocket_launch_offset: Vector;
+  rocket_render_layer_switch_distance: double;
+  rocket_rise_offset: Vector;
+  rocket_shadow_sprite: Sprite;
+  rocket_smoke_bottom1_animation: Animation;
+  rocket_smoke_bottom2_animation: Animation;
+  rocket_smoke_top1_animation: Animation;
+  rocket_smoke_top2_animation: Animation;
+  rocket_smoke_top3_animation: Animation;
+  rocket_sprite: Sprite;
+  rocket_visible_distance_from_center: float;
+  shadow_fade_out_end_ratio: double;
+  shadow_fade_out_start_ratio: double;
+  shadow_slave_entity?: EntityID;
+}
+export type RocketSiloRocketShadowPrototype = EntityPrototype;
+export interface RollingStockPrototype extends VehiclePrototype {
+  air_resistance: double;
+  allow_manual_color?: bool;
+  allow_robot_dispatch_in_automatic_mode?: bool;
+  back_light?: LightDefinition;
+  collision_mask?: CollisionMask;
+  color?: Color;
+  connection_distance: double;
+  drive_over_tie_trigger?: TriggerEffect;
+  horizontal_doors?: Animation;
+  joint_distance: double;
+  max_speed: double;
+  pictures: RotatedSprite;
+  stand_by_light?: LightDefinition;
+  tie_distance?: double;
+  vertical_doors?: Animation;
+  vertical_selection_shift: double;
+  wheels?: RotatedSprite;
+}
+export interface SelectionToolPrototype extends ItemWithLabelPrototype {
+  alt_entity_filter_mode?: 'whitelist' | 'blacklist';
+  alt_entity_filters?: EntityID[];
+  alt_entity_type_filters?: string[];
+  alt_reverse_entity_filter_mode?: 'whitelist' | 'blacklist';
+  alt_reverse_entity_filters?: EntityID[];
+  alt_reverse_entity_type_filters?: string[];
+  alt_reverse_selection_color?: Color;
+  alt_reverse_selection_count_button_color?: Color;
+  alt_reverse_selection_cursor_box_type?: CursorBoxType;
+  alt_reverse_selection_mode?: SelectionModeFlags;
+  alt_reverse_tile_filter_mode?: 'whitelist' | 'blacklist';
+  alt_reverse_tile_filters?: TileID[];
+  alt_selection_color: Color;
+  alt_selection_count_button_color?: Color;
+  alt_selection_cursor_box_type: CursorBoxType;
+  alt_selection_mode: SelectionModeFlags;
+  alt_tile_filter_mode?: 'whitelist' | 'blacklist';
+  alt_tile_filters?: TileID[];
+  always_include_tiles?: bool;
+  chart_alt_reverse_selection_color?: Color;
+  chart_alt_selection_color?: Color;
+  chart_reverse_selection_color?: Color;
+  chart_selection_color?: Color;
+  entity_filter_mode?: 'whitelist' | 'blacklist';
+  entity_filters?: EntityID[];
+  entity_type_filters?: string[];
+  mouse_cursor?: MouseCursorID;
+  reverse_entity_filter_mode?: 'whitelist' | 'blacklist';
+  reverse_entity_filters?: EntityID[];
+  reverse_entity_type_filters?: string[];
+  reverse_selection_color?: Color;
+  reverse_selection_count_button_color?: Color;
+  reverse_selection_cursor_box_type?: CursorBoxType;
+  reverse_selection_mode?: SelectionModeFlags;
+  reverse_tile_filter_mode?: 'whitelist' | 'blacklist';
+  reverse_tile_filters?: TileID[];
+  selection_color: Color;
+  selection_count_button_color?: Color;
+  selection_cursor_box_type: CursorBoxType;
+  selection_mode: SelectionModeFlags;
+  tile_filter_mode?: 'whitelist' | 'blacklist';
+  tile_filters?: TileID[];
+}
+export interface ShortcutPrototype extends PrototypeBase {
+  action:
+    | 'toggle-alt-mode'
+    | 'undo'
+    | 'copy'
+    | 'cut'
+    | 'paste'
+    | 'import-string'
+    | 'toggle-personal-roboport'
+    | 'toggle-equipment-movement-bonus'
+    | 'spawn-item'
+    | 'lua';
+  associated_control_input?: string;
+  disabled_icon?: Sprite;
+  disabled_small_icon?: Sprite;
+  icon: Sprite;
+  item_to_spawn?: ItemID;
+  order?: Order;
+  small_icon?: Sprite;
+  style?: 'default' | 'blue' | 'red' | 'green';
+  technology_to_unlock?: TechnologyID;
+  toggleable?: bool;
+}
+export interface SimpleEntityPrototype extends EntityWithHealthPrototype {
+  animations?: AnimationVariations;
+  count_as_rock_for_filtered_deconstruction?: bool;
+  picture?: Sprite4Way;
+  pictures?: SpriteVariations;
+  random_animation_offset?: bool;
+  random_variation_on_create?: bool;
+  render_layer?: RenderLayer;
+  secondary_draw_order?: int8;
+}
+export interface SimpleEntityWithForcePrototype
+  extends SimpleEntityWithOwnerPrototype {
+  is_military_target?: bool;
+}
+export interface SimpleEntityWithOwnerPrototype
+  extends EntityWithOwnerPrototype {
+  animations?: AnimationVariations;
+  force_visibility?: ForceCondition;
+  picture?: Sprite4Way;
+  pictures?: SpriteVariations;
+  random_animation_offset?: bool;
+  random_variation_on_create?: bool;
+  render_layer?: RenderLayer;
+  secondary_draw_order?: int8;
+}
+export type SimpleSmokePrototype = SmokePrototype;
+export interface SmokePrototype extends EntityPrototype {
+  affected_by_wind?: bool;
+  animation: Animation;
+  collision_box?: BoundingBox;
+  collision_mask?: CollisionMask;
+  color?: Color;
+  cyclic?: bool;
+  duration?: uint32;
+  end_scale?: double;
+  fade_away_duration?: uint32;
+  fade_in_duration?: uint32;
+  glow_animation?: Animation;
+  glow_fade_away_duration?: uint32;
+  movement_slow_down_factor?: double;
+  render_layer?: RenderLayer;
+  show_when_smoke_off?: bool;
+  spread_duration?: uint32;
+  start_scale?: double;
+}
+export interface SmokeWithTriggerPrototype extends SmokePrototype {
+  action?: Trigger;
+  action_cooldown?: uint32;
+  particle_count?: uint8;
+  particle_distance_scale_factor?: float;
+  particle_duration_variation?: uint32;
+  particle_scale_factor?: Vector;
+  particle_spread?: Vector;
+  spread_duration_variation?: uint32;
+  wave_distance?: Vector;
+  wave_speed?: Vector;
+}
+export interface SolarPanelEquipmentPrototype extends EquipmentPrototype {
+  power: Energy;
+}
+export interface SolarPanelPrototype extends EntityWithOwnerPrototype {
+  energy_source: ElectricEnergySource;
+  overlay?: SpriteVariations;
+  picture: SpriteVariations;
+  production: Energy;
+}
+export interface SoundPrototype {
+  aggregation?: AggregationSpecification;
+  allow_random_repeat?: bool;
+  audible_distance_modifier?: double;
+  category?: SoundType;
+  filename?: FileName;
+  game_controller_vibration_data?: GameControllerVibrationData;
+  max_speed?: float;
+  min_speed?: float;
+  name: string;
+  preload?: bool;
+  speed?: float;
+  type: 'sound';
+  variations?: SoundDefinition | SoundDefinition[];
+  volume?: float;
+}
+export interface SpectatorControllerPrototype {
+  movement_speed: double;
+  name: string;
+  type: 'spectator-controller';
+}
+export interface SpeechBubblePrototype extends EntityPrototype {
+  collision_mask?: CollisionMask;
+  fade_in_out_ticks?: uint32;
+  style: string;
+  wrapper_flow_style?: string;
+  y_offset?: double;
+}
+export interface SpiderLegPrototype extends EntityWithHealthPrototype {
+  collision_mask?: CollisionMask;
+  graphics_set: SpiderLegGraphicsSet;
+  initial_movement_speed: double;
+  minimal_step_size: double;
+  movement_acceleration: double;
+  movement_based_position_selection_distance: double;
+  part_length: double;
+  target_position_randomisation_distance: double;
+  walking_sound_volume_modifier?: double;
+}
+export interface SpiderVehiclePrototype extends VehiclePrototype {
+  automatic_weapon_cycling: bool;
+  chain_shooting_cooldown_modifier: float;
+  chunk_exploration_radius: uint32;
+  energy_source: BurnerEnergySource | VoidEnergySource;
+  graphics_set: SpiderVehicleGraphicsSet;
+  guns?: ItemID[];
+  height: float;
+  inventory_size: ItemStackIndex;
+  movement_energy_consumption: Energy;
+  spider_engine: SpiderEnginePrototype;
+  torso_bob_speed?: float;
+  torso_rotation_speed?: float;
+  trash_inventory_size?: ItemStackIndex;
+}
+export interface SpidertronRemotePrototype extends ItemPrototype {
+  icon_color_indicator_mask?: FileName;
+  icon_color_indicator_masks?: IconData[];
+  stack_size: 1;
+}
+export interface SplitterPrototype extends TransportBeltConnectablePrototype {
+  collision_mask?: CollisionMask;
+  structure: Animation4Way;
+  structure_animation_movement_cooldown?: uint32;
+  structure_animation_speed_coefficient?: double;
+  structure_patch?: Animation4Way;
+}
+export interface SpritePrototype {
+  apply_runtime_tint?: bool;
+  blend_mode?: BlendMode;
+  draw_as_glow?: bool;
+  draw_as_light?: bool;
+  draw_as_shadow?: bool;
+  filename?: FileName;
+  flags?: SpriteFlags;
+  generate_sdf?: bool;
+  height?: SpriteSizeType;
+  hr_version?: Sprite;
+  layers?: Sprite[];
+  load_in_minimal_mode?: bool;
+  mipmap_count?: uint8;
+  name: string;
+  position?: [SpriteSizeType, SpriteSizeType];
+  premul_alpha?: bool;
+  priority?: SpritePriority;
+  scale?: double;
+  shift?: Vector;
+  size?: SpriteSizeType | [SpriteSizeType, SpriteSizeType];
+  slice?: SpriteSizeType;
+  slice_x?: SpriteSizeType;
+  slice_y?: SpriteSizeType;
+  tint?: Color;
+  type: 'sprite';
+  width?: SpriteSizeType;
+  x?: SpriteSizeType;
+  y?: SpriteSizeType;
+}
+export interface StickerPrototype extends EntityPrototype {
+  animation?: Animation;
+  collision_mask?: CollisionMask;
+  damage_interval?: uint32;
+  damage_per_tick?: DamagePrototype;
+  duration_in_ticks: uint32;
+  fire_spread_cooldown?: uint8;
+  fire_spread_radius?: float;
+  force_visibility?: ForceCondition;
+  selection_box_type?: CursorBoxType;
+  single_particle?: bool;
+  spread_fire_entity?: EntityID;
+  stickers_per_square_meter?: float;
+  target_movement_modifier?: float;
+  target_movement_modifier_from?: float;
+  target_movement_modifier_to?: float;
+  vehicle_friction_modifier?: float;
+  vehicle_friction_modifier_from?: float;
+  vehicle_friction_modifier_to?: float;
+  vehicle_speed_modifier?: float;
+  vehicle_speed_modifier_from?: float;
+  vehicle_speed_modifier_to?: float;
+}
+export interface StorageTankPrototype extends EntityWithOwnerPrototype {
+  circuit_connector_sprites?: [
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+  ];
+  circuit_wire_connection_points?: [
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+  ];
+  circuit_wire_max_distance?: double;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  flow_length_in_ticks: uint32;
+  fluid_box: FluidBox;
+  pictures: StorageTankPictures;
+  scale_info_icons?: bool;
+  show_fluid_icon?: bool;
+  two_direction_only?: bool;
+  window_bounding_box: BoundingBox;
+}
+export interface StraightRailPrototype extends RailPrototype {
+  bending_type?: 'straight';
+}
+export interface TechnologyPrototype extends PrototypeBase {
+  effects?: Modifier[];
+  enabled?: bool;
+  expensive?: TechnologyData | false;
+  hidden?: bool;
+  icon?: FileName;
+  icon_mipmaps?: IconMipMapType;
+  icon_size?: SpriteSizeType;
+  icons?: IconData[];
+  ignore_tech_cost_multiplier?: bool;
+  max_level?: uint32 | 'infinite';
+  name: string;
+  normal?: TechnologyData | false;
+  prerequisites?: TechnologyID[];
+  unit?: TechnologyUnit;
+  upgrade?: bool;
+  visible_when_disabled?: bool;
+}
+export interface TileEffectDefinition {
+  animation_scale: float | [float, float];
+  animation_speed: float;
+  dark_threshold: float | [float, float];
+  far_zoom?: float;
+  foam_color: Color;
+  foam_color_multiplier: float;
+  name: string;
+  near_zoom?: float;
+  reflection_threshold: float | [float, float];
+  specular_lightness: Color;
+  specular_threshold: float | [float, float];
+  texture: Sprite;
+  tick_scale: float;
+  type: 'tile-effect';
+}
+export interface TileGhostPrototype extends EntityPrototype {
+  collision_mask?: CollisionMask;
+}
+export interface TilePrototype extends PrototypeBase {
+  allowed_neighbors?: TileID[];
+  autoplace?: AutoplaceSpecification;
+  build_sound?: Sound | TileBuildSound;
+  can_be_part_of_blueprint?: bool;
+  check_collision_with_entities?: bool;
+  collision_mask: CollisionMask;
+  decorative_removal_probability?: float;
+  draw_in_water_layer?: bool;
+  effect?: string;
+  effect_color?: Color;
+  effect_color_secondary?: Color;
+  effect_is_opaque?: bool;
+  icon?: FileName;
+  icon_mipmaps?: IconMipMapType;
+  icon_size?: SpriteSizeType;
+  icons?: IconData[];
+  layer: uint8;
+  layer_group?: TileRenderLayer;
+  map_color: Color;
+  minable?: MinableProperties;
+  mined_sound?: Sound;
+  needs_correction?: bool;
+  next_direction?: TileID;
+  placeable_by?: ItemToPlace | ItemToPlace[];
+  pollution_absorption_per_second: double;
+  scorch_mark_color?: Color;
+  tint?: Color;
+  transition_merges_with_tile?: TileID;
+  transition_overlay_layer_offset?: int8;
+  transitions?: TileTransitionsToTiles[];
+  transitions_between_transitions?: TileTransitionsBetweenTransitions[];
+  trigger_effect?: TriggerEffect;
+  variants: TileTransitionsVariants;
+  vehicle_friction_modifier?: double;
+  walking_sound?: Sound;
+  walking_speed_modifier?: double;
+}
+export interface TipsAndTricksItem extends PrototypeBase {
+  category?: string;
+  dependencies?: string[];
+  image?: FileName;
+  indent?: uint8;
+  is_title?: bool;
+  player_input_method_filter?: PlayerInputMethodFilter;
+  simulation?: SimulationDefinition;
+  skip_trigger?: TipTrigger;
+  starting_status?: TipStatus;
+  tag?: string;
+  trigger?: TipTrigger;
+  tutorial?: string;
+}
+export interface TipsAndTricksItemCategory {
+  name: string;
+  order: Order;
+  type: 'tips-and-tricks-item-category';
+}
+export interface ToolPrototype extends ItemPrototype {
+  durability?: double;
+  durability_description_key?: string;
+  durability_description_value?: string;
+  infinite?: bool;
+}
+export interface TrainPathAchievementPrototype extends AchievementPrototype {
+  minimum_distance: double;
+}
+export interface TrainStopPrototype extends EntityWithOwnerPrototype {
+  animation_ticks_per_frame: uint32;
+  animations?: Animation4Way;
+  build_grid_size?: 2;
+  chart_name?: bool;
+  circuit_connector_sprites?: [
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+    CircuitConnectorSprites,
+  ];
+  circuit_wire_connection_points?: [
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+    WireConnectionPoint,
+  ];
+  circuit_wire_max_distance?: double;
+  color?: Color;
+  default_train_stopped_signal?: SignalIDConnector;
+  default_trains_count_signal?: SignalIDConnector;
+  default_trains_limit_signal?: SignalIDConnector;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  drawing_boxes?: TrainStopDrawingBoxes;
+  light1?: TrainStopLight;
+  light2?: TrainStopLight;
+  rail_overlay_animations?: Animation4Way;
+  top_animations?: Animation4Way;
+}
+export interface TransportBeltConnectablePrototype
+  extends EntityWithOwnerPrototype {
+  animation_speed_coefficient?: double;
+  belt_animation_set?: TransportBeltAnimationSet;
+  belt_horizontal?: Animation;
+  belt_vertical?: Animation;
+  collision_box?: BoundingBox;
+  collision_mask?: CollisionMask;
+  ending_bottom?: Animation;
+  ending_patch?: Sprite4Way;
+  ending_side?: Animation;
+  ending_top?: Animation;
+  ends_with_stopper?: bool;
+  flags?: EntityPrototypeFlags;
+  speed: double;
+  starting_bottom?: Animation;
+  starting_side?: Animation;
+  starting_top?: Animation;
+}
+export interface TransportBeltPrototype
+  extends Omit<
+    TransportBeltConnectablePrototype,
+    'animation_set' | 'belt_animation_set'
+  > {
+  animations?: RotatedAnimation;
+  belt_animation_set?: TransportBeltAnimationSetWithCorners;
+  circuit_connector_sprites?: CircuitConnectorSprites[];
+  circuit_wire_connection_points?: WireConnectionPoint[];
+  circuit_wire_max_distance?: double;
+  collision_mask?: CollisionMask;
+  connector_frame_sprites: TransportBeltConnectorFrame;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  related_underground_belt?: EntityID;
+}
+export interface TreePrototype extends EntityWithHealthPrototype {
+  colors?: Color[];
+  darkness_of_burnt_tree?: float;
+  healing_per_tick?: float;
+  pictures?: SpriteVariations;
+  variation_weights?: float[];
+  variations?: TreeVariation[];
+}
+export interface TriggerTargetType {
+  name: string;
+  type: 'trigger-target-type';
+}
+export interface TrivialSmokePrototype extends PrototypeBase {
+  affected_by_wind?: bool;
+  animation: Animation;
+  color?: Color;
+  cyclic?: bool;
+  duration: uint32;
+  end_scale?: float;
+  fade_away_duration?: uint32;
+  fade_in_duration?: uint32;
+  glow_animation?: Animation;
+  glow_fade_away_duration?: uint32;
+  movement_slow_down_factor?: double;
+  render_layer?: RenderLayer;
+  show_when_smoke_off?: bool;
+  spread_duration?: uint32;
+  start_scale?: float;
+}
+export interface TurretPrototype extends EntityWithOwnerPrototype {
+  alert_when_attacking?: bool;
+  allow_turning_when_starting_attack?: bool;
+  attack_from_start_frame?: bool;
+  attack_parameters: AttackParameters;
+  attack_target_mask?: TriggerTargetMask;
+  attacking_animation?: RotatedAnimation4Way;
+  attacking_speed?: float;
+  base_picture?: Animation4Way;
+  base_picture_render_layer?: RenderLayer;
+  base_picture_secondary_draw_order?: uint8;
+  call_for_help_radius: double;
+  corpse?: EntityID;
+  dying_sound?: Sound;
+  ending_attack_animation?: RotatedAnimation4Way;
+  ending_attack_speed?: float;
+  energy_glow_animation?: RotatedAnimation4Way;
+  energy_glow_animation_flicker_strength?: float;
+  folded_animation: RotatedAnimation4Way;
+  folded_speed?: float;
+  folded_speed_secondary?: float;
+  folding_animation?: RotatedAnimation4Way;
+  folding_sound?: Sound;
+  folding_speed?: float;
+  glow_light_intensity?: float;
+  gun_animation_render_layer?: RenderLayer;
+  gun_animation_secondary_draw_order?: uint8;
+  ignore_target_mask?: TriggerTargetMask;
+  integration?: Sprite;
+  is_military_target?: bool;
+  prepare_range?: double;
+  prepared_alternative_animation?: RotatedAnimation4Way;
+  prepared_alternative_chance?: float;
+  prepared_alternative_sound?: Sound;
+  prepared_alternative_speed?: float;
+  prepared_alternative_speed_secondary?: float;
+  prepared_animation?: RotatedAnimation4Way;
+  prepared_sound?: Sound;
+  prepared_speed?: float;
+  prepared_speed_secondary?: float;
+  preparing_animation?: RotatedAnimation4Way;
+  preparing_sound?: Sound;
+  preparing_speed?: float;
+  random_animation_offset?: bool;
+  rotation_speed?: float;
+  secondary_animation?: bool;
+  shoot_in_prepare_state?: bool;
+  spawn_decoration?:
+    | CreateDecorativesTriggerEffectItem
+    | CreateDecorativesTriggerEffectItem[];
+  spawn_decorations_on_expansion?: bool;
+  starting_attack_animation?: RotatedAnimation4Way;
+  starting_attack_sound?: Sound;
+  starting_attack_speed?: float;
+  turret_base_has_direction?: bool;
+}
+export interface TutorialDefinition extends PrototypeBase {
+  scenario: string;
+}
+export interface UndergroundBeltPrototype
+  extends TransportBeltConnectablePrototype {
+  collision_mask?: CollisionMask;
+  max_distance: uint8;
+  structure: UndergroundBeltStructure;
+  underground_remove_belts_sprite?: Sprite;
+  underground_sprite: Sprite;
+}
+export interface UnitPrototype extends EntityWithOwnerPrototype {
+  affected_by_tiles?: bool;
+  ai_settings?: UnitAISettings;
+  allow_run_time_change_of_is_military_target?: false;
+  alternative_attacking_frame_sequence?: UnitAlternativeFrameSequence;
+  attack_parameters: AttackParameters;
+  can_open_gates?: bool;
+  collision_mask?: CollisionMask;
+  distance_per_frame: float;
+  distraction_cooldown: uint32;
+  dying_sound?: Sound;
+  has_belt_immunity?: bool;
+  is_military_target?: true;
+  light?: LightDefinition;
+  max_pursue_distance?: double;
+  min_pursue_time?: uint32;
+  move_while_shooting?: bool;
+  movement_speed: float;
+  pollution_to_join_attack: float;
+  radar_range?: uint32;
+  render_layer?: RenderLayer;
+  rotation_speed?: float;
+  run_animation: RotatedAnimation;
+  running_sound_animation_positions?: float[];
+  spawning_time_modifier?: double;
+  vision_distance: double;
+  walking_sound?: Sound;
+}
+export interface UpgradeItemPrototype
+  extends Omit<
+    SelectionToolPrototype,
+    'selection_mode' | 'alt_selection_mode'
+  > {
+  alt_entity_filter_mode?: 'whitelist' | 'blacklist';
+  alt_entity_filters?: EntityID[];
+  alt_entity_type_filters?: string[];
+  alt_selection_mode?: SelectionModeFlags;
+  alt_tile_filter_mode?: 'whitelist' | 'blacklist';
+  alt_tile_filters?: TileID[];
+  always_include_tiles?: bool;
+  entity_filter_mode?: 'whitelist' | 'blacklist';
+  entity_filters?: EntityID[];
+  entity_type_filters?: string[];
+  mapper_count?: ItemStackIndex;
+  selection_mode?: SelectionModeFlags;
+  stack_size: 1;
+  tile_filter_mode?: 'whitelist' | 'blacklist';
+  tile_filters?: TileID[];
+}
+export interface UtilityConstants extends PrototypeBase {
+  artillery_range_visualization_color: Color;
+  bonus_gui_ordering: BonusGuiOrdering;
+  building_buildable_tint: Color;
+  building_buildable_too_far_tint: Color;
+  building_ignorable_tint: Color;
+  building_no_tint: Color;
+  building_not_buildable_tint: Color;
+  capsule_range_visualization_color: Color;
+  chart: ChartUtilityConstants;
+  checkerboard_black: Color;
+  checkerboard_white: Color;
+  clipboard_history_size: uint32;
+  color_filters: ColorFilterData[];
+  count_button_size: int32;
+  daytime_color_lookup: DaytimeColorLookupTable;
+  deconstruct_mark_tint: Color;
+  default_alert_icon_scale: float;
+  default_alert_icon_scale_by_type?: Record<string, float>;
+  default_alert_icon_shift_by_type?: Record<string, Vector>;
+  default_enemy_force_color: Color;
+  default_other_force_color: Color;
+  default_player_force_color: Color;
+  default_scorch_mark_color: Color;
+  default_trigger_target_mask_by_type?: Record<string, TriggerTargetMask>;
+  disabled_recipe_slot_background_tint: Color;
+  disabled_recipe_slot_tint: Color;
+  dynamic_recipe_overload_factor: double;
+  enabled_recipe_slot_tint: Color;
+  entity_button_background_color: Color;
+  entity_renderer_search_box_limits: EntityRendererSearchBoxLimits;
+  equipment_default_background_border_color: Color;
+  equipment_default_background_color: Color;
+  equipment_default_grabbed_background_color: Color;
+  filter_outline_color: Color;
+  flying_text_ttl: uint32;
+  forced_enabled_recipe_slot_background_tint: Color;
+  ghost_tint: Color;
+  gui_remark_color: Color;
+  icon_shadow_color: Color;
+  icon_shadow_inset: float;
+  icon_shadow_radius: float;
+  icon_shadow_sharpness: float;
+  inventory_width: uint32;
+  item_outline_color: Color;
+  item_outline_inset: float;
+  item_outline_radius: float;
+  item_outline_sharpness: float;
+  light_renderer_search_distance_limit: uint8;
+  main_menu_background_image_location: FileName;
+  main_menu_background_vignette_intensity: float;
+  main_menu_background_vignette_sharpness: float;
+  main_menu_simulations: Record<string, SimulationDefinition>;
+  manual_rail_building_reach_modifier: double;
+  map_editor: MapEditorConstants;
+  max_terrain_building_size: uint8;
+  maximum_recipe_overload_multiplier: uint32;
+  medium_area_size: float;
+  medium_blueprint_area_size: float;
+  minimum_recipe_overload_multiplier: uint32;
+  missing_preview_sprite_location: FileName;
+  module_inventory_width: uint32;
+  normalised_achievement_icon_size: uint32;
+  player_colors: PlayerColorData[];
+  rail_planner_count_button_color: Color;
+  rail_segment_colors: Color[];
+  recipe_step_limit: uint32;
+  script_command_console_chat_color: Color;
+  select_group_row_count: uint8;
+  select_slot_row_count: uint32;
+  server_command_console_chat_color: Color;
+  small_area_size: float;
+  small_blueprint_area_size: float;
+  tile_ghost_tint: Color;
+  tooltip_monitor_edge_border: int32;
+  train_button_hovered_tint: Color;
+  train_destination_full_color: Color;
+  train_inactivity_wait_condition_default: uint32;
+  train_no_path_color: Color;
+  train_path_finding: TrainPathFinderConstants;
+  train_temporary_stop_wait_time: uint32;
+  train_time_wait_condition_default: uint32;
+  tree_leaf_distortion_distortion_far: Vector;
+  tree_leaf_distortion_distortion_near: Vector;
+  tree_leaf_distortion_speed_far: Vector;
+  tree_leaf_distortion_speed_near: Vector;
+  tree_leaf_distortion_strength_far: Vector;
+  tree_leaf_distortion_strength_near: Vector;
+  tree_shadow_roughness: float;
+  tree_shadow_speed: float;
+  turret_range_visualization_color: Color;
+  tutorial_notice_icon_size: uint32;
+  unit_group_max_pursue_distance: double;
+  unit_group_pathfind_resolution: int8;
+  zoom_to_world_can_use_nightvision: bool;
+  zoom_to_world_daytime_color_lookup: DaytimeColorLookupTable;
+  zoom_to_world_effect_strength: float;
+}
+export interface UtilitySounds extends PrototypeBase {
+  achievement_unlocked: Sound;
+  alert_destroyed: Sound;
+  armor_insert: Sound;
+  armor_remove: Sound;
+  axe_fighting: Sound;
+  axe_mining_ore: Sound;
+  blueprint_selection_ended: Sound;
+  blueprint_selection_started: Sound;
+  build_blueprint_large: Sound;
+  build_blueprint_medium: Sound;
+  build_blueprint_small: Sound;
+  build_large: Sound;
+  build_medium: Sound;
+  build_small: Sound;
+  cancel_deconstruction_selection_ended: Sound;
+  cancel_deconstruction_selection_started: Sound;
+  cannot_build: Sound;
+  clear_cursor: Sound;
+  confirm: Sound;
+  console_message: Sound;
+  copy_activated: Sound;
+  crafting_finished: Sound;
+  cut_activated: Sound;
+  deconstruct_big: Sound;
+  deconstruct_medium: Sound;
+  deconstruct_robot: Sound;
+  deconstruct_small: Sound;
+  deconstruction_selection_ended: Sound;
+  deconstruction_selection_started: Sound;
+  default_manual_repair: Sound;
+  drop_item: Sound;
+  entity_settings_copied: Sound;
+  entity_settings_pasted: Sound;
+  game_lost: Sound;
+  game_won: Sound;
+  gui_click: Sound;
+  inventory_click: Sound;
+  inventory_move: Sound;
+  item_deleted: Sound;
+  item_spawned: Sound;
+  list_box_click: Sound;
+  metal_walking_sound: Sound;
+  mining_wood: Sound;
+  new_objective: Sound;
+  paste_activated: Sound;
+  picked_up_item: Sound;
+  rail_plan_start: Sound;
+  research_completed: Sound;
+  rotated_big: Sound;
+  rotated_medium: Sound;
+  rotated_small: Sound;
+  scenario_message: Sound;
+  smart_pipette: Sound;
+  switch_gun: Sound;
+  tutorial_notice: Sound;
+  undo: Sound;
+  upgrade_selection_ended: Sound;
+  upgrade_selection_started: Sound;
+  wire_connect_pole: Sound;
+  wire_disconnect: Sound;
+  wire_pickup: Sound;
+}
+export interface UtilitySprites extends PrototypeBase {
+  achievement_label_failed: Sprite;
+  achievement_label_locked: Sprite;
+  achievement_label_unlocked: Sprite;
+  achievement_label_unlocked_off: Sprite;
+  add: Sprite;
+  alert_arrow: Sprite;
+  ammo_damage_modifier_constant?: Sprite;
+  ammo_damage_modifier_icon: Sprite;
+  ammo_icon: Sprite;
+  and_or: Sprite;
+  area_icon: Sprite;
+  arrow_button: Animation;
+  artillery_range_modifier_constant?: Sprite;
+  artillery_range_modifier_icon: Sprite;
+  bar_gray_pip: Sprite;
+  battery: Sprite;
+  bookmark: Sprite;
+  brush_circle_shape: Sprite;
+  brush_icon: Sprite;
+  brush_square_shape: Sprite;
+  cable_editor_icon: Sprite;
+  center: Sprite;
+  change_recipe: Sprite;
+  character_additional_mining_categories_modifier_constant?: Sprite;
+  character_additional_mining_categories_modifier_icon: Sprite;
+  character_build_distance_modifier_constant?: Sprite;
+  character_build_distance_modifier_icon: Sprite;
+  character_crafting_speed_modifier_constant?: Sprite;
+  character_crafting_speed_modifier_icon: Sprite;
+  character_health_bonus_modifier_constant?: Sprite;
+  character_health_bonus_modifier_icon: Sprite;
+  character_inventory_slots_bonus_modifier_constant?: Sprite;
+  character_inventory_slots_bonus_modifier_icon: Sprite;
+  character_item_drop_distance_modifier_constant?: Sprite;
+  character_item_drop_distance_modifier_icon: Sprite;
+  character_item_pickup_distance_modifier_constant?: Sprite;
+  character_item_pickup_distance_modifier_icon: Sprite;
+  character_logistic_requests_modifier_constant?: Sprite;
+  character_logistic_requests_modifier_icon: Sprite;
+  character_logistic_slots_modifier_constant?: Sprite;
+  character_logistic_slots_modifier_icon: Sprite;
+  character_logistic_trash_slots_modifier_constant?: Sprite;
+  character_logistic_trash_slots_modifier_icon: Sprite;
+  character_loot_pickup_distance_modifier_constant?: Sprite;
+  character_loot_pickup_distance_modifier_icon: Sprite;
+  character_mining_speed_modifier_constant?: Sprite;
+  character_mining_speed_modifier_icon: Sprite;
+  character_reach_distance_modifier_constant?: Sprite;
+  character_reach_distance_modifier_icon: Sprite;
+  character_resource_reach_distance_modifier_constant?: Sprite;
+  character_resource_reach_distance_modifier_icon: Sprite;
+  character_running_speed_modifier_constant?: Sprite;
+  character_running_speed_modifier_icon: Sprite;
+  check_mark: Sprite;
+  check_mark_dark_green: Sprite;
+  check_mark_green: Sprite;
+  check_mark_white: Sprite;
+  circuit_network_panel_black: Sprite;
+  circuit_network_panel_white: Sprite;
+  cliff_editor_icon: Sprite;
+  clock: Sprite;
+  clone: Sprite;
+  clone_editor_icon: Sprite;
+  close_black: Sprite;
+  close_fat: Sprite;
+  close_map_preview: Sprite;
+  close_white: Sprite;
+  clouds: Animation;
+  collapse: Sprite;
+  collapse_dark: Sprite;
+  color_effect: Sprite;
+  color_picker: Sprite;
+  confirm_slot: Sprite;
+  construction_radius_visualization: Sprite;
+  controller_joycon_a: Sprite;
+  controller_joycon_b: Sprite;
+  controller_joycon_back: Sprite;
+  controller_joycon_black_a: Sprite;
+  controller_joycon_black_b: Sprite;
+  controller_joycon_black_back: Sprite;
+  controller_joycon_black_dpdown: Sprite;
+  controller_joycon_black_dpleft: Sprite;
+  controller_joycon_black_dpright: Sprite;
+  controller_joycon_black_dpup: Sprite;
+  controller_joycon_black_left_stick: Sprite;
+  controller_joycon_black_leftshoulder: Sprite;
+  controller_joycon_black_leftstick: Sprite;
+  controller_joycon_black_lefttrigger: Sprite;
+  controller_joycon_black_paddle1: Sprite;
+  controller_joycon_black_paddle2: Sprite;
+  controller_joycon_black_paddle3: Sprite;
+  controller_joycon_black_paddle4: Sprite;
+  controller_joycon_black_right_stick: Sprite;
+  controller_joycon_black_rightshoulder: Sprite;
+  controller_joycon_black_rightstick: Sprite;
+  controller_joycon_black_righttrigger: Sprite;
+  controller_joycon_black_start: Sprite;
+  controller_joycon_black_x: Sprite;
+  controller_joycon_black_y: Sprite;
+  controller_joycon_dpdown: Sprite;
+  controller_joycon_dpleft: Sprite;
+  controller_joycon_dpright: Sprite;
+  controller_joycon_dpup: Sprite;
+  controller_joycon_left_stick: Sprite;
+  controller_joycon_leftshoulder: Sprite;
+  controller_joycon_leftstick: Sprite;
+  controller_joycon_lefttrigger: Sprite;
+  controller_joycon_paddle1: Sprite;
+  controller_joycon_paddle2: Sprite;
+  controller_joycon_paddle3: Sprite;
+  controller_joycon_paddle4: Sprite;
+  controller_joycon_right_stick: Sprite;
+  controller_joycon_rightshoulder: Sprite;
+  controller_joycon_rightstick: Sprite;
+  controller_joycon_righttrigger: Sprite;
+  controller_joycon_start: Sprite;
+  controller_joycon_x: Sprite;
+  controller_joycon_y: Sprite;
+  controller_ps_a: Sprite;
+  controller_ps_b: Sprite;
+  controller_ps_back: Sprite;
+  controller_ps_black_a: Sprite;
+  controller_ps_black_b: Sprite;
+  controller_ps_black_back: Sprite;
+  controller_ps_black_dpdown: Sprite;
+  controller_ps_black_dpleft: Sprite;
+  controller_ps_black_dpright: Sprite;
+  controller_ps_black_dpup: Sprite;
+  controller_ps_black_left_stick: Sprite;
+  controller_ps_black_leftshoulder: Sprite;
+  controller_ps_black_leftstick: Sprite;
+  controller_ps_black_lefttrigger: Sprite;
+  controller_ps_black_right_stick: Sprite;
+  controller_ps_black_rightshoulder: Sprite;
+  controller_ps_black_rightstick: Sprite;
+  controller_ps_black_righttrigger: Sprite;
+  controller_ps_black_start: Sprite;
+  controller_ps_black_x: Sprite;
+  controller_ps_black_y: Sprite;
+  controller_ps_dpdown: Sprite;
+  controller_ps_dpleft: Sprite;
+  controller_ps_dpright: Sprite;
+  controller_ps_dpup: Sprite;
+  controller_ps_left_stick: Sprite;
+  controller_ps_leftshoulder: Sprite;
+  controller_ps_leftstick: Sprite;
+  controller_ps_lefttrigger: Sprite;
+  controller_ps_right_stick: Sprite;
+  controller_ps_rightshoulder: Sprite;
+  controller_ps_rightstick: Sprite;
+  controller_ps_righttrigger: Sprite;
+  controller_ps_start: Sprite;
+  controller_ps_x: Sprite;
+  controller_ps_y: Sprite;
+  controller_steamdeck_a: Sprite;
+  controller_steamdeck_b: Sprite;
+  controller_steamdeck_back: Sprite;
+  controller_steamdeck_black_a: Sprite;
+  controller_steamdeck_black_b: Sprite;
+  controller_steamdeck_black_back: Sprite;
+  controller_steamdeck_black_dpdown: Sprite;
+  controller_steamdeck_black_dpleft: Sprite;
+  controller_steamdeck_black_dpright: Sprite;
+  controller_steamdeck_black_dpup: Sprite;
+  controller_steamdeck_black_left_stick: Sprite;
+  controller_steamdeck_black_leftshoulder: Sprite;
+  controller_steamdeck_black_leftstick: Sprite;
+  controller_steamdeck_black_lefttrigger: Sprite;
+  controller_steamdeck_black_paddle1: Sprite;
+  controller_steamdeck_black_paddle2: Sprite;
+  controller_steamdeck_black_paddle3: Sprite;
+  controller_steamdeck_black_paddle4: Sprite;
+  controller_steamdeck_black_right_stick: Sprite;
+  controller_steamdeck_black_rightshoulder: Sprite;
+  controller_steamdeck_black_rightstick: Sprite;
+  controller_steamdeck_black_righttrigger: Sprite;
+  controller_steamdeck_black_start: Sprite;
+  controller_steamdeck_black_x: Sprite;
+  controller_steamdeck_black_y: Sprite;
+  controller_steamdeck_dpdown: Sprite;
+  controller_steamdeck_dpleft: Sprite;
+  controller_steamdeck_dpright: Sprite;
+  controller_steamdeck_dpup: Sprite;
+  controller_steamdeck_left_stick: Sprite;
+  controller_steamdeck_leftshoulder: Sprite;
+  controller_steamdeck_leftstick: Sprite;
+  controller_steamdeck_lefttrigger: Sprite;
+  controller_steamdeck_paddle1: Sprite;
+  controller_steamdeck_paddle2: Sprite;
+  controller_steamdeck_paddle3: Sprite;
+  controller_steamdeck_paddle4: Sprite;
+  controller_steamdeck_right_stick: Sprite;
+  controller_steamdeck_rightshoulder: Sprite;
+  controller_steamdeck_rightstick: Sprite;
+  controller_steamdeck_righttrigger: Sprite;
+  controller_steamdeck_start: Sprite;
+  controller_steamdeck_x: Sprite;
+  controller_steamdeck_y: Sprite;
+  controller_xbox_a: Sprite;
+  controller_xbox_b: Sprite;
+  controller_xbox_back: Sprite;
+  controller_xbox_black_a: Sprite;
+  controller_xbox_black_b: Sprite;
+  controller_xbox_black_back: Sprite;
+  controller_xbox_black_dpdown: Sprite;
+  controller_xbox_black_dpleft: Sprite;
+  controller_xbox_black_dpright: Sprite;
+  controller_xbox_black_dpup: Sprite;
+  controller_xbox_black_left_stick: Sprite;
+  controller_xbox_black_leftshoulder: Sprite;
+  controller_xbox_black_leftstick: Sprite;
+  controller_xbox_black_lefttrigger: Sprite;
+  controller_xbox_black_right_stick: Sprite;
+  controller_xbox_black_rightshoulder: Sprite;
+  controller_xbox_black_rightstick: Sprite;
+  controller_xbox_black_righttrigger: Sprite;
+  controller_xbox_black_start: Sprite;
+  controller_xbox_black_x: Sprite;
+  controller_xbox_black_y: Sprite;
+  controller_xbox_dpdown: Sprite;
+  controller_xbox_dpleft: Sprite;
+  controller_xbox_dpright: Sprite;
+  controller_xbox_dpup: Sprite;
+  controller_xbox_left_stick: Sprite;
+  controller_xbox_leftshoulder: Sprite;
+  controller_xbox_leftstick: Sprite;
+  controller_xbox_lefttrigger: Sprite;
+  controller_xbox_right_stick: Sprite;
+  controller_xbox_rightshoulder: Sprite;
+  controller_xbox_rightstick: Sprite;
+  controller_xbox_righttrigger: Sprite;
+  controller_xbox_start: Sprite;
+  controller_xbox_x: Sprite;
+  controller_xbox_y: Sprite;
+  copper_wire: Sprite;
+  copy: Sprite;
+  covered_chunk: Sprite;
+  crafting_machine_recipe_not_unlocked: Sprite;
+  cross_select: Sprite;
+  cursor_box: CursorBoxSpecification;
+  cursor_icon: Sprite;
+  custom_tag_icon: Sprite;
+  custom_tag_in_map_view: Sprite;
+  danger_icon: Sprite;
+  deconstruction_mark: Sprite;
+  deconstruction_time_to_live_modifier_constant?: Sprite;
+  deconstruction_time_to_live_modifier_icon: Sprite;
+  decorative_editor_icon: Sprite;
+  default_ammo_damage_modifier_icon: Sprite;
+  default_gun_speed_modifier_icon: Sprite;
+  default_turret_attack_modifier_icon: Sprite;
+  destroyed_icon: Sprite;
+  down_arrow: Sprite;
+  downloaded: Sprite;
+  downloaded_white: Sprite;
+  downloading: Sprite;
+  downloading_white: Sprite;
+  dropdown: Sprite;
+  editor_pause: Sprite;
+  editor_play: Sprite;
+  editor_selection: Sprite;
+  editor_speed_down: Sprite;
+  editor_speed_up: Sprite;
+  electricity_icon: Sprite;
+  electricity_icon_unplugged: Sprite;
+  enemy_force_icon: Sprite;
+  enter: Sprite;
+  entity_editor_icon: Sprite;
+  entity_info_dark_background: Sprite;
+  equipment_collision: Sprite;
+  equipment_grid: Sprite;
+  equipment_slot: Sprite;
+  expand: Sprite;
+  expand_dark: Sprite;
+  expand_dots: Sprite;
+  expand_dots_white: Sprite;
+  explosion_chart_visualization: Animation;
+  export: Sprite;
+  export_slot: Sprite;
+  favourite_server_icon: Sprite;
+  fluid_icon: Sprite;
+  fluid_indication_arrow: Sprite;
+  fluid_indication_arrow_both_ways: Sprite;
+  follower_robot_lifetime_modifier_constant?: Sprite;
+  follower_robot_lifetime_modifier_icon: Sprite;
+  force_editor_icon: Sprite;
+  fuel_icon: Sprite;
+  game_stopped_visualization: Sprite;
+  ghost_bar_pip: Sprite;
+  ghost_cursor: Sprite;
+  ghost_time_to_live_modifier_constant?: Sprite;
+  ghost_time_to_live_modifier_icon: Sprite;
+  give_item_modifier_constant?: Sprite;
+  give_item_modifier_icon: Sprite;
+  go_to_arrow: Sprite;
+  gps_map_icon: Sprite;
+  gradient: Sprite;
+  green_circle: Sprite;
+  green_dot: Sprite;
+  green_wire: Sprite;
+  green_wire_hightlight: Sprite;
+  grey_placement_indicator_leg: Sprite;
+  grey_rail_signal_placement_indicator: Sprite;
+  grid_view: Sprite;
+  gun_speed_modifier_constant?: Sprite;
+  gun_speed_modifier_icon: Sprite;
+  hand: Sprite;
+  hand_black: Sprite;
+  health_bar_green_pip: Sprite;
+  health_bar_red_pip: Sprite;
+  health_bar_yellow_pip: Sprite;
+  heat_exchange_indication: Sprite;
+  hint_arrow_down: Sprite;
+  hint_arrow_left: Sprite;
+  hint_arrow_right: Sprite;
+  hint_arrow_up: Sprite;
+  import: Sprite;
+  import_slot: Sprite;
+  indication_arrow: Sprite;
+  indication_line: Sprite;
+  inserter_stack_size_bonus_modifier_constant?: Sprite;
+  inserter_stack_size_bonus_modifier_icon: Sprite;
+  item_editor_icon: Sprite;
+  laboratory_productivity_modifier_constant?: Sprite;
+  laboratory_productivity_modifier_icon: Sprite;
+  laboratory_speed_modifier_constant?: Sprite;
+  laboratory_speed_modifier_icon: Sprite;
+  left_arrow: Sprite;
+  light_cone: Sprite;
+  light_medium: Sprite;
+  light_small: Sprite;
+  line_icon: Sprite;
+  list_view: Sprite;
+  logistic_network_panel_black: Sprite;
+  logistic_network_panel_white: Sprite;
+  logistic_radius_visualization: Sprite;
+  lua_snippet_tool_icon: Sprite;
+  map: Sprite;
+  map_exchange_string: Sprite;
+  max_failed_attempts_per_tick_per_construction_queue_modifier_constant?: Sprite;
+  max_failed_attempts_per_tick_per_construction_queue_modifier_icon: Sprite;
+  max_successful_attempts_per_tick_per_construction_queue_modifier_constant?: Sprite;
+  max_successful_attempts_per_tick_per_construction_queue_modifier_icon: Sprite;
+  maximum_following_robots_count_modifier_constant?: Sprite;
+  maximum_following_robots_count_modifier_icon: Sprite;
+  medium_gui_arrow: Sprite;
+  mining_drill_productivity_bonus_modifier_constant?: Sprite;
+  mining_drill_productivity_bonus_modifier_icon: Sprite;
+  missing_icon: Sprite;
+  missing_mod_icon: Sprite;
+  mod_dependency_arrow: Sprite;
+  mouse_cursor: Sprite;
+  multiplayer_waiting_icon: Sprite;
+  nature_icon: Sprite;
+  neutral_force_icon: Sprite;
+  no_building_material_icon: Sprite;
+  no_nature_icon: Sprite;
+  no_storage_space_icon: Sprite;
+  none_editor_icon: Sprite;
+  not_available: Sprite;
+  not_enough_construction_robots_icon: Sprite;
+  not_enough_repair_packs_icon: Sprite;
+  not_played_yet_dark_green: Sprite;
+  not_played_yet_green: Sprite;
+  nothing_modifier_constant?: Sprite;
+  nothing_modifier_icon: Sprite;
+  notification: Sprite;
+  output_console_gradient: Sprite;
+  paint_bucket_icon: Sprite;
+  pause: Sprite;
+  placement_indicator_leg: Sprite;
+  play: Sprite;
+  played_dark_green: Sprite;
+  played_green: Sprite;
+  player_force_icon: Sprite;
+  preset: Sprite;
+  pump_cannot_connect_icon: Sprite;
+  questionmark: Sprite;
+  rail_path_not_possible: Sprite;
+  rail_planner_indication_arrow: Sprite;
+  rail_planner_indication_arrow_too_far: Sprite;
+  rail_signal_placement_indicator: Sprite;
+  reassign: Sprite;
+  recharge_icon: Sprite;
+  red_wire: Sprite;
+  red_wire_hightlight: Sprite;
+  reference_point: Sprite;
+  refresh: Sprite;
+  refresh_white: Animation;
+  rename_icon_normal: Sprite;
+  rename_icon_small_black: Sprite;
+  rename_icon_small_white: Sprite;
+  reset: Sprite;
+  reset_white: Sprite;
+  resource_editor_icon: Sprite;
+  right_arrow: Sprite;
+  robot_slot: Sprite;
+  scripting_editor_icon: Sprite;
+  search_black: Sprite;
+  search_icon: Sprite;
+  search_white: Sprite;
+  select_icon_black: Sprite;
+  select_icon_white: Sprite;
+  set_bar_slot: Sprite;
+  shield_bar_pip: Sprite;
+  shoot_cursor_green: Sprite;
+  shoot_cursor_red: Sprite;
+  short_indication_line: Sprite;
+  short_indication_line_green: Sprite;
+  show_electric_network_in_map_view: Sprite;
+  show_electric_network_in_map_view_black: Sprite;
+  show_logistics_network_in_map_view: Sprite;
+  show_logistics_network_in_map_view_black: Sprite;
+  show_player_names_in_map_view: Sprite;
+  show_player_names_in_map_view_black: Sprite;
+  show_pollution_in_map_view: Sprite;
+  show_pollution_in_map_view_black: Sprite;
+  show_rail_signal_states_in_map_view: Sprite;
+  show_rail_signal_states_in_map_view_black: Sprite;
+  show_recipe_icons_in_map_view: Sprite;
+  show_recipe_icons_in_map_view_black: Sprite;
+  show_tags_in_map_view: Sprite;
+  show_tags_in_map_view_black: Sprite;
+  show_train_station_names_in_map_view: Sprite;
+  show_train_station_names_in_map_view_black: Sprite;
+  show_turret_range_in_map_view: Sprite;
+  show_turret_range_in_map_view_black: Sprite;
+  show_worker_robots_in_map_view: Sprite;
+  show_worker_robots_in_map_view_black: Sprite;
+  shuffle: Sprite;
+  side_menu_achievements_hover_icon: Sprite;
+  side_menu_achievements_icon: Sprite;
+  side_menu_blueprint_library_hover_icon: Sprite;
+  side_menu_blueprint_library_icon: Sprite;
+  side_menu_bonus_hover_icon: Sprite;
+  side_menu_bonus_icon: Sprite;
+  side_menu_logistic_network_hover_icon: Sprite;
+  side_menu_map_hover_icon: Sprite;
+  side_menu_map_icon: Sprite;
+  side_menu_menu_hover_icon: Sprite;
+  side_menu_menu_icon: Sprite;
+  side_menu_production_hover_icon: Sprite;
+  side_menu_production_icon: Sprite;
+  side_menu_technology_hover_icon: Sprite;
+  side_menu_train_hover_icon: Sprite;
+  side_menu_train_icon: Sprite;
+  side_menu_tutorials_hover_icon: Sprite;
+  side_menu_tutorials_icon: Sprite;
+  slot: Sprite;
+  slot_icon_ammo: Sprite;
+  slot_icon_ammo_black: Sprite;
+  slot_icon_armor: Sprite;
+  slot_icon_armor_black: Sprite;
+  slot_icon_fuel: Sprite;
+  slot_icon_fuel_black: Sprite;
+  slot_icon_gun: Sprite;
+  slot_icon_gun_black: Sprite;
+  slot_icon_inserter_hand: Sprite;
+  slot_icon_inserter_hand_black: Sprite;
+  slot_icon_module: Sprite;
+  slot_icon_module_black: Sprite;
+  slot_icon_resource: Sprite;
+  slot_icon_resource_black: Sprite;
+  slot_icon_result: Sprite;
+  slot_icon_result_black: Sprite;
+  slot_icon_robot: Sprite;
+  slot_icon_robot_black: Sprite;
+  slot_icon_robot_material: Sprite;
+  slot_icon_robot_material_black: Sprite;
+  small_gui_arrow: Sprite;
+  spawn_flag: Sprite;
+  speed_down: Sprite;
+  speed_up: Sprite;
+  spray_icon: Sprite;
+  stack_inserter_capacity_bonus_modifier_constant?: Sprite;
+  stack_inserter_capacity_bonus_modifier_icon: Sprite;
+  station_name: Sprite;
+  status_not_working: Sprite;
+  status_working: Sprite;
+  status_yellow: Sprite;
+  stop: Sprite;
+  surface_editor_icon: Sprite;
+  sync_mods: Sprite;
+  technology_black: Sprite;
+  technology_white: Sprite;
+  tick_custom: Sprite;
+  tick_once: Sprite;
+  tick_sixty: Sprite;
+  tile_editor_icon: Sprite;
+  tile_ghost_cursor: Sprite;
+  time_editor_icon: Sprite;
+  too_far: Sprite;
+  too_far_from_roboport_icon: Sprite;
+  track_button: Sprite;
+  train_braking_force_bonus_modifier_constant?: Sprite;
+  train_braking_force_bonus_modifier_icon: Sprite;
+  train_stop_disabled_in_map_view: Sprite;
+  train_stop_full_in_map_view: Sprite;
+  train_stop_in_map_view: Sprite;
+  train_stop_placement_indicator: Sprite;
+  trash: Sprite;
+  trash_white: Sprite;
+  turret_attack_modifier_constant?: Sprite;
+  turret_attack_modifier_icon: Sprite;
+  underground_pipe_connection: Sprite;
+  underground_remove_belts: Sprite;
+  underground_remove_pipes: Sprite;
+  unlock_recipe_modifier_constant?: Sprite;
+  unlock_recipe_modifier_icon: Sprite;
+  upgrade_blueprint: Sprite;
+  upgrade_mark: Sprite;
+  variations_tool_icon: Sprite;
+  warning: Sprite;
+  warning_icon: Sprite;
+  warning_white: Sprite;
+  white_mask: Sprite;
+  white_square: Sprite;
+  wire_shadow: Sprite;
+  worker_robot_battery_modifier_constant?: Sprite;
+  worker_robot_battery_modifier_icon: Sprite;
+  worker_robot_speed_modifier_constant?: Sprite;
+  worker_robot_speed_modifier_icon: Sprite;
+  worker_robot_storage_modifier_constant?: Sprite;
+  worker_robot_storage_modifier_icon: Sprite;
+  zoom_to_world_blueprint_enabled_modifier_constant?: Sprite;
+  zoom_to_world_blueprint_enabled_modifier_icon: Sprite;
+  zoom_to_world_deconstruction_planner_enabled_modifier_constant?: Sprite;
+  zoom_to_world_deconstruction_planner_enabled_modifier_icon: Sprite;
+  zoom_to_world_enabled_modifier_constant?: Sprite;
+  zoom_to_world_enabled_modifier_icon: Sprite;
+  zoom_to_world_ghost_building_enabled_modifier_constant?: Sprite;
+  zoom_to_world_ghost_building_enabled_modifier_icon: Sprite;
+  zoom_to_world_selection_tool_enabled_modifier_constant?: Sprite;
+  zoom_to_world_selection_tool_enabled_modifier_icon: Sprite;
+  zoom_to_world_upgrade_planner_enabled_modifier_constant?: Sprite;
+  zoom_to_world_upgrade_planner_enabled_modifier_icon: Sprite;
+}
+export interface VehiclePrototype extends EntityWithOwnerPrototype {
+  allow_passengers?: bool;
+  braking_power: Energy | double;
+  collision_mask?: CollisionMask;
+  crash_trigger?: TriggerEffect;
+  energy_per_hit_point: double;
+  equipment_grid?: EquipmentGridID;
+  friction: double;
+  minimap_representation?: Sprite;
+  selected_minimap_representation?: Sprite;
+  sound_minimum_speed?: double;
+  sound_scaling_ratio?: double;
+  stop_trigger?: TriggerEffect;
+  stop_trigger_speed?: double;
+  terrain_friction_modifier?: float;
+  weight: double;
+}
+export interface VirtualSignalPrototype extends PrototypeBase {
+  icon?: FileName;
+  icon_mipmaps?: IconMipMapType;
+  icon_size?: SpriteSizeType;
+  icons?: IconData[];
+  subgroup?: ItemSubGroupID;
+}
+export interface WallPrototype extends EntityWithOwnerPrototype {
+  circuit_connector_sprites?: CircuitConnectorSprites;
+  circuit_wire_connection_point?: WireConnectionPoint;
+  circuit_wire_max_distance?: double;
+  connected_gate_visualization?: Sprite;
+  default_output_signal?: SignalIDConnector;
+  draw_circuit_wires?: bool;
+  draw_copper_wires?: bool;
+  pictures: WallPictures;
+  visual_merge_group?: uint32;
+  wall_diode_green?: Sprite4Way;
+  wall_diode_green_light_bottom?: LightDefinition;
+  wall_diode_green_light_left?: LightDefinition;
+  wall_diode_green_light_right?: LightDefinition;
+  wall_diode_green_light_top?: LightDefinition;
+  wall_diode_red?: Sprite4Way;
+  wall_diode_red_light_bottom?: LightDefinition;
+  wall_diode_red_light_left?: LightDefinition;
+  wall_diode_red_light_right?: LightDefinition;
+  wall_diode_red_light_top?: LightDefinition;
+}
+export interface WindSound {
+  name: string;
+  sound: Sound;
+  type: 'wind-sound';
 }
 export type ActivateEquipmentCapsuleAction = {
   equipment: EquipmentID;
@@ -209,7 +3407,218 @@ export type AnimationVariations =
   | { sheet?: AnimationSheet; sheets?: AnimationSheet[] }
   | Animation
   | Animation[];
-export type AnyPrototype = unknown;
+export type AnyPrototype =
+  | AccumulatorPrototype
+  | AchievementPrototype
+  | ActiveDefenseEquipmentPrototype
+  | AmbientSound
+  | AmmoCategory
+  | AmmoItemPrototype
+  | AmmoTurretPrototype
+  | AnimationPrototype
+  | ArithmeticCombinatorPrototype
+  | ArmorPrototype
+  | ArrowPrototype
+  | ArtilleryFlarePrototype
+  | ArtilleryProjectilePrototype
+  | ArtilleryTurretPrototype
+  | ArtilleryWagonPrototype
+  | AssemblingMachinePrototype
+  | AutoplaceControl
+  | BatteryEquipmentPrototype
+  | BeaconPrototype
+  | BeamPrototype
+  | BeltImmunityEquipmentPrototype
+  | BlueprintBookPrototype
+  | BlueprintItemPrototype
+  | BoilerPrototype
+  | BuildEntityAchievementPrototype
+  | BurnerGeneratorPrototype
+  | CapsulePrototype
+  | CarPrototype
+  | CargoWagonPrototype
+  | CharacterCorpsePrototype
+  | CharacterPrototype
+  | CliffPrototype
+  | CombatRobotCountAchievementPrototype
+  | CombatRobotPrototype
+  | CombinatorPrototype
+  | ConstantCombinatorPrototype
+  | ConstructWithRobotsAchievementPrototype
+  | ConstructionRobotPrototype
+  | ContainerPrototype
+  | CopyPasteToolPrototype
+  | CorpsePrototype
+  | CraftingMachinePrototype
+  | CurvedRailPrototype
+  | CustomInputPrototype
+  | DamageType
+  | DeciderCombinatorPrototype
+  | DeconstructWithRobotsAchievementPrototype
+  | DeconstructibleTileProxyPrototype
+  | DeconstructionItemPrototype
+  | DecorativePrototype
+  | DeliverByRobotsAchievementPrototype
+  | DontBuildEntityAchievementPrototype
+  | DontCraftManuallyAchievementPrototype
+  | DontUseEntityInEnergyProductionAchievementPrototype
+  | EditorControllerPrototype
+  | ElectricEnergyInterfacePrototype
+  | ElectricPolePrototype
+  | ElectricTurretPrototype
+  | EnemySpawnerPrototype
+  | EnergyShieldEquipmentPrototype
+  | EntityGhostPrototype
+  | EntityParticlePrototype
+  | EntityPrototype
+  | EntityWithHealthPrototype
+  | EntityWithOwnerPrototype
+  | EquipmentCategory
+  | EquipmentGridPrototype
+  | EquipmentPrototype
+  | ExplosionPrototype
+  | FinishTheGameAchievementPrototype
+  | FireFlamePrototype
+  | FishPrototype
+  | FlameThrowerExplosionPrototype
+  | FluidPrototype
+  | FluidStreamPrototype
+  | FluidTurretPrototype
+  | FluidWagonPrototype
+  | FlyingRobotPrototype
+  | FlyingTextPrototype
+  | FontPrototype
+  | FuelCategory
+  | FurnacePrototype
+  | GatePrototype
+  | GeneratorEquipmentPrototype
+  | GeneratorPrototype
+  | GodControllerPrototype
+  | GroupAttackAchievementPrototype
+  | GuiStyle
+  | GunPrototype
+  | HeatInterfacePrototype
+  | HeatPipePrototype
+  | HighlightBoxEntityPrototype
+  | InfinityContainerPrototype
+  | InfinityPipePrototype
+  | InserterPrototype
+  | ItemEntityPrototype
+  | ItemGroup
+  | ItemPrototype
+  | ItemRequestProxyPrototype
+  | ItemSubGroup
+  | ItemWithEntityDataPrototype
+  | ItemWithInventoryPrototype
+  | ItemWithLabelPrototype
+  | ItemWithTagsPrototype
+  | KillAchievementPrototype
+  | LabPrototype
+  | LampPrototype
+  | LandMinePrototype
+  | LeafParticlePrototype
+  | LinkedBeltPrototype
+  | LinkedContainerPrototype
+  | Loader1x1Prototype
+  | Loader1x2Prototype
+  | LoaderPrototype
+  | LocomotivePrototype
+  | LogisticContainerPrototype
+  | LogisticRobotPrototype
+  | MapGenPresets
+  | MapSettings
+  | MarketPrototype
+  | MiningDrillPrototype
+  | MiningToolPrototype
+  | ModuleCategory
+  | ModulePrototype
+  | MouseCursor
+  | MovementBonusEquipmentPrototype
+  | NamedNoiseExpression
+  | NightVisionEquipmentPrototype
+  | NoiseLayer
+  | OffshorePumpPrototype
+  | ParticlePrototype
+  | ParticleSourcePrototype
+  | PipePrototype
+  | PipeToGroundPrototype
+  | PlayerDamagedAchievementPrototype
+  | PlayerPortPrototype
+  | PowerSwitchPrototype
+  | ProduceAchievementPrototype
+  | ProducePerHourAchievementPrototype
+  | ProgrammableSpeakerPrototype
+  | ProjectilePrototype
+  | PrototypeBase
+  | PumpPrototype
+  | RadarPrototype
+  | RailChainSignalPrototype
+  | RailPlannerPrototype
+  | RailPrototype
+  | RailRemnantsPrototype
+  | RailSignalBasePrototype
+  | RailSignalPrototype
+  | ReactorPrototype
+  | RecipeCategory
+  | RecipePrototype
+  | RepairToolPrototype
+  | ResearchAchievementPrototype
+  | ResourceCategory
+  | ResourceEntityPrototype
+  | RoboportEquipmentPrototype
+  | RoboportPrototype
+  | RobotWithLogisticInterfacePrototype
+  | RocketSiloPrototype
+  | RocketSiloRocketPrototype
+  | RocketSiloRocketShadowPrototype
+  | RollingStockPrototype
+  | SelectionToolPrototype
+  | ShortcutPrototype
+  | SimpleEntityPrototype
+  | SimpleEntityWithForcePrototype
+  | SimpleEntityWithOwnerPrototype
+  | SimpleSmokePrototype
+  | SmokePrototype
+  | SmokeWithTriggerPrototype
+  | SolarPanelEquipmentPrototype
+  | SolarPanelPrototype
+  | SoundPrototype
+  | SpectatorControllerPrototype
+  | SpeechBubblePrototype
+  | SpiderLegPrototype
+  | SpiderVehiclePrototype
+  | SpidertronRemotePrototype
+  | SplitterPrototype
+  | SpritePrototype
+  | StickerPrototype
+  | StorageTankPrototype
+  | StraightRailPrototype
+  | TechnologyPrototype
+  | TileEffectDefinition
+  | TileGhostPrototype
+  | TilePrototype
+  | TipsAndTricksItem
+  | TipsAndTricksItemCategory
+  | ToolPrototype
+  | TrainPathAchievementPrototype
+  | TrainStopPrototype
+  | TransportBeltConnectablePrototype
+  | TransportBeltPrototype
+  | TreePrototype
+  | TriggerTargetType
+  | TrivialSmokePrototype
+  | TurretPrototype
+  | TutorialDefinition
+  | UndergroundBeltPrototype
+  | UnitPrototype
+  | UpgradeItemPrototype
+  | UtilityConstants
+  | UtilitySounds
+  | UtilitySprites
+  | VehiclePrototype
+  | VirtualSignalPrototype
+  | WallPrototype
+  | WindSound;
 export type AreaTriggerItem = {
   collision_mode?: 'distance-from-collision-box' | 'distance-from-center';
   radius: double;
