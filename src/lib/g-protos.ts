@@ -2,65 +2,65 @@ export interface AssemblingMachinePrototype extends CraftingMachinePrototype {
   entity_info_icon_shift?: Vector;
   fixed_recipe?: RecipeID;
   gui_title_key?: string;
-  ingredient_count?: number;
+  ingredient_count?: uint8;
 }
 export interface CraftingMachinePrototype extends EntityWithOwnerPrototype {
   allowed_effects?: EffectTypeLimitation;
-  always_draw_idle_animation?: boolean;
+  always_draw_idle_animation?: bool;
   animation?: Animation4Way;
-  base_productivity?: number;
+  base_productivity?: float;
   crafting_categories: RecipeCategoryID[];
-  crafting_speed: number;
+  crafting_speed: double;
   default_recipe_tint?: DefaultRecipeTint;
-  draw_entity_info_icon_background?: boolean;
+  draw_entity_info_icon_background?: bool;
   energy_source: EnergySource;
   energy_usage: Energy;
   entity_info_icon_shift?: Vector;
   fluid_boxes?: FluidBox[];
   idle_animation?: Animation4Way;
-  match_animation_speed_to_activity?: boolean;
+  match_animation_speed_to_activity?: bool;
   module_specification?: ModuleSpecification;
-  return_ingredients_on_change?: boolean;
-  scale_entity_info_icon?: boolean;
-  shift_animation_transition_duration?: number;
-  shift_animation_waypoint_stop_duration?: number;
+  return_ingredients_on_change?: bool;
+  scale_entity_info_icon?: bool;
+  shift_animation_transition_duration?: uint16;
+  shift_animation_waypoint_stop_duration?: uint16;
   shift_animation_waypoints?: ShiftAnimationWaypoints;
-  show_recipe_icon?: boolean;
-  show_recipe_icon_on_map?: boolean;
+  show_recipe_icon?: bool;
+  show_recipe_icon_on_map?: bool;
   status_colors?: StatusColors;
   working_visualisations?: WorkingVisualisation[];
 }
 export interface EntityWithOwnerPrototype extends EntityWithHealthPrototype {
-  allow_run_time_change_of_is_military_target?: boolean;
-  is_military_target?: boolean;
+  allow_run_time_change_of_is_military_target?: bool;
+  is_military_target?: bool;
 }
 export interface EntityWithHealthPrototype extends EntityPrototype {
-  alert_when_damaged?: boolean;
+  alert_when_damaged?: bool;
   attack_reaction?: AttackReactionItem | AttackReactionItem[];
   corpse?: EntityID | EntityID[];
-  create_ghost_on_death?: boolean;
+  create_ghost_on_death?: bool;
   damaged_trigger_effect?: TriggerEffect;
   dying_explosion?: ExplosionDefinition | ExplosionDefinition[];
   dying_trigger_effect?: TriggerEffect;
-  healing_per_tick?: number;
-  hide_resistances?: boolean;
+  healing_per_tick?: float;
+  hide_resistances?: bool;
   integration_patch?: Sprite4Way;
   integration_patch_render_layer?: RenderLayer;
   loot?: LootItem[];
-  max_health?: number;
-  random_corpse_variation?: boolean;
+  max_health?: float;
+  random_corpse_variation?: bool;
   repair_sound?: Sound;
-  repair_speed_modifier?: number;
+  repair_speed_modifier?: float;
   resistances?: Resistance[];
 }
 export interface EntityPrototype extends PrototypeBase {
   additional_pastable_entities?: EntityID[];
-  alert_icon_scale?: number;
+  alert_icon_scale?: float;
   alert_icon_shift?: Vector;
-  allow_copy_paste?: boolean;
+  allow_copy_paste?: bool;
   autoplace?: AutoplaceSpecification;
-  build_base_evolution_requirement?: number;
-  build_grid_size?: number;
+  build_base_evolution_requirement?: double;
+  build_grid_size?: uint8;
   build_sound?: Sound;
   close_sound?: Sound;
   collision_box?: BoundingBox;
@@ -68,7 +68,7 @@ export interface EntityPrototype extends PrototypeBase {
   created_effect?: Trigger;
   created_smoke?: CreateTrivialSmokeEffectItem;
   drawing_box?: BoundingBox;
-  emissions_per_second?: number;
+  emissions_per_second?: double;
   enemy_map_color?: Color;
   fast_replaceable_group?: string;
   flags?: EntityPrototypeFlags;
@@ -87,19 +87,19 @@ export interface EntityPrototype extends PrototypeBase {
   open_sound?: Sound;
   order?: Order;
   placeable_by?: ItemToPlace | ItemToPlace[];
-  protected_from_tile_building?: boolean;
+  protected_from_tile_building?: bool;
   radius_visualisation_specification?: RadiusVisualisationSpecification;
   remains_when_mined?: EntityID | EntityID[];
   remove_decoratives?: 'automatic' | 'true' | 'false' | true | false;
   rotated_sound?: Sound;
-  selectable_in_game?: boolean;
+  selectable_in_game?: bool;
   selection_box?: BoundingBox;
-  selection_priority?: number;
-  shooting_cursor_size?: number;
+  selection_priority?: uint8;
+  shooting_cursor_size?: float;
   sticker_box?: BoundingBox;
   subgroup?: ItemSubGroupID;
-  tile_height?: number;
-  tile_width?: number;
+  tile_height?: uint32;
+  tile_width?: uint32;
   trigger_target_mask?: TriggerTargetMask;
   vehicle_impact_sound?: Sound;
   water_reflection?: WaterReflectionDefinition;
@@ -119,10 +119,10 @@ export type ActivateEquipmentCapsuleAction = {
 export type ActivityBarStyleSpecification = {
   bar?: Sprite;
   bar_background?: Sprite;
-  bar_size_ratio?: number;
-  bar_width?: number;
+  bar_size_ratio?: float;
+  bar_width?: uint32;
   color?: Color;
-  speed?: number;
+  speed?: float;
   type: 'activity_bar_style';
 };
 export type AdvancedMapGenSettings = {
@@ -132,28 +132,28 @@ export type AdvancedMapGenSettings = {
   pollution?: MapGenPresetPollutionSettings;
 };
 export type AggregationSpecification = {
-  count_already_playing?: boolean;
-  max_count: number;
-  progress_threshold?: number;
-  remove: boolean;
+  count_already_playing?: bool;
+  max_count: uint32;
+  progress_threshold?: float;
+  remove: bool;
 };
 export type AmmoCategoryID = string;
 export type AmmoDamageModifier = {
   ammo_category: AmmoCategoryID;
-  infer_icon?: boolean;
-  modifier: number;
+  infer_icon?: bool;
+  modifier: double;
   type: 'ammo-damage';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type AmmoSourceType = 'default' | 'player' | 'turret' | 'vehicle';
 export type AmmoType = {
   action?: Trigger;
   category: AmmoCategoryID;
-  clamp_position?: boolean;
-  consumption_modifier?: number;
-  cooldown_modifier?: number;
+  clamp_position?: bool;
+  consumption_modifier?: float;
+  cooldown_modifier?: double;
   energy_consumption?: Energy;
-  range_modifier?: number;
+  range_modifier?: double;
   source_type?: AmmoSourceType;
   target_type?: 'entity' | 'position' | 'direction';
 };
@@ -173,37 +173,37 @@ export type Animation4Way =
   | { east?: Animation; north: Animation; south?: Animation; west?: Animation }
   | Animation;
 export type AnimationElement = {
-  always_draw?: boolean;
+  always_draw?: bool;
   animation?: Animation;
-  apply_tint?: boolean;
-  draw_as_light?: boolean;
-  draw_as_sprite?: boolean;
+  apply_tint?: bool;
+  draw_as_light?: bool;
+  draw_as_sprite?: bool;
   render_layer?: RenderLayer;
-  secondary_draw_order?: number;
+  secondary_draw_order?: int8;
 };
-export type AnimationFrameSequence = number[];
+export type AnimationFrameSequence = uint16[];
 export type AnimationParameters = {
-  animation_speed?: number;
-  dice?: number;
-  dice_x?: number;
-  dice_y?: number;
-  frame_count?: number;
+  animation_speed?: float;
+  dice?: uint8;
+  dice_x?: uint8;
+  dice_y?: uint8;
+  frame_count?: uint32;
   frame_sequence?: AnimationFrameSequence;
-  generate_sdf?: boolean;
+  generate_sdf?: bool;
   height?: SpriteSizeType;
-  line_length?: number;
-  max_advance?: number;
-  mipmap_count?: number;
-  repeat_count?: number;
+  line_length?: uint32;
+  max_advance?: float;
+  mipmap_count?: uint8;
+  repeat_count?: uint8;
   run_mode?: 'forward' | 'backward' | 'forward-then-backward';
   size?: SpriteSizeType | [SpriteSizeType, SpriteSizeType];
   width?: SpriteSizeType;
 };
 export type AnimationSheet = {
-  frame_count?: number;
+  frame_count?: uint32;
   hr_version?: AnimationSheet;
-  line_length?: number;
-  variation_count: number;
+  line_length?: uint32;
+  variation_count: uint32;
 };
 export type AnimationVariations =
   | { sheet?: AnimationSheet; sheets?: AnimationSheet[] }
@@ -212,29 +212,29 @@ export type AnimationVariations =
 export type AnyPrototype = unknown;
 export type AreaTriggerItem = {
   collision_mode?: 'distance-from-collision-box' | 'distance-from-center';
-  radius: number;
-  show_in_tooltip?: boolean;
-  target_entities?: boolean;
-  trigger_from_target?: boolean;
+  radius: double;
+  show_in_tooltip?: bool;
+  target_entities?: bool;
+  trigger_from_target?: bool;
   type: 'area';
 };
 export type ArtilleryRangeModifier = {
-  infer_icon?: boolean;
+  infer_icon?: bool;
   type: 'artillery-range';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type ArtilleryRemoteCapsuleAction = {
   flare: EntityID;
-  play_sound_on_failure?: boolean;
+  play_sound_on_failure?: bool;
   type: 'artillery-remote';
 };
 export type ArtilleryTriggerDelivery = {
-  direction_deviation?: number;
+  direction_deviation?: float;
   projectile: EntityID;
-  range_deviation?: number;
-  starting_speed: number;
-  starting_speed_deviation?: number;
-  trigger_fired_artillery?: boolean;
+  range_deviation?: float;
+  starting_speed: float;
+  starting_speed_deviation?: float;
+  trigger_fired_artillery?: bool;
   type: 'artillery';
 };
 export type AttackParameters =
@@ -244,71 +244,71 @@ export type AttackParameters =
 export type AttackReactionItem = {
   action?: Trigger;
   damage_type?: DamageTypeID;
-  range: number;
-  reaction_modifier?: number;
+  range: float;
+  reaction_modifier?: float;
 };
 export type AutoplaceControlID = string;
 export type AutoplacePeak = {
-  aux_max_range?: number;
-  aux_optimal?: number;
-  aux_range?: number;
-  aux_top_property_limit?: number;
-  distance_max_range?: number;
-  distance_optimal?: number;
-  distance_range?: number;
-  distance_top_property_limit?: number;
-  elevation_max_range?: number;
-  elevation_optimal?: number;
-  elevation_range?: number;
-  elevation_top_property_limit?: number;
-  influence?: number;
-  max_influence?: number;
-  min_influence?: number;
+  aux_max_range?: double;
+  aux_optimal?: double;
+  aux_range?: double;
+  aux_top_property_limit?: double;
+  distance_max_range?: double;
+  distance_optimal?: double;
+  distance_range?: double;
+  distance_top_property_limit?: double;
+  elevation_max_range?: double;
+  elevation_optimal?: double;
+  elevation_range?: double;
+  elevation_top_property_limit?: double;
+  influence?: double;
+  max_influence?: double;
+  min_influence?: double;
   noise_layer?: NoiseLayerID;
-  noise_octaves_difference?: number;
-  noise_persistence?: number;
-  noise_scale?: number;
-  richness_influence?: number;
-  starting_area_weight_max_range?: number;
-  starting_area_weight_optimal?: number;
-  starting_area_weight_range?: number;
-  starting_area_weight_top_property_limit?: number;
-  temperature_max_range?: number;
-  temperature_optimal?: number;
-  temperature_range?: number;
-  temperature_top_property_limit?: number;
-  tier_from_start_max_range?: number;
-  tier_from_start_optimal?: number;
-  tier_from_start_range?: number;
-  tier_from_start_top_property_limit?: number;
-  water_max_range?: number;
-  water_optimal?: number;
-  water_range?: number;
-  water_top_property_limit?: number;
+  noise_octaves_difference?: double;
+  noise_persistence?: double;
+  noise_scale?: double;
+  richness_influence?: double;
+  starting_area_weight_max_range?: double;
+  starting_area_weight_optimal?: double;
+  starting_area_weight_range?: double;
+  starting_area_weight_top_property_limit?: double;
+  temperature_max_range?: double;
+  temperature_optimal?: double;
+  temperature_range?: double;
+  temperature_top_property_limit?: double;
+  tier_from_start_max_range?: double;
+  tier_from_start_optimal?: double;
+  tier_from_start_range?: double;
+  tier_from_start_top_property_limit?: double;
+  water_max_range?: double;
+  water_optimal?: double;
+  water_range?: double;
+  water_top_property_limit?: double;
 };
 export type AutoplaceSettings = {
   settings?: Record<EntityID | TileID | DecorativeID, FrequencySizeRichness>;
-  treat_missing_as_default?: boolean;
+  treat_missing_as_default?: bool;
 };
 export type AutoplaceSpecification =
   | {
       control?: AutoplaceControlID;
-      coverage?: number;
-      default_enabled?: boolean;
+      coverage?: double;
+      default_enabled?: bool;
       force?: 'enemy' | 'player' | 'neutral' | string;
-      max_probability?: number;
+      max_probability?: double;
       order?: Order;
       peaks?: AutoplacePeak[];
-      placement_density?: number;
+      placement_density?: uint32;
       probability_expression?: NoiseExpression;
-      random_probability_penalty?: number;
-      richness_base?: number;
+      random_probability_penalty?: double;
+      richness_base?: double;
       richness_expression?: NoiseExpression;
-      richness_multiplier?: number;
-      richness_multiplier_distance_bonus?: number;
-      sharpness?: number;
-      starting_area_amount?: number;
-      starting_area_size?: number;
+      richness_multiplier?: double;
+      richness_multiplier_distance_bonus?: double;
+      sharpness?: double;
+      starting_area_amount?: uint32;
+      starting_area_size?: uint32;
       tile_restriction?: TileIDRestriction[];
     }
   | AutoplacePeak;
@@ -316,32 +316,32 @@ export type BaseAttackParameters = {
   activation_type?: 'shoot' | 'throw' | 'consume' | 'activate';
   ammo_categories?: AmmoCategoryID[];
   ammo_category?: AmmoCategoryID;
-  ammo_consumption_modifier?: number;
+  ammo_consumption_modifier?: float;
   ammo_type?: AmmoType;
   animation?: RotatedAnimation;
-  cooldown: number;
-  cooldown_deviation?: number;
+  cooldown: float;
+  cooldown_deviation?: float;
   cyclic_sound?: CyclicSound;
-  damage_modifier?: number;
-  fire_penalty?: number;
-  health_penalty?: number;
-  lead_target_for_projectile_speed?: number;
-  min_attack_distance?: number;
-  min_range?: number;
-  movement_slow_down_cooldown?: number;
-  movement_slow_down_factor?: number;
-  range: number;
+  damage_modifier?: float;
+  fire_penalty?: float;
+  health_penalty?: float;
+  lead_target_for_projectile_speed?: float;
+  min_attack_distance?: float;
+  min_range?: float;
+  movement_slow_down_cooldown?: float;
+  movement_slow_down_factor?: double;
+  range: float;
   range_mode?: 'center-to-center' | 'bounding-box-to-bounding-box';
-  rotate_penalty?: number;
+  rotate_penalty?: float;
   sound?: LayeredSound;
-  turn_range?: number;
-  use_shooter_direction?: boolean;
-  warmup?: number;
+  turn_range?: float;
+  use_shooter_direction?: bool;
+  warmup?: uint32;
 };
 export type BaseEnergySource = {
-  emissions_per_minute?: number;
-  render_no_network_icon?: boolean;
-  render_no_power_icon?: boolean;
+  emissions_per_minute?: double;
+  render_no_network_icon?: bool;
+  render_no_power_icon?: bool;
 };
 export type BaseModifier = {
   icon?: FileName;
@@ -363,72 +363,72 @@ export type BaseNamedNoiseExpressions =
   | 'enemy-base-frequency'
   | 'enemy-base-radius';
 export type BaseStyleSpecification = {
-  bottom_margin?: number;
-  bottom_padding?: number;
+  bottom_margin?: int16;
+  bottom_padding?: int16;
   effect?: 'compilatron-hologram';
-  effect_opacity?: number;
-  height?: number;
+  effect_opacity?: float;
+  height?: uint32;
   horizontal_align?: HorizontalAlign;
   horizontally_squashable?: StretchRule;
   horizontally_stretchable?: StretchRule;
-  ignored_by_search?: boolean;
-  left_margin?: number;
-  left_padding?: number;
-  margin?: number;
-  maximal_height?: number;
-  maximal_width?: number;
-  minimal_height?: number;
-  minimal_width?: number;
-  natural_height?: number;
-  natural_size?: number | [number, number];
-  natural_width?: number;
-  never_hide_by_search?: boolean;
-  padding?: number;
+  ignored_by_search?: bool;
+  left_margin?: int16;
+  left_padding?: int16;
+  margin?: int16;
+  maximal_height?: uint32;
+  maximal_width?: uint32;
+  minimal_height?: uint32;
+  minimal_width?: uint32;
+  natural_height?: uint32;
+  natural_size?: uint32 | [uint32, uint32];
+  natural_width?: uint32;
+  never_hide_by_search?: bool;
+  padding?: int16;
   parent?: string;
-  right_margin?: number;
-  right_padding?: number;
-  size?: number | [number, number];
+  right_margin?: int16;
+  right_padding?: int16;
+  size?: uint32 | [uint32, uint32];
   tooltip?: LocalisedString;
-  top_margin?: number;
-  top_padding?: number;
+  top_margin?: int16;
+  top_padding?: int16;
   vertical_align?: VerticalAlign;
   vertically_squashable?: StretchRule;
   vertically_stretchable?: StretchRule;
-  width?: number;
+  width?: uint32;
 };
 export type BeaconGraphicsSet = {
   animation_layer?: RenderLayer;
   animation_list?: AnimationElement[];
-  animation_progress?: number;
+  animation_progress?: float;
   apply_module_tint?: ModuleTint;
   apply_module_tint_to_light?: ModuleTint;
   base_layer?: RenderLayer;
-  draw_animation_when_idle?: boolean;
-  draw_light_when_idle?: boolean;
+  draw_animation_when_idle?: bool;
+  draw_light_when_idle?: bool;
   light?: LightDefinition;
-  max_animation_progress?: number;
-  min_animation_progress?: number;
-  module_icons_suppressed?: boolean;
+  max_animation_progress?: float;
+  min_animation_progress?: float;
+  module_icons_suppressed?: bool;
   module_tint_mode?: 'single-module' | 'mix';
   module_visualisations?: BeaconModuleVisualizations[];
   no_modules_tint?: Color;
-  random_animation_offset?: boolean;
+  random_animation_offset?: bool;
   top_layer?: RenderLayer;
 };
 export type BeaconModuleVisualization = {
   apply_module_tint?: ModuleTint;
-  draw_as_light?: boolean;
-  draw_as_sprite?: boolean;
-  has_empty_slot?: boolean;
+  draw_as_light?: bool;
+  draw_as_sprite?: bool;
+  has_empty_slot?: bool;
   pictures?: SpriteVariations;
   render_layer?: RenderLayer;
-  secondary_draw_order?: number;
+  secondary_draw_order?: int8;
 };
 export type BeaconModuleVisualizations = {
   art_style: string;
   slots?: BeaconModuleVisualization[][];
-  tier_offset?: number;
-  use_for_empty_slots?: boolean;
+  tier_offset?: int32;
+  use_for_empty_slots?: bool;
 };
 export type BeaconVisualizationTints = {
   primary?: Color;
@@ -444,19 +444,19 @@ export type BeamAnimationSet = {
   tail?: Animation;
 };
 export type BeamAttackParameters = {
-  source_direction_count?: number;
+  source_direction_count?: uint32;
   source_offset?: Vector;
   type: 'beam';
 };
 export type BeamTriggerDelivery = {
-  add_to_shooter?: boolean;
+  add_to_shooter?: bool;
   beam: EntityID;
-  duration?: number;
-  max_length?: number;
+  duration?: uint32;
+  max_length?: uint32;
   source_offset?: Vector;
   type: 'beam';
 };
-export type BeltTraverseTipTrigger = { count?: number; type: 'belt-traverse' };
+export type BeltTraverseTipTrigger = { count?: uint32; type: 'belt-traverse' };
 export type BlendMode =
   | 'normal'
   | 'additive'
@@ -500,9 +500,9 @@ export type BonusGuiOrdering = {
   turret_attack: Order;
   worker_robots: Order;
 };
-export type BoolModifier = { modifier: boolean };
+export type BoolModifier = { modifier: bool };
 export type BorderImageSet = {
-  border_width?: number;
+  border_width?: uint32;
   bottom_end?: Sprite;
   bottom_left_corner?: Sprite;
   bottom_right_corner?: Sprite;
@@ -513,7 +513,7 @@ export type BorderImageSet = {
   left_t?: Sprite;
   right_end?: Sprite;
   right_t?: Sprite;
-  scale?: number;
+  scale?: double;
   top_end?: Sprite;
   top_left_coner?: Sprite;
   top_right_corner?: Sprite;
@@ -522,25 +522,25 @@ export type BorderImageSet = {
 };
 export type BoundingBox = [MapPosition, MapPosition];
 export type BoxSpecification = {
-  is_whole_box?: boolean;
-  max_side_length?: number;
-  side_height?: number;
-  side_length?: number;
+  is_whole_box?: bool;
+  max_side_length?: double;
+  side_height?: double;
+  side_length?: double;
   sprite: Sprite;
 };
 export type BuildEntityTipTrigger = {
-  build_by_dragging?: boolean;
-  build_in_line?: boolean;
-  consecutive?: boolean;
-  count?: number;
+  build_by_dragging?: bool;
+  build_in_line?: bool;
+  consecutive?: bool;
+  count?: uint32;
   entity?: EntityID;
-  linear_power_pole_line?: boolean;
-  match_type_only?: boolean;
+  linear_power_pole_line?: bool;
+  match_type_only?: bool;
   type: 'build-entity';
 };
 export type BurnerEnergySource = {
   burnt_inventory_size?: ItemStackIndex;
-  effectivity?: number;
+  effectivity?: double;
   fuel_categories?: FuelCategoryID[];
   fuel_category?: FuelCategoryID;
   fuel_inventory_size: ItemStackIndex;
@@ -550,11 +550,11 @@ export type BurnerEnergySource = {
 };
 export type ButtonStyleSpecification = {
   clicked_font_color?: Color;
-  clicked_vertical_offset?: number;
+  clicked_vertical_offset?: uint32;
   default_font_color?: Color;
   disabled_font_color?: Color;
-  draw_grayscale_picture?: boolean;
-  draw_shadow_under_picture?: boolean;
+  draw_grayscale_picture?: bool;
+  draw_shadow_under_picture?: bool;
   font?: string;
   hovered_font_color?: Color;
   icon_horizontal_align?: HorizontalAlign;
@@ -566,14 +566,14 @@ export type ButtonStyleSpecification = {
   type: 'button_style';
 };
 export type CameraEffectTriggerEffectItem = {
-  delay?: number;
-  duration: number;
-  ease_in_duration?: number;
-  ease_out_duration?: number;
+  delay?: uint8;
+  duration: uint8;
+  ease_in_duration?: uint8;
+  ease_out_duration?: uint8;
   effect: string;
-  full_strength_max_distance?: number;
-  max_distance?: number;
-  strength?: number;
+  full_strength_max_distance?: uint16;
+  max_distance?: uint16;
+  strength?: float;
   type: 'camera-effect';
 };
 export type CameraStyleSpecification = { type: 'camera_style' };
@@ -594,55 +594,55 @@ export type CharacterArmorAnimation = {
 };
 export type CharacterBuildDistanceModifier = {
   type: 'character-build-distance';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type CharacterCraftingSpeedModifier = {
   type: 'character-crafting-speed';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type CharacterHealthBonusModifier = {
   type: 'character-health-bonus';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type CharacterInventorySlotsBonusModifier = {
   type: 'character-inventory-slots-bonus';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type CharacterItemDropDistanceModifier = {
   type: 'character-item-drop-distance';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type CharacterItemPickupDistanceModifier = {
   type: 'character-item-pickup-distance';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type CharacterLogisticRequestsModifier = {
   type: 'character-logistic-requests';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type CharacterLogisticTrashSlotsModifier = {
   type: 'character-logistic-trash-slots';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type CharacterLootPickupDistanceModifier = {
   type: 'character-loot-pickup-distance';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type CharacterMiningSpeedModifier = {
   type: 'character-mining-speed';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type CharacterReachDistanceModifier = {
   type: 'character-reach-distance';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type CharacterResourceReachDistanceModifier = {
   type: 'character-resource-reach-distance';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type CharacterRunningSpeedModifier = {
   type: 'character-running-speed';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type ChartUtilityConstants = {
   artillery_range_color: Color;
@@ -655,20 +655,20 @@ export type ChartUtilityConstants = {
   chart_train_stop_disabled_text_color: Color;
   chart_train_stop_full_text_color: Color;
   chart_train_stop_text_color: Color;
-  custom_tag_scale?: number;
+  custom_tag_scale?: float;
   custom_tag_selected_overlay_tint: Color;
   default_color_by_type?: Record<string, Color>;
   default_enemy_color: Color;
   default_friendly_color: Color;
   default_friendly_color_by_type?: Record<string, Color>;
-  electric_line_minimum_absolute_width: number;
-  electric_line_width: number;
+  electric_line_minimum_absolute_width: float;
+  electric_line_width: float;
   electric_lines_color: Color;
   electric_lines_color_switch_disabled: Color;
   electric_lines_color_switch_enabled: Color;
   electric_power_pole_color: Color;
   entity_ghost_color: Color;
-  explosion_visualization_duration: number;
+  explosion_visualization_duration: uint32;
   green_signal_color: Color;
   pollution_color: Color;
   rail_color: Color;
@@ -684,7 +684,7 @@ export type ChartUtilityConstants = {
   vehicle_outer_color_selected: Color;
   vehicle_wagon_connection_color: Color;
   yellow_signal_color: Color;
-  zoom_threshold_to_draw_spider_path?: number;
+  zoom_threshold_to_draw_spider_path?: double;
 };
 export type CheckBoxStyleSpecification = {
   checkmark?: Sprite;
@@ -693,7 +693,7 @@ export type CheckBoxStyleSpecification = {
   font?: string;
   font_color?: Color;
   intermediate_mark?: Sprite;
-  text_padding?: number;
+  text_padding?: uint32;
   type: 'checkbox_style';
 };
 export type CircuitConnectorLayer = {
@@ -703,10 +703,10 @@ export type CircuitConnectorLayer = {
   west?: RenderLayer;
 };
 export type CircuitConnectorSecondaryDrawOrder = {
-  east?: number;
-  north?: number;
-  south?: number;
-  west?: number;
+  east?: int8;
+  north?: int8;
+  south?: int8;
+  west?: int8;
 };
 export type CircuitConnectorSprites = {
   blue_led_light_offset?: Vector;
@@ -723,36 +723,36 @@ export type CircuitConnectorSprites = {
 };
 export type CircularParticleCreationSpecification = {
   center?: Vector;
-  creation_distance?: number;
-  creation_distance_orientation?: number;
-  direction?: number;
-  direction_deviation?: number;
-  height?: number;
-  height_deviation?: number;
+  creation_distance?: double;
+  creation_distance_orientation?: double;
+  direction?: float;
+  direction_deviation?: float;
+  height?: float;
+  height_deviation?: float;
   name: ParticleID;
-  speed?: number;
-  speed_deviation?: number;
-  starting_frame_speed: number;
-  starting_frame_speed_deviation?: number;
-  use_source_position?: boolean;
-  vertical_speed?: number;
-  vertical_speed_deviation?: number;
+  speed?: float;
+  speed_deviation?: float;
+  starting_frame_speed: float;
+  starting_frame_speed_deviation?: float;
+  use_source_position?: bool;
+  vertical_speed?: float;
+  vertical_speed_deviation?: float;
 };
 export type CircularProjectileCreationSpecification = [
   RealOrientation,
   Vector,
 ][];
-export type ClearCursorTipTrigger = { count?: number; type: 'clear-cursor' };
+export type ClearCursorTipTrigger = { count?: uint32; type: 'clear-cursor' };
 export type CliffPlacementSettings = {
-  cliff_elevation_0?: number;
-  cliff_elevation_interval?: number;
+  cliff_elevation_0?: float;
+  cliff_elevation_interval?: float;
   name?: EntityID;
   richness?: MapGenSize;
 };
 export type ClusterTriggerItem = {
-  cluster_count: number;
-  distance: number;
-  distance_deviation?: number;
+  cluster_count: uint32;
+  distance: float;
+  distance_deviation?: float;
   type: 'cluster';
 };
 export type CollisionMask = (
@@ -775,12 +775,12 @@ export type CollisionMaskLayer =
   | 'rail-layer'
   | 'transport-belt-layer';
 export type Color =
-  | { a?: number; b?: number; g?: number; r?: number }
-  | [number, number, number]
-  | [number, number, number, number];
+  | { a?: float; b?: float; g?: float; r?: float }
+  | [float, float, float]
+  | [float, float, float, float];
 export type ColorFilterData = {
   localised_name: LocalisedString;
-  matrix: number[][];
+  matrix: float[][];
   name: string;
 };
 export type ColumnAlignment = {
@@ -797,13 +797,13 @@ export type ColumnAlignment = {
     | 'top-right'
     | 'middle-right'
     | 'bottom-right';
-  column: number;
+  column: uint32;
 };
 export type ColumnWidth = {
-  column: number;
-  maximal_width?: number;
-  minimal_width?: number;
-  width?: number;
+  column: uint32;
+  maximal_width?: int32;
+  minimal_width?: int32;
+  width?: int32;
 };
 export type ConnectableEntityGraphics = {
   corner_left_down: SpriteVariations;
@@ -827,8 +827,8 @@ export type ConstantNoiseBoolean = NoiseLiteralBoolean | ConstantNoiseNumber;
 export type ConstantNoiseNumber = NoiseNumber;
 export type ConsumingType = 'none' | 'game-only';
 export type CraftItemTipTrigger = {
-  consecutive?: boolean;
-  count?: number;
+  consecutive?: bool;
+  count?: uint32;
   event_type:
     | 'crafting-of-single-item-ordered'
     | 'crafting-of-multiple-items-ordered'
@@ -843,91 +843,91 @@ export type CraftingMachineTint = {
   tertiary?: Color;
 };
 export type CreateDecorativesTriggerEffectItem = {
-  apply_projection?: boolean;
+  apply_projection?: bool;
   decorative: DecorativeID;
-  radius_curve?: number;
-  spawn_max: number;
-  spawn_max_radius: number;
-  spawn_min?: number;
-  spawn_min_radius: number;
-  spread_evenly?: boolean;
+  radius_curve?: float;
+  spawn_max: uint16;
+  spawn_max_radius: float;
+  spawn_min?: uint16;
+  spawn_min_radius: float;
+  spread_evenly?: bool;
   type: 'create-decorative';
 };
 export type CreateEntityTriggerEffectItem = {
-  check_buildability?: boolean;
+  check_buildability?: bool;
   entity_name: EntityID;
   offset_deviation?: BoundingBox;
   offsets?: Vector | Vector[];
-  show_in_tooltip?: boolean;
+  show_in_tooltip?: bool;
   tile_collision_mask?: CollisionMask;
-  trigger_created_entity?: boolean;
+  trigger_created_entity?: bool;
   type: 'create-entity';
 };
 export type CreateExplosionTriggerEffectItem = {
-  cycle_while_moving?: boolean;
-  inherit_movement_distance_from_projectile?: boolean;
-  max_movement_distance?: number;
-  max_movement_distance_deviation?: number;
+  cycle_while_moving?: bool;
+  inherit_movement_distance_from_projectile?: bool;
+  max_movement_distance?: float;
+  max_movement_distance_deviation?: float;
   type: 'create-explosion';
 };
 export type CreateFireTriggerEffectItem = {
-  initial_ground_flame_count?: number;
+  initial_ground_flame_count?: uint8;
   type: 'create-fire';
 };
 export type CreateParticleTriggerEffectItem = {
-  frame_speed?: number;
-  frame_speed_deviation?: number;
-  initial_height: number;
-  initial_height_deviation?: number;
-  initial_vertical_speed?: number;
-  initial_vertical_speed_deviation?: number;
+  frame_speed?: float;
+  frame_speed_deviation?: float;
+  initial_height: float;
+  initial_height_deviation?: float;
+  initial_vertical_speed?: float;
+  initial_vertical_speed_deviation?: float;
   offset_deviation?: BoundingBox;
   offsets?: Vector | Vector[];
   particle_name: ParticleID;
-  rotate_offsets?: boolean;
-  show_in_tooltip?: boolean;
-  speed_from_center?: number;
-  speed_from_center_deviation?: number;
-  tail_length?: number;
-  tail_length_deviation?: number;
-  tail_width?: number;
+  rotate_offsets?: bool;
+  show_in_tooltip?: bool;
+  speed_from_center?: float;
+  speed_from_center_deviation?: float;
+  tail_length?: uint8;
+  tail_length_deviation?: uint8;
+  tail_width?: float;
   tile_collision_mask?: CollisionMask;
   type: 'create-particle';
 };
 export type CreateSmokeTriggerEffectItem = {
-  initial_height?: number;
+  initial_height?: float;
   speed?: Vector;
-  speed_from_center?: number;
-  speed_from_center_deviation?: number;
-  speed_multiplier?: number;
-  speed_multiplier_deviation?: number;
-  starting_frame?: number;
-  starting_frame_deviation?: number;
-  starting_frame_speed?: number;
-  starting_frame_speed_deviation?: number;
+  speed_from_center?: float;
+  speed_from_center_deviation?: float;
+  speed_multiplier?: float;
+  speed_multiplier_deviation?: float;
+  starting_frame?: float;
+  starting_frame_deviation?: float;
+  starting_frame_speed?: float;
+  starting_frame_speed_deviation?: float;
   type: 'create-smoke';
 };
 export type CreateStickerTriggerEffectItem = {
-  show_in_tooltip?: boolean;
+  show_in_tooltip?: bool;
   sticker: EntityID;
-  trigger_created_entity?: boolean;
+  trigger_created_entity?: bool;
   type: 'create-sticker';
 };
 export type CreateTrivialSmokeEffectItem = {
-  initial_height?: number;
-  max_radius?: number;
+  initial_height?: float;
+  max_radius?: float;
   offset_deviation?: BoundingBox;
   offsets?: Vector | Vector[];
   smoke_name: TrivialSmokeID;
   speed?: Vector;
-  speed_from_center?: number;
-  speed_from_center_deviation?: number;
-  speed_multiplier?: number;
-  speed_multiplier_deviation?: number;
-  starting_frame?: number;
-  starting_frame_deviation?: number;
-  starting_frame_speed?: number;
-  starting_frame_speed_deviation?: number;
+  speed_from_center?: float;
+  speed_from_center_deviation?: float;
+  speed_multiplier?: float;
+  speed_multiplier_deviation?: float;
+  starting_frame?: float;
+  starting_frame_deviation?: float;
+  starting_frame_speed?: float;
+  starting_frame_speed_deviation?: float;
   type: 'create-trivial-smoke';
 };
 export type CursorBoxSpecification = {
@@ -954,32 +954,32 @@ export type CyclicSound = {
   end_sound?: Sound;
   middle_sound?: Sound;
 };
-export type DamagePrototype = { amount: number; type: DamageTypeID };
+export type DamagePrototype = { amount: float; type: DamageTypeID };
 export type DamageTriggerEffectItem = {
-  apply_damage_to_trees?: boolean;
+  apply_damage_to_trees?: bool;
   damage: DamagePrototype;
-  lower_damage_modifier?: number;
-  lower_distance_threshold?: number;
+  lower_damage_modifier?: float;
+  lower_distance_threshold?: uint16;
   type: 'damage';
-  upper_damage_modifier?: number;
-  upper_distance_threshold?: number;
-  vaporize?: boolean;
+  upper_damage_modifier?: float;
+  upper_distance_threshold?: uint16;
+  vaporize?: bool;
 };
 export type DamageTypeFilters =
-  | { types: DamageTypeID | DamageTypeID[]; whitelist?: boolean }
+  | { types: DamageTypeID | DamageTypeID[]; whitelist?: bool }
   | DamageTypeID
   | DamageTypeID[];
 export type DamageTypeID = string;
 export type Data = {
-  extend: (extension: unknown) => void;
-  is_demo: boolean;
+  extend: DataExtendMethod;
+  is_demo: bool;
   raw: Record<string, Record<string, AnyPrototype>>;
 };
 export type DataExtendMethod = (extension: unknown) => void;
-export type DaytimeColorLookupTable = [number, FileName | 'identity'][];
+export type DaytimeColorLookupTable = [double, FileName | 'identity'][];
 export type DeconstructionTimeToLiveModifier = {
   type: 'deconstruction-time-to-live';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type DecorativeID = string;
 export type DefaultRecipeTint = {
@@ -991,34 +991,34 @@ export type DefaultRecipeTint = {
 export type DependenciesMetTipTrigger = { type: 'dependencies-met' };
 export type DestroyCliffsCapsuleAction = {
   attack_parameters: AttackParameters;
-  play_sound_on_failure?: boolean;
-  radius: number;
-  timeout?: number;
+  play_sound_on_failure?: bool;
+  radius: float;
+  timeout?: uint32;
   type: 'destroy-cliffs';
-  uses_stack?: boolean;
+  uses_stack?: bool;
 };
 export type DestroyCliffsTriggerEffectItem = {
   explosion?: EntityID;
-  radius: number;
+  radius: float;
   type: 'destroy-cliffs';
 };
 export type DestroyDecorativesTriggerEffectItem = {
-  decoratives_with_trigger_only?: boolean;
+  decoratives_with_trigger_only?: bool;
   from_render_layer?: RenderLayer;
-  include_decals?: boolean;
-  include_soft_decoratives?: boolean;
-  invoke_decorative_trigger?: boolean;
-  radius: number;
+  include_decals?: bool;
+  include_soft_decoratives?: bool;
+  invoke_decorative_trigger?: bool;
+  radius: float;
   to_render_layer?: RenderLayer;
   type: 'destroy-decoratives';
 };
 export type DifficultySettings = {
-  recipe_difficulty: number;
+  recipe_difficulty: uint8;
   research_queue_setting?: 'always' | 'after-victory' | 'never';
-  technology_difficulty: number;
-  technology_price_multiplier?: number;
+  technology_difficulty: uint8;
+  technology_price_multiplier?: double;
 };
-export type DirectTriggerItem = { filter_enabled?: boolean; type: 'direct' };
+export type DirectTriggerItem = { filter_enabled?: bool; type: 'direct' };
 export type Direction = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export type DirectionShift = {
   east?: Vector;
@@ -1038,7 +1038,7 @@ export type DropDownStyleSpecification = {
   icon?: Sprite;
   list_box_style?: ListBoxStyleSpecification;
   opened_sound?: Sound;
-  selector_and_title_spacing?: number;
+  selector_and_title_spacing?: int16;
   type: 'dropdown_style';
 };
 export type Effect = {
@@ -1050,7 +1050,7 @@ export type Effect = {
 export type EffectTypeLimitation =
   | ('speed' | 'productivity' | 'consumption' | 'pollution')
   | ('speed' | 'productivity' | 'consumption' | 'pollution')[];
-export type EffectValue = { bonus?: number };
+export type EffectValue = { bonus?: double };
 export type ElectricEnergySource = {
   buffer_capacity?: Energy;
   drain?: Energy;
@@ -1076,53 +1076,53 @@ export type ElementImageSet =
   | ElementImageSetLayer;
 export type ElementImageSetLayer =
   | {
-      background_blur?: boolean;
-      background_blur_sigma?: number;
-      border?: number;
+      background_blur?: bool;
+      background_blur_sigma?: float;
+      border?: int32;
       bottom?: Sprite;
-      bottom_border?: number;
-      bottom_outer_border_shift?: number;
-      bottom_tiling?: boolean;
+      bottom_border?: int32;
+      bottom_outer_border_shift?: int32;
+      bottom_tiling?: bool;
       bottom_width?: SpriteSizeType;
       center?: Sprite;
       center_height?: SpriteSizeType;
-      center_tiling_horizontal?: boolean;
-      center_tiling_vertical?: boolean;
+      center_tiling_horizontal?: bool;
+      center_tiling_vertical?: bool;
       center_width?: SpriteSizeType;
-      corner_size?: number | [number, number];
-      custom_horizontal_tiling_sizes?: number[];
+      corner_size?: uint16 | [uint16, uint16];
+      custom_horizontal_tiling_sizes?: uint32[];
       draw_type?: 'inner' | 'outer';
       filename?: FileName;
       left?: Sprite;
-      left_border?: number;
+      left_border?: int32;
       left_bottom?: Sprite;
       left_height?: SpriteSizeType;
-      left_outer_border_shift?: number;
-      left_tiling?: boolean;
+      left_outer_border_shift?: int32;
+      left_tiling?: bool;
       left_top?: Sprite;
-      load_in_minimal_mode?: boolean;
-      opacity?: number;
-      overall_tiling_horizontal_padding?: number;
-      overall_tiling_horizontal_size?: number;
-      overall_tiling_horizontal_spacing?: number;
-      overall_tiling_vertical_padding?: number;
-      overall_tiling_vertical_size?: number;
-      overall_tiling_vertical_spacing?: number;
+      load_in_minimal_mode?: bool;
+      opacity?: double;
+      overall_tiling_horizontal_padding?: uint16;
+      overall_tiling_horizontal_size?: uint16;
+      overall_tiling_horizontal_spacing?: uint16;
+      overall_tiling_vertical_padding?: uint16;
+      overall_tiling_vertical_size?: uint16;
+      overall_tiling_vertical_spacing?: uint16;
       position?: MapPosition;
       right?: Sprite;
-      right_border?: number;
+      right_border?: int32;
       right_bottom?: Sprite;
       right_height?: SpriteSizeType;
-      right_outer_border_shift?: number;
-      right_tiling?: boolean;
+      right_outer_border_shift?: int32;
+      right_tiling?: bool;
       right_top?: Sprite;
-      scale?: number;
-      stretch_monolith_image_to_size?: boolean;
+      scale?: double;
+      stretch_monolith_image_to_size?: bool;
       tint?: Color;
       top?: Sprite;
-      top_border?: number;
-      top_outer_border_shift?: number;
-      top_tiling?: boolean;
+      top_border?: int32;
+      top_outer_border_shift?: int32;
+      top_tiling?: bool;
       top_width?: SpriteSizeType;
       type?: 'none' | 'composition';
     }
@@ -1132,25 +1132,25 @@ export type EmptyWidgetStyleSpecification = {
   type: 'empty_widget_style';
 };
 export type EnemyEvolutionSettings = {
-  destroy_factor: number;
-  enabled: boolean;
-  pollution_factor: number;
-  time_factor: number;
+  destroy_factor: double;
+  enabled: bool;
+  pollution_factor: double;
+  time_factor: double;
 };
 export type EnemyExpansionSettings = {
-  building_coefficient: number;
-  enabled: boolean;
-  enemy_building_influence_radius: number;
-  friendly_base_influence_radius: number;
-  max_colliding_tiles_coefficient: number;
-  max_expansion_cooldown: number;
-  max_expansion_distance: number;
-  min_expansion_cooldown: number;
-  neighbouring_base_chunk_coefficient: number;
-  neighbouring_chunk_coefficient: number;
-  other_base_coefficient: number;
-  settler_group_max_size: number;
-  settler_group_min_size: number;
+  building_coefficient: double;
+  enabled: bool;
+  enemy_building_influence_radius: uint32;
+  friendly_base_influence_radius: uint32;
+  max_colliding_tiles_coefficient: double;
+  max_expansion_cooldown: uint32;
+  max_expansion_distance: uint32;
+  min_expansion_cooldown: uint32;
+  neighbouring_base_chunk_coefficient: double;
+  neighbouring_chunk_coefficient: double;
+  other_base_coefficient: double;
+  settler_group_max_size: uint32;
+  settler_group_min_size: uint32;
 };
 export type Energy = string;
 export type EnergySource =
@@ -1189,13 +1189,13 @@ export type EntityPrototypeFlags = (
   | 'not-in-made-in'
 )[];
 export type EntityRendererSearchBoxLimits = {
-  bottom: number;
-  left: number;
-  right: number;
-  top: number;
+  bottom: uint8;
+  left: uint8;
+  right: uint8;
+  top: uint8;
 };
 export type EntityTransferTipTrigger = {
-  count?: number;
+  count?: uint32;
   transfer?: 'in' | 'out';
   type: 'entity-transfer';
 };
@@ -1203,10 +1203,10 @@ export type EquipmentCategoryID = string;
 export type EquipmentGridID = string;
 export type EquipmentID = string;
 export type EquipmentShape = {
-  height: number;
-  points?: number[][];
+  height: uint32;
+  points?: uint32[][];
   type: 'full' | 'manual';
-  width: number;
+  width: uint32;
 };
 export type ExplosionDefinition =
   | EntityID
@@ -1241,85 +1241,85 @@ export type FactorioQuickMultioctaveNoiseArguments = {
   x: NoiseNumber;
   y: NoiseNumber;
 };
-export type FastBeltBendTipTrigger = { count?: number; type: 'fast-belt-bend' };
+export type FastBeltBendTipTrigger = { count?: uint32; type: 'fast-belt-bend' };
 export type FastReplaceTipTrigger = {
-  count?: number;
-  match_type_only?: boolean;
+  count?: uint32;
+  match_type_only?: bool;
   source?: EntityID;
   target?: EntityID;
   type: 'fast-replace';
 };
 export type FileName = string;
 export type FlameThrowerExplosionTriggerDelivery = {
-  direction_deviation?: number;
+  direction_deviation?: double;
   explosion: EntityID;
-  projectile_starting_speed?: number;
-  speed_deviation?: number;
-  starting_distance: number;
-  starting_frame_fraciton_deviation?: number;
+  projectile_starting_speed?: double;
+  speed_deviation?: double;
+  starting_distance: double;
+  starting_frame_fraciton_deviation?: double;
   type: 'flame-thrower';
 };
 export type FlowStyleSpecification = {
-  horizontal_spacing?: number;
-  max_on_row?: number;
+  horizontal_spacing?: int32;
+  max_on_row?: int32;
   type: 'flow_style';
-  vertical_spacing?: number;
+  vertical_spacing?: int32;
 };
 export type FluidBox = {
-  base_area?: number;
-  base_level?: number;
+  base_area?: double;
+  base_level?: float;
   filter?: FluidID;
-  height?: number;
-  hide_connection_info?: boolean;
-  maximum_temperature?: number;
-  minimum_temperature?: number;
+  height?: double;
+  hide_connection_info?: bool;
+  maximum_temperature?: double;
+  minimum_temperature?: double;
   pipe_connections: PipeConnectionDefinition[];
   pipe_covers?: Sprite4Way;
   pipe_picture?: Sprite4Way;
   production_type?: ProductionType;
   render_layer?: RenderLayer;
-  secondary_draw_order?: number;
+  secondary_draw_order?: int8;
   secondary_draw_orders?: FluidBoxSecondaryDrawOrders;
 };
 export type FluidBoxSecondaryDrawOrders = {
-  east?: number;
-  north?: number;
-  south?: number;
-  west?: number;
+  east?: int8;
+  north?: int8;
+  south?: int8;
+  west?: int8;
 };
 export type FluidEnergySource = {
-  burns_fluid?: boolean;
-  destroy_non_fuel_fluid?: boolean;
-  effectivity?: number;
+  burns_fluid?: bool;
+  destroy_non_fuel_fluid?: bool;
+  effectivity?: double;
   fluid_box: FluidBox;
-  fluid_usage_per_tick?: number;
+  fluid_usage_per_tick?: double;
   light_flicker?: LightFlickeringDefinition;
-  maximum_temperature?: number;
-  scale_fluid_usage?: boolean;
+  maximum_temperature?: double;
+  scale_fluid_usage?: bool;
   smoke?: SmokeSource[];
   type: 'fluid';
 };
 export type FluidID = string;
 export type FluidIngredientPrototype = {
-  amount: number;
-  catalyst_amount?: number;
-  fluidbox_index?: number;
-  maximum_temperature?: number;
-  minimum_temperature?: number;
+  amount: double;
+  catalyst_amount?: double;
+  fluidbox_index?: uint32;
+  maximum_temperature?: double;
+  minimum_temperature?: double;
   name: FluidID;
-  temperature?: number;
+  temperature?: double;
   type: 'fluid';
 };
 export type FluidProductPrototype = {
-  amount?: number;
+  amount?: double;
   amount_max?: MaterialAmountType;
   amount_min?: MaterialAmountType;
-  catalyst_amount?: number;
-  fluidbox_index?: number;
+  catalyst_amount?: double;
+  fluidbox_index?: uint32;
   name: FluidID;
-  probability?: number;
-  show_details_in_recipe_tooltip?: boolean;
-  temperature?: number;
+  probability?: double;
+  show_details_in_recipe_tooltip?: bool;
+  temperature?: double;
   type: 'fluid';
 };
 export type FluidWagonConnectorGraphics = {
@@ -1327,19 +1327,19 @@ export type FluidWagonConnectorGraphics = {
   unload_animations: PumpConnectorGraphics;
 };
 export type FollowerRobotLifetimeModifier = {
-  infer_icon?: boolean;
+  infer_icon?: bool;
   type: 'follower-robot-lifetime';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type FootprintParticle = {
   particle_name?: ParticleID;
   tiles: TileID[];
-  use_as_default?: boolean;
+  use_as_default?: bool;
 };
 export type FootstepTriggerEffectItem = {
   actions?: CreateParticleTriggerEffectItem[];
   tiles: TileID[];
-  use_as_default?: boolean;
+  use_as_default?: bool;
 };
 export type FootstepTriggerEffectList = FootstepTriggerEffectItem[];
 export type ForceCondition =
@@ -1353,7 +1353,7 @@ export type ForceCondition =
 export type FrameStyleSpecification = {
   background_graphical_set?: ElementImageSet;
   border?: BorderImageSet;
-  drag_by_title?: boolean;
+  drag_by_title?: bool;
   graphical_set?: ElementImageSet;
   header_background?: ElementImageSet;
   header_filler_style?: EmptyWidgetStyleSpecification;
@@ -1361,7 +1361,7 @@ export type FrameStyleSpecification = {
   horizontal_flow_style?: HorizontalFlowStyleSpecification;
   title_style?: LabelStyleSpecification;
   type: 'frame_style';
-  use_header_filler?: boolean;
+  use_header_filler?: bool;
   vertical_flow_style?: VerticalFlowStyleSpecification;
 };
 export type FrequencySizeRichness = {
@@ -1371,24 +1371,24 @@ export type FrequencySizeRichness = {
 };
 export type FuelCategoryID = string;
 export type GameControllerVibrationData = {
-  duration?: number;
-  high_frequency_vibration_intensity?: number;
-  low_frequency_vibration_intensity?: number;
+  duration?: uint32;
+  high_frequency_vibration_intensity?: float;
+  low_frequency_vibration_intensity?: float;
   play_for?: PlayFor;
 };
 export type GateOverRailBuildTipTrigger = {
-  count?: number;
+  count?: uint32;
   type: 'gate-over-rail-build';
 };
 export type GhostTimeToLiveModifier = {
   type: 'ghost-time-to-live';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type GiveItemModifier = {
   count?: ItemCountType;
   item: ItemID;
   type: 'give-item';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type GlowStyleSpecification = {
   image_set?: ElementImageSet;
@@ -1396,22 +1396,22 @@ export type GlowStyleSpecification = {
 };
 export type GraphStyleSpecification = {
   background_color?: Color;
-  data_line_highlight_distance?: number;
-  graph_right_margin?: number;
-  graph_top_margin?: number;
+  data_line_highlight_distance?: uint32;
+  graph_right_margin?: uint32;
+  graph_top_margin?: uint32;
   grid_lines_color?: Color;
   guide_lines_color?: Color;
   horizontal_label_style?: LabelStyleSpecification;
-  horizontal_labels_margin?: number;
+  horizontal_labels_margin?: uint32;
   line_colors?: Color[];
-  minimal_horizontal_label_spacing?: number;
-  minimal_vertical_label_spacing?: number;
-  selection_dot_radius?: number;
+  minimal_horizontal_label_spacing?: uint32;
+  minimal_vertical_label_spacing?: uint32;
+  selection_dot_radius?: uint32;
   type: 'graph_style';
   vertical_label_style?: LabelStyleSpecification;
-  vertical_labels_margin?: number;
+  vertical_labels_margin?: uint32;
 };
-export type GroupAttackTipTrigger = { count?: number; type: 'group-attack' };
+export type GroupAttackTipTrigger = { count?: uint32; type: 'group-attack' };
 export type GunShift4Way = {
   east?: Vector;
   north: Vector;
@@ -1420,45 +1420,45 @@ export type GunShift4Way = {
 };
 export type GunSpeedModifier = {
   ammo_category: AmmoCategoryID;
-  infer_icon?: boolean;
-  modifier: number;
+  infer_icon?: bool;
+  modifier: double;
   type: 'gun-speed';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type HeatBuffer = {
   connections?: HeatConnection[];
-  default_temperature?: number;
+  default_temperature?: double;
   heat_glow?: Sprite4Way;
   heat_picture?: Sprite4Way;
   heat_pipe_covers?: Sprite4Way;
-  max_temperature: number;
+  max_temperature: double;
   max_transfer: Energy;
-  min_temperature_gradient?: number;
-  min_working_temperature?: number;
-  minimum_glow_temperature?: number;
+  min_temperature_gradient?: double;
+  min_working_temperature?: double;
+  minimum_glow_temperature?: float;
   pipe_covers?: Sprite4Way;
   specific_heat: Energy;
 };
 export type HeatConnection = { direction: Direction; position: MapPosition };
 export type HeatEnergySource = {
   connections?: HeatConnection[];
-  default_temperature?: number;
-  emissions_per_minute?: number;
+  default_temperature?: double;
+  emissions_per_minute?: double;
   heat_glow?: Sprite4Way;
   heat_picture?: Sprite4Way;
   heat_pipe_covers?: Sprite4Way;
-  max_temperature: number;
+  max_temperature: double;
   max_transfer: Energy;
-  min_temperature_gradient?: number;
-  min_working_temperature?: number;
-  minimum_glow_temperature?: number;
+  min_temperature_gradient?: double;
+  min_working_temperature?: double;
+  minimum_glow_temperature?: float;
   pipe_covers?: Sprite4Way;
   specific_heat: Energy;
   type: 'heat';
 };
 export type HorizontalAlign = 'left' | 'center' | 'right';
 export type HorizontalFlowStyleSpecification = {
-  horizontal_spacing?: number;
+  horizontal_spacing?: int32;
   type: 'horizontal_flow_style';
 };
 export type HorizontalScrollBarStyleSpecification = {
@@ -1468,53 +1468,53 @@ export type IconData = {
   icon: FileName;
   icon_mipmaps?: IconMipMapType;
   icon_size?: SpriteSizeType;
-  scale?: number;
+  scale?: double;
   shift?: Vector;
   tint?: Color;
 };
-export type IconMipMapType = number;
+export type IconMipMapType = uint8;
 export type ImageStyleSpecification = {
   graphical_set?: ElementImageSet;
-  stretch_image_to_widget_size?: boolean;
+  stretch_image_to_widget_size?: bool;
   type: 'image_style';
 };
 export type IngredientPrototype =
   | ItemIngredientPrototype
   | FluidIngredientPrototype;
 export type InsertItemTriggerEffectItem = {
-  count?: number;
+  count?: uint32;
   item: ItemID;
   type: 'insert-item';
 };
 export type InserterStackSizeBonusModifier = {
-  infer_icon?: boolean;
+  infer_icon?: bool;
   type: 'inserter-stack-size-bonus';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type InstantTriggerDelivery = { type: 'instant' };
-export type InterruptibleSound = { fade_ticks?: number; sound: Sound };
+export type InterruptibleSound = { fade_ticks?: uint32; sound: Sound };
 export type InvokeTileEffectTriggerEffectItem = {
   tile_collision_mask?: CollisionMask;
   type: 'invoke-tile-trigger';
 };
-export type ItemCountType = number;
+export type ItemCountType = uint32;
 export type ItemGroupID = string;
 export type ItemID = string;
 export type ItemIngredientPrototype =
-  | { amount: number; catalyst_amount?: number; name: ItemID; type?: 'item' }
-  | [ItemID, number];
+  | { amount: uint16; catalyst_amount?: uint16; name: ItemID; type?: 'item' }
+  | [ItemID, uint16];
 export type ItemProductPrototype =
   | {
-      amount?: number;
-      amount_max?: number;
-      amount_min?: number;
-      catalyst_amount?: number;
+      amount?: uint16;
+      amount_max?: uint16;
+      amount_min?: uint16;
+      catalyst_amount?: uint16;
       name: ItemID;
-      probability?: number;
-      show_details_in_recipe_tooltip?: boolean;
+      probability?: double;
+      show_details_in_recipe_tooltip?: bool;
       type?: 'item';
     }
-  | [ItemID, number];
+  | [ItemID, uint16];
 export type ItemPrototypeFlags = (
   | 'draw-logistic-overlay'
   | 'hidden'
@@ -1528,9 +1528,9 @@ export type ItemPrototypeFlags = (
   | 'only-in-cursor'
   | 'spawnable'
 )[];
-export type ItemStackIndex = number;
+export type ItemStackIndex = uint16;
 export type ItemSubGroupID = string;
-export type ItemToPlace = { count: number; item: ItemID };
+export type ItemToPlace = { count: uint32; item: ItemID };
 export type LabelStyleSpecification = {
   clicked_font_color?: Color;
   disabled_font_color?: Color;
@@ -1542,66 +1542,66 @@ export type LabelStyleSpecification = {
   rich_text_highlight_ok_color?: Color;
   rich_text_highlight_warning_color?: Color;
   rich_text_setting?: RichTextSetting;
-  single_line?: boolean;
+  single_line?: bool;
   type: 'label_style';
-  underlined?: boolean;
+  underlined?: bool;
 };
 export type LaboratoryProductivityModifier = {
-  infer_icon?: boolean;
+  infer_icon?: bool;
   type: 'laboratory-productivity';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type LaboratorySpeedModifier = {
-  infer_icon?: boolean;
+  infer_icon?: bool;
   type: 'laboratory-speed';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type LayeredSound = { layers: Sound[] } | Sound;
 export type LightDefinition =
   | {
-      add_perspective?: boolean;
+      add_perspective?: bool;
       color?: Color;
-      intensity: number;
-      minimum_darkness?: number;
+      intensity: float;
+      minimum_darkness?: float;
       picture?: Sprite;
       rotation_shift?: RealOrientation;
       shift?: Vector;
-      size: number;
+      size: float;
       source_orientation_offset?: RealOrientation;
       type?: 'basic' | 'oriented';
     }
   | {
-      add_perspective?: boolean;
+      add_perspective?: bool;
       color?: Color;
-      intensity: number;
-      minimum_darkness?: number;
+      intensity: float;
+      minimum_darkness?: float;
       picture?: Sprite;
       rotation_shift?: RealOrientation;
       shift?: Vector;
-      size: number;
+      size: float;
       source_orientation_offset?: RealOrientation;
       type?: 'basic' | 'oriented';
     }[];
 export type LightFlickeringDefinition = {
-  border_fix_speed?: number;
+  border_fix_speed?: float;
   color?: Color;
-  derivation_change_deviation?: number;
-  derivation_change_frequency?: number;
-  light_intensity_to_size_coefficient?: number;
-  maximum_intensity?: number;
-  minimum_intensity?: number;
-  minimum_light_size?: number;
+  derivation_change_deviation?: float;
+  derivation_change_frequency?: float;
+  light_intensity_to_size_coefficient?: float;
+  maximum_intensity?: float;
+  minimum_intensity?: float;
+  minimum_light_size?: float;
 };
-export type LimitChestTipTrigger = { count?: number; type: 'limit-chest' };
+export type LimitChestTipTrigger = { count?: uint32; type: 'limit-chest' };
 export type LineStyleSpecification = {
   border?: BorderImageSet;
   type: 'line_style';
 };
 export type LineTriggerItem = {
-  range: number;
+  range: double;
   range_effects?: TriggerEffect;
   type: 'line';
-  width: number;
+  width: double;
 };
 export type LinkedBeltStructure = {
   back_patch?: Sprite4Way;
@@ -1769,20 +1769,20 @@ export type LoaderStructure = {
   direction_out: Sprite4Way;
   front_patch?: Sprite4Way;
 };
-export type LocalisedString = string | number | boolean | LocalisedString[];
+export type LocalisedString = string | double | bool | LocalisedString[];
 export type LootItem = {
-  count_max?: number;
-  count_min?: number;
+  count_max?: double;
+  count_min?: double;
   item: ItemID;
-  probability?: number;
+  probability?: double;
 };
-export type LowPowerTipTrigger = { count?: number; type: 'low-power' };
+export type LowPowerTipTrigger = { count?: uint32; type: 'low-power' };
 export type ManualTransferTipTrigger = {
-  count?: number;
+  count?: uint32;
   type: 'manual-transfer';
 };
 export type ManualWireDragTipTrigger = {
-  count?: number;
+  count?: uint32;
   type: 'manual-wire-drag';
 };
 export type MapEditorConstants = {
@@ -1794,48 +1794,48 @@ export type MapEditorConstants = {
   clone_editor_copy_destination_allowed_color: Color;
   clone_editor_copy_destination_not_allowed_color: Color;
   clone_editor_copy_source_color: Color;
-  decorative_editor_selection_preview_radius: number;
+  decorative_editor_selection_preview_radius: uint8;
   decorative_editor_selection_preview_tint: Color;
   force_editor_select_area_color: Color;
   script_editor_drag_area_color: Color;
   script_editor_select_area_color: Color;
   tile_editor_area_selection_color: Color;
-  tile_editor_selection_preview_radius: number;
+  tile_editor_selection_preview_radius: uint8;
   tile_editor_selection_preview_tint: Color;
 };
 export type MapGenPreset = {
   advanced_settings?: AdvancedMapGenSettings;
   basic_settings?: MapGenSettings;
-  default?: boolean;
+  default?: bool;
   order: Order;
 };
 export type MapGenPresetDifficultySettings = {
-  recipe_difficulty?: number;
+  recipe_difficulty?: uint8;
   research_queue_setting?: 'always' | 'after-victory' | 'never';
-  technology_difficulty?: number;
-  technology_price_multiplier?: number;
+  technology_difficulty?: uint8;
+  technology_price_multiplier?: double;
 };
 export type MapGenPresetEnemyEvolutionSettings = {
-  destroy_factor?: number;
-  enabled?: boolean;
-  pollution_factor?: number;
-  time_factor?: number;
+  destroy_factor?: double;
+  enabled?: bool;
+  pollution_factor?: double;
+  time_factor?: double;
 };
 export type MapGenPresetEnemyExpansionSettings = {
-  enabled?: boolean;
-  max_expansion_cooldown?: number;
-  max_expansion_distance?: number;
-  min_expansion_cooldown?: number;
-  settler_group_max_size?: number;
-  settler_group_min_size?: number;
+  enabled?: bool;
+  max_expansion_cooldown?: uint32;
+  max_expansion_distance?: uint32;
+  min_expansion_cooldown?: uint32;
+  settler_group_max_size?: uint32;
+  settler_group_min_size?: uint32;
 };
 export type MapGenPresetPollutionSettings = {
-  ageing?: number;
-  diffusion_ratio?: number;
-  enabled?: boolean;
-  enemy_attack_pollution_consumption_modifier?: number;
-  min_pollution_to_damage_trees?: number;
-  pollution_restored_per_tree_damage?: number;
+  ageing?: double;
+  diffusion_ratio?: double;
+  enabled?: bool;
+  enemy_attack_pollution_consumption_modifier?: double;
+  min_pollution_to_damage_trees?: double;
+  pollution_restored_per_tree_damage?: double;
 };
 export type MapGenSettings = {
   autoplace_controls?: Record<AutoplaceControlID, FrequencySizeRichness>;
@@ -1844,19 +1844,19 @@ export type MapGenSettings = {
     AutoplaceSettings
   >;
   cliff_settings?: CliffPlacementSettings;
-  default_enable_all_autoplace_controls?: boolean;
-  height?: number;
-  peaceful_mode?: boolean;
-  property_expression_names?: Record<string, string | boolean | number>;
-  seed?: number;
+  default_enable_all_autoplace_controls?: bool;
+  height?: uint32;
+  peaceful_mode?: bool;
+  property_expression_names?: Record<string, string | bool | double>;
+  seed?: uint32;
   starting_area?: MapGenSize;
   starting_points?: MapPosition[];
   terrain_segmentation?: MapGenSize;
   water?: MapGenSize;
-  width?: number;
+  width?: uint32;
 };
 export type MapGenSize =
-  | number
+  | float
   | 'none'
   | 'very-low'
   | 'very-small'
@@ -1873,26 +1873,26 @@ export type MapGenSize =
   | 'very-high'
   | 'very-big'
   | 'very-good';
-export type MapPosition = { x: number; y: number } | [number, number];
-export type MaterialAmountType = number;
+export type MapPosition = { x: double; y: double } | [double, double];
+export type MaterialAmountType = double;
 export type MaxFailedAttemptsPerTickPerConstructionQueueModifier = {
   type: 'max-failed-attempts-per-tick-per-construction-queue';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type MaxSuccessfulAttemptsPerTickPerConstructionQueueModifier = {
   type: 'max-successful-attempts-per-tick-per-construction-queue';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type MaximumFollowingRobotsCountModifier = {
-  infer_icon?: boolean;
+  infer_icon?: bool;
   type: 'maximum-following-robots-count';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type MinableProperties = {
-  count?: number;
-  fluid_amount?: number;
+  count?: uint16;
+  fluid_amount?: double;
   mining_particle?: ParticleID;
-  mining_time: number;
+  mining_time: double;
   mining_trigger?: Trigger;
   required_fluid?: FluidID;
   result?: ItemID;
@@ -1900,30 +1900,30 @@ export type MinableProperties = {
 };
 export type MinimapStyleSpecification = { type: 'minimap_style' };
 export type MiningDrillGraphicsSet = {
-  always_draw_idle_animation?: boolean;
+  always_draw_idle_animation?: bool;
   animation?: Animation4Way;
-  animation_progress?: number;
+  animation_progress?: float;
   circuit_connector_layer?: RenderLayer | CircuitConnectorLayer;
   circuit_connector_secondary_draw_order?:
-    | number
+    | int8
     | CircuitConnectorSecondaryDrawOrder;
   default_recipe_tint?: DefaultRecipeTint;
-  drilling_vertical_movement_duration?: number;
+  drilling_vertical_movement_duration?: uint16;
   idle_animation?: Animation4Way;
-  max_animation_progress?: number;
-  min_animation_progress?: number;
-  shift_animation_transition_duration?: number;
-  shift_animation_waypoint_stop_duration?: number;
+  max_animation_progress?: float;
+  min_animation_progress?: float;
+  shift_animation_transition_duration?: uint16;
+  shift_animation_waypoint_stop_duration?: uint16;
   shift_animation_waypoints?: ShiftAnimationWaypoints;
   status_colors?: StatusColors;
   working_visualisations?: WorkingVisualisation[];
 };
 export type MiningDrillProductivityBonusModifier = {
-  infer_icon?: boolean;
+  infer_icon?: bool;
   type: 'mining-drill-productivity-bonus';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
-export type ModSetting = { value: number | number | boolean | string | Color };
+export type ModSetting = { value: int32 | double | bool | string | Color };
 export type Modifier =
   | InserterStackSizeBonusModifier
   | StackInserterCapacityBonusModifier
@@ -1969,12 +1969,12 @@ export type Modifier =
 export type Mods = Record<string, string>;
 export type ModuleCategoryID = string;
 export type ModuleSpecification = {
-  module_info_icon_scale?: number;
+  module_info_icon_scale?: float;
   module_info_icon_shift?: Vector;
-  module_info_max_icon_rows?: number;
-  module_info_max_icons_per_row?: number;
-  module_info_multi_row_initial_height_modifier?: number;
-  module_info_separation_multiplier?: number;
+  module_info_max_icon_rows?: uint8;
+  module_info_max_icons_per_row?: uint8;
+  module_info_multi_row_initial_height_modifier?: float;
+  module_info_separation_multiplier?: float;
   module_slots?: ItemStackIndex;
 };
 export type ModuleTint =
@@ -2223,7 +2223,7 @@ export type NoiseIfElseChain = {
 };
 export type NoiseLayerID = string;
 export type NoiseLiteralBoolean = {
-  literal_value: boolean;
+  literal_value: bool;
   type: 'literal-boolean';
 };
 export type NoiseLiteralExpression = {
@@ -2231,7 +2231,7 @@ export type NoiseLiteralExpression = {
   type: 'literal-expression';
 };
 export type NoiseLiteralNumber = {
-  literal_value: number;
+  literal_value: float;
   type: 'literal-number';
 };
 export type NoiseLiteralObject = {
@@ -2315,7 +2315,7 @@ export type NoiseVariableConstants =
 export type NothingModifier = {
   effect_description?: LocalisedString;
   type: 'nothing';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type OffshorePumpGraphicsSet = {
   animation: Animation4Way;
@@ -2323,14 +2323,14 @@ export type OffshorePumpGraphicsSet = {
   base_render_layer?: RenderLayer;
   fluid_animation?: Animation4Way;
   glass_pictures?: Sprite4Way;
-  underwater_layer_offset?: number;
+  underwater_layer_offset?: int8;
   underwater_pictures?: Sprite4Way;
 };
 export type OrTipTrigger = { triggers: TipTrigger[]; type: 'or' };
 export type Order = string;
 export type OrientedCliffPrototype = {
   collision_bounding_box: BoundingBox;
-  fill_volume: number;
+  fill_volume: uint32;
   pictures: SpriteVariations;
 };
 export type OrientedCliffPrototypeSet = {
@@ -2358,52 +2358,52 @@ export type OrientedCliffPrototypeSet = {
 export type OtherColors = {
   bar?: ElementImageSet;
   color?: Color;
-  less_than: number;
+  less_than: double;
 };
 export type ParticleID = string;
 export type PasteEntitySettingsTipTrigger = {
-  count?: number;
-  match_type_only?: boolean;
+  count?: uint32;
+  match_type_only?: bool;
   source?: EntityID;
   target?: EntityID;
   type: 'paste-entity-settings';
 };
 export type PathFinderSettings = {
-  cache_accept_path_end_distance_ratio: number;
-  cache_accept_path_start_distance_ratio: number;
-  cache_max_connect_to_cache_steps_multiplier: number;
-  cache_path_end_distance_rating_multiplier: number;
-  cache_path_start_distance_rating_multiplier: number;
-  direct_distance_to_consider_short_request: number;
-  enemy_with_different_destination_collision_penalty: number;
-  extended_collision_penalty: number;
-  fwd2bwd_ratio: number;
-  general_entity_collision_penalty: number;
-  general_entity_subsequent_collision_penalty: number;
-  goal_pressure_ratio: number;
-  ignore_moving_enemy_collision_distance: number;
-  long_cache_min_cacheable_distance: number;
-  long_cache_size: number;
-  max_clients_to_accept_any_new_request: number;
-  max_clients_to_accept_short_new_request: number;
-  max_steps_worked_per_tick: number;
-  max_work_done_per_tick: number;
-  min_steps_to_check_path_find_termination: number;
-  negative_cache_accept_path_end_distance_ratio: number;
-  negative_cache_accept_path_start_distance_ratio: number;
-  overload_levels: number[];
-  overload_multipliers: number[];
-  short_cache_min_algo_steps_to_cache: number;
-  short_cache_min_cacheable_distance: number;
-  short_cache_size: number;
-  short_request_max_steps: number;
-  short_request_ratio: number;
-  stale_enemy_with_same_destination_collision_penalty: number;
-  start_to_goal_cost_multiplier_to_terminate_path_find: number;
-  use_path_cache: boolean;
+  cache_accept_path_end_distance_ratio: double;
+  cache_accept_path_start_distance_ratio: double;
+  cache_max_connect_to_cache_steps_multiplier: uint32;
+  cache_path_end_distance_rating_multiplier: double;
+  cache_path_start_distance_rating_multiplier: double;
+  direct_distance_to_consider_short_request: uint32;
+  enemy_with_different_destination_collision_penalty: double;
+  extended_collision_penalty: double;
+  fwd2bwd_ratio: uint32;
+  general_entity_collision_penalty: double;
+  general_entity_subsequent_collision_penalty: double;
+  goal_pressure_ratio: double;
+  ignore_moving_enemy_collision_distance: double;
+  long_cache_min_cacheable_distance: double;
+  long_cache_size: uint32;
+  max_clients_to_accept_any_new_request: uint32;
+  max_clients_to_accept_short_new_request: uint32;
+  max_steps_worked_per_tick: double;
+  max_work_done_per_tick: uint32;
+  min_steps_to_check_path_find_termination: uint32;
+  negative_cache_accept_path_end_distance_ratio: double;
+  negative_cache_accept_path_start_distance_ratio: double;
+  overload_levels: uint32[];
+  overload_multipliers: double[];
+  short_cache_min_algo_steps_to_cache: uint32;
+  short_cache_min_cacheable_distance: double;
+  short_cache_size: uint32;
+  short_request_max_steps: uint32;
+  short_request_ratio: double;
+  stale_enemy_with_same_destination_collision_penalty: double;
+  start_to_goal_cost_multiplier_to_terminate_path_find: double;
+  use_path_cache: bool;
 };
 export type PipeConnectionDefinition = {
-  max_underground_distance?: number;
+  max_underground_distance?: uint32;
   position?: Vector;
   positions?: Vector[];
   type?: 'input' | 'input-output' | 'output';
@@ -2443,23 +2443,23 @@ export type PipeToGroundPictures = {
 };
 export type PlaceAsTile = {
   condition: CollisionMask;
-  condition_size: number;
+  condition_size: int32;
   result: TileID;
 };
 export type PlaceEquipmentTipTrigger = {
-  count?: number;
+  count?: uint32;
   equipment?: EquipmentID;
   type: 'place-equipment';
 };
 export type PlayFor = 'character_actions' | 'everything';
 export type PlaySoundTriggerEffectItem = {
-  audible_distance_modifier?: number;
-  max_distance?: number;
-  min_distance?: number;
-  play_on_target_position?: boolean;
+  audible_distance_modifier?: float;
+  max_distance?: float;
+  min_distance?: float;
+  play_on_target_position?: bool;
   sound: Sound;
   type: 'play-sound';
-  volume_modifier?: number;
+  volume_modifier?: float;
 };
 export type PlayerColorData = {
   chat_color: Color;
@@ -2471,18 +2471,18 @@ export type PlayerInputMethodFilter =
   | 'keyboard_and_mouse'
   | 'game_controller';
 export type PollutionSettings = {
-  ageing: number;
-  diffusion_ratio: number;
-  enabled: boolean;
-  enemy_attack_pollution_consumption_modifier: number;
-  expected_max_per_chunk: number;
-  max_pollution_to_restore_trees: number;
-  min_pollution_to_damage_trees: number;
-  min_to_diffuse: number;
-  min_to_show_per_chunk: number;
-  pollution_per_tree_damage: number;
-  pollution_restored_per_tree_damage: number;
-  pollution_with_max_forest_damage: number;
+  ageing: double;
+  diffusion_ratio: double;
+  enabled: bool;
+  enemy_attack_pollution_consumption_modifier: double;
+  expected_max_per_chunk: double;
+  max_pollution_to_restore_trees: double;
+  min_pollution_to_damage_trees: double;
+  min_to_diffuse: double;
+  min_to_show_per_chunk: double;
+  pollution_per_tree_damage: double;
+  pollution_restored_per_tree_damage: double;
+  pollution_with_max_forest_damage: double;
 };
 export type ProductPrototype = ItemProductPrototype | FluidProductPrototype;
 export type ProductionType =
@@ -2499,32 +2499,32 @@ export type ProgrammableSpeakerNote = { name: string; sound: Sound };
 export type ProgressBarStyleSpecification = {
   bar?: ElementImageSet;
   bar_background?: ElementImageSet;
-  bar_width?: number;
+  bar_width?: uint32;
   color?: Color;
-  embed_text_in_bar?: boolean;
+  embed_text_in_bar?: bool;
   filled_font_color?: Color;
   font?: string;
   font_color?: Color;
   other_colors?: OtherColors[];
-  side_text_padding?: number;
+  side_text_padding?: int16;
   type: 'progressbar_style';
 };
 export type ProjectileAttackParameters = {
   projectile_center?: Vector;
-  projectile_creation_distance?: number;
+  projectile_creation_distance?: float;
   projectile_creation_parameters?: CircularProjectileCreationSpecification;
-  projectile_orientation_offset?: number;
+  projectile_orientation_offset?: float;
   shell_particle?: CircularParticleCreationSpecification;
   type: 'projectile';
 };
 export type ProjectileTriggerDelivery = {
-  direction_deviation?: number;
-  max_range?: number;
-  min_range?: number;
+  direction_deviation?: float;
+  max_range?: double;
+  min_range?: double;
   projectile: EntityID;
-  range_deviation?: number;
-  starting_speed: number;
-  starting_speed_deviation?: number;
+  range_deviation?: float;
+  starting_speed: float;
+  starting_speed_deviation?: float;
   type: 'projectile';
 };
 export type PumpConnectorGraphics = {
@@ -2540,18 +2540,18 @@ export type PumpConnectorGraphicsAnimation = {
   standup_shadow?: Animation;
   standup_top?: Animation;
 };
-export type PushBackTriggerEffectItem = { distance: number; type: 'push-back' };
+export type PushBackTriggerEffectItem = { distance: float; type: 'push-back' };
 export type RadioButtonStyleSpecification = {
   disabled_font_color?: Color;
   font?: string;
   font_color?: Color;
-  text_padding?: number;
+  text_padding?: uint32;
   type: 'radiobutton_style';
 };
 export type RadiusVisualisationSpecification = {
-  distance?: number;
-  draw_in_cursor?: boolean;
-  draw_on_selection?: boolean;
+  distance?: double;
+  draw_in_cursor?: bool;
+  draw_on_selection?: bool;
   offset?: Vector;
   sprite?: Sprite;
 };
@@ -2591,30 +2591,30 @@ export type RandomPenaltyArguments = {
   x: NoiseNumber;
   y: NoiseNumber;
 };
-export type RealOrientation = number;
+export type RealOrientation = float;
 export type RecipeCategoryID = string;
 export type RecipeData = {
-  allow_as_intermediate?: boolean;
-  allow_decomposition?: boolean;
-  allow_inserter_overload?: boolean;
-  allow_intermediates?: boolean;
-  always_show_made_in?: boolean;
-  always_show_products?: boolean;
-  emissions_multiplier?: number;
-  enabled?: boolean;
-  energy_required?: number;
-  hidden?: boolean;
-  hide_from_player_crafting?: boolean;
-  hide_from_stats?: boolean;
+  allow_as_intermediate?: bool;
+  allow_decomposition?: bool;
+  allow_inserter_overload?: bool;
+  allow_intermediates?: bool;
+  always_show_made_in?: bool;
+  always_show_products?: bool;
+  emissions_multiplier?: double;
+  enabled?: bool;
+  energy_required?: double;
+  hidden?: bool;
+  hide_from_player_crafting?: bool;
+  hide_from_stats?: bool;
   ingredients: IngredientPrototype[];
   main_product?: string;
-  overload_multiplier?: number;
-  requester_paste_multiplier?: number;
+  overload_multiplier?: uint32;
+  requester_paste_multiplier?: uint32;
   result?: ItemID;
-  result_count?: number;
+  result_count?: uint16;
   results?: ProductPrototype[];
-  show_amount_in_title?: boolean;
-  unlock_results?: boolean;
+  show_amount_in_title?: bool;
+  unlock_results?: bool;
 };
 export type RecipeID = string;
 export type RenderLayer =
@@ -2666,26 +2666,26 @@ export type ResearchTechnologyTipTrigger = {
   type: 'research';
 };
 export type Resistance = {
-  decrease?: number;
-  percent?: number;
+  decrease?: float;
+  percent?: float;
   type: DamageTypeID;
 };
 export type ResourceCategoryID = string;
 export type RichTextSetting = 'enabled' | 'disabled' | 'highlight';
 export type RotatedAnimation = {
-  apply_projection?: boolean;
-  axially_symmetrical?: boolean;
-  counterclockwise?: boolean;
-  direction_count?: number;
+  apply_projection?: bool;
+  axially_symmetrical?: bool;
+  counterclockwise?: bool;
+  direction_count?: uint32;
   filename?: FileName;
   filenames?: FileName[];
   hr_version?: RotatedAnimation;
   layers?: RotatedAnimation[];
-  lines_per_file?: number;
+  lines_per_file?: uint32;
   middle_orientation?: RealOrientation;
-  orientation_range?: number;
-  slice?: number;
-  still_frame?: number;
+  orientation_range?: float;
+  slice?: uint32;
+  still_frame?: uint32;
   stripes?: Stripe[];
 };
 export type RotatedAnimation4Way =
@@ -2698,19 +2698,19 @@ export type RotatedAnimation4Way =
   | RotatedAnimation;
 export type RotatedAnimationVariations = RotatedAnimation | RotatedAnimation[];
 export type RotatedSprite = {
-  allow_low_quality_rotation?: boolean;
-  apply_projection?: boolean;
-  axially_symmetrical?: boolean;
-  back_equals_front?: boolean;
-  counterclockwise?: boolean;
-  direction_count?: number;
+  allow_low_quality_rotation?: bool;
+  apply_projection?: bool;
+  axially_symmetrical?: bool;
+  back_equals_front?: bool;
+  counterclockwise?: bool;
+  direction_count?: uint16;
   filename?: FileName;
   filenames?: FileName[];
-  generate_sdf?: boolean;
+  generate_sdf?: bool;
   hr_version?: RotatedSprite;
   layers?: RotatedSprite[];
-  line_length?: number;
-  lines_per_file?: number;
+  line_length?: uint32;
+  lines_per_file?: uint64;
   slice?: SpriteSizeType;
   slice_x?: SpriteSizeType;
   slice_y?: SpriteSizeType;
@@ -2722,17 +2722,17 @@ export type ScrollBarStyleSpecification = {
 };
 export type ScrollPaneStyleSpecification = {
   background_graphical_set?: ElementImageSet;
-  dont_force_clipping_rect_for_contents?: boolean;
-  extra_bottom_margin_when_activated?: number;
-  extra_bottom_padding_when_activated?: number;
-  extra_left_margin_when_activated?: number;
-  extra_left_padding_when_activated?: number;
-  extra_margin_when_activated?: number;
-  extra_padding_when_activated?: number;
-  extra_right_margin_when_activated?: number;
-  extra_right_padding_when_activated?: number;
-  extra_top_margin_when_activated?: number;
-  extra_top_padding_when_activated?: number;
+  dont_force_clipping_rect_for_contents?: bool;
+  extra_bottom_margin_when_activated?: int32;
+  extra_bottom_padding_when_activated?: int32;
+  extra_left_margin_when_activated?: int32;
+  extra_left_padding_when_activated?: int32;
+  extra_margin_when_activated?: int32;
+  extra_padding_when_activated?: int32;
+  extra_right_margin_when_activated?: int32;
+  extra_right_padding_when_activated?: int32;
+  extra_top_margin_when_activated?: int32;
+  extra_top_padding_when_activated?: int32;
   graphical_set?: ElementImageSet;
   horizontal_scrollbar_style?: HorizontalScrollBarStyleSpecification;
   type: 'scroll_pane_style';
@@ -2794,27 +2794,27 @@ export type SelectionModeFlags =
     )[];
 export type SequenceTipTrigger = { triggers: TipTrigger[]; type: 'sequence' };
 export type SetFilterTipTrigger = {
-  consecutive?: boolean;
-  count?: number;
+  consecutive?: bool;
+  count?: uint32;
   entity?: EntityID;
-  match_type_only?: boolean;
+  match_type_only?: bool;
   type: 'set-filter';
 };
 export type SetLogisticRequestTipTrigger = {
-  count?: number;
-  logistic_chest_only?: boolean;
+  count?: uint32;
+  logistic_chest_only?: bool;
   type: 'set-logistic-request';
 };
 export type SetRecipeTipTrigger = {
-  consecutive?: boolean;
+  consecutive?: bool;
   machine?: EntityID;
   recipe?: RecipeID;
   type: 'set-recipe';
-  uses_fluid?: boolean;
+  uses_fluid?: bool;
 };
 export type SetTileTriggerEffectItem = {
-  apply_projection?: boolean;
-  radius: number;
+  apply_projection?: bool;
+  radius: float;
   tile_collision_mask?: CollisionMask;
   tile_name: TileID;
   type: 'set-tile';
@@ -2826,9 +2826,9 @@ export type ShiftAnimationWaypoints = {
   south: Vector[];
   west: Vector[];
 };
-export type ShiftBuildTipTrigger = { count?: number; type: 'shift-build' };
+export type ShiftBuildTipTrigger = { count?: uint32; type: 'shift-build' };
 export type ShowExplosionOnChartTriggerEffectItem = {
-  scale: number;
+  scale: float;
   type: 'show-explosion-on-chart';
 };
 export type SignalColorMapping = {
@@ -2840,24 +2840,24 @@ export type SignalIDConnector = {
   name: VirtualSignalID | ItemID | FluidID;
   type: 'virtual' | 'item' | 'fluid';
 };
-export type SimpleModifier = { modifier: number };
+export type SimpleModifier = { modifier: double };
 export type SimulationDefinition = {
-  checkboard?: boolean;
-  generate_map?: boolean;
+  checkboard?: bool;
+  generate_map?: bool;
   init?: string;
   init_file?: FileName;
-  init_update_count?: number;
-  length?: number;
+  init_update_count?: uint32;
+  length?: uint32;
   mods?: string[];
-  override_volume?: boolean;
+  override_volume?: bool;
   save?: FileName;
   update?: string;
   update_file?: FileName;
-  volume_modifier?: number;
+  volume_modifier?: float;
 };
 export type SliderStyleSpecification = {
   button?: ButtonStyleSpecification;
-  draw_notches?: boolean;
+  draw_notches?: bool;
   empty_bar?: ElementImageSet;
   empty_bar_disabled?: ElementImageSet;
   full_bar?: ElementImageSet;
@@ -2869,46 +2869,46 @@ export type SliderStyleSpecification = {
 export type SmokeSource = {
   deviation?: MapPosition;
   east_position?: Vector;
-  frequency: number;
-  height?: number;
-  height_deviation?: number;
+  frequency: double;
+  height?: float;
+  height_deviation?: float;
   name: TrivialSmokeID;
   north_position?: Vector;
-  offset?: number;
+  offset?: double;
   position?: Vector;
-  slow_down_factor?: number;
+  slow_down_factor?: uint8;
   south_position?: Vector;
-  starting_frame?: number;
-  starting_frame_deviation?: number;
-  starting_frame_speed?: number;
-  starting_frame_speed_deviation?: number;
-  starting_vertical_speed?: number;
-  starting_vertical_speed_deviation?: number;
-  vertical_speed_slowdown?: number;
+  starting_frame?: uint16;
+  starting_frame_deviation?: double;
+  starting_frame_speed?: uint16;
+  starting_frame_speed_deviation?: double;
+  starting_vertical_speed?: float;
+  starting_vertical_speed_deviation?: float;
+  vertical_speed_slowdown?: float;
   west_position?: Vector;
 };
 export type Sound =
   | {
       aggregation?: AggregationSpecification;
-      allow_random_repeat?: boolean;
-      audible_distance_modifier?: number;
+      allow_random_repeat?: bool;
+      audible_distance_modifier?: double;
       filename?: FileName;
       game_controller_vibration_data?: GameControllerVibrationData;
-      max_speed?: number;
-      min_speed?: number;
-      preload?: boolean;
-      speed?: number;
+      max_speed?: float;
+      min_speed?: float;
+      preload?: bool;
+      speed?: float;
       variations?: SoundDefinition | SoundDefinition[];
-      volume?: number;
+      volume?: float;
     }
   | SoundDefinition[];
 export type SoundDefinition = {
   filename: FileName;
-  max_speed?: number;
-  min_speed?: number;
-  preload?: boolean;
-  speed?: number;
-  volume?: number;
+  max_speed?: float;
+  min_speed?: float;
+  preload?: bool;
+  speed?: float;
+  volume?: float;
 };
 export type SoundType =
   | 'game-effect'
@@ -2919,15 +2919,15 @@ export type SoundType =
   | 'alert'
   | 'wind';
 export type SpawnPoint =
-  | { evolution_factor: number; spawn_weight: number }
-  | [number, number];
+  | { evolution_factor: double; spawn_weight: double }
+  | [double, double];
 export type SpeechBubbleStyleSpecification = {
   arrow_graphical_set?: ElementImageSet;
-  arrow_indent?: number;
+  arrow_indent?: double;
   close_color?: Color;
   frame_style?: FrameStyleSpecification;
   label_style?: LabelStyleSpecification;
-  pass_through_mouse?: boolean;
+  pass_through_mouse?: bool;
   type: 'speech_bubble_style';
 };
 export type SpiderEnginePrototype = {
@@ -2937,7 +2937,7 @@ export type SpiderEnginePrototype = {
 export type SpiderLegGraphicsSet = {
   joint?: Sprite;
   joint_shadow?: Sprite;
-  joint_turn_offset?: number;
+  joint_turn_offset?: float;
   lower_part?: SpiderLegPart;
   lower_part_shadow?: SpiderLegPart;
   lower_part_water_reflection?: SpiderLegPart;
@@ -2947,15 +2947,15 @@ export type SpiderLegGraphicsSet = {
 };
 export type SpiderLegPart = {
   bottom_end?: Sprite;
-  bottom_end_length?: number;
+  bottom_end_length?: float;
   middle?: Sprite;
-  middle_offset_from_bottom?: number;
-  middle_offset_from_top?: number;
+  middle_offset_from_bottom?: float;
+  middle_offset_from_top?: float;
   top_end?: Sprite;
-  top_end_length?: number;
+  top_end_length?: float;
 };
 export type SpiderLegSpecification = {
-  blocking_legs: number[];
+  blocking_legs: uint32[];
   ground_position: Vector;
   leg: EntityID;
   leg_hit_the_ground_trigger?: TriggerEffect;
@@ -2968,8 +2968,8 @@ export type SpiderVehicleGraphicsSet = {
   autopilot_destination_queue_visualisation?: Animation;
   autopilot_destination_visualisation?: Animation;
   autopilot_destination_visualisation_render_layer?: RenderLayer;
-  autopilot_path_visualisation_line_width?: number;
-  autopilot_path_visualisation_on_map_line_width?: number;
+  autopilot_path_visualisation_line_width?: float;
+  autopilot_path_visualisation_on_map_line_width?: float;
   base_animation?: RotatedAnimation;
   base_render_layer?: RenderLayer;
   eye_light?: LightDefinition;
@@ -3063,26 +3063,26 @@ export type SpriteFlags = (
   | 'compressed'
 )[];
 export type SpriteNWaySheet = {
-  frames?: number;
-  generate_sdf?: boolean;
+  frames?: uint32;
+  generate_sdf?: bool;
   hr_version?: SpriteNWaySheet;
 };
 export type SpriteParameters = {
-  apply_runtime_tint?: boolean;
+  apply_runtime_tint?: bool;
   blend_mode?: BlendMode;
-  draw_as_glow?: boolean;
-  draw_as_light?: boolean;
-  draw_as_shadow?: boolean;
+  draw_as_glow?: bool;
+  draw_as_light?: bool;
+  draw_as_shadow?: bool;
   filename: FileName;
   flags?: SpriteFlags;
-  generate_sdf?: boolean;
+  generate_sdf?: bool;
   height?: SpriteSizeType;
-  load_in_minimal_mode?: boolean;
-  mipmap_count?: number;
+  load_in_minimal_mode?: bool;
+  mipmap_count?: uint8;
   position?: [SpriteSizeType, SpriteSizeType];
-  premul_alpha?: boolean;
+  premul_alpha?: bool;
   priority?: SpritePriority;
-  scale?: number;
+  scale?: double;
   shift?: Vector;
   size?: SpriteSizeType | [SpriteSizeType, SpriteSizeType];
   tint?: Color;
@@ -3101,27 +3101,27 @@ export type SpritePriority =
 export type SpriteSheet = {
   hr_version?: SpriteSheet;
   layers?: SpriteSheet[];
-  line_length?: number;
-  repeat_count?: number;
-  variation_count?: number;
+  line_length?: uint32;
+  repeat_count?: uint32;
+  variation_count?: uint32;
 };
-export type SpriteSizeType = number;
+export type SpriteSizeType = int16;
 export type SpriteVariations = { sheet: SpriteSheet } | SpriteSheet | Sprite[];
 export type StackInserterCapacityBonusModifier = {
-  infer_icon?: boolean;
+  infer_icon?: bool;
   type: 'stack-inserter-capacity-bonus';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type StackTransferTipTrigger = {
-  count?: number;
+  count?: uint32;
   transfer?: 'stack' | 'inventory' | 'whole-inventory';
   type: 'stack-transfer';
 };
 export type StateSteeringSettings = {
-  force_unit_fuzzy_goto_behavior: boolean;
-  radius: number;
-  separation_factor: number;
-  separation_force: number;
+  force_unit_fuzzy_goto_behavior: bool;
+  radius: double;
+  separation_factor: double;
+  separation_force: double;
 };
 export type StatusColors = {
   disabled?: Color;
@@ -3145,14 +3145,14 @@ export type StorageTankPictures = {
   window_background: Sprite;
 };
 export type StreamAttackParameters = {
-  fluid_consumption?: number;
+  fluid_consumption?: float;
   fluids?: StreamFluidProperties[];
-  gun_barrel_length?: number;
+  gun_barrel_length?: float;
   gun_center_shift?: Vector | GunShift4Way;
   projectile_creation_parameters?: CircularProjectileCreationSpecification;
   type: 'stream';
 };
-export type StreamFluidProperties = { damage_modifier?: number; type: FluidID };
+export type StreamFluidProperties = { damage_modifier?: double; type: FluidID };
 export type StreamTriggerDelivery = {
   source_offset?: Vector;
   stream: EntityID;
@@ -3161,10 +3161,10 @@ export type StreamTriggerDelivery = {
 export type StretchRule = 'on' | 'off' | 'auto' | 'stretch_and_expand';
 export type Stripe = {
   filename: FileName;
-  height_in_frames: number;
-  width_in_frames: number;
-  x?: number;
-  y?: number;
+  height_in_frames: uint32;
+  width_in_frames: uint32;
+  x?: uint32;
+  y?: uint32;
 };
 export type StyleSpecification =
   | ActivityBarStyleSpecification
@@ -3215,14 +3215,14 @@ export type SwitchStyleSpecification = {
   disabled_background?: Sprite;
   hover_background?: Sprite;
   inactive_label?: LabelStyleSpecification;
-  left_button_position?: number;
-  middle_button_position?: number;
-  right_button_position?: number;
+  left_button_position?: uint32;
+  middle_button_position?: uint32;
+  right_button_position?: uint32;
   type: 'switch_style';
 };
 export type TabStyleSpecification = {
   badge_font?: string;
-  badge_horizontal_spacing?: number;
+  badge_horizontal_spacing?: int16;
   default_badge_font_color?: Color;
   default_badge_graphical_set?: ElementImageSet;
   default_font_color?: Color;
@@ -3231,14 +3231,14 @@ export type TabStyleSpecification = {
   disabled_badge_graphical_set?: ElementImageSet;
   disabled_font_color?: Color;
   disabled_graphical_set?: ElementImageSet;
-  draw_grayscale_picture?: boolean;
+  draw_grayscale_picture?: bool;
   font?: string;
   game_controller_selected_hover_graphical_set?: ElementImageSet;
   hover_badge_graphical_set?: ElementImageSet;
   hover_graphical_set?: ElementImageSet;
   left_click_sound?: Sound;
   left_edge_selected_graphical_set?: ElementImageSet;
-  override_graphics_on_edges?: boolean;
+  override_graphics_on_edges?: bool;
   press_badge_graphical_set?: ElementImageSet;
   press_graphical_set?: ElementImageSet;
   right_edge_selected_graphical_set?: ElementImageSet;
@@ -3252,14 +3252,14 @@ export type TabbedPaneStyleSpecification = {
   tab_container?: HorizontalFlowStyleSpecification;
   tab_content_frame?: FrameStyleSpecification;
   type: 'tabbed_pane_style';
-  vertical_spacing?: number;
+  vertical_spacing?: uint32;
 };
 export type TableStyleSpecification = {
-  apply_row_graphical_set_per_column?: boolean;
+  apply_row_graphical_set_per_column?: bool;
   background_graphical_set?: ElementImageSet;
   border?: BorderImageSet;
-  bottom_cell_padding?: number;
-  cell_padding?: number;
+  bottom_cell_padding?: int16;
+  cell_padding?: int16;
   clicked_graphical_set?: ElementImageSet;
   column_alignments?: ColumnAlignment[];
   column_graphical_set?: ElementImageSet;
@@ -3269,33 +3269,33 @@ export type TableStyleSpecification = {
   default_row_graphical_set?: ElementImageSet;
   even_row_graphical_set?: ElementImageSet;
   horizontal_line_color?: Color;
-  horizontal_spacing?: number;
+  horizontal_spacing?: int32;
   hovered_graphical_set?: ElementImageSet;
   hovered_row_color?: Color;
   inactive_column_ordering_ascending_button_style?: ButtonStyleSpecification;
   inactive_column_ordering_descending_button_style?: ButtonStyleSpecification;
-  left_cell_padding?: number;
+  left_cell_padding?: int16;
   odd_row_graphical_set?: ElementImageSet;
-  right_cell_padding?: number;
+  right_cell_padding?: int16;
   selected_clicked_graphical_set?: ElementImageSet;
   selected_graphical_set?: ElementImageSet;
   selected_hovered_graphical_set?: ElementImageSet;
   selected_row_color?: Color;
-  top_cell_padding?: number;
+  top_cell_padding?: int16;
   type: 'table_style';
   vertical_line_color?: Color;
-  vertical_spacing?: number;
+  vertical_spacing?: int32;
 };
 export type TechnologyData = {
   effects?: Modifier[];
-  enabled?: boolean;
-  hidden?: boolean;
-  ignore_tech_cost_multiplier?: boolean;
-  max_level?: number | 'infinite';
+  enabled?: bool;
+  hidden?: bool;
+  ignore_tech_cost_multiplier?: bool;
+  max_level?: uint32 | 'infinite';
   prerequisites?: TechnologyID[];
   unit: TechnologyUnit;
-  upgrade?: boolean;
-  visible_when_disabled?: boolean;
+  upgrade?: bool;
+  visible_when_disabled?: bool;
 };
 export type TechnologyID = string;
 export type TechnologySlotStyleSpecification = {
@@ -3311,34 +3311,34 @@ export type TechnologySlotStyleSpecification = {
   hovered_level_font_color?: Color;
   hovered_level_range_band?: ElementImageSet;
   hovered_level_range_font_color?: Color;
-  ingredient_icon_overlap?: number;
-  ingredient_icon_size?: number;
-  ingredients_height?: number;
-  ingredients_padding?: number;
+  ingredient_icon_overlap?: uint32;
+  ingredient_icon_size?: uint32;
+  ingredients_height?: uint32;
+  ingredients_padding?: uint32;
   level_band?: ElementImageSet;
-  level_band_height?: number;
-  level_band_width?: number;
+  level_band_height?: uint32;
+  level_band_width?: uint32;
   level_font?: string;
   level_font_color?: Color;
-  level_offset_x?: number;
-  level_offset_y?: number;
+  level_offset_x?: int32;
+  level_offset_y?: int32;
   level_range_band?: ElementImageSet;
   level_range_font?: string;
   level_range_font_color?: Color;
-  level_range_offset_x?: number;
-  level_range_offset_y?: number;
+  level_range_offset_x?: int32;
+  level_range_offset_y?: int32;
   progress_bar?: ElementImageSet;
   progress_bar_background?: ElementImageSet;
   progress_bar_color?: Color;
-  progress_bar_height?: number;
+  progress_bar_height?: uint32;
   progress_bar_shadow?: ElementImageSet;
   type: 'technology_slot_style';
 };
 export type TechnologyUnit = {
-  count?: number;
+  count?: uint64;
   count_formula?: string;
   ingredients: IngredientPrototype[];
-  time: number;
+  time: double;
 };
 export type TextBoxStyleSpecification = {
   active_background?: ElementImageSet;
@@ -3361,9 +3361,9 @@ export type TextBoxStyleSpecification = {
 export type ThrowCapsuleAction = {
   attack_parameters: AttackParameters;
   type: 'throw';
-  uses_stack?: boolean;
+  uses_stack?: bool;
 };
-export type TileAndAlpha = { alpha: number; tile: TileID };
+export type TileAndAlpha = { alpha: float; tile: TileID };
 export type TileBuildSound = { large?: Sound; medium?: Sound; small?: Sound };
 export type TileID = string;
 export type TileIDRestriction = TileID | [TileID, TileID];
@@ -3374,84 +3374,84 @@ export type TileRenderLayer =
   | 'ground'
   | 'top';
 export type TileSprite = {
-  count: number;
+  count: uint32;
   hr_version?: TileSprite;
-  line_length?: number;
+  line_length?: uint32;
   picture: FileName;
-  scale?: number;
+  scale?: float;
   x?: SpriteSizeType;
   y?: SpriteSizeType;
 };
 export type TileSpriteWithProbability = {
-  probability?: number;
-  size: number;
-  weights?: number[];
+  probability?: double;
+  size: uint32;
+  weights?: double[];
 };
 export type TileTransitionSprite = {
-  count: number;
+  count: uint32;
   hr_version?: TileTransitionSprite;
   picture: FileName;
-  scale?: number;
-  tall?: boolean;
+  scale?: float;
+  tall?: bool;
   x?: SpriteSizeType;
   y?: SpriteSizeType;
 };
 export type TileTransitions = {
-  apply_effect_color_to_overlay?: boolean;
+  apply_effect_color_to_overlay?: bool;
   background_layer_group?: TileRenderLayer;
-  background_layer_offset?: number;
+  background_layer_offset?: int8;
   effect_mask?: Animation;
-  empty_transitions?: boolean;
+  empty_transitions?: bool;
   inner_corner?: TileTransitionSprite;
   inner_corner_background?: TileTransitionSprite;
   inner_corner_background_mask?: TileTransitionSprite;
   inner_corner_effect_map?: TileTransitionSprite;
   inner_corner_mask?: TileTransitionSprite;
-  inner_corner_weights?: number[];
-  layer?: number;
-  masked_background_layer_offset?: number;
-  masked_overlay_layer_offset?: number;
+  inner_corner_weights?: float[];
+  layer?: uint8;
+  masked_background_layer_offset?: int8;
+  masked_overlay_layer_offset?: int8;
   o_transition?: TileSprite;
   o_transition_background?: TileSprite;
   o_transition_background_mask?: TileSprite;
   o_transition_effect_map?: TileSprite;
   o_transition_mask?: TileSprite;
-  offset_background_layer_by_tile_layer?: boolean;
+  offset_background_layer_by_tile_layer?: bool;
   outer_corner?: TileTransitionSprite;
   outer_corner_background?: TileTransitionSprite;
   outer_corner_background_mask?: TileTransitionSprite;
   outer_corner_effect_map?: TileTransitionSprite;
   outer_corner_mask?: TileTransitionSprite;
-  outer_corner_weights?: number[];
+  outer_corner_weights?: float[];
   overlay_layer_group?: TileRenderLayer;
-  overlay_layer_offset?: number;
+  overlay_layer_offset?: int8;
   side?: TileTransitionSprite;
   side_background?: TileTransitionSprite;
   side_background_mask?: TileTransitionSprite;
   side_effect_map?: TileTransitionSprite;
   side_mask?: TileTransitionSprite;
-  side_weights?: number[];
+  side_weights?: float[];
   u_transition?: TileTransitionSprite;
   u_transition_background?: TileTransitionSprite;
   u_transition_background_mask?: TileTransitionSprite;
   u_transition_effect_map?: TileTransitionSprite;
   u_transition_mask?: TileTransitionSprite;
-  u_transition_weights?: number[];
+  u_transition_weights?: float[];
   water_patch?: Sprite;
 };
 export type TileTransitionsBetweenTransitions = {
-  transition_group1: number;
-  transition_group2: number;
+  transition_group1: uint8;
+  transition_group2: uint8;
 };
 export type TileTransitionsToTiles = {
   to_tiles: TileID[];
-  transition_group: number;
+  transition_group: uint8;
 };
 export type TileTransitionsVariants = {
   main: TileSpriteWithProbability[];
   material_background?: TileSprite;
 };
-export type TimeElapsedTipTrigger = { ticks: number; type: 'time-elapsed' };
+export type TimeElapsedTipTrigger = { ticks: uint32; type: 'time-elapsed' };
 export type TipStatus =
   | 'locked'
   | 'optional'
@@ -3492,23 +3492,23 @@ export type TipTrigger =
   | GateOverRailBuildTipTrigger
   | ManualWireDragTipTrigger;
 export type TrainBrakingForceBonusModifier = {
-  infer_icon?: boolean;
+  infer_icon?: bool;
   type: 'train-braking-force-bonus';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type TrainPathFinderConstants = {
-  signal_reserved_by_circuit_network_penalty: number;
-  stopped_manually_controlled_train_penalty: number;
-  stopped_manually_controlled_train_without_passenger_penalty: number;
-  train_arriving_to_signal_penalty: number;
-  train_arriving_to_station_penalty: number;
-  train_auto_without_schedule_penalty: number;
-  train_in_station_penalty: number;
-  train_in_station_with_no_other_valid_stops_in_schedule: number;
-  train_stop_penalty: number;
-  train_waiting_at_signal_penalty: number;
-  train_waiting_at_signal_tick_multiplier_penalty: number;
-  train_with_no_path_penalty: number;
+  signal_reserved_by_circuit_network_penalty: uint32;
+  stopped_manually_controlled_train_penalty: uint32;
+  stopped_manually_controlled_train_without_passenger_penalty: uint32;
+  train_arriving_to_signal_penalty: uint32;
+  train_arriving_to_station_penalty: uint32;
+  train_auto_without_schedule_penalty: uint32;
+  train_in_station_penalty: uint32;
+  train_in_station_with_no_other_valid_stops_in_schedule: uint32;
+  train_stop_penalty: uint32;
+  train_waiting_at_signal_penalty: uint32;
+  train_waiting_at_signal_tick_multiplier_penalty: float;
+  train_with_no_path_penalty: uint32;
 };
 export type TrainStopDrawingBoxes = {
   east: BoundingBox;
@@ -3523,30 +3523,30 @@ export type TrainStopLight = {
 };
 export type TransportBeltAnimationSet = {
   animation_set: RotatedAnimation;
-  east_index?: number;
-  ending_east_index?: number;
-  ending_north_index?: number;
+  east_index?: uint8;
+  ending_east_index?: uint8;
+  ending_north_index?: uint8;
   ending_patch?: Sprite4Way;
-  ending_south_index?: number;
-  ending_west_index?: number;
-  ends_with_stopper?: boolean;
-  north_index?: number;
-  south_index?: number;
-  starting_east_index?: number;
-  starting_north_index?: number;
-  starting_south_index?: number;
-  starting_west_index?: number;
-  west_index?: number;
+  ending_south_index?: uint8;
+  ending_west_index?: uint8;
+  ends_with_stopper?: bool;
+  north_index?: uint8;
+  south_index?: uint8;
+  starting_east_index?: uint8;
+  starting_north_index?: uint8;
+  starting_south_index?: uint8;
+  starting_west_index?: uint8;
+  west_index?: uint8;
 };
 export type TransportBeltAnimationSetWithCorners = {
-  east_to_north_index?: number;
-  east_to_south_index?: number;
-  north_to_east_index?: number;
-  north_to_west_index?: number;
-  south_to_east_index?: number;
-  south_to_west_index?: number;
-  west_to_north_index?: number;
-  west_to_south_index?: number;
+  east_to_north_index?: uint8;
+  east_to_south_index?: uint8;
+  north_to_east_index?: uint8;
+  north_to_west_index?: uint8;
+  south_to_east_index?: uint8;
+  south_to_west_index?: uint8;
+  west_to_north_index?: uint8;
+  west_to_south_index?: uint8;
 };
 export type TransportBeltConnectorFrame = {
   frame_back_patch?: SpriteVariations;
@@ -3556,27 +3556,27 @@ export type TransportBeltConnectorFrame = {
   frame_main_scanner_cross_horizontal_end_shift: Vector;
   frame_main_scanner_cross_horizontal_rotation: RealOrientation;
   frame_main_scanner_cross_horizontal_start_shift: Vector;
-  frame_main_scanner_cross_horizontal_y_scale: number;
+  frame_main_scanner_cross_horizontal_y_scale: float;
   frame_main_scanner_cross_vertical_end_shift: Vector;
   frame_main_scanner_cross_vertical_rotation: RealOrientation;
   frame_main_scanner_cross_vertical_start_shift: Vector;
-  frame_main_scanner_cross_vertical_y_scale: number;
+  frame_main_scanner_cross_vertical_y_scale: float;
   frame_main_scanner_horizontal_end_shift: Vector;
   frame_main_scanner_horizontal_rotation: RealOrientation;
   frame_main_scanner_horizontal_start_shift: Vector;
-  frame_main_scanner_horizontal_y_scale: number;
-  frame_main_scanner_movement_speed: number;
+  frame_main_scanner_horizontal_y_scale: float;
+  frame_main_scanner_movement_speed: float;
   frame_main_scanner_nw_ne: Animation;
   frame_main_scanner_sw_se: Animation;
   frame_main_scanner_vertical_end_shift: Vector;
   frame_main_scanner_vertical_rotation: RealOrientation;
   frame_main_scanner_vertical_start_shift: Vector;
-  frame_main_scanner_vertical_y_scale: number;
+  frame_main_scanner_vertical_y_scale: float;
   frame_shadow: AnimationVariations;
 };
 export type TreeVariation = {
   branch_generation: CreateParticleTriggerEffectItem;
-  disable_shadow_distortion_beginning_at_frame?: number;
+  disable_shadow_distortion_beginning_at_frame?: uint32;
   leaf_generation: CreateParticleTriggerEffectItem;
   leaves: Animation;
   normal?: Animation;
@@ -3650,31 +3650,31 @@ export type TriggerEffect =
       | CameraEffectTriggerEffectItem
     )[];
 export type TriggerEffectItem = {
-  affects_target?: boolean;
+  affects_target?: bool;
   damage_type_filters?: DamageTypeFilters;
-  probability?: number;
-  repeat_count?: number;
-  repeat_count_deviation?: number;
-  show_in_tooltip?: boolean;
+  probability?: float;
+  repeat_count?: uint16;
+  repeat_count_deviation?: uint16;
+  show_in_tooltip?: bool;
 };
 export type TriggerItem = {
   action_delivery?: TriggerDelivery | TriggerDelivery[];
   collision_mask?: CollisionMask;
   entity_flags?: EntityPrototypeFlags;
   force?: ForceCondition;
-  ignore_collision_condition?: boolean;
-  probability?: number;
-  repeat_count?: number;
+  ignore_collision_condition?: bool;
+  probability?: float;
+  repeat_count?: uint32;
   trigger_target_mask?: TriggerTargetMask;
 };
 export type TriggerTargetMask = string[];
 export type TrivialSmokeID = string;
 export type TurretAttackModifier = {
-  infer_icon?: boolean;
-  modifier: number;
+  infer_icon?: bool;
+  modifier: double;
   turret_id: EntityID;
   type: 'turret-attack';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type UndergroundBeltStructure = {
   back_patch?: Sprite4Way;
@@ -3685,38 +3685,38 @@ export type UndergroundBeltStructure = {
   front_patch?: Sprite4Way;
 };
 export type UnitAISettings = {
-  allow_try_return_to_spawner?: boolean;
-  destroy_when_commands_fail?: boolean;
-  do_separation?: boolean;
-  path_resolution_modifier?: number;
+  allow_try_return_to_spawner?: bool;
+  destroy_when_commands_fail?: bool;
+  do_separation?: bool;
+  path_resolution_modifier?: int8;
 };
 export type UnitAlternativeFrameSequence = {
-  attacking_animation_speed: number;
-  attacking_frame_sequence: number[];
-  back_to_walk_animation_speed: number;
-  back_to_walk_frame_sequence: number[];
-  cooldown_animation_speed: number;
-  cooldown_frame_sequence: number[];
-  prepared_animation_speed: number;
-  prepared_frame_sequence: number[];
-  warmup2_frame_sequence: number[];
-  warmup_animation_speed: number;
-  warmup_frame_sequence: number[];
+  attacking_animation_speed: float;
+  attacking_frame_sequence: uint16[];
+  back_to_walk_animation_speed: float;
+  back_to_walk_frame_sequence: uint16[];
+  cooldown_animation_speed: float;
+  cooldown_frame_sequence: uint16[];
+  prepared_animation_speed: float;
+  prepared_frame_sequence: uint16[];
+  warmup2_frame_sequence: uint16[];
+  warmup_animation_speed: float;
+  warmup_frame_sequence: uint16[];
 };
 export type UnitGroupSettings = {
-  max_gathering_unit_groups: number;
-  max_group_gathering_time: number;
-  max_group_member_fallback_factor: number;
-  max_group_radius: number;
-  max_group_slowdown_factor: number;
-  max_member_slowdown_when_ahead: number;
-  max_member_speedup_when_behind: number;
-  max_unit_group_size: number;
-  max_wait_time_for_late_members: number;
-  member_disown_distance: number;
-  min_group_gathering_time: number;
-  min_group_radius: number;
-  tick_tolerance_when_member_arrives: number;
+  max_gathering_unit_groups: uint32;
+  max_group_gathering_time: uint32;
+  max_group_member_fallback_factor: double;
+  max_group_radius: double;
+  max_group_slowdown_factor: double;
+  max_member_slowdown_when_ahead: double;
+  max_member_speedup_when_behind: double;
+  max_unit_group_size: uint32;
+  max_wait_time_for_late_members: uint32;
+  member_disown_distance: double;
+  min_group_gathering_time: uint32;
+  min_group_radius: double;
+  tick_tolerance_when_member_arrives: uint32;
 };
 export type UnitSpawnDefinition =
   | { spawn_points: SpawnPoint[]; unit: EntityID }
@@ -3724,28 +3724,26 @@ export type UnitSpawnDefinition =
 export type UnlockRecipeModifier = {
   recipe: RecipeID;
   type: 'unlock-recipe';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type UnlockRecipeTipTrigger = {
   recipe: RecipeID;
   type: 'unlock-recipe';
 };
-export type UseConfirmTipTrigger = { count?: number; type: 'use-confirm' };
+export type UseConfirmTipTrigger = { count?: uint32; type: 'use-confirm' };
 export type UseOnSelfCapsuleAction = {
   attack_parameters: AttackParameters;
   type: 'use-on-self';
-  uses_stack?: boolean;
+  uses_stack?: bool;
 };
-export type UsePipetteTipTrigger = { count?: number; type: 'use-pipette' };
-export type Vector = { x: number; y: number } | [number, number];
-export type Vector3D =
-  | { x: number; y: number; z: number }
-  | [number, number, number];
+export type UsePipetteTipTrigger = { count?: uint32; type: 'use-pipette' };
+export type Vector = { x: double; y: double } | [double, double];
+export type Vector3D = { x: float; y: float; z: float } | [float, float, float];
 export type VectorRotation = { frames: Vector[]; render_layer?: RenderLayer };
 export type VerticalAlign = 'top' | 'center' | 'bottom';
 export type VerticalFlowStyleSpecification = {
   type: 'vertical_flow_style';
-  vertical_spacing?: number;
+  vertical_spacing?: int32;
 };
 export type VerticalScrollBarStyleSpecification = {
   type: 'vertical_scrollbar_style';
@@ -3766,50 +3764,50 @@ export type WallPictures = {
   water_connection_patch?: Sprite4Way;
 };
 export type WaterReflectionDefinition = {
-  orientation_to_variation?: boolean;
+  orientation_to_variation?: bool;
   pictures?: SpriteVariations;
-  rotate?: boolean;
+  rotate?: bool;
 };
 export type WireConnectionPoint = { shadow: WirePosition; wire: WirePosition };
 export type WirePosition = { copper?: Vector; green?: Vector; red?: Vector };
 export type WorkerRobotBatteryModifier = {
-  infer_icon?: boolean;
+  infer_icon?: bool;
   type: 'worker-robot-battery';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type WorkerRobotSpeedModifier = {
-  infer_icon?: boolean;
+  infer_icon?: bool;
   type: 'worker-robot-speed';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type WorkerRobotStorageModifier = {
-  infer_icon?: boolean;
+  infer_icon?: bool;
   type: 'worker-robot-storage';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type WorkingSound =
   | {
       activate_sound?: Sound;
-      apparent_volume?: number;
-      audible_distance_modifier?: number;
+      apparent_volume?: float;
+      audible_distance_modifier?: double;
       deactivate_sound?: Sound;
-      fade_in_ticks?: number;
-      fade_out_ticks?: number;
+      fade_in_ticks?: uint32;
+      fade_out_ticks?: uint32;
       idle_sound?: Sound;
-      match_progress_to_activity?: boolean;
-      match_speed_to_activity?: boolean;
-      match_volume_to_activity?: boolean;
-      max_sounds_per_type?: number;
-      persistent?: boolean;
-      probability?: number;
+      match_progress_to_activity?: bool;
+      match_speed_to_activity?: bool;
+      match_volume_to_activity?: bool;
+      max_sounds_per_type?: uint8;
+      persistent?: bool;
+      probability?: double;
       sound: Sound;
-      use_doppler_shift?: boolean;
+      use_doppler_shift?: bool;
     }
   | Sound;
 export type WorkingVisualisation = {
-  align_to_waypoint?: boolean;
-  always_draw?: boolean;
-  animated_shift?: boolean;
+  align_to_waypoint?: bool;
+  always_draw?: bool;
+  animated_shift?: bool;
   animation?: Animation;
   apply_recipe_tint?:
     | 'primary'
@@ -3823,47 +3821,47 @@ export type WorkingVisualisation = {
     | 'input-fluid-flow-color'
     | 'status'
     | 'none';
-  constant_speed?: boolean;
-  draw_as_light?: boolean;
-  draw_as_sprite?: boolean;
+  constant_speed?: bool;
+  draw_as_light?: bool;
+  draw_as_sprite?: bool;
   east_animation?: Animation;
   east_position?: Vector;
   effect?: 'flicker' | 'uranium-glow' | 'none';
-  fadeout?: boolean;
+  fadeout?: bool;
   light?: LightDefinition;
   north_animation?: Animation;
   north_position?: Vector;
   render_layer?: RenderLayer;
-  secondary_draw_order?: number;
+  secondary_draw_order?: int8;
   south_animation?: Animation;
   south_position?: Vector;
-  synced_fadeout?: boolean;
+  synced_fadeout?: bool;
   west_animation?: Animation;
   west_position?: Vector;
 };
 export type ZoomToWorldBlueprintEnabledModifier = {
   type: 'zoom-to-world-blueprint-enabled';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type ZoomToWorldDeconstructionPlannerEnabledModifier = {
   type: 'zoom-to-world-deconstruction-planner-enabled';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type ZoomToWorldEnabledModifier = {
   type: 'zoom-to-world-enabled';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type ZoomToWorldGhostBuildingEnabledModifier = {
   type: 'zoom-to-world-ghost-building-enabled';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type ZoomToWorldSelectionToolEnabledModifier = {
   type: 'zoom-to-world-selection-tool-enabled';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type ZoomToWorldUpgradePlannerEnabledModifier = {
   type: 'zoom-to-world-upgrade-planner-enabled';
-  use_icon_overlay_constant?: boolean;
+  use_icon_overlay_constant?: bool;
 };
 export type bool = boolean;
 export type double = number;

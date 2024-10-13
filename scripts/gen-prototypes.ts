@@ -72,7 +72,11 @@ function toProp(
 }
 
 function toAlias(ty: Type, typeDict: Record<string, Type>) {
-  return `export type ${ty.name} = ${tsType(typeDict, ty.type === 'builtin' ? ty.name : ty.type, ty.properties)};`;
+  const val =
+    ty.type === 'builtin'
+      ? builtInMapping(ty.name)
+      : tsType(typeDict, ty.type, ty.properties);
+  return `export type ${ty.name} = ${val};`;
 }
 
 async function main() {
@@ -129,36 +133,38 @@ interface Interface {
   }[];
 }
 
+function builtInMapping(type: string): string {
+  switch (type) {
+    case 'uint8':
+    case 'int8':
+    case 'uint16':
+    case 'int16':
+    case 'uint32':
+    case 'int32':
+    case 'uint64':
+    case 'int64':
+    case 'float':
+    case 'double':
+      return 'number';
+    case 'bool':
+      return 'boolean';
+    case 'string':
+      return 'string';
+    case 'DataExtendMethod':
+      return '(extension: unknown) => void';
+    default:
+      throw new Error(`missing mapping for builtin type: ${type}`);
+  }
+}
+
 function tsType(
   typesDict: Record<string, Type>,
   type: unknown,
   externalProps: PropSpec[] | undefined,
 ): string {
   if (typeof type === 'string') {
-    switch (type) {
-      case 'uint8':
-      case 'int8':
-      case 'uint16':
-      case 'int16':
-      case 'uint32':
-      case 'int32':
-      case 'uint64':
-      case 'int64':
-      case 'float':
-      case 'double':
-        return 'number';
-      case 'bool':
-        return 'boolean';
-      case 'string':
-        return 'string';
-      case 'DataExtendMethod':
-        return '(extension: unknown) => void';
-    }
     const found = typesDict[type];
     if (found) {
-      if (found.type === 'builtin') {
-        throw new Error(`missing mapping for builtin type: ${type}`);
-      }
       return type;
     }
   }
