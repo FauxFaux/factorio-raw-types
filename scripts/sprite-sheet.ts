@@ -2,7 +2,7 @@
 
 import spritesmith from 'spritesmith';
 import { readFileSync } from 'fs';
-import { JCraftable, JRecipe } from '@/lib/j-types';
+import { JCraftable, JRecipe } from '../src/lib/j-types.js';
 import { existsSync, writeFileSync } from 'node:fs';
 import { mkdtemp, rm } from 'node:fs/promises';
 import sharp from 'sharp';
@@ -45,7 +45,7 @@ async function main() {
   const tmp = await mkdtemp('sprites-');
 
   const pathHashes: Record<string, string[]> = {};
-  for (const [path, types] of Object.entries(wanted)) {
+  for (const [path] of Object.entries(wanted)) {
     const hash = createHash('sha512');
     const buf = await sharp(`${root}/${path}.png`).resize(32).toBuffer();
     hash.update(buf);
@@ -81,8 +81,8 @@ async function main() {
   for (const [fakePath, props] of Object.entries(result.coordinates)) {
     const fakePng = fakePath.substring(tmp.length + 1);
     const hash = fakePng.slice(0, fakePng.length - 4);
-    for (const realPath of pathHashes[hash]) {
-      for (const colon of wanted[realPath]) {
+    for (const realPath of pathHashes[hash]!) {
+      for (const colon of wanted[realPath]!) {
         out[`${colon[0]}:${colon[1]}`] = [props.x, props.y];
       }
     }

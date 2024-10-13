@@ -1,4 +1,4 @@
-import raw from '../raw-tech.json';
+import raw from '../data/raw-tech.json';
 
 type TechName = keyof typeof raw;
 

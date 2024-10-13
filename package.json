@@ -2,6 +2,7 @@
   "name": "factoed",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "lint": "eslint --cache '{src,test,scripts}/**/*.{ts,tsx}'",
     "format": "prettier --write . --log-level warn"

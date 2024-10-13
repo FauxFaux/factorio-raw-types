@@ -2,14 +2,14 @@
 
 import { Value } from '@sinclair/typebox/value';
 import { readFileSync } from 'node:fs';
-import { RFluid, RItem, RRecipe } from './raw-data';
+import { RFluid, RItem, RRecipe } from './raw-data.js';
 // import assert from 'node:assert';
 
 function main() {
   const obj: any = JSON.parse(readFileSync('sample-data/data.json', 'utf-8'));
   for (const [name, recp] of Object.entries(obj.recipe)) {
     if (Value.Check(RRecipe, recp)) {
-      const orig = structuredClone(recp);
+      // const orig = structuredClone(recp);
 
       // Clean fails with the Composite, alas, so we can't use this to check for unknown propertiess
       // const cleaned = Value.Clean(RRecipe, recp);

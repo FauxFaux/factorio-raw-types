@@ -9,7 +9,7 @@ import {
   RKnownType,
   RLocale,
   RPrototypeBase,
-} from './raw-data';
+} from './raw-data.js';
 import assert from 'node:assert';
 import { Value } from '@sinclair/typebox/value';
 import { Type } from '@sinclair/typebox';
@@ -19,7 +19,7 @@ import type {
   JIng,
   JProduct,
   JRecipe,
-} from '@/lib/j-types';
+} from '../src/lib/j-types.js';
 
 function main() {
   const obj: Record<string, Record<string, RPrototypeBase>> = JSON.parse(
@@ -41,7 +41,7 @@ function main() {
   const craftables: JCraftable[] = [];
 
   const loadCraftable = (locale: RLocale, type: RKnownType) => {
-    for (const [origKey, thing] of Object.entries(obj[type])) {
+    for (const [origKey, thing] of Object.entries(obj[type]!)) {
       if (!Value.Check(RCraftable, thing)) {
         console.log(thing);
         throw new Error('bad thing');
@@ -51,7 +51,7 @@ function main() {
       craftables.push({
         id: thing.name,
         type,
-        human: locale.names[thing.name],
+        human: locale.names[thing.name]!,
         description: locale.descriptions[thing.name],
         order: thing.order,
         subGroup: thing.subgroup,
@@ -106,7 +106,7 @@ function main() {
   };
 
   const recipes: JRecipe[] = [];
-  for (const [origKey, recp] of Object.entries(obj.recipe)) {
+  for (const [origKey, recp] of Object.entries(obj.recipe!)) {
     assert.equal(recp.name, origKey);
 
     // no, we need to, like, ban recipes that make junk
@@ -119,7 +119,7 @@ function main() {
     const craft = ('normal' in recp ? recp.normal : recp) as RCraftingSetup;
     const cand: JRecipe = {
       id: recp.name,
-      human: locale.recipe.names[recp.name],
+      human: locale.recipe.names[recp.name]!,
       description: locale.recipe.descriptions[recp.name],
       ing: fixIng(nameLookup, craft.ingredients),
       results: fixResults(nameLookup, craft),
@@ -261,7 +261,7 @@ function cleanUndefined<T>(
   obj: Record<string, T | undefined>,
 ): Record<string, T> {
   return Object.fromEntries(
-    Object.entries(obj).filter(([_, v]) => v !== undefined),
+    Object.entries(obj).filter(([, v]) => v !== undefined),
   ) as Record<string, T>;
 }
 

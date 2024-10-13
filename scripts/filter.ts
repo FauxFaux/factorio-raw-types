@@ -4,7 +4,7 @@ import { readFileSync } from 'fs';
 import { writeFileSync } from 'node:fs';
 
 function main() {
-  const obj = JSON.parse(readFileSync(process.argv[2], 'utf-8'));
+  const obj = JSON.parse(readFileSync(process.argv[2]!, 'utf-8'));
 
   for (const k of [
     'tile',
@@ -67,9 +67,9 @@ function main() {
       delete v.selected_minimap_representation;
       delete v.track_particle_triggers;
 
-      for (const box in v.fluid_boxes ?? []) {
-        delete v.pipe_picture;
-      }
+      // for (const box in v.fluid_boxes ?? []) {
+      delete v.pipe_picture;
+      // }
     }
   }
 
