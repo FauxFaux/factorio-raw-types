@@ -51,33 +51,28 @@ interface Prototype {
 function toInterface(
   pro: Prototype,
   typeDict: Record<string, Type>,
-  usedTypes: Set<string>,
 ): Interface {
   return {
     name: pro.name,
     extends: pro.parent,
-    properties: pro.properties.map((v) => toProp(v, typeDict, usedTypes)),
+    properties: pro.properties.map((v) => toProp(v, typeDict, undefined)),
   };
 }
 
 function toProp(
   v: PropSpec,
   typeDict: Record<string, Type>,
-  usedTypes: Set<string>,
+  externalProps: PropSpec[] | undefined,
 ) {
   return {
     name: v.name,
-    type: tsType(typeDict, v.type, usedTypes),
+    type: tsType(typeDict, v.type, externalProps),
     optional: v.optional,
   };
 }
 
-function toAlias(
-  ty: Type,
-  typeDict: Record<string, Type>,
-  usedTypes: Set<string>,
-) {
-  return `type ${ty.name} = ${tsType(typeDict, ty.type, usedTypes, ty.properties)};`;
+function toAlias(ty: Type, typeDict: Record<string, Type>) {
+  return `export type ${ty.name} = ${tsType(typeDict, ty.type === 'builtin' ? ty.name : ty.type, ty.properties)};`;
 }
 
 async function main() {
@@ -97,12 +92,9 @@ async function main() {
     types.map((t) => [t.name, t]),
   );
 
-  const used = new Set<string>();
-  const emitted = new Set<string>();
-
   let here = protoDict['AssemblingMachinePrototype']!;
   while (here) {
-    const iface = toInterface(here, typeDict, used);
+    const iface = toInterface(here, typeDict);
     console.log(
       `export interface ${iface.name} ${iface.extends ? `extends ${iface.extends} ` : ''}{`,
     );
@@ -114,19 +106,16 @@ async function main() {
     here = protoDict[here.parent]!;
   }
 
-  while (true) {
-    const toEmit: Type[] = [];
-    for (const name of used) {
-      if (emitted.has(name)) continue;
-      const ty = typeDict[name];
-      if (!ty) throw new Error(`missing type: ${name}`);
-      toEmit.push(ty);
-      emitted.add(name);
+  for (const ty of Object.values(typeDict)) {
+    // references prototypes by name; we're only partially emitting them
+    if (ty.name === 'AnyPrototype') {
+      console.log('export type AnyPrototype = unknown;');
+      continue;
     }
-    if (!toEmit.length) break;
-    for (const ty of toEmit) {
-      console.log(toAlias(ty, typeDict, used));
-    }
+
+    // don't emit `type string = string;`
+    if (ty.name === 'string') continue;
+    console.log(toAlias(ty, typeDict));
   }
 }
 
@@ -143,8 +132,7 @@ interface Interface {
 function tsType(
   typesDict: Record<string, Type>,
   type: unknown,
-  usedTypes: Set<string>,
-  externalProps?: PropSpec[],
+  externalProps: PropSpec[] | undefined,
 ): string {
   if (typeof type === 'string') {
     switch (type) {
@@ -154,6 +142,8 @@ function tsType(
       case 'int16':
       case 'uint32':
       case 'int32':
+      case 'uint64':
+      case 'int64':
       case 'float':
       case 'double':
         return 'number';
@@ -161,13 +151,14 @@ function tsType(
         return 'boolean';
       case 'string':
         return 'string';
+      case 'DataExtendMethod':
+        return '(extension: unknown) => void';
     }
     const found = typesDict[type];
     if (found) {
       if (found.type === 'builtin') {
         throw new Error(`missing mapping for builtin type: ${type}`);
       }
-      usedTypes.add(type);
       return type;
     }
   }
@@ -178,7 +169,7 @@ function tsType(
   });
 
   if (Value.Check(Array, type)) {
-    return `${tsType(typesDict, type.value, usedTypes, externalProps)}[]`;
+    return `${tsType(typesDict, type.value, externalProps)}[]`;
   }
 
   const Union = Type.Object({
@@ -190,9 +181,7 @@ function tsType(
   if (Value.Check(Union, type)) {
     return (
       '(' +
-      type.options
-        .map((v) => tsType(typesDict, v, usedTypes, externalProps))
-        .join(' | ') +
+      type.options.map((v) => tsType(typesDict, v, externalProps)).join(' | ') +
       ')'
     );
   }
@@ -214,7 +203,7 @@ function tsType(
     return (
       '{' +
       externalProps
-        .map((v) => toProp(v, typesDict, usedTypes))
+        .map((v) => toProp(v, typesDict, externalProps))
         .map((v) => `  ${v.name}${v.optional ? '?' : ''}: ${v.type};`)
         .join('\n') +
       '}'
@@ -227,7 +216,7 @@ function tsType(
   });
 
   if (Value.Check(Tuple, type)) {
-    return `[${type.values.map((v) => tsType(typesDict, v, usedTypes)).join(', ')}]`;
+    return `[${type.values.map((v) => tsType(typesDict, v, externalProps)).join(', ')}]`;
   }
 
   const TypeRef = Type.Object({
@@ -236,7 +225,17 @@ function tsType(
   });
 
   if (Value.Check(TypeRef, type)) {
-    return tsType(typesDict, type.value, usedTypes);
+    return tsType(typesDict, type.value, externalProps);
+  }
+
+  const Dictionary = Type.Object({
+    complex_type: Type.Literal('dictionary'),
+    key: Type.Unknown(),
+    value: Type.Unknown(),
+  });
+
+  if (Value.Check(Dictionary, type)) {
+    return `Record<${tsType(typesDict, type.key, externalProps)}, ${tsType(typesDict, type.value, externalProps)}>`;
   }
 
   throw new Error(`unrecognised type: ${util.format(type)}`);
