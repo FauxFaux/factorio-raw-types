@@ -264,6 +264,17 @@ function tsType(
     return tsType(typesDict, type.value, externalProps);
   }
 
+  const TypeTypeRef = Type.Object({
+    complex_type: Type.Literal('type'),
+    value: Type.Object({
+      complex_type: Type.String(),
+    }),
+  });
+
+  if (Value.Check(TypeTypeRef, type)) {
+    return tsType(typesDict, type.value, externalProps);
+  }
+
   const Dictionary = Type.Object({
     complex_type: Type.Literal('dictionary'),
     key: Type.Unknown(),
@@ -272,6 +283,10 @@ function tsType(
 
   if (Value.Check(Dictionary, type)) {
     return `Record<${tsType(typesDict, type.key, externalProps)}, ${tsType(typesDict, type.value, externalProps)}>`;
+  }
+
+  if (type === 'defines.inventory') {
+    return 'unknown /* defines.inventory */';
   }
 
   throw new Error(`unrecognised type: ${util.format(type)}`);
