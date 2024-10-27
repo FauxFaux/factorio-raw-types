@@ -1055,7 +1055,8 @@ export interface EquipArmorAchievementPrototype extends AchievementPrototype {
   limited_to_one_game?: bool;
 }
 export type EquipmentCategory = Prototype;
-export interface EquipmentGhostPrototype extends EquipmentPrototype {
+export interface EquipmentGhostPrototype
+  extends Omit<EquipmentPrototype, 'categories' | 'energy_source' | 'shape'> {
   categories?: EquipmentCategoryID[];
   energy_source?: ElectricEnergySource;
   shape?: EquipmentShape;
@@ -1423,7 +1424,8 @@ export interface InserterPrototype extends EntityWithOwnerPrototype {
   use_easter_egg?: bool;
   wait_for_full_hand?: bool;
 }
-export interface InventoryBonusEquipmentPrototype extends EquipmentPrototype {
+export interface InventoryBonusEquipmentPrototype
+  extends Omit<EquipmentPrototype, 'energy_source'> {
   energy_source?: ElectricEnergySource;
   inventory_size_bonus: ItemStackIndex;
 }
@@ -4037,13 +4039,15 @@ export type ActivateEquipmentCapsuleAction = {
   equipment: EquipmentID;
   type: 'equipment-remote';
 };
-export type ActivateImpactTriggerEffectItem = {
+export type ActivateImpactTriggerEffectItem = TriggerEffectItem & {
   deliver_category?: string;
   type: 'activate-impact';
 };
-export type ActivatePasteTipTrigger = { type: 'activate-paste' };
+export type ActivatePasteTipTrigger = CountBasedTipTrigger & {
+  type: 'activate-paste';
+};
 export type ActiveTriggerID = string;
-export type ActivityBarStyleSpecification = {
+export type ActivityBarStyleSpecification = BaseStyleSpecification & {
   bar?: ElementImageSet;
   bar_background?: ElementImageSet;
   bar_size_ratio?: float;
@@ -4104,14 +4108,16 @@ export type AgriculturalCraneSpeedGrappler = {
   vertical_turn_rate?: double;
 };
 export type AirbornePollutantID = string;
-export type AlternativeBuildTipTrigger = { type: 'alternative-build' };
+export type AlternativeBuildTipTrigger = CountBasedTipTrigger & {
+  type: 'alternative-build';
+};
 export type AmbientSoundType =
   | 'menu-track'
   | 'main-track'
   | 'hero-track'
   | 'interlude';
 export type AmmoCategoryID = string;
-export type AmmoDamageModifier = {
+export type AmmoDamageModifier = BaseModifier & {
   ammo_category: AmmoCategoryID;
   infer_icon?: bool;
   modifier: double;
@@ -4136,7 +4142,7 @@ export type AnimatedVector = {
   render_layer?: RenderLayer;
   rotations: VectorRotation[];
 };
-export type Animation = {
+export type Animation = AnimationParameters & {
   filename?: FileName;
   filenames?: FileName[];
   layers?: Animation[];
@@ -4164,7 +4170,7 @@ export type AnimationElement = {
   secondary_draw_order?: int8;
 };
 export type AnimationFrameSequence = uint16[];
-export type AnimationParameters = {
+export type AnimationParameters = SpriteParameters & {
   animation_speed?: float;
   dice?: uint8;
   dice_x?: uint8;
@@ -4182,7 +4188,7 @@ export type AnimationParameters = {
   width?: SpriteSizeType;
 };
 export type AnimationRunMode = 'forward' | 'backward' | 'forward-then-backward';
-export type AnimationSheet = {
+export type AnimationSheet = AnimationParameters & {
   filename?: FileName;
   filenames?: FileName[];
   line_length?: uint32;
@@ -4467,8 +4473,10 @@ export type AnyPrototype =
   | VehiclePrototype
   | VirtualSignalPrototype
   | WallPrototype;
-export type ApplyStarterPackTipTrigger = { type: 'apply-starter-pack' };
-export type AreaTriggerItem = {
+export type ApplyStarterPackTipTrigger = CountBasedTipTrigger & {
+  type: 'apply-starter-pack';
+};
+export type AreaTriggerItem = TriggerItem & {
   collision_mode?: 'distance-from-collision-box' | 'distance-from-center';
   radius: double;
   show_in_tooltip?: bool;
@@ -4476,7 +4484,7 @@ export type AreaTriggerItem = {
   trigger_from_target?: bool;
   type: 'area';
 };
-export type ArtilleryRangeModifier = {
+export type ArtilleryRangeModifier = SimpleModifier & {
   infer_icon?: bool;
   type: 'artillery-range';
   use_icon_overlay_constant?: bool;
@@ -4486,7 +4494,7 @@ export type ArtilleryRemoteCapsuleAction = {
   play_sound_on_failure?: bool;
   type: 'artillery-remote';
 };
-export type ArtilleryTriggerDelivery = {
+export type ArtilleryTriggerDelivery = TriggerDeliveryItem & {
   direction_deviation?: float;
   projectile: EntityID;
   range_deviation?: float;
@@ -4647,7 +4655,7 @@ export type BaseStyleSpecification = {
   vertically_stretchable?: StretchRule;
   width?: uint32;
 };
-export type BeaconDistributionModifier = {
+export type BeaconDistributionModifier = SimpleModifier & {
   infer_icon?: bool;
   type: 'beacon-distribution';
   use_icon_overlay_constant?: bool;
@@ -4697,7 +4705,7 @@ export type BeamAnimationSet = {
   start?: Animation;
   tail?: Animation;
 };
-export type BeamAttackParameters = {
+export type BeamAttackParameters = BaseAttackParameters & {
   source_direction_count?: uint32;
   source_offset?: Vector;
   type: 'beam';
@@ -4710,7 +4718,7 @@ export type BeamGraphicsSet = {
   randomize_animation_per_segment?: bool;
   transparent_start_end_animations?: bool;
 };
-export type BeamTriggerDelivery = {
+export type BeamTriggerDelivery = TriggerDeliveryItem & {
   add_to_shooter?: bool;
   beam: EntityID;
   destroy_with_source_or_target?: bool;
@@ -4723,11 +4731,13 @@ export type BeltReaderLayer = {
   render_layer?: RenderLayer;
   sprites: RotatedAnimation;
 };
-export type BeltStackSizeBonusModifier = {
+export type BeltStackSizeBonusModifier = SimpleModifier & {
   type: 'belt-stack-size-bonus';
   use_icon_overlay_constant?: bool;
 };
-export type BeltTraverseTipTrigger = { type: 'belt-traverse' };
+export type BeltTraverseTipTrigger = CountBasedTipTrigger & {
+  type: 'belt-traverse';
+};
 export type BlendMode =
   | 'normal'
   | 'additive'
@@ -4761,7 +4771,7 @@ export type BonusGuiOrdering = {
   turret_attack: Order;
   worker_robots: Order;
 };
-export type BoolModifier = { modifier: bool };
+export type BoolModifier = BaseModifier & { modifier: bool };
 export type BorderImageSet = {
   border_width?: int32;
   bottom_end?: Sprite;
@@ -4795,12 +4805,14 @@ export type BoxSpecification = {
   side_length?: double;
   sprite: Sprite;
 };
-export type BuildEntityByRobotTipTrigger = { type: 'build-entity-by-robot' };
+export type BuildEntityByRobotTipTrigger = CountBasedTipTrigger & {
+  type: 'build-entity-by-robot';
+};
 export type BuildEntityTechnologyTrigger = {
   entity: EntityIDFilter;
   type: 'build-entity';
 };
-export type BuildEntityTipTrigger = {
+export type BuildEntityTipTrigger = CountBasedTipTrigger & {
   build_by_dragging?: bool;
   build_in_line?: bool;
   consecutive?: bool;
@@ -4811,12 +4823,12 @@ export type BuildEntityTipTrigger = {
   type: 'build-entity';
 };
 export type BuildMode = 'normal' | 'forced' | 'superforced';
-export type BulkInserterCapacityBonusModifier = {
+export type BulkInserterCapacityBonusModifier = SimpleModifier & {
   infer_icon?: bool;
   type: 'bulk-inserter-capacity-bonus';
   use_icon_overlay_constant?: bool;
 };
-export type BurnerEnergySource = {
+export type BurnerEnergySource = BaseEnergySource & {
   burner_usage?: BurnerUsageID;
   burnt_inventory_size?: ItemStackIndex;
   effectivity?: double;
@@ -4827,26 +4839,27 @@ export type BurnerEnergySource = {
   type: 'burner';
 };
 export type BurnerUsageID = string;
-export type ButtonStyleSpecification = {
-  clicked_font_color?: Color;
-  clicked_vertical_offset?: uint32;
-  default_font_color?: Color;
-  disabled_font_color?: Color;
-  draw_grayscale_picture?: bool;
-  draw_shadow_under_picture?: bool;
-  font?: string;
-  hovered_font_color?: Color;
-  icon_horizontal_align?: HorizontalAlign;
-  invert_colors_of_picture_when_disabled?: bool;
-  invert_colors_of_picture_when_hovered_or_toggled?: bool;
-  pie_progress_color?: Color;
-  selected_clicked_font_color?: Color;
-  selected_font_color?: Color;
-  selected_hovered_font_color?: Color;
-  strikethrough_color?: Color;
-  type: 'button_style';
-};
-export type CameraEffectTriggerEffectItem = {
+export type ButtonStyleSpecification =
+  StyleWithClickableGraphicalSetSpecification & {
+    clicked_font_color?: Color;
+    clicked_vertical_offset?: uint32;
+    default_font_color?: Color;
+    disabled_font_color?: Color;
+    draw_grayscale_picture?: bool;
+    draw_shadow_under_picture?: bool;
+    font?: string;
+    hovered_font_color?: Color;
+    icon_horizontal_align?: HorizontalAlign;
+    invert_colors_of_picture_when_disabled?: bool;
+    invert_colors_of_picture_when_hovered_or_toggled?: bool;
+    pie_progress_color?: Color;
+    selected_clicked_font_color?: Color;
+    selected_font_color?: Color;
+    selected_hovered_font_color?: Color;
+    strikethrough_color?: Color;
+    type: 'button_style';
+  };
+export type CameraEffectTriggerEffectItem = TriggerEffectItem & {
   delay?: uint8;
   duration: uint8;
   ease_in_duration?: uint8;
@@ -4856,7 +4869,9 @@ export type CameraEffectTriggerEffectItem = {
   strength?: float;
   type: 'camera-effect';
 };
-export type CameraStyleSpecification = { type: 'camera_style' };
+export type CameraStyleSpecification = EmptyWidgetStyleSpecification & {
+  type: 'camera_style';
+};
 export type CapsuleAction =
   | ThrowCapsuleAction
   | ActivateEquipmentCapsuleAction
@@ -4909,7 +4924,7 @@ export type CargoHatchDefinition = {
   slice_height?: float;
   travel_height?: float;
 };
-export type CargoLandingPadLimitModifier = {
+export type CargoLandingPadLimitModifier = SimpleModifier & {
   type: 'cargo-landing-pad-count';
   use_icon_overlay_constant?: bool;
 };
@@ -4918,14 +4933,17 @@ export type CargoStationParameters = {
   hatch_definitions?: CargoHatchDefinition[];
   prefer_packed_cargo_units?: bool;
 };
-export type ChainTriggerDelivery = { chain: ActiveTriggerID; type: 'chain' };
-export type ChangeRecipeProductivityModifier = {
+export type ChainTriggerDelivery = TriggerDeliveryItem & {
+  chain: ActiveTriggerID;
+  type: 'chain';
+};
+export type ChangeRecipeProductivityModifier = BaseModifier & {
   change: EffectValue;
   recipe: RecipeID;
   type: 'change-recipe-productivity';
   use_icon_overlay_constant?: bool;
 };
-export type ChangeSurfaceTipTrigger = {
+export type ChangeSurfaceTipTrigger = CountBasedTipTrigger & {
   surface: string;
   type: 'change-surface';
 };
@@ -4947,55 +4965,55 @@ export type CharacterArmorAnimation = {
   smoke_in_air?: SmokeSource[];
   take_off?: RotatedAnimation;
 };
-export type CharacterBuildDistanceModifier = {
+export type CharacterBuildDistanceModifier = SimpleModifier & {
   type: 'character-build-distance';
   use_icon_overlay_constant?: bool;
 };
-export type CharacterCraftingSpeedModifier = {
+export type CharacterCraftingSpeedModifier = SimpleModifier & {
   type: 'character-crafting-speed';
   use_icon_overlay_constant?: bool;
 };
-export type CharacterHealthBonusModifier = {
+export type CharacterHealthBonusModifier = SimpleModifier & {
   type: 'character-health-bonus';
   use_icon_overlay_constant?: bool;
 };
-export type CharacterInventorySlotsBonusModifier = {
+export type CharacterInventorySlotsBonusModifier = SimpleModifier & {
   type: 'character-inventory-slots-bonus';
   use_icon_overlay_constant?: bool;
 };
-export type CharacterItemDropDistanceModifier = {
+export type CharacterItemDropDistanceModifier = SimpleModifier & {
   type: 'character-item-drop-distance';
   use_icon_overlay_constant?: bool;
 };
-export type CharacterItemPickupDistanceModifier = {
+export type CharacterItemPickupDistanceModifier = SimpleModifier & {
   type: 'character-item-pickup-distance';
   use_icon_overlay_constant?: bool;
 };
-export type CharacterLogisticRequestsModifier = {
+export type CharacterLogisticRequestsModifier = BoolModifier & {
   type: 'character-logistic-requests';
   use_icon_overlay_constant?: bool;
 };
-export type CharacterLogisticTrashSlotsModifier = {
+export type CharacterLogisticTrashSlotsModifier = SimpleModifier & {
   type: 'character-logistic-trash-slots';
   use_icon_overlay_constant?: bool;
 };
-export type CharacterLootPickupDistanceModifier = {
+export type CharacterLootPickupDistanceModifier = SimpleModifier & {
   type: 'character-loot-pickup-distance';
   use_icon_overlay_constant?: bool;
 };
-export type CharacterMiningSpeedModifier = {
+export type CharacterMiningSpeedModifier = SimpleModifier & {
   type: 'character-mining-speed';
   use_icon_overlay_constant?: bool;
 };
-export type CharacterReachDistanceModifier = {
+export type CharacterReachDistanceModifier = SimpleModifier & {
   type: 'character-reach-distance';
   use_icon_overlay_constant?: bool;
 };
-export type CharacterResourceReachDistanceModifier = {
+export type CharacterResourceReachDistanceModifier = SimpleModifier & {
   type: 'character-resource-reach-distance';
   use_icon_overlay_constant?: bool;
 };
-export type CharacterRunningSpeedModifier = {
+export type CharacterRunningSpeedModifier = SimpleModifier & {
   type: 'character-running-speed';
   use_icon_overlay_constant?: bool;
 };
@@ -5059,16 +5077,17 @@ export type ChartUtilityConstants = {
   yellow_signal_color: Color;
   zoom_threshold_to_draw_spider_path: double;
 };
-export type CheckBoxStyleSpecification = {
-  checkmark?: Sprite;
-  disabled_checkmark?: Sprite;
-  disabled_font_color?: Color;
-  font?: string;
-  font_color?: Color;
-  intermediate_mark?: Sprite;
-  text_padding?: uint32;
-  type: 'checkbox_style';
-};
+export type CheckBoxStyleSpecification =
+  StyleWithClickableGraphicalSetSpecification & {
+    checkmark?: Sprite;
+    disabled_checkmark?: Sprite;
+    disabled_font_color?: Color;
+    font?: string;
+    font_color?: Color;
+    intermediate_mark?: Sprite;
+    text_padding?: uint32;
+    type: 'checkbox_style';
+  };
 export type CircuitConnectorDefinition = {
   points?: WireConnectionPoint;
   sprites?: CircuitConnectorSprites;
@@ -5098,7 +5117,7 @@ export type CircuitConnectorSprites = {
   wire_pins?: Sprite;
   wire_pins_shadow?: Sprite;
 };
-export type CircuitNetworkModifier = {
+export type CircuitNetworkModifier = BoolModifier & {
   type: 'unlock-circuit-network';
   use_icon_overlay_constant?: bool;
 };
@@ -5123,8 +5142,10 @@ export type CircularProjectileCreationSpecification = [
   RealOrientation,
   Vector,
 ][];
-export type ClearCursorTipTrigger = { type: 'clear-cursor' };
-export type CliffDeconstructionEnabledModifier = {
+export type ClearCursorTipTrigger = CountBasedTipTrigger & {
+  type: 'clear-cursor';
+};
+export type CliffDeconstructionEnabledModifier = BoolModifier & {
   type: 'cliff-deconstruction-enabled';
   use_icon_overlay_constant?: bool;
 };
@@ -5172,7 +5193,7 @@ export type CloudsTextureCoordinateTransformation = {
   scale: float;
   wind_speed_factor?: float;
 };
-export type ClusterTriggerItem = {
+export type ClusterTriggerItem = TriggerItem & {
   cluster_count: uint32;
   distance: float;
   distance_deviation?: float;
@@ -5212,7 +5233,7 @@ export type ColumnAlignment = {
     | 'bottom-right';
   column: uint32;
 };
-export type ColumnWidth = { column: uint32 };
+export type ColumnWidth = ColumnWidthItem & { column: uint32 };
 export type ColumnWidthItem = {
   maximal_width?: int32;
   minimal_width?: int32;
@@ -5315,7 +5336,7 @@ export type CraftItemTechnologyTrigger = {
   item_quality?: QualityID;
   type: 'craft-item';
 };
-export type CraftItemTipTrigger = {
+export type CraftItemTipTrigger = CountBasedTipTrigger & {
   consecutive?: bool;
   event_type:
     | 'crafting-of-single-item-ordered'
@@ -5324,7 +5345,7 @@ export type CraftItemTipTrigger = {
   item?: ItemID;
   type: 'craft-item';
 };
-export type CraftingMachineGraphicsSet = {
+export type CraftingMachineGraphicsSet = WorkingVisualisations & {
   animation_progress?: float;
   circuit_connector_layer?: RenderLayer | CircuitConnectorLayer;
   circuit_connector_secondary_draw_order?:
@@ -5370,13 +5391,13 @@ export type CraterPlacementDefinition = {
   segments: CraterSegment[];
 };
 export type CraterSegment = { offset: Vector; orientation: float };
-export type CreateAsteroidChunkEffectItem = {
+export type CreateAsteroidChunkEffectItem = TriggerEffectItem & {
   asteroid_name: AsteroidChunkID;
   offset_deviation?: BoundingBox;
   offsets?: Vector[];
   type: 'create-asteroid-chunk';
 };
-export type CreateDecorativesTriggerEffectItem = {
+export type CreateDecorativesTriggerEffectItem = TriggerEffectItem & {
   apply_projection?: bool;
   decorative: DecorativeID;
   radius_curve?: float;
@@ -5387,7 +5408,7 @@ export type CreateDecorativesTriggerEffectItem = {
   spread_evenly?: bool;
   type: 'create-decorative';
 };
-export type CreateEntityTriggerEffectItem = {
+export type CreateEntityTriggerEffectItem = TriggerEffectItem & {
   as_enemy?: bool;
   check_buildability?: bool;
   entity_name: EntityID;
@@ -5404,22 +5425,22 @@ export type CreateEntityTriggerEffectItem = {
   trigger_created_entity?: bool;
   type: 'create-entity';
 };
-export type CreateExplosionTriggerEffectItem = {
+export type CreateExplosionTriggerEffectItem = CreateEntityTriggerEffectItem & {
   cycle_while_moving?: bool;
   inherit_movement_distance_from_projectile?: bool;
   max_movement_distance?: float;
   max_movement_distance_deviation?: float;
   type: 'create-explosion';
 };
-export type CreateFireTriggerEffectItem = {
+export type CreateFireTriggerEffectItem = CreateEntityTriggerEffectItem & {
   initial_ground_flame_count?: uint8;
   type: 'create-fire';
 };
-export type CreateGhostOnEntityDeathModifier = {
+export type CreateGhostOnEntityDeathModifier = BoolModifier & {
   type: 'create-ghost-on-entity-death';
   use_icon_overlay_constant?: bool;
 };
-export type CreateParticleTriggerEffectItem = {
+export type CreateParticleTriggerEffectItem = TriggerEffectItem & {
   apply_tile_tint?: 'primary' | 'secondary';
   frame_speed?: float;
   frame_speed_deviation?: float;
@@ -5443,7 +5464,7 @@ export type CreateParticleTriggerEffectItem = {
   tint?: Color;
   type: 'create-particle';
 };
-export type CreateSmokeTriggerEffectItem = {
+export type CreateSmokeTriggerEffectItem = CreateEntityTriggerEffectItem & {
   initial_height?: float;
   speed?: Vector;
   speed_from_center?: float;
@@ -5457,13 +5478,13 @@ export type CreateSmokeTriggerEffectItem = {
 export type CreateSpacePlatformTechnologyTrigger = {
   type: 'create-space-platform';
 };
-export type CreateStickerTriggerEffectItem = {
+export type CreateStickerTriggerEffectItem = TriggerEffectItem & {
   show_in_tooltip?: bool;
   sticker: EntityID;
   trigger_created_entity?: bool;
   type: 'create-sticker';
 };
-export type CreateTrivialSmokeEffectItem = {
+export type CreateTrivialSmokeEffectItem = TriggerEffectItem & {
   initial_height?: float;
   max_radius?: float;
   offset_deviation?: BoundingBox;
@@ -5509,7 +5530,7 @@ export type CyclicSound = {
   middle_sound?: Sound;
 };
 export type DamageParameters = { amount: float; type: DamageTypeID };
-export type DamageTriggerEffectItem = {
+export type DamageTriggerEffectItem = TriggerEffectItem & {
   apply_damage_to_trees?: bool;
   damage: DamageParameters;
   lower_damage_modifier?: float;
@@ -5532,12 +5553,12 @@ export type Data = {
 };
 export type DataExtendMethod = (extension: unknown) => void;
 export type DaytimeColorLookupTable = [double, ColorLookupTable][];
-export type DeconstructionTimeToLiveModifier = {
+export type DeconstructionTimeToLiveModifier = SimpleModifier & {
   type: 'deconstruction-time-to-live';
   use_icon_overlay_constant?: bool;
 };
 export type DecorativeID = string;
-export type DelayedTriggerDelivery = {
+export type DelayedTriggerDelivery = TriggerDeliveryItem & {
   delayed_trigger: ActiveTriggerID;
   type: 'delayed';
 };
@@ -5550,13 +5571,13 @@ export type DestroyCliffsCapsuleAction = {
   type: 'destroy-cliffs';
   uses_stack?: bool;
 };
-export type DestroyCliffsTriggerEffectItem = {
+export type DestroyCliffsTriggerEffectItem = TriggerEffectItem & {
   explosion_at_cliff?: EntityID;
   explosion_at_trigger?: EntityID;
   radius: float;
   type: 'destroy-cliffs';
 };
-export type DestroyDecorativesTriggerEffectItem = {
+export type DestroyDecorativesTriggerEffectItem = TriggerEffectItem & {
   decoratives_with_trigger_only?: bool;
   from_render_layer?: RenderLayer;
   include_decals?: bool;
@@ -5570,7 +5591,10 @@ export type DifficultySettings = {
   spoil_time_modifier?: double;
   technology_price_multiplier?: double;
 };
-export type DirectTriggerItem = { filter_enabled?: bool; type: 'direct' };
+export type DirectTriggerItem = TriggerItem & {
+  filter_enabled?: bool;
+  type: 'direct';
+};
 export type Direction =
   | 0
   | 1
@@ -5611,8 +5635,10 @@ export type DirectionString =
   | 'west_north_west'
   | 'north_west'
   | 'north_north_west';
-export type DoubleSliderStyleSpecification = { type: 'double_slider_style' };
-export type DropDownStyleSpecification = {
+export type DoubleSliderStyleSpecification = SliderStyleSpecification & {
+  type: 'double_slider_style';
+};
+export type DropDownStyleSpecification = BaseStyleSpecification & {
   button_style?: ButtonStyleSpecification;
   icon?: Sprite;
   list_box_style?: ListBoxStyleSpecification;
@@ -5620,7 +5646,10 @@ export type DropDownStyleSpecification = {
   selector_and_title_spacing?: int16;
   type: 'dropdown_style';
 };
-export type DropItemTipTrigger = { drop_into_entity?: bool; type: 'drop-item' };
+export type DropItemTipTrigger = CountBasedTipTrigger & {
+  drop_into_entity?: bool;
+  type: 'drop-item';
+};
 export type Effect = {
   consumption?: EffectValue;
   pollution?: EffectValue;
@@ -5635,13 +5664,13 @@ export type EffectReceiver = {
   uses_surface_effects?: bool;
 };
 export type EffectRelativeTo = 'ground-origin' | 'pod' | 'spawn-origin';
-export type EffectTexture = {};
+export type EffectTexture = SpriteSource & {};
 export type EffectTypeLimitation =
   | ('speed' | 'productivity' | 'consumption' | 'pollution' | 'quality')
   | ('speed' | 'productivity' | 'consumption' | 'pollution' | 'quality')[];
 export type EffectValue = float;
 export type EffectVariation = 'lava' | 'wetland-water' | 'oil' | 'water';
-export type ElectricEnergySource = {
+export type ElectricEnergySource = BaseEnergySource & {
   buffer_capacity?: Energy;
   drain?: Energy;
   input_flow_limit?: Energy;
@@ -5717,7 +5746,7 @@ export type ElementImageSetLayer =
       type?: 'none' | 'composition';
     }
   | Sprite;
-export type EmptyWidgetStyleSpecification = {
+export type EmptyWidgetStyleSpecification = BaseStyleSpecification & {
   graphical_set?: ElementImageSet;
   type: 'empty_widget_style';
 };
@@ -5758,7 +5787,7 @@ export type EnergySource =
   | HeatEnergySource
   | FluidEnergySource
   | VoidEnergySource;
-export type EnterVehicleTipTrigger = {
+export type EnterVehicleTipTrigger = CountBasedTipTrigger & {
   match_type_only?: bool;
   type: 'enter-vehicle';
   vehicle?: EntityID;
@@ -5876,7 +5905,7 @@ export type EntityStatus =
   | 'no-spot-seedable-by-inputs'
   | 'waiting-for-plants-to-grow'
   | 'recipe-not-researched';
-export type EntityTransferTipTrigger = {
+export type EntityTransferTipTrigger = CountBasedTipTrigger & {
   transfer?: 'in' | 'out';
   type: 'entity-transfer';
 };
@@ -5892,10 +5921,13 @@ export type EquipmentShape = {
 export type ExplosionDefinition =
   | EntityID
   | { name: EntityID; offset?: Vector };
-export type Fade = { from?: ControlPoint; to?: ControlPoint } | AttenuationType;
+export type Fade = Attenuation &
+  ({ from?: ControlPoint; to?: ControlPoint } | AttenuationType);
 export type Fades = { fade_in?: Fade; fade_out?: Fade };
-export type FastBeltBendTipTrigger = { type: 'fast-belt-bend' };
-export type FastReplaceTipTrigger = {
+export type FastBeltBendTipTrigger = CountBasedTipTrigger & {
+  type: 'fast-belt-bend';
+};
+export type FastReplaceTipTrigger = CountBasedTipTrigger & {
   match_type_only?: bool;
   source?: EntityID;
   target?: EntityID;
@@ -5911,8 +5943,10 @@ export type FeatureFlags = {
   spoiling: bool;
 };
 export type FileName = string;
-export type FlipEntityTipTrigger = { type: 'flip-entity' };
-export type FlowStyleSpecification = {
+export type FlipEntityTipTrigger = CountBasedTipTrigger & {
+  type: 'flip-entity';
+};
+export type FlowStyleSpecification = BaseStyleSpecification & {
   horizontal_spacing?: int32;
   max_on_row?: int32;
   type: 'flow_style';
@@ -5946,7 +5980,7 @@ export type FluidBoxSecondaryDrawOrders = {
   south?: int8;
   west?: int8;
 };
-export type FluidEnergySource = {
+export type FluidEnergySource = BaseEnergySource & {
   burns_fluid?: bool;
   destroy_non_fuel_fluid?: bool;
   effectivity?: double;
@@ -5998,7 +6032,7 @@ export type FogMaskShapeDefinition = {
   falloff?: float;
   rect: SimpleBoundingBox;
 };
-export type FollowerRobotLifetimeModifier = {
+export type FollowerRobotLifetimeModifier = SimpleModifier & {
   infer_icon?: bool;
   type: 'follower-robot-lifetime';
   use_icon_overlay_constant?: bool;
@@ -6008,7 +6042,7 @@ export type FootprintParticle = {
   tiles: TileID[];
   use_as_default?: bool;
 };
-export type FootstepTriggerEffectItem = {
+export type FootstepTriggerEffectItem = CreateParticleTriggerEffectItem & {
   actions?: CreateParticleTriggerEffectItem[];
   tiles: TileID[];
   use_as_default?: bool;
@@ -6022,7 +6056,7 @@ export type ForceCondition =
   | 'not-friend'
   | 'same'
   | 'not-same';
-export type FrameStyleSpecification = {
+export type FrameStyleSpecification = BaseStyleSpecification & {
   background_graphical_set?: ElementImageSet;
   border?: BorderImageSet;
   drag_by_title?: bool;
@@ -6103,8 +6137,12 @@ export type GameViewSettings = {
   show_tool_bar?: bool;
   update_entity_selection?: bool;
 };
-export type GateOverRailBuildTipTrigger = { type: 'gate-over-rail-build' };
-export type GeneratingPowerTipTrigger = { type: 'generating-power' };
+export type GateOverRailBuildTipTrigger = CountBasedTipTrigger & {
+  type: 'gate-over-rail-build';
+};
+export type GeneratingPowerTipTrigger = CountBasedTipTrigger & {
+  type: 'generating-power';
+};
 export type GhostShimmerConfig = {
   blend_mode: int32;
   distortion: float;
@@ -6138,7 +6176,7 @@ export type GigaCargoHatchDefinition = {
   hatch_render_layer_front?: RenderLayer;
   opening_sound?: InterruptibleSound;
 };
-export type GiveItemModifier = {
+export type GiveItemModifier = BaseModifier & {
   count?: ItemCountType;
   item: ItemID;
   quality?: QualityID;
@@ -6162,11 +6200,11 @@ export type GlobalTintEffectProperties = {
   zoom_factor: float;
   zoom_intensity: float;
 };
-export type GlowStyleSpecification = {
+export type GlowStyleSpecification = BaseStyleSpecification & {
   image_set?: ElementImageSet;
   type: 'glow_style';
 };
-export type GraphStyleSpecification = {
+export type GraphStyleSpecification = BaseStyleSpecification & {
   background_color?: Color;
   data_line_highlight_distance?: uint32;
   font?: string;
@@ -6184,14 +6222,16 @@ export type GraphStyleSpecification = {
   vertical_label_style?: LabelStyleSpecification;
   vertical_labels_margin?: uint32;
 };
-export type GroupAttackTipTrigger = { type: 'group-attack' };
+export type GroupAttackTipTrigger = CountBasedTipTrigger & {
+  type: 'group-attack';
+};
 export type GunShift4Way = {
   east?: Vector;
   north: Vector;
   south?: Vector;
   west?: Vector;
 };
-export type GunSpeedModifier = {
+export type GunSpeedModifier = BaseModifier & {
   ammo_category: AmmoCategoryID;
   infer_icon?: bool;
   modifier: double;
@@ -6213,7 +6253,7 @@ export type HeatBuffer = {
   specific_heat: Energy;
 };
 export type HeatConnection = { direction: Direction; position: MapPosition };
-export type HeatEnergySource = {
+export type HeatEnergySource = BaseEnergySource & {
   connections?: HeatConnection[];
   default_temperature?: double;
   emissions_per_minute?: Record<AirbornePollutantID, double>;
@@ -6230,13 +6270,12 @@ export type HeatEnergySource = {
   type: 'heat';
 };
 export type HorizontalAlign = 'left' | 'center' | 'right';
-export type HorizontalFlowStyleSpecification = {
+export type HorizontalFlowStyleSpecification = BaseStyleSpecification & {
   horizontal_spacing?: int32;
   type: 'horizontal_flow_style';
 };
-export type HorizontalScrollBarStyleSpecification = {
-  type: 'horizontal_scrollbar_style';
-};
+export type HorizontalScrollBarStyleSpecification =
+  ScrollBarStyleSpecification & { type: 'horizontal_scrollbar_style' };
 export type IconData = {
   draw_background?: bool;
   icon: FileName;
@@ -6263,7 +6302,7 @@ export type IconSequencePositioning = {
   separation_multiplier?: float;
   shift?: Vector;
 };
-export type ImageStyleSpecification = {
+export type ImageStyleSpecification = BaseStyleSpecification & {
   graphical_set?: ElementImageSet;
   invert_colors_of_picture_when_hovered_or_toggled?: bool;
   stretch_image_to_widget_size?: bool;
@@ -6272,18 +6311,18 @@ export type ImageStyleSpecification = {
 export type IngredientPrototype =
   | ItemIngredientPrototype
   | FluidIngredientPrototype;
-export type InsertItemTriggerEffectItem = {
+export type InsertItemTriggerEffectItem = TriggerEffectItem & {
   count?: ItemCountType;
   item: ItemID;
   quality?: QualityID;
   type: 'insert-item';
 };
-export type InserterStackSizeBonusModifier = {
+export type InserterStackSizeBonusModifier = SimpleModifier & {
   infer_icon?: bool;
   type: 'inserter-stack-size-bonus';
   use_icon_overlay_constant?: bool;
 };
-export type InstantTriggerDelivery = { type: 'instant' };
+export type InstantTriggerDelivery = TriggerDeliveryItem & { type: 'instant' };
 export type InterruptibleSound = {
   fade_ticks?: uint32;
   minimal_change_per_tick?: float;
@@ -6291,7 +6330,7 @@ export type InterruptibleSound = {
   sound?: Sound;
   stopped_sound?: Sound;
 };
-export type InvokeTileEffectTriggerEffectItem = {
+export type InvokeTileEffectTriggerEffectItem = TriggerEffectItem & {
   tile_collision_mask?: CollisionMaskConnector;
   type: 'invoke-tile-trigger';
 };
@@ -6338,13 +6377,13 @@ export type ItemPrototypeFlags = (
 export type ItemStackIndex = uint16;
 export type ItemSubGroupID = string;
 export type ItemToPlace = { count: ItemCountType; item: ItemID };
-export type KillTipTrigger = {
+export type KillTipTrigger = CountBasedTipTrigger & {
   damage_type?: DamageTypeID;
   entity?: EntityID;
   match_type_only?: bool;
   type: 'kill';
 };
-export type LabelStyleSpecification = {
+export type LabelStyleSpecification = BaseStyleSpecification & {
   clicked_font_color?: Color;
   disabled_font_color?: Color;
   font?: string;
@@ -6360,18 +6399,19 @@ export type LabelStyleSpecification = {
   type: 'label_style';
   underlined?: bool;
 };
-export type LaboratoryProductivityModifier = {
+export type LaboratoryProductivityModifier = SimpleModifier & {
   infer_icon?: bool;
   type: 'laboratory-productivity';
   use_icon_overlay_constant?: bool;
 };
-export type LaboratorySpeedModifier = {
+export type LaboratorySpeedModifier = SimpleModifier & {
   infer_icon?: bool;
   type: 'laboratory-speed';
   use_icon_overlay_constant?: bool;
 };
 export type LayeredSound = { layers: Sound[] } | Sound;
-export type LayeredSprite = { render_layer: RenderLayer } | LayeredSprite[];
+export type LayeredSprite = Sprite &
+  ({ render_layer: RenderLayer } | LayeredSprite[]);
 export type LayeredSpriteVariations = LayeredSprite[];
 export type LightDefinition =
   | {
@@ -6441,7 +6481,9 @@ export type LightningGraphicsSet = {
   relative_cloud_fork_length?: float;
   shader_configuration?: LightningShaderConfiguration[];
 };
-export type LightningPriorityRule = { priority_bonus: int32 };
+export type LightningPriorityRule = LightningRuleBase & {
+  priority_bonus: int32;
+};
 export type LightningProperties = {
   exemption_rules: LightningRuleBase[];
   lightning_types: EntityID[];
@@ -6463,12 +6505,14 @@ export type LightningShaderConfiguration = {
   power: float;
   thickness: float;
 };
-export type LimitChestTipTrigger = { type: 'limit-chest' };
-export type LineStyleSpecification = {
+export type LimitChestTipTrigger = CountBasedTipTrigger & {
+  type: 'limit-chest';
+};
+export type LineStyleSpecification = BaseStyleSpecification & {
   border?: BorderImageSet;
   type: 'line_style';
 };
-export type LineTriggerItem = {
+export type LineTriggerItem = TriggerItem & {
   range: double;
   range_effects?: TriggerEffect;
   type: 'line';
@@ -6669,7 +6713,7 @@ export type LinkedGameControl =
   | 'play-next-track'
   | 'play-previous-track'
   | 'pause-resume-music';
-export type ListBoxStyleSpecification = {
+export type ListBoxStyleSpecification = BaseStyleSpecification & {
   item_style?: ButtonStyleSpecification;
   scroll_pane_style?: ScrollPaneStyleSpecification;
   type: 'list_box_style';
@@ -6688,7 +6732,7 @@ export type LootItem = {
   item: ItemID;
   probability?: double;
 };
-export type LowPowerTipTrigger = { type: 'low-power' };
+export type LowPowerTipTrigger = CountBasedTipTrigger & { type: 'low-power' };
 export type MainSound = {
   activity_to_speed_modifiers?: ActivityMatchingModifiers;
   activity_to_volume_modifiers?: ActivityMatchingModifiers;
@@ -6702,8 +6746,10 @@ export type MainSound = {
   probability?: double;
   sound?: Sound;
 };
-export type ManualTransferTipTrigger = { type: 'manual-transfer' };
-export type ManualWireDragTipTrigger = {
+export type ManualTransferTipTrigger = CountBasedTipTrigger & {
+  type: 'manual-transfer';
+};
+export type ManualWireDragTipTrigger = CountBasedTipTrigger & {
   match_type_only?: bool;
   source?: EntityID;
   target?: EntityID;
@@ -6812,15 +6858,17 @@ export type MaterialTextureParameters = {
   y?: SpriteSizeType;
 };
 export type MathExpression = string;
-export type MaxFailedAttemptsPerTickPerConstructionQueueModifier = {
-  type: 'max-failed-attempts-per-tick-per-construction-queue';
-  use_icon_overlay_constant?: bool;
-};
-export type MaxSuccessfulAttemptsPerTickPerConstructionQueueModifier = {
-  type: 'max-successful-attempts-per-tick-per-construction-queue';
-  use_icon_overlay_constant?: bool;
-};
-export type MaximumFollowingRobotsCountModifier = {
+export type MaxFailedAttemptsPerTickPerConstructionQueueModifier =
+  SimpleModifier & {
+    type: 'max-failed-attempts-per-tick-per-construction-queue';
+    use_icon_overlay_constant?: bool;
+  };
+export type MaxSuccessfulAttemptsPerTickPerConstructionQueueModifier =
+  SimpleModifier & {
+    type: 'max-successful-attempts-per-tick-per-construction-queue';
+    use_icon_overlay_constant?: bool;
+  };
+export type MaximumFollowingRobotsCountModifier = SimpleModifier & {
   infer_icon?: bool;
   type: 'maximum-following-robots-count';
   use_icon_overlay_constant?: bool;
@@ -6839,9 +6887,13 @@ export type MineEntityTechnologyTrigger = {
   entity: EntityID;
   type: 'mine-entity';
 };
-export type MineItemByRobotTipTrigger = { type: 'mine-item-by-robot' };
-export type MinimapStyleSpecification = { type: 'minimap_style' };
-export type MiningDrillGraphicsSet = {
+export type MineItemByRobotTipTrigger = CountBasedTipTrigger & {
+  type: 'mine-item-by-robot';
+};
+export type MinimapStyleSpecification = EmptyWidgetStyleSpecification & {
+  type: 'minimap_style';
+};
+export type MiningDrillGraphicsSet = WorkingVisualisations & {
   animation_progress?: float;
   circuit_connector_layer?: RenderLayer | CircuitConnectorLayer;
   circuit_connector_secondary_draw_order?:
@@ -6851,12 +6903,12 @@ export type MiningDrillGraphicsSet = {
   frozen_patch?: Sprite4Way;
   reset_animation_when_frozen?: bool;
 };
-export type MiningDrillProductivityBonusModifier = {
+export type MiningDrillProductivityBonusModifier = SimpleModifier & {
   infer_icon?: bool;
   type: 'mining-drill-productivity-bonus';
   use_icon_overlay_constant?: bool;
 };
-export type MiningWithFluidModifier = {
+export type MiningWithFluidModifier = BoolModifier & {
   type: 'mining-with-fluid';
   use_icon_overlay_constant?: bool;
 };
@@ -6923,7 +6975,7 @@ export type ModuleTint =
   | 'tertiary'
   | 'quaternary'
   | 'none';
-export type ModuleTransferTipTrigger = {
+export type ModuleTransferTipTrigger = CountBasedTipTrigger & {
   module: ItemID;
   type: 'module-transfer';
 };
@@ -6939,7 +6991,7 @@ export type NeighbourConnectableConnectionDefinition = {
   location: MapLocation;
   neighbour_category?: NeighbourConnectableConnectionCategory[];
 };
-export type NestedTriggerEffectItem = {
+export type NestedTriggerEffectItem = TriggerEffectItem & {
   action: Trigger;
   type: 'nested-result';
 };
@@ -6950,7 +7002,7 @@ export type NoiseFunction = {
   local_functions?: Record<string, NoiseFunction>;
   parameters: string[];
 };
-export type NothingModifier = {
+export type NothingModifier = BaseModifier & {
   effect_description?: LocalisedString;
   type: 'nothing';
   use_icon_overlay_constant?: bool;
@@ -7000,7 +7052,7 @@ export type OtherColors = {
   less_than: double;
 };
 export type ParticleID = string;
-export type PasteEntitySettingsTipTrigger = {
+export type PasteEntitySettingsTipTrigger = CountBasedTipTrigger & {
   match_type_only?: bool;
   source?: EntityID;
   target?: EntityID;
@@ -7059,7 +7111,7 @@ export type PersistentWorldAmbientSoundsDefinition = {
     | PersistentWorldAmbientSoundDefinition
     | PersistentWorldAmbientSoundDefinition[];
 };
-export type PersistentWorldAmbientSoundsDefinitionCrossfade = {
+export type PersistentWorldAmbientSoundsDefinitionCrossfade = Fade & {
   order: ['wind' | 'base_ambience', 'wind' | 'base_ambience'];
 };
 export type PipeConnectionDefinition = {
@@ -7164,7 +7216,7 @@ export type PlaceAsTile = {
   result: TileID;
   tile_condition?: TileID[];
 };
-export type PlaceEquipmentTipTrigger = {
+export type PlaceEquipmentTipTrigger = CountBasedTipTrigger & {
   equipment?: EquipmentID;
   type: 'place-equipment';
 };
@@ -7185,7 +7237,7 @@ export type PlanetPrototypeMapGenSettings = {
   territory_settings?: TerritorySettings;
 };
 export type PlayFor = 'character_actions' | 'everything';
-export type PlaySoundTriggerEffectItem = {
+export type PlaySoundTriggerEffectItem = TriggerEffectItem & {
   audible_distance_modifier?: float;
   max_distance?: float;
   min_distance?: float;
@@ -7203,7 +7255,9 @@ export type PlayerInputMethodFilter =
   | 'all'
   | 'keyboard_and_mouse'
   | 'game_controller';
-export type PlumeEffect = { age_discrimination?: int8 };
+export type PlumeEffect = StatelessVisualisation & {
+  age_discrimination?: int8;
+};
 export type PlumesSpecification = {
   max_probability?: float;
   max_y_offset?: float;
@@ -7365,7 +7419,7 @@ export type ProgrammableSpeakerInstrument = {
   notes: ProgrammableSpeakerNote[];
 };
 export type ProgrammableSpeakerNote = { name: string; sound: Sound };
-export type ProgressBarStyleSpecification = {
+export type ProgressBarStyleSpecification = BaseStyleSpecification & {
   bar?: ElementImageSet;
   bar_background?: ElementImageSet;
   bar_width?: uint32;
@@ -7378,7 +7432,7 @@ export type ProgressBarStyleSpecification = {
   side_text_padding?: int16;
   type: 'progressbar_style';
 };
-export type ProjectileAttackParameters = {
+export type ProjectileAttackParameters = BaseAttackParameters & {
   apply_projection_to_projectile_creation_position?: bool;
   projectile_center?: Vector;
   projectile_creation_distance?: float;
@@ -7388,7 +7442,7 @@ export type ProjectileAttackParameters = {
   shell_particle?: CircularParticleCreationSpecification;
   type: 'projectile';
 };
-export type ProjectileTriggerDelivery = {
+export type ProjectileTriggerDelivery = TriggerDeliveryItem & {
   direction_deviation?: float;
   max_range?: double;
   min_range?: double;
@@ -7426,15 +7480,19 @@ export type PumpConnectorGraphicsAnimation = {
   standup_shadow?: Animation;
   standup_top?: Animation;
 };
-export type PushBackTriggerEffectItem = { distance: float; type: 'push-back' };
-export type QualityID = string;
-export type RadioButtonStyleSpecification = {
-  disabled_font_color?: Color;
-  font?: string;
-  font_color?: Color;
-  text_padding?: uint32;
-  type: 'radiobutton_style';
+export type PushBackTriggerEffectItem = TriggerEffectItem & {
+  distance: float;
+  type: 'push-back';
 };
+export type QualityID = string;
+export type RadioButtonStyleSpecification =
+  StyleWithClickableGraphicalSetSpecification & {
+    disabled_font_color?: Color;
+    font?: string;
+    font_color?: Color;
+    text_padding?: uint32;
+    type: 'radiobutton_style';
+  };
 export type RadiusVisualisationSpecification = {
   distance?: double;
   draw_in_cursor?: bool;
@@ -7507,7 +7565,7 @@ export type RailPieceLayers = {
   underwater_structure?: Sprite;
   water_reflection?: Sprite;
 };
-export type RailPlannerAllowElevatedRailsModifier = {
+export type RailPlannerAllowElevatedRailsModifier = BoolModifier & {
   type: 'rail-planner-allow-elevated-rails';
   use_icon_overlay_constant?: bool;
 };
@@ -7564,7 +7622,7 @@ export type RailSupportGraphicsSet = {
   underwater_layer_offset?: int8;
   underwater_structure?: RotatedSprite;
 };
-export type RailSupportOnDeepOilOceanModifier = {
+export type RailSupportOnDeepOilOceanModifier = BoolModifier & {
   type: 'rail-support-on-deep-oil-ocean';
   use_icon_overlay_constant?: bool;
 };
@@ -7694,8 +7752,10 @@ export type RollingStockRotatedSlopedGraphics = {
   slope_back_equals_front?: bool;
   sloped?: RotatedSprite;
 };
-export type RotateEntityTipTrigger = { type: 'rotate-entity' };
-export type RotatedAnimation = {
+export type RotateEntityTipTrigger = CountBasedTipTrigger & {
+  type: 'rotate-entity';
+};
+export type RotatedAnimation = AnimationParameters & {
   apply_projection?: bool;
   axially_symmetrical?: bool;
   counterclockwise?: bool;
@@ -7723,7 +7783,7 @@ export type RotatedAnimation8Way =
     }
   | RotatedAnimation;
 export type RotatedAnimationVariations = RotatedAnimation | RotatedAnimation[];
-export type RotatedSprite = {
+export type RotatedSprite = SpriteParameters & {
   allow_low_quality_rotation?: bool;
   apply_projection?: bool;
   axially_symmetrical?: bool;
@@ -7748,12 +7808,15 @@ export type RotatedSpriteFrame = {
   x?: SpriteSizeType;
   y?: SpriteSizeType;
 };
-export type ScriptTriggerEffectItem = { effect_id: string; type: 'script' };
-export type ScrollBarStyleSpecification = {
+export type ScriptTriggerEffectItem = TriggerEffectItem & {
+  effect_id: string;
+  type: 'script';
+};
+export type ScrollBarStyleSpecification = BaseStyleSpecification & {
   background_graphical_set?: ElementImageSet;
   thumb_button_style?: ButtonStyleSpecification;
 };
-export type ScrollPaneStyleSpecification = {
+export type ScrollPaneStyleSpecification = BaseStyleSpecification & {
   always_draw_borders?: bool;
   background_graphical_set?: ElementImageSet;
   dont_force_clipping_rect_for_contents?: bool;
@@ -7857,24 +7920,24 @@ export type SendItemToOrbitTechnologyTrigger = {
   item: ItemIDFilter;
   type: 'send-item-to-orbit';
 };
-export type SendSpidertronTipTrigger = {
+export type SendSpidertronTipTrigger = CountBasedTipTrigger & {
   append?: bool;
   type: 'send-spidertron';
 };
 export type SendToOrbitMode = 'not-sendable' | 'manual' | 'automated';
 export type SequenceTipTrigger = { triggers: TipTrigger[]; type: 'sequence' };
-export type SetFilterTipTrigger = {
+export type SetFilterTipTrigger = CountBasedTipTrigger & {
   consecutive?: bool;
   entity?: EntityID;
   match_type_only?: bool;
   type: 'set-filter';
 };
-export type SetLogisticRequestTipTrigger = {
+export type SetLogisticRequestTipTrigger = CountBasedTipTrigger & {
   entity?: EntityID;
   logistic_chest_only?: bool;
   type: 'set-logistic-request';
 };
-export type SetRecipeTipTrigger = {
+export type SetRecipeTipTrigger = CountBasedTipTrigger & {
   any_quality?: bool;
   consecutive?: bool;
   machine?: EntityID;
@@ -7882,7 +7945,7 @@ export type SetRecipeTipTrigger = {
   type: 'set-recipe';
   uses_fluid?: bool;
 };
-export type SetTileTriggerEffectItem = {
+export type SetTileTriggerEffectItem = TriggerEffectItem & {
   apply_on_space_platform?: bool;
   apply_projection?: bool;
   radius: float;
@@ -7897,12 +7960,15 @@ export type ShiftAnimationWaypoints = {
   south: Vector[];
   west: Vector[];
 };
-export type ShootTipTrigger = { target?: 'enemy' | 'entity'; type: 'shoot' };
-export type ShowExplosionOnChartTriggerEffectItem = {
+export type ShootTipTrigger = CountBasedTipTrigger & {
+  target?: 'enemy' | 'entity';
+  type: 'shoot';
+};
+export type ShowExplosionOnChartTriggerEffectItem = TriggerEffectItem & {
   scale: float;
   type: 'show-explosion-on-chart';
 };
-export type SignalColorMapping = { color: Color };
+export type SignalColorMapping = SignalIDConnector & { color: Color };
 export type SignalIDConnector = {
   name:
     | VirtualSignalID
@@ -7926,7 +7992,7 @@ export type SignalIDConnector = {
 export type SimpleBoundingBox =
   | { left_top: MapPosition; right_bottom: MapPosition }
   | [MapPosition, MapPosition];
-export type SimpleModifier = { modifier: double };
+export type SimpleModifier = BaseModifier & { modifier: double };
 export type SimulationDefinition = {
   checkboard?: bool;
   game_view_settings?: GameViewSettings;
@@ -7978,7 +8044,7 @@ export type SingleGraphicProcessionLayer = {
   shift_rotates_with_pod?: bool;
   type: 'single-graphic';
 };
-export type SliderStyleSpecification = {
+export type SliderStyleSpecification = BaseStyleSpecification & {
   button?: ButtonStyleSpecification;
   draw_notches?: bool;
   empty_bar?: ElementImageSet;
@@ -8083,7 +8149,9 @@ export type SpaceConnectionAsteroidSpawnDefinition =
       type?: 'entity' | 'asteroid-chunk';
     }
   | [EntityID, SpaceConnectionAsteroidSpawnPoint[]];
-export type SpaceConnectionAsteroidSpawnPoint = { distance: double };
+export type SpaceConnectionAsteroidSpawnPoint = AsteroidSpawnPoint & {
+  distance: double;
+};
 export type SpaceConnectionID = string;
 export type SpaceDustEffectProperties = {
   animation_speed?: float;
@@ -8091,7 +8159,7 @@ export type SpaceDustEffectProperties = {
   asteroid_texture: EffectTexture;
   noise_texture: EffectTexture;
 };
-export type SpaceLocationAsteroidSpawnDefinition = {
+export type SpaceLocationAsteroidSpawnDefinition = AsteroidSpawnPoint & {
   asteroid: EntityID | AsteroidChunkID;
   type?: 'entity' | 'asteroid-chunk';
 };
@@ -8100,7 +8168,7 @@ export type SpacePlatformTileDefinition = {
   position: TilePosition;
   tile: TileID;
 };
-export type SpacePlatformsModifier = {
+export type SpacePlatformsModifier = BoolModifier & {
   type: 'unlock-space-platforms';
   use_icon_overlay_constant?: bool;
 };
@@ -8124,7 +8192,7 @@ export type SpaceTileEffectParameters = {
 export type SpawnPoint =
   | { evolution_factor: double; spawn_weight: double }
   | [double, double];
-export type SpeechBubbleStyleSpecification = {
+export type SpeechBubbleStyleSpecification = BaseStyleSpecification & {
   arrow_graphical_set?: ElementImageSet;
   arrow_indent?: double;
   close_color?: Color;
@@ -8180,7 +8248,7 @@ export type SpiderTorsoGraphicsSet = {
   shadow_animation?: RotatedAnimation;
   shadow_base_animation?: RotatedAnimation;
 };
-export type SpiderVehicleGraphicsSet = {
+export type SpiderVehicleGraphicsSet = SpiderTorsoGraphicsSet & {
   autopilot_destination_on_map_visualisation?: Animation;
   autopilot_destination_queue_on_map_visualisation?: Animation;
   autopilot_destination_queue_visualisation?: Animation;
@@ -8196,7 +8264,7 @@ export type SpoilToTriggerResult = {
   items_per_trigger: ItemCountType;
   trigger: Trigger;
 };
-export type Sprite = {
+export type Sprite = SpriteParameters & {
   dice?: SpriteSizeType;
   dice_x?: SpriteSizeType;
   dice_y?: SpriteSizeType;
@@ -8268,8 +8336,11 @@ export type SpriteFlags = (
   | 'group=icon-background'
   | 'group=effect-texture'
 )[];
-export type SpriteNWaySheet = { frames?: uint32; generate_sdf?: bool };
-export type SpriteParameters = {
+export type SpriteNWaySheet = SpriteParameters & {
+  frames?: uint32;
+  generate_sdf?: bool;
+};
+export type SpriteParameters = SpriteSource & {
   apply_runtime_tint?: bool;
   apply_special_effect?: bool;
   blend_mode?: BlendMode;
@@ -8297,7 +8368,7 @@ export type SpritePriority =
   | 'low'
   | 'very-low'
   | 'no-atlas';
-export type SpriteSheet = {
+export type SpriteSheet = SpriteParameters & {
   dice?: SpriteSizeType;
   dice_x?: SpriteSizeType;
   dice_y?: SpriteSizeType;
@@ -8344,7 +8415,7 @@ export type SpriteUsageSurfaceHint =
   | 'aquilo'
   | 'space';
 export type SpriteVariations = { sheet: SpriteSheet } | SpriteSheet | Sprite[];
-export type StackTransferTipTrigger = {
+export type StackTransferTipTrigger = CountBasedTipTrigger & {
   transfer?: 'stack' | 'inventory' | 'whole-inventory';
   type: 'stack-transfer';
 };
@@ -8414,7 +8485,7 @@ export type StorageTankPictures = {
   picture?: Sprite4Way;
   window_background?: Sprite;
 };
-export type StreamAttackParameters = {
+export type StreamAttackParameters = BaseAttackParameters & {
   fluid_consumption?: FluidAmount;
   fluids?: StreamFluidProperties[];
   gun_barrel_length?: float;
@@ -8423,7 +8494,7 @@ export type StreamAttackParameters = {
   type: 'stream';
 };
 export type StreamFluidProperties = { damage_modifier?: double; type: FluidID };
-export type StreamTriggerDelivery = {
+export type StreamTriggerDelivery = TriggerDeliveryItem & {
   source_offset?: Vector;
   stream: EntityID;
   type: 'stream';
@@ -8468,17 +8539,18 @@ export type StyleSpecification =
   | GlowStyleSpecification
   | SpeechBubbleStyleSpecification
   | DoubleSliderStyleSpecification;
-export type StyleWithClickableGraphicalSetSpecification = {
-  clicked_graphical_set?: ElementImageSet;
-  default_graphical_set?: ElementImageSet;
-  disabled_graphical_set?: ElementImageSet;
-  game_controller_selected_hovered_graphical_set?: ElementImageSet;
-  hovered_graphical_set?: ElementImageSet;
-  left_click_sound?: Sound;
-  selected_clicked_graphical_set?: ElementImageSet;
-  selected_graphical_set?: ElementImageSet;
-  selected_hovered_graphical_set?: ElementImageSet;
-};
+export type StyleWithClickableGraphicalSetSpecification =
+  BaseStyleSpecification & {
+    clicked_graphical_set?: ElementImageSet;
+    default_graphical_set?: ElementImageSet;
+    disabled_graphical_set?: ElementImageSet;
+    game_controller_selected_hovered_graphical_set?: ElementImageSet;
+    hovered_graphical_set?: ElementImageSet;
+    left_click_sound?: Sound;
+    selected_clicked_graphical_set?: ElementImageSet;
+    selected_graphical_set?: ElementImageSet;
+    selected_hovered_graphical_set?: ElementImageSet;
+  };
 export type SurfaceCondition = {
   max?: double;
   min?: double;
@@ -8496,7 +8568,7 @@ export type SurfaceRenderParameters = {
   space_dust_foreground?: SpaceDustEffectProperties;
   terrain_tint_effect?: GlobalTintEffectProperties;
 };
-export type SwitchStyleSpecification = {
+export type SwitchStyleSpecification = BaseStyleSpecification & {
   active_label?: LabelStyleSpecification;
   button?: ButtonStyleSpecification;
   default_background?: Sprite;
@@ -8508,35 +8580,36 @@ export type SwitchStyleSpecification = {
   right_button_position?: uint32;
   type: 'switch_style';
 };
-export type TabStyleSpecification = {
-  badge_font?: string;
-  badge_horizontal_spacing?: int16;
-  default_badge_font_color?: Color;
-  default_badge_graphical_set?: ElementImageSet;
-  default_font_color?: Color;
-  disabled_badge_font_color?: Color;
-  disabled_badge_graphical_set?: ElementImageSet;
-  disabled_font_color?: Color;
-  draw_grayscale_picture?: bool;
-  font?: string;
-  hover_badge_graphical_set?: ElementImageSet;
-  increase_height_when_selected?: bool;
-  left_edge_selected_graphical_set?: ElementImageSet;
-  override_graphics_on_edges?: bool;
-  press_badge_graphical_set?: ElementImageSet;
-  right_edge_selected_graphical_set?: ElementImageSet;
-  selected_badge_font_color?: Color;
-  selected_badge_graphical_set?: ElementImageSet;
-  selected_font_color?: Color;
-  type: 'tab_style';
-};
-export type TabbedPaneStyleSpecification = {
+export type TabStyleSpecification =
+  StyleWithClickableGraphicalSetSpecification & {
+    badge_font?: string;
+    badge_horizontal_spacing?: int16;
+    default_badge_font_color?: Color;
+    default_badge_graphical_set?: ElementImageSet;
+    default_font_color?: Color;
+    disabled_badge_font_color?: Color;
+    disabled_badge_graphical_set?: ElementImageSet;
+    disabled_font_color?: Color;
+    draw_grayscale_picture?: bool;
+    font?: string;
+    hover_badge_graphical_set?: ElementImageSet;
+    increase_height_when_selected?: bool;
+    left_edge_selected_graphical_set?: ElementImageSet;
+    override_graphics_on_edges?: bool;
+    press_badge_graphical_set?: ElementImageSet;
+    right_edge_selected_graphical_set?: ElementImageSet;
+    selected_badge_font_color?: Color;
+    selected_badge_graphical_set?: ElementImageSet;
+    selected_font_color?: Color;
+    type: 'tab_style';
+  };
+export type TabbedPaneStyleSpecification = BaseStyleSpecification & {
   tab_container?: TableStyleSpecification;
   tab_content_frame?: FrameStyleSpecification;
   type: 'tabbed_pane_style';
   vertical_spacing?: uint32;
 };
-export type TableStyleSpecification = {
+export type TableStyleSpecification = BaseStyleSpecification & {
   apply_row_graphical_set_per_column?: bool;
   background_graphical_set?: ElementImageSet;
   border?: BorderImageSet;
@@ -8570,7 +8643,7 @@ export type TableStyleSpecification = {
   wide_as_column_count?: bool;
 };
 export type TechnologyID = string;
-export type TechnologySlotStyleSpecification = {
+export type TechnologySlotStyleSpecification = ButtonStyleSpecification & {
   clicked_ingredients_background?: ElementImageSet;
   clicked_overlay?: ElementImageSet;
   default_background_shadow?: ElementImageSet;
@@ -8626,7 +8699,7 @@ export type TerritorySettings = {
   territory_variation_expression?: string;
   units?: EntityID[];
 };
-export type TextBoxStyleSpecification = {
+export type TextBoxStyleSpecification = BaseStyleSpecification & {
   active_background?: ElementImageSet;
   default_background?: ElementImageSet;
   disabled_background?: ElementImageSet;
@@ -8649,7 +8722,7 @@ export type ThrowCapsuleAction = {
   type: 'throw';
   uses_stack?: bool;
 };
-export type ThrusterGraphicsSet = {
+export type ThrusterGraphicsSet = WorkingVisualisations & {
   flame?: Sprite;
   flame_effect?: EffectTexture;
   flame_effect_height?: float;
@@ -8678,8 +8751,8 @@ export type TileBuildabilityRule = {
 export type TileEffectDefinitionID = string;
 export type TileID = string;
 export type TileIDRestriction = TileID | [TileID, TileID];
-export type TileLightPictures = { size: uint32 };
-export type TileMainPictures = {
+export type TileLightPictures = TileSpriteLayout & { size: uint32 };
+export type TileMainPictures = TileSpriteLayout & {
   probability?: double;
   size: uint32;
   weights?: double[];
@@ -8709,7 +8782,7 @@ export type TileSpriteLayoutVariant = {
   x?: SpriteSizeType;
   y?: SpriteSizeType;
 };
-export type TileTransitionSpritesheetLayout = {
+export type TileTransitionSpritesheetLayout = TileSpriteLayoutVariant & {
   auxiliary_effect_mask?: TileTransitionVariantLayout;
   background?: TileTransitionVariantLayout;
   background_mask?: TileTransitionVariantLayout;
@@ -8754,7 +8827,7 @@ export type TileTransitionSpritesheetLayout = {
   u_transition_x?: SpriteSizeType;
   u_transition_y?: SpriteSizeType;
 };
-export type TileTransitionVariantLayout = {
+export type TileTransitionVariantLayout = TileSpriteLayoutVariant & {
   double_side?: TileSpriteLayoutVariant;
   double_side_count?: uint8;
   double_side_line_length?: uint8;
@@ -8845,11 +8918,11 @@ export type TileTransitions = {
   water_patch?: Sprite;
   waving_effect_time_scale?: float;
 };
-export type TileTransitionsBetweenTransitions = {
+export type TileTransitionsBetweenTransitions = TileTransitions & {
   transition_group1: uint8;
   transition_group2: uint8;
 };
-export type TileTransitionsToTiles = {
+export type TileTransitionsToTiles = TileTransitions & {
   to_tiles: TileID[];
   transition_group: uint8;
 };
@@ -8941,11 +9014,13 @@ export type TipTrigger =
   | SendSpidertronTipTrigger
   | ActivatePasteTipTrigger
   | KillTipTrigger;
-export type ToggleRailLayerTipTrigger = { type: 'toggle-rail-layer' };
-export type ToggleShowEntityInfoTipTrigger = {
+export type ToggleRailLayerTipTrigger = CountBasedTipTrigger & {
+  type: 'toggle-rail-layer';
+};
+export type ToggleShowEntityInfoTipTrigger = CountBasedTipTrigger & {
   type: 'toggle-show-entity-info';
 };
-export type TrainBrakingForceBonusModifier = {
+export type TrainBrakingForceBonusModifier = SimpleModifier & {
   infer_icon?: bool;
   type: 'train-braking-force-bonus';
   use_icon_overlay_constant?: bool;
@@ -9020,7 +9095,7 @@ export type TransportBeltAnimationSet = {
   west_index?: uint8;
   west_index_frozen?: uint8;
 };
-export type TransportBeltAnimationSetWithCorners = {
+export type TransportBeltAnimationSetWithCorners = TransportBeltAnimationSet & {
   east_to_north_index?: uint8;
   east_to_north_index_frozen?: uint8;
   east_to_south_index?: uint8;
@@ -9173,7 +9248,7 @@ export type TriggerItem = {
 };
 export type TriggerTargetMask = string[];
 export type TrivialSmokeID = string;
-export type TurretAttackModifier = {
+export type TurretAttackModifier = BaseModifier & {
   infer_icon?: bool;
   modifier: double;
   turret_id: EntityID;
@@ -9275,12 +9350,12 @@ export type UnitGroupSettings = {
 export type UnitSpawnDefinition =
   | { spawn_points: SpawnPoint[]; unit: EntityID }
   | [EntityID, SpawnPoint[]];
-export type UnlockQualityModifier = {
+export type UnlockQualityModifier = BaseModifier & {
   quality: QualityID;
   type: 'unlock-quality';
   use_icon_overlay_constant?: bool;
 };
-export type UnlockRecipeModifier = {
+export type UnlockRecipeModifier = BaseModifier & {
   recipe: RecipeID;
   type: 'unlock-recipe';
   use_icon_overlay_constant?: bool;
@@ -9289,19 +9364,23 @@ export type UnlockRecipeTipTrigger = {
   recipe: RecipeID;
   type: 'unlock-recipe';
 };
-export type UnlockSpaceLocationModifier = {
+export type UnlockSpaceLocationModifier = BaseModifier & {
   space_location: SpaceLocationID;
   type: 'unlock-space-location';
   use_icon_overlay_constant?: bool;
 };
-export type UseConfirmTipTrigger = { type: 'use-confirm' };
+export type UseConfirmTipTrigger = CountBasedTipTrigger & {
+  type: 'use-confirm';
+};
 export type UseOnSelfCapsuleAction = {
   attack_parameters: AttackParameters;
   type: 'use-on-self';
   uses_stack?: bool;
 };
-export type UsePipetteTipTrigger = { type: 'use-pipette' };
-export type UseRailPlannerTipTrigger = {
+export type UsePipetteTipTrigger = CountBasedTipTrigger & {
+  type: 'use-pipette';
+};
+export type UseRailPlannerTipTrigger = CountBasedTipTrigger & {
   build_mode: BuildMode;
   type: 'use-rail-planner';
 };
@@ -9378,18 +9457,17 @@ export type Vector4f =
   | { w: float; x: float; y: float; z: float }
   | [float, float, float, float];
 export type VectorRotation = { frames: Vector[]; render_layer?: RenderLayer };
-export type VehicleLogisticsModifier = {
+export type VehicleLogisticsModifier = BoolModifier & {
   type: 'vehicle-logistics';
   use_icon_overlay_constant?: bool;
 };
 export type VerticalAlign = 'top' | 'center' | 'bottom';
-export type VerticalFlowStyleSpecification = {
+export type VerticalFlowStyleSpecification = BaseStyleSpecification & {
   type: 'vertical_flow_style';
   vertical_spacing?: int32;
 };
-export type VerticalScrollBarStyleSpecification = {
-  type: 'vertical_scrollbar_style';
-};
+export type VerticalScrollBarStyleSpecification =
+  ScrollBarStyleSpecification & { type: 'vertical_scrollbar_style' };
 export type VirtualSignalID = string;
 export type VisualState = {
   color?: Color;
@@ -9398,7 +9476,7 @@ export type VisualState = {
   next_active: string;
   next_inactive: string;
 };
-export type VoidEnergySource = { type: 'void' };
+export type VoidEnergySource = BaseEnergySource & { type: 'void' };
 export type WallPictures = {
   corner_left_down?: SpriteVariations;
   corner_right_down?: SpriteVariations;
@@ -9439,36 +9517,38 @@ export type WaterTileEffectParameters = {
 export type Weight = double;
 export type WireConnectionPoint = { shadow: WirePosition; wire: WirePosition };
 export type WirePosition = { copper?: Vector; green?: Vector; red?: Vector };
-export type WorkerRobotBatteryModifier = {
+export type WorkerRobotBatteryModifier = SimpleModifier & {
   infer_icon?: bool;
   type: 'worker-robot-battery';
   use_icon_overlay_constant?: bool;
 };
-export type WorkerRobotSpeedModifier = {
+export type WorkerRobotSpeedModifier = SimpleModifier & {
   infer_icon?: bool;
   type: 'worker-robot-speed';
   use_icon_overlay_constant?: bool;
 };
-export type WorkerRobotStorageModifier = {
+export type WorkerRobotStorageModifier = SimpleModifier & {
   infer_icon?: bool;
   type: 'worker-robot-storage';
   use_icon_overlay_constant?: bool;
 };
-export type WorkingSound =
-  | {
-      activate_sound?: Sound;
-      apparent_volume?: float;
-      audible_distance_modifier?: double;
-      deactivate_sound?: Sound;
-      extra_sounds_ignore_limit?: bool;
-      idle_sound?: Sound;
-      main_sounds?: MainSound | MainSound[];
-      max_sounds_per_type?: uint8;
-      persistent?: bool;
-      sound_accents?: SoundAccent | SoundAccent[];
-      use_doppler_shift?: bool;
-    }
-  | Sound;
+export type WorkingSound = MainSound &
+  (
+    | {
+        activate_sound?: Sound;
+        apparent_volume?: float;
+        audible_distance_modifier?: double;
+        deactivate_sound?: Sound;
+        extra_sounds_ignore_limit?: bool;
+        idle_sound?: Sound;
+        main_sounds?: MainSound | MainSound[];
+        max_sounds_per_type?: uint8;
+        persistent?: bool;
+        sound_accents?: SoundAccent | SoundAccent[];
+        use_doppler_shift?: bool;
+      }
+    | Sound
+  );
 export type WorkingVisualisation = {
   align_to_waypoint?: bool;
   always_draw?: bool;
@@ -9741,7 +9821,7 @@ export interface RawData {
   'linked-container': Record<string, LinkedContainerPrototype>;
   'loader-1x1': Record<string, Loader1x1Prototype>;
   loader: Record<string, Loader1x2Prototype>;
-  loader: Record<string, LoaderPrototype>;
+  // 'loader': Record<string, LoaderPrototype>; // duplicate key
   locomotive: Record<string, LocomotivePrototype>;
   'logistic-container': Record<string, LogisticContainerPrototype>;
   'logistic-robot': Record<string, LogisticRobotPrototype>;

@@ -6,6 +6,8 @@ const hacks: Record<string, string> = {
   BlueprintBookPrototype: "'inventory_size'",
   BlueprintItemPrototype: "'selection_mode' | 'alt_selection_mode'",
   DeconstructionItemPrototype: "'selection_mode' | 'alt_selection_mode'",
+  EquipmentGhostPrototype: "'categories' | 'energy_source' | 'shape'",
+  InventoryBonusEquipmentPrototype: "'energy_source'",
   InfinityContainerPrototype: "'logistic_mode'",
   LogisticContainerPrototype: "'picture'",
   TransportBeltPrototype: "'animation_set' | 'belt_animation_set'",
@@ -20,6 +22,8 @@ interface Type {
   type: unknown;
   options?: unknown[];
   properties?: PropSpec[];
+
+  parent?: string;
 }
 
 type Literal =
@@ -84,11 +88,17 @@ function toProp(
 }
 
 function toAlias(ty: Type, typeDict: Record<string, Type>) {
-  const val =
-    ty.type === 'builtin'
-      ? builtInMapping(ty.name)
-      : tsType(typeDict, ty.type, ty.properties);
-  return `export type ${ty.name} = ${val};`;
+  if (ty.type === 'builtin') {
+    return `export type ${ty.name} = ${builtInMapping(ty.name)};`;
+  }
+
+  let body = tsType(typeDict, ty.type, ty.properties);
+  if (ty.parent) {
+    //return `export interface ${ty.name} extends ${ty.parent} ${body};`;
+    body = `${ty.parent} & ${body}`;
+  }
+
+  return `export type ${ty.name} = ${body};`;
 }
 
 async function main() {
@@ -133,6 +143,7 @@ async function main() {
     console.log(toAlias(ty, typeDict));
   }
 
+  const seenRawData = new Set<string>();
   console.log('export interface RawData {');
   for (const proto of prototypes) {
     if (!proto.typename) {
@@ -148,7 +159,14 @@ async function main() {
       key = withId;
     }
 
-    console.log(`  '${proto.typename}': Record<${key}, ${proto.name}>;`);
+    const render = `'${proto.typename}': Record<${key}, ${proto.name}>;`;
+
+    if (!seenRawData.has(proto.typename)) {
+      console.log(`  ${render}`);
+    } else {
+      console.log(`  // ${render} // duplicate key`);
+    }
+    seenRawData.add(proto.typename);
   }
   console.log('}');
 }
