@@ -169,6 +169,9 @@ async function main() {
     seenRawData.add(proto.typename);
   }
   console.log('}');
+  console.log(
+    `export const allKeys: (keyof RawData)[] = ["${[...seenRawData].sort().join('", "')}"];`,
+  );
 }
 
 interface Interface {
