@@ -88,6 +88,7 @@ export interface AmmoTurretPrototype extends TurretPrototype {
   prepare_with_no_ammo?: bool;
 }
 export interface AnimationPrototype {
+  allow_forced_downscale?: bool;
   animation_speed?: float;
   apply_runtime_tint?: bool;
   apply_special_effect?: bool;
@@ -267,7 +268,6 @@ export interface AssemblingMachinePrototype extends CraftingMachinePrototype {
   ingredient_count?: uint8;
 }
 export interface AsteroidChunkPrototype extends Prototype {
-  collision_box?: SimpleBoundingBox;
   dying_trigger_effect?: TriggerEffect;
   graphics_set?: AsteroidGraphicsSet;
   hide_from_signal_gui?: bool;
@@ -1638,6 +1638,7 @@ export interface LoaderPrototype extends TransportBeltConnectablePrototype {
     | VoidEnergySource;
   filter_count: uint8;
   max_belt_stack_size?: uint8;
+  per_lane_filters?: bool;
   structure?: LoaderStructure;
   structure_render_layer?: RenderLayer;
 }
@@ -1747,7 +1748,7 @@ export interface ModuleTransferAchievementPrototype
   extends AchievementPrototype {
   amount?: uint32;
   limited_to_one_game?: bool;
-  module: ItemID;
+  module: ItemID | ItemID[];
 }
 export interface MouseCursor {
   filename?: FileName;
@@ -2722,6 +2723,7 @@ export interface SplitterPrototype extends TransportBeltConnectablePrototype {
   structure_patch?: Animation4Way;
 }
 export interface SpritePrototype {
+  allow_forced_downscale?: bool;
   apply_runtime_tint?: bool;
   apply_special_effect?: bool;
   blend_mode?: BlendMode;
@@ -3164,6 +3166,12 @@ export interface UpgradeItemPrototype
   select: SelectionModeData;
   stack_size: 1;
 }
+export interface UseEntityInEnergyProductionAchievementPrototype
+  extends AchievementPrototype {
+  consumed_condition?: ItemID;
+  entity: EntityID;
+  required_to_build?: EntityID;
+}
 export interface UseItemAchievementPrototype extends AchievementPrototype {
   amount?: uint32;
   limit_quality: QualityID;
@@ -3236,9 +3244,9 @@ export interface UtilityConstants extends PrototypeBase {
   freezing_temperature: double;
   frozen_color_lookup: ColorLookupTable;
   ghost_layer: CollisionLayerID;
+  ghost_shader_tint: GhostTintSet;
+  ghost_shaderless_tint: GhostTintSet;
   ghost_shimmer_settings: GhostShimmerConfig;
-  ghost_tint: Color;
-  ghost_tint_delivering: Color;
   gui_remark_color: Color;
   gui_search_match_background_color: Color;
   gui_search_match_foreground_color: Color;
@@ -3311,8 +3319,6 @@ export interface UtilityConstants extends PrototypeBase {
   space_platform_relative_speed_factor: double;
   space_platform_starfield_movement_vector: Vector;
   spawner_evolution_factor_health_modifier: float;
-  tile_ghost_tint: Color;
-  tile_ghost_tint_delivering: Color;
   tooltip_monitor_edge_border: int32;
   train_inactivity_wait_condition_default: uint32;
   train_on_elevated_rail_shadow_shift_multiplier: Vector;
@@ -4466,6 +4472,7 @@ export type AnyPrototype =
   | UndergroundBeltPrototype
   | UnitPrototype
   | UpgradeItemPrototype
+  | UseEntityInEnergyProductionAchievementPrototype
   | UseItemAchievementPrototype
   | UtilityConstants
   | UtilitySounds
@@ -6167,6 +6174,13 @@ export type GhostShimmerOverlayData = {
   x: float;
   y: float;
 };
+export type GhostTintSet = {
+  ghost_delivery_tint: Color;
+  ghost_tint: Color;
+  tile_ghost_delivery_tint: Color;
+  tile_ghost_tint: Color;
+  wire_tint: Color;
+};
 export type GigaCargoHatchDefinition = {
   closing_sound?: InterruptibleSound;
   covered_hatches: uint32[];
@@ -6723,6 +6737,8 @@ export type LoaderStructure = {
   direction_in?: Sprite4Way;
   direction_out?: Sprite4Way;
   front_patch?: Sprite4Way;
+  frozen_patch_in?: Sprite4Way;
+  frozen_patch_out?: Sprite4Way;
 };
 export type LocalisedString = string | LocalisedString[];
 export type LogisticFilterIndex = uint16;
@@ -6745,6 +6761,7 @@ export type MainSound = {
   play_for_working_visualisations?: string[];
   probability?: double;
   sound?: Sound;
+  volume_smoothing_window_size?: uint32;
 };
 export type ManualTransferTipTrigger = CountBasedTipTrigger & {
   type: 'manual-transfer';
@@ -8381,6 +8398,7 @@ export type SpriteSheet = SpriteParameters & {
 };
 export type SpriteSizeType = int16;
 export type SpriteSource = {
+  allow_forced_downscale?: bool;
   filename: FileName;
   height?: SpriteSizeType;
   load_in_minimal_mode?: bool;
@@ -9699,7 +9717,6 @@ export interface RawData {
   container: Record<string, ContainerPrototype>;
   'copy-paste-tool': Record<string, CopyPasteToolPrototype>;
   corpse: Record<string, CorpsePrototype>;
-  'crafting-machine': Record<string, CraftingMachinePrototype>;
   'create-platform-achievement': Record<
     string,
     CreatePlatformAchievementPrototype
@@ -9821,7 +9838,6 @@ export interface RawData {
   'linked-container': Record<string, LinkedContainerPrototype>;
   'loader-1x1': Record<string, Loader1x1Prototype>;
   loader: Record<string, Loader1x2Prototype>;
-  // 'loader': Record<string, LoaderPrototype>; // duplicate key
   locomotive: Record<string, LocomotivePrototype>;
   'logistic-container': Record<string, LogisticContainerPrototype>;
   'logistic-robot': Record<string, LogisticRobotPrototype>;
@@ -9874,7 +9890,6 @@ export interface RawData {
   radar: Record<string, RadarPrototype>;
   'rail-chain-signal': Record<string, RailChainSignalPrototype>;
   'rail-planner': Record<string, RailPlannerPrototype>;
-  rail: Record<string, RailPrototype>;
   'rail-ramp': Record<string, RailRampPrototype>;
   'rail-remnants': Record<string, RailRemnantsPrototype>;
   'rail-signal': Record<string, RailSignalPrototype>;
@@ -9896,7 +9911,6 @@ export interface RawData {
   'rocket-silo': Record<string, RocketSiloPrototype>;
   'rocket-silo-rocket': Record<string, RocketSiloRocketPrototype>;
   'rocket-silo-rocket-shadow': Record<string, RocketSiloRocketShadowPrototype>;
-  'rolling-stock': Record<string, RollingStockPrototype>;
   segment: Record<string, SegmentPrototype>;
   'segmented-unit': Record<string, SegmentedUnitPrototype>;
   'selection-tool': Record<string, SelectionToolPrototype>;
@@ -9945,10 +9959,6 @@ export interface RawData {
   tool: Record<string, ToolPrototype>;
   'train-path-achievement': Record<string, TrainPathAchievementPrototype>;
   'train-stop': Record<string, TrainStopPrototype>;
-  'transport-belt-connectable': Record<
-    string,
-    TransportBeltConnectablePrototype
-  >;
   'transport-belt': Record<string, TransportBeltPrototype>;
   tree: Record<string, TreePrototype>;
   'trigger-target-type': Record<string, TriggerTargetType>;
@@ -9958,11 +9968,14 @@ export interface RawData {
   'underground-belt': Record<string, UndergroundBeltPrototype>;
   unit: Record<string, UnitPrototype>;
   'upgrade-item': Record<string, UpgradeItemPrototype>;
+  'use-entity-in-energy-production-achievement': Record<
+    string,
+    UseEntityInEnergyProductionAchievementPrototype
+  >;
   'use-item-achievement': Record<string, UseItemAchievementPrototype>;
   'utility-constants': Record<string, UtilityConstants>;
   'utility-sounds': Record<string, UtilitySounds>;
   'utility-sprites': Record<string, UtilitySprites>;
-  vehicle: Record<string, VehiclePrototype>;
   'virtual-signal': Record<VirtualSignalID, VirtualSignalPrototype>;
   wall: Record<string, WallPrototype>;
 }
@@ -10021,7 +10034,6 @@ export const allKeys: (keyof RawData)[] = [
   'container',
   'copy-paste-tool',
   'corpse',
-  'crafting-machine',
   'create-platform-achievement',
   'curved-rail-a',
   'curved-rail-b',
@@ -10143,7 +10155,6 @@ export const allKeys: (keyof RawData)[] = [
   'pump',
   'quality',
   'radar',
-  'rail',
   'rail-chain-signal',
   'rail-planner',
   'rail-ramp',
@@ -10164,7 +10175,6 @@ export const allKeys: (keyof RawData)[] = [
   'rocket-silo',
   'rocket-silo-rocket',
   'rocket-silo-rocket-shadow',
-  'rolling-stock',
   'segment',
   'segmented-unit',
   'selection-tool',
@@ -10209,7 +10219,6 @@ export const allKeys: (keyof RawData)[] = [
   'train-path-achievement',
   'train-stop',
   'transport-belt',
-  'transport-belt-connectable',
   'tree',
   'trigger-target-type',
   'trivial-smoke',
@@ -10219,11 +10228,11 @@ export const allKeys: (keyof RawData)[] = [
   'unit',
   'unit-spawner',
   'upgrade-item',
+  'use-entity-in-energy-production-achievement',
   'use-item-achievement',
   'utility-constants',
   'utility-sounds',
   'utility-sprites',
-  'vehicle',
   'virtual-signal',
   'wall',
 ];
