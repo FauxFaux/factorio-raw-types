@@ -1,9 +1,9 @@
 {
   "name": "factorio-raw-types",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "exports": {
-    "prototypes": "./dist/prototypes.js"
+    "./prototypes": "./dist/prototypes.js"
   },
   "scripts": {
     "prepare": "tsc",
