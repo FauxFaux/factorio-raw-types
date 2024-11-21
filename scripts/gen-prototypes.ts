@@ -218,6 +218,9 @@ function tsType(
     if (found) {
       return type;
     }
+    if (type.endsWith('_t')) {
+      return builtInMapping(type.substring(0, type.length - 2));
+    }
   }
 
   const Array = Type.Object({
@@ -308,6 +311,10 @@ function tsType(
 
   if (type === 'defines.inventory') {
     return 'unknown /* defines.inventory */';
+  }
+
+  if (type === 'EmptyWidgetStyle') {
+    return 'unknown /* EmptyWidgetStyle */';
   }
 
   throw new Error(`unrecognised type: ${util.format(type)}`);

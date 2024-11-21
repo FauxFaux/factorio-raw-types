@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { format } from 'node:util';
-import { RawData } from '../src/lib/g-protos.js';
+import type { RawData } from '../src/prototypes.js';
 import { entriesOf, shuffled } from '../src/lib/ts.js';
 
 const sizeKeys = <K extends string>(raw: Record<K, unknown>) =>

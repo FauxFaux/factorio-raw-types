@@ -1,18 +1,26 @@
 #!/usr/bin/env tsx
 
 import spritesmith from 'spritesmith';
-import { readFileSync } from 'fs';
-import { JCraftable, JRecipe } from '../src/lib/j-types.js';
 import { existsSync, writeFileSync } from 'node:fs';
 import { mkdtemp, rm } from 'node:fs/promises';
 import sharp from 'sharp';
 import { createHash } from 'node:crypto';
+import { RawData } from '../src/prototypes.js';
 
 async function main() {
   const root = 'raw-script-output';
   type Path = string;
   type Colon = ['craft' | 'recipe' | 'tech', string];
   const wanted: Record<string, Colon[]> = {};
+
+  const data = (await import('../sample-data/data.json')) as unknown as RawData;
+
+  const sounds =
+    data['ambient-sound']['aquilo-1']?.variable_sound?.layers[0]?.variants[0];
+  if (sounds && 'game_controller_vibration_data' in sounds) {
+    return sounds.game_controller_vibration_data
+      ?.high_frequency_vibration_intensity;
+  }
 
   const addWanted = (path: Path, type: Colon) => {
     if (!wanted[path]) wanted[path] = [];
@@ -21,25 +29,45 @@ async function main() {
 
   const exists = (name: string) => existsSync(`${root}/${name}.png`);
 
-  for (const r of JSON.parse(
-    readFileSync('data/recipes.json', 'utf-8'),
-  ) as JRecipe[]) {
-    const guess = `recipe/${r.id}`;
-    if (exists(guess)) addWanted(guess, ['recipe', r.id]);
-    else throw new Error(`Missing recipe image: ${r.id}`);
+  for (const r of Object.values(data.recipe)) {
+    const guess = `recipe/${r.name}`;
+    if (exists(guess)) addWanted(guess, ['recipe', r.name]);
+    else console.log(`Missing recipe image: ${r.name}`);
   }
 
-  outer: for (const r of JSON.parse(
-    readFileSync('data/craftables.json', 'utf-8'),
-  ) as JCraftable[]) {
-    for (const cat of ['fluid', 'item', 'entity']) {
-      const guess = `${cat}/${r.id}`;
-      if (exists(guess)) {
-        addWanted(guess, ['craft', r.id]);
-        continue outer;
+  const categories: (keyof RawData)[] = [
+    'fluid',
+    'ammo',
+    'armor',
+    'artillery-wagon',
+    'capsule',
+    'car',
+    'cargo-wagon',
+    'fluid-wagon',
+    'gun',
+    'item',
+    'locomotive',
+    'module',
+    'rail-planner',
+    'repair-tool',
+    'selection-tool',
+    'spider-vehicle',
+    'spidertron-remote',
+    'tool',
+  ];
+
+  for (const cat of categories) {
+    item: for (const r of Object.values(data[cat])) {
+      for (const sub of ['fluid', 'item', 'entity']) {
+        // r.icon is the internal filename, not the exported one, maybe we should just be reading those anyway?
+        const guess = `${sub}/${r.name}`;
+        if (exists(guess)) {
+          addWanted(guess, ['craft', r.name]);
+          continue item;
+        }
       }
+      console.log(`Missing craftable image: ${r.name}`);
     }
-    console.log(`Missing craftable image: ${r.id}`);
   }
 
   const tmp = await mkdtemp('sprites-');

@@ -57,6 +57,7 @@ export interface AirbornePollutantPrototype extends Prototype {
   affects_water_tint: bool;
   chart_color: Color;
   icon: Sprite;
+  localised_name_with_amount?: string;
 }
 export interface AmbientSound {
   name: string;
@@ -648,6 +649,7 @@ export interface ContainerPrototype extends EntityWithOwnerPrototype {
   inventory_size: ItemStackIndex;
   inventory_type?: 'normal' | 'with_bar' | 'with_filters_and_bar';
   picture?: Sprite;
+  quality_affects_inventory_size?: bool;
 }
 export interface CopyPasteToolPrototype extends SelectionToolPrototype {
   alt_select: SelectionModeData;
@@ -1473,6 +1475,7 @@ export interface ItemPrototype extends Prototype {
   random_tint_color?: Color;
   rocket_launch_products?: ItemProductPrototype[];
   send_to_orbit_mode?: SendToOrbitMode;
+  spoil_level?: uint8;
   spoil_result?: ItemID;
   spoil_ticks?: uint32;
   spoil_to_trigger_result?: SpoilToTriggerResult;
@@ -1914,15 +1917,14 @@ export interface ProcessionPrototype extends Prototype {
 export interface ProduceAchievementPrototype extends AchievementPrototype {
   amount: MaterialAmountType;
   fluid_product?: FluidID;
-  item_product?: ItemID;
+  item_product?: ItemIDFilter;
   limited_to_one_game: bool;
-  quality?: QualityID;
 }
 export interface ProducePerHourAchievementPrototype
   extends AchievementPrototype {
   amount: MaterialAmountType;
   fluid_product?: FluidID;
-  item_product?: ItemID;
+  item_product?: ItemIDFilter;
 }
 export interface ProgrammableSpeakerPrototype extends EntityWithOwnerPrototype {
   audible_distance_modifier?: float;
@@ -2699,7 +2701,6 @@ export interface SpiderUnitPrototype extends EntityWithOwnerPrototype {
 export interface SpiderVehiclePrototype extends VehiclePrototype {
   automatic_weapon_cycling: bool;
   chain_shooting_cooldown_modifier: float;
-  chunk_exploration_radius: uint32;
   energy_source: BurnerEnergySource | VoidEnergySource;
   graphics_set?: SpiderVehicleGraphicsSet;
   guns?: ItemID[];
@@ -3294,9 +3295,6 @@ export interface UtilityConstants extends PrototypeBase {
   missing_preview_sprite_location: FileName;
   module_inventory_width: uint32;
   moving_sound_count_reduction_rate: float;
-  music_transition_fade_in_ticks: uint32;
-  music_transition_fade_out_ticks: uint32;
-  music_transition_pause_ticks: uint32;
   player_colors: PlayerColorData[];
   probability_product_count_tint: Color;
   rail_planner_count_button_color: Color;
@@ -3319,6 +3317,7 @@ export interface UtilityConstants extends PrototypeBase {
   space_platform_relative_speed_factor: double;
   space_platform_starfield_movement_vector: Vector;
   spawner_evolution_factor_health_modifier: float;
+  time_to_show_full_health_bar: MapTick;
   tooltip_monitor_edge_border: int32;
   train_inactivity_wait_condition_default: uint32;
   train_on_elevated_rail_shadow_shift_multiplier: Vector;
@@ -3816,6 +3815,7 @@ export interface UtilitySprites extends PrototypeBase {
   mod_downloads_count: Sprite;
   mod_last_updated: Sprite;
   mouse_cursor: Sprite;
+  mouse_cursor_macos: Sprite;
   move_tag: Sprite;
   multiplayer_waiting_icon: Sprite;
   nature_icon: Sprite;
@@ -4003,6 +4003,7 @@ export interface VehiclePrototype extends EntityWithOwnerPrototype {
   allow_passengers?: bool;
   allow_remote_driving?: bool;
   braking_power: Energy | double;
+  chunk_exploration_radius?: uint32;
   crash_trigger?: TriggerEffect;
   deliver_category?: string;
   energy_per_hit_point: double;
@@ -5038,6 +5039,7 @@ export type ChartUtilityConstants = {
   artillery_range_color: Color;
   blue_signal_color: Color;
   chart_construction_robot_color: Color;
+  chart_deconstruct_active_color: Color;
   chart_deconstruct_tint: Color;
   chart_delivery_to_me_logistic_robot_color: Color;
   chart_logistic_robot_color: Color;
@@ -5339,8 +5341,7 @@ export type CraftFluidTechnologyTrigger = {
 };
 export type CraftItemTechnologyTrigger = {
   count?: ItemCountType;
-  item: ItemID;
-  item_quality?: QualityID;
+  item: ItemIDFilter;
   type: 'craft-item';
 };
 export type CraftItemTipTrigger = CountBasedTipTrigger & {
@@ -6893,6 +6894,7 @@ export type MaximumFollowingRobotsCountModifier = SimpleModifier & {
 export type MinableProperties = {
   count?: uint16;
   fluid_amount?: FluidAmount;
+  include_in_show_counts?: bool;
   mining_particle?: ParticleID;
   mining_time: double;
   mining_trigger?: Trigger;
@@ -7716,7 +7718,7 @@ export type RenderLayer =
   | 'higher-object-above'
   | 'train-stop-top'
   | 'item-in-inserter-hand'
-  | 'above-inserter'
+  | 'above-inserters'
   | 'wires'
   | 'under-elevated'
   | 'elevated-rail-stone-path-lower'
@@ -8206,6 +8208,7 @@ export type SpaceTileEffectParameters = {
   zoom_factor?: float;
   zoom_offset?: float;
 };
+export type SpacingItem = { index: number; spacing: number };
 export type SpawnPoint =
   | { evolution_factor: double; spawn_weight: double }
   | [double, double];
@@ -8642,7 +8645,7 @@ export type TableStyleSpecification = BaseStyleSpecification & {
   default_row_graphical_set?: ElementImageSet;
   even_row_graphical_set?: ElementImageSet;
   horizontal_line_color?: Color;
-  horizontal_spacing?: int32;
+  horizontal_spacing?: int32 | SpacingItem[];
   hovered_graphical_set?: ElementImageSet;
   hovered_row_color?: Color;
   inactive_column_ordering_ascending_button_style?: ButtonStyleSpecification;
@@ -8657,7 +8660,7 @@ export type TableStyleSpecification = BaseStyleSpecification & {
   top_cell_padding?: int16;
   type: 'table_style';
   vertical_line_color?: Color;
-  vertical_spacing?: int32;
+  vertical_spacing?: int32 | SpacingItem[];
   wide_as_column_count?: bool;
 };
 export type TechnologyID = string;
@@ -8667,6 +8670,7 @@ export type TechnologySlotStyleSpecification = ButtonStyleSpecification & {
   default_background_shadow?: ElementImageSet;
   default_ingredients_background?: ElementImageSet;
   disabled_ingredients_background?: ElementImageSet;
+  drag_handle_style?: unknown /* EmptyWidgetStyle */;
   highlighted_graphical_set?: ElementImageSet;
   highlighted_ingredients_background?: ElementImageSet;
   hovered_ingredients_background?: ElementImageSet;
@@ -9589,6 +9593,7 @@ export type WorkingVisualisation = {
   draw_in_states?: string[];
   draw_when_state_filter_matches?: bool;
   east_animation?: Animation;
+  east_fog_mask?: FogMaskShapeDefinition;
   east_position?: Vector;
   east_secondary_draw_order?: int8;
   effect?: 'flicker' | 'uranium-glow' | 'none';
@@ -9596,11 +9601,13 @@ export type WorkingVisualisation = {
   enabled_in_animated_shift_during_transition?: bool;
   enabled_in_animated_shift_during_waypoint_stop?: bool;
   fadeout?: bool;
+  fog_mask?: FogMaskShapeDefinition;
   frame_based_on_shift_animation_progress?: bool;
   light?: LightDefinition;
   mining_drill_scorch_mark?: bool;
   name?: string;
   north_animation?: Animation;
+  north_fog_mask?: FogMaskShapeDefinition;
   north_position?: Vector;
   north_secondary_draw_order?: int8;
   render_layer?: RenderLayer;
@@ -9609,10 +9616,12 @@ export type WorkingVisualisation = {
   scorch_mark_lifetime?: uint16;
   secondary_draw_order?: int8;
   south_animation?: Animation;
+  south_fog_mask?: FogMaskShapeDefinition;
   south_position?: Vector;
   south_secondary_draw_order?: int8;
   synced_fadeout?: bool;
   west_animation?: Animation;
+  west_fog_mask?: FogMaskShapeDefinition;
   west_position?: Vector;
   west_secondary_draw_order?: int8;
 };

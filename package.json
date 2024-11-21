@@ -1,16 +1,20 @@
 {
-  "name": "factoed",
+  "name": "factorio-raw-types",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
+  "exports": {
+    "prototypes": "./dist/prototypes.js"
+  },
   "scripts": {
+    "prepare": "tsc",
+    "generate": "tsx scripts/gen-prototypes.ts  > src/prototypes.ts; npm run format",
     "lint": "eslint --cache '{src,test,scripts}/**/*.{ts,tsx}'",
     "format": "prettier --write . --log-level warn"
   },
   "dependencies": {},
   "devDependencies": {
     "@tsconfig/node22": "^22",
-    "@sinclair/typebox": "^0.33",
+    "@sinclair/typebox": "^0.34",
     "@types/node": "^22",
     "@types/spritesmith": "^3",
     "@typescript-eslint/eslint-plugin": "^8",
@@ -21,6 +25,9 @@
     "sharp": "^0.33",
     "spritesmith": "^3",
     "tsx": "^4",
-    "typescript": "~5.5"
-  }
+    "typescript": "~5.6"
+  },
+  "files": [
+    "./dist"
+  ]
 }
