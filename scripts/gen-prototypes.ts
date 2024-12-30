@@ -317,6 +317,13 @@ function tsType(
     return 'unknown /* EmptyWidgetStyle */';
   }
 
+  // ~ 2.0.28 splits DamageTriggerEffectItem into DamageTileTriggerEffectItem
+  // and DamageEntityTriggerEffectItem, but has invalid types for both of them,
+  // so just assume they're alises
+  if (type === 'DamageEntityTriggerEffectItem') {
+    return 'DamageTileTriggerEffectItem /* LIE */';
+  }
+
   throw new Error(`unrecognised type: ${util.format(type)}`);
 }
 

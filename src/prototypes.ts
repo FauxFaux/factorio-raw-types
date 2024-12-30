@@ -203,7 +203,7 @@ export interface ArtilleryProjectilePrototype extends EntityPrototype {
 export interface ArtilleryTurretPrototype extends EntityWithOwnerPrototype {
   alert_when_attacking?: bool;
   ammo_stack_limit: ItemCountType;
-  automated_ammo_count: ItemCountType;
+  automated_ammo_count?: ItemCountType;
   base_picture?: Animation4Way;
   base_picture_render_layer?: RenderLayer;
   base_picture_secondary_draw_order?: uint8;
@@ -230,6 +230,7 @@ export interface ArtilleryTurretPrototype extends EntityWithOwnerPrototype {
 }
 export interface ArtilleryWagonPrototype extends RollingStockPrototype {
   ammo_stack_limit: ItemCountType;
+  automated_ammo_count?: ItemCountType;
   cannon_barrel_light_direction?: Vector3D;
   cannon_barrel_pictures?: RollingStockRotatedSlopedGraphics;
   cannon_barrel_recoil_shiftings?: Vector3D[];
@@ -464,6 +465,7 @@ export interface CargoLandingPadPrototype extends EntityWithOwnerPrototype {
   graphics_set?: CargoBayConnectableGraphicsSet;
   inventory_size: ItemStackIndex;
   radar_range?: uint32;
+  radar_visualisation_color?: Color;
   robot_animation?: Animation;
   robot_animation_sound?: Sound;
   robot_landing_location_offset?: Vector;
@@ -664,6 +666,7 @@ export interface CorpsePrototype extends EntityPrototype {
   animation_overlay_final_render_layer?: RenderLayer;
   animation_overlay_render_layer?: RenderLayer;
   animation_render_layer?: RenderLayer;
+  auto_setup_collision_box?: bool;
   decay_animation?: RotatedAnimationVariations;
   decay_frame_transition_duration?: float;
   direction_shuffle?: uint16[][];
@@ -872,6 +875,7 @@ export interface EditorControllerPrototype {
   generate_neighbor_chunks: bool;
   gun_inventory_size: ItemStackIndex;
   ignore_surface_conditions: bool;
+  ignore_tile_conditions: bool;
   instant_blueprint_building: bool;
   instant_deconstruction: bool;
   instant_rail_planner: bool;
@@ -936,8 +940,10 @@ export interface EnemySpawnerPrototype extends EntityWithOwnerPrototype {
   dying_sound?: Sound;
   graphics_set: EnemySpawnerGraphicsSet;
   is_military_target?: true;
+  max_count_of_owned_defensive_units?: uint32;
   max_count_of_owned_units: uint32;
   max_darkness_to_spawn?: float;
+  max_defensive_friends_around_to_spawn?: uint32;
   max_friends_around_to_spawn: uint32;
   max_richness_for_spawn_shift: double;
   max_spawn_shift: double;
@@ -1360,6 +1366,7 @@ export interface HeatPipePrototype extends EntityWithOwnerPrototype {
   connection_sprites?: ConnectableEntityGraphics;
   heat_buffer: HeatBuffer;
   heat_glow_sprites?: ConnectableEntityGraphics;
+  heating_radius?: float;
 }
 export type HighlightBoxEntityPrototype = EntityPrototype;
 export interface ImpactCategory {
@@ -1377,6 +1384,7 @@ export interface InfinityContainerPrototype
     | 'requester'
     | 'storage'
     | 'buffer';
+  preserve_contents_when_created?: bool;
   render_not_in_network_icon?: bool;
 }
 export interface InfinityPipePrototype extends PipePrototype {
@@ -1423,6 +1431,7 @@ export interface InserterPrototype extends EntityWithOwnerPrototype {
   platform_picture?: Sprite4Way;
   rotation_speed: double;
   stack_size_bonus?: uint8;
+  starting_distance?: double;
   use_easter_egg?: bool;
   wait_for_full_hand?: bool;
 }
@@ -2104,6 +2113,7 @@ export interface ReactorPrototype extends EntityWithOwnerPrototype {
   heat_connection_patches_connected?: SpriteVariations;
   heat_connection_patches_disconnected?: SpriteVariations;
   heat_lower_layer_picture?: Sprite;
+  heating_radius?: double;
   light?: LightDefinition;
   lower_layer_picture?: Sprite;
   meltdown_action?: Trigger;
@@ -2261,6 +2271,7 @@ export interface RoboportPrototype extends EntityWithOwnerPrototype {
   max_logistic_slots?: LogisticFilterIndex;
   open_door_trigger_effect?: TriggerEffect;
   radar_range?: uint32;
+  radar_visualisation_color?: Color;
   recharge_minimum: Energy;
   recharging_animation?: Animation;
   recharging_light?: LightDefinition;
@@ -3037,6 +3048,7 @@ export interface TurretPrototype extends EntityWithOwnerPrototype {
   attacking_animation?: RotatedAnimation8Way;
   attacking_speed?: float;
   call_for_help_radius: double;
+  can_retarget_while_starting_attack?: bool;
   circuit_connector?: CircuitConnectorDefinition[];
   circuit_wire_max_distance?: double;
   default_speed?: float;
@@ -3169,8 +3181,9 @@ export interface UpgradeItemPrototype
 }
 export interface UseEntityInEnergyProductionAchievementPrototype
   extends AchievementPrototype {
-  consumed_condition?: ItemID;
+  consumed_condition?: ItemIDFilter;
   entity: EntityID;
+  produced_condition?: ItemIDFilter;
   required_to_build?: EntityID;
 }
 export interface UseItemAchievementPrototype extends AchievementPrototype {
@@ -3845,7 +3858,7 @@ export interface UtilitySprites extends PrototypeBase {
   pin_center: Sprite;
   pipeline_disabled_icon: Sprite;
   placement_indicator_leg: Sprite;
-  platform_entity_build_animations: EntityBuildAnimations;
+  platform_entity_build_animations?: EntityBuildAnimations;
   play: Sprite;
   played_dark_green: Sprite;
   played_green: Sprite;
@@ -4488,6 +4501,7 @@ export type AreaTriggerItem = TriggerItem & {
   collision_mode?: 'distance-from-collision-box' | 'distance-from-center';
   radius: double;
   show_in_tooltip?: bool;
+  target_enemies?: bool;
   target_entities?: bool;
   trigger_from_target?: bool;
   type: 'area';
@@ -4842,6 +4856,8 @@ export type BurnerEnergySource = BaseEnergySource & {
   effectivity?: double;
   fuel_categories?: FuelCategoryID[];
   fuel_inventory_size: ItemStackIndex;
+  initial_fuel?: ItemID;
+  initial_fuel_percent?: double;
   light_flicker?: LightFlickeringDefinition;
   smoke?: SmokeSource[];
   type: 'burner';
@@ -4967,6 +4983,7 @@ export type CharacterArmorAnimation = {
   idle_with_gun_in_air?: RotatedAnimation;
   landing?: RotatedAnimation;
   mining_with_tool: RotatedAnimation;
+  mining_with_tool_particles_animation_positions?: float[];
   running?: RotatedAnimation;
   running_with_gun: RotatedAnimation;
   smoke_cycles_per_tick?: float;
@@ -5538,6 +5555,11 @@ export type CyclicSound = {
   middle_sound?: Sound;
 };
 export type DamageParameters = { amount: float; type: DamageTypeID };
+export type DamageTileTriggerEffectItem = TriggerEffectItem & {
+  damage: DamageParameters;
+  radius?: float;
+  type: 'damage';
+};
 export type DamageTriggerEffectItem = TriggerEffectItem & {
   apply_damage_to_trees?: bool;
   damage: DamageParameters;
@@ -5970,6 +5992,8 @@ export type FluidBox = {
   max_pipeline_extent?: uint32;
   maximum_temperature?: float;
   minimum_temperature?: float;
+  mirrored_pipe_picture?: Sprite4Way;
+  mirrored_pipe_picture_frozen?: Sprite4Way;
   pipe_connections: PipeConnectionDefinition[];
   pipe_covers?: Sprite4Way;
   pipe_covers_frozen?: Sprite4Way;
@@ -6035,6 +6059,7 @@ export type FogEffectProperties = {
   detail_noise_texture: EffectTexture;
   fog_type?: 'vulcanus' | 'gleba';
   shape_noise_texture: EffectTexture;
+  tick_factor?: float;
 };
 export type FogMaskShapeDefinition = {
   falloff?: float;
@@ -6142,6 +6167,7 @@ export type GameViewSettings = {
   show_research_info?: bool;
   show_shortcut_bar?: bool;
   show_side_menu?: bool;
+  show_surface_list?: bool;
   show_tool_bar?: bool;
   update_entity_selection?: bool;
 };
@@ -8208,7 +8234,7 @@ export type SpaceTileEffectParameters = {
   zoom_factor?: float;
   zoom_offset?: float;
 };
-export type SpacingItem = { index: number; spacing: number };
+export type SpacingItem = { index: uint32; spacing: int32 };
 export type SpawnPoint =
   | { evolution_factor: double; spawn_weight: double }
   | [double, double];
@@ -8670,7 +8696,7 @@ export type TechnologySlotStyleSpecification = ButtonStyleSpecification & {
   default_background_shadow?: ElementImageSet;
   default_ingredients_background?: ElementImageSet;
   disabled_ingredients_background?: ElementImageSet;
-  drag_handle_style?: unknown /* EmptyWidgetStyle */;
+  drag_handle_style?: EmptyWidgetStyleSpecification;
   highlighted_graphical_set?: ElementImageSet;
   highlighted_ingredients_background?: ElementImageSet;
   hovered_ingredients_background?: ElementImageSet;
@@ -8951,7 +8977,7 @@ export type TileTransitionsToTiles = TileTransitions & {
 export type TileTransitionsVariants = {
   empty_transitions?: bool;
   light?: TileLightPictures[];
-  main: TileMainPictures[];
+  main?: TileMainPictures[];
   material_background?: MaterialTextureParameters;
   material_light?: MaterialTextureParameters;
   material_texture_height_in_tiles?: uint8;
@@ -9196,7 +9222,8 @@ export type TriggerDeliveryItem = {
 };
 export type TriggerEffect =
   | (
-      | DamageTriggerEffectItem
+      | DamageTileTriggerEffectItem /* LIE */
+      | DamageTileTriggerEffectItem
       | CreateEntityTriggerEffectItem
       | CreateExplosionTriggerEffectItem
       | CreateFireTriggerEffectItem
@@ -9220,7 +9247,8 @@ export type TriggerEffect =
       | ActivateImpactTriggerEffectItem
     )
   | (
-      | DamageTriggerEffectItem
+      | DamageTileTriggerEffectItem /* LIE */
+      | DamageTileTriggerEffectItem
       | CreateEntityTriggerEffectItem
       | CreateExplosionTriggerEffectItem
       | CreateFireTriggerEffectItem
@@ -9338,7 +9366,9 @@ export type UnitAISettings = {
   allow_try_return_to_spawner?: bool;
   destroy_when_commands_fail?: bool;
   do_separation?: bool;
+  join_attacks?: bool;
   path_resolution_modifier?: int8;
+  size_in_group?: float;
   strafe_settings?: PrototypeStrafeSettings;
 };
 export type UnitAlternativeFrameSequence = {
