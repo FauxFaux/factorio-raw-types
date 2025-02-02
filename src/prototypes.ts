@@ -483,6 +483,7 @@ export interface CargoPodPrototype extends EntityWithOwnerPrototype {
 }
 export interface CargoWagonPrototype extends RollingStockPrototype {
   inventory_size: ItemStackIndex;
+  quality_affects_inventory_size?: bool;
 }
 export interface ChainActiveTriggerPrototype extends ActiveTriggerPrototype {
   action?: Trigger;
@@ -622,6 +623,7 @@ export interface ConstantCombinatorPrototype extends EntityWithOwnerPrototype {
   circuit_wire_max_distance?: double;
   draw_circuit_wires?: bool;
   draw_copper_wires?: bool;
+  pulse_duration?: uint32;
   sprites?: Sprite4Way;
 }
 export interface ConstructWithRobotsAchievementPrototype
@@ -1212,6 +1214,7 @@ export interface FluidStreamPrototype extends EntityPrototype {
   special_neutral_target_damage?: DamageParameters;
   spine_animation?: Animation;
   stream_light?: LightDefinition;
+  target_initial_position_only?: bool;
   target_position_deviation?: double;
   width?: float;
 }
@@ -1239,6 +1242,7 @@ export interface FluidTurretPrototype extends TurretPrototype {
 }
 export interface FluidWagonPrototype extends RollingStockPrototype {
   capacity: FluidAmount;
+  quality_affects_capacity?: bool;
   tank_count?: uint8;
 }
 export interface FlyingRobotPrototype extends EntityWithOwnerPrototype {
@@ -1344,6 +1348,7 @@ export interface GodControllerPrototype {
 }
 export interface GroupAttackAchievementPrototype extends AchievementPrototype {
   amount?: uint32;
+  attack_type?: 'autonomous' | 'distraction' | 'scripted';
   entities?: EntityID[];
 }
 export interface GuiStyle extends PrototypeBase {
@@ -3324,6 +3329,8 @@ export interface UtilityConstants extends PrototypeBase {
   show_chunk_components_collision_mask: CollisionMaskConnector;
   small_area_size: float;
   small_blueprint_area_size: float;
+  space_LPF_max_cutoff_frequency: float;
+  space_LPF_min_cutoff_frequency: float;
   space_platform_default_speed_formula: MathExpression;
   space_platform_dump_cooldown: uint32;
   space_platform_max_size: SimpleBoundingBox;
@@ -5514,6 +5521,7 @@ export type CreateTrivialSmokeEffectItem = TriggerEffectItem & {
   max_radius?: float;
   offset_deviation?: BoundingBox;
   offsets?: Vector[];
+  only_when_visible?: float;
   smoke_name: TrivialSmokeID;
   speed?: Vector;
   speed_from_center?: float;
@@ -6779,7 +6787,6 @@ export type LowPowerTipTrigger = CountBasedTipTrigger & { type: 'low-power' };
 export type MainSound = {
   activity_to_speed_modifiers?: ActivityMatchingModifiers;
   activity_to_volume_modifiers?: ActivityMatchingModifiers;
-  audible_distance_modifier?: double;
   fade_in_ticks?: uint32;
   fade_out_ticks?: uint32;
   match_progress_to_activity?: bool;
@@ -6927,6 +6934,7 @@ export type MinableProperties = {
   required_fluid?: FluidID;
   result?: ItemID;
   results?: ProductPrototype[];
+  transfer_entity_health_to_products?: bool;
 };
 export type MineEntityTechnologyTrigger = {
   entity: EntityID;
@@ -7283,13 +7291,11 @@ export type PlanetPrototypeMapGenSettings = {
 };
 export type PlayFor = 'character_actions' | 'everything';
 export type PlaySoundTriggerEffectItem = TriggerEffectItem & {
-  audible_distance_modifier?: float;
   max_distance?: float;
   min_distance?: float;
   play_on_target_position?: bool;
   sound: Sound;
   type: 'play-sound';
-  volume_modifier?: float;
 };
 export type PlayerColorData = {
   chat_color: Color;
@@ -8146,9 +8152,8 @@ export type Sound =
     }
   | SoundDefinition[];
 export type SoundAccent = {
-  audible_distance_modifier?: float;
   frame?: uint16;
-  play_for_working_visualisations?: string[];
+  play_for_working_visualisation?: string;
   sound?: Sound;
 };
 export type SoundDefinition =
@@ -9588,13 +9593,11 @@ export type WorkingSound = MainSound &
   (
     | {
         activate_sound?: Sound;
-        apparent_volume?: float;
-        audible_distance_modifier?: double;
         deactivate_sound?: Sound;
         extra_sounds_ignore_limit?: bool;
         idle_sound?: Sound;
         main_sounds?: MainSound | MainSound[];
-        max_sounds_per_type?: uint8;
+        max_sounds_per_prototype?: uint8;
         persistent?: bool;
         sound_accents?: SoundAccent | SoundAccent[];
         use_doppler_shift?: bool;

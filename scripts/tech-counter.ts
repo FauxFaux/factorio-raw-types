@@ -1,3 +1,5 @@
+import { execFileSync } from 'node:child_process';
+
 const techs = ((await import('../sample-data/data.json')) as unknown as RawData)
   .technology;
 import { RawData, TechnologyPrototype } from '../src/prototypes.js';
@@ -21,9 +23,20 @@ function fullTree(run: Set<TechName>, tech: Tech) {
 }
 
 function main() {
-  const target = techs['rocket-silo']!;
+  const targetKeys = execFileSync('fzf', ['--multi'], {
+    input: Object.keys(techs).sort().join('\n'),
+    encoding: 'utf-8',
+  })
+    .trim()
+    .split('\n');
+
+  console.log(targetKeys);
+
+  // const target = techs['rocket-silo']!;
   const run = new Set<TechName>();
-  fullTree(run, target);
+  for (const key of targetKeys) {
+    fullTree(run, techs[key]!);
+  }
 
   const costs: Record<string, number> = {};
   for (const name of [...run]) {
