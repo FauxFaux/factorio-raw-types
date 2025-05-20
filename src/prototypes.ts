@@ -3,12 +3,12 @@ export interface AccumulatorPrototype extends EntityWithOwnerPrototype {
   circuit_connector?: CircuitConnectorDefinition;
   circuit_wire_max_distance?: double;
   default_output_signal?: SignalIDConnector;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   energy_source: ElectricEnergySource;
 }
 export interface AchievementPrototype extends Prototype {
-  allowed_without_fight?: bool;
+  allowed_without_fight?: boolean;
   icon?: FileName;
   icon_size?: SpriteSizeType;
   icons?: IconData[];
@@ -16,14 +16,15 @@ export interface AchievementPrototype extends Prototype {
 }
 export interface AchievementPrototypeWithCondition
   extends AchievementPrototype {
-  objective_condition: 'game-finished' | 'rocket-launched';
+  objective_condition?: 'game-finished' | 'rocket-launched' | 'late-research';
 }
 export interface ActiveDefenseEquipmentPrototype extends EquipmentPrototype {
   attack_parameters: AttackParameters;
-  automatic: bool;
+  automatic: boolean;
 }
 export type ActiveTriggerPrototype = Prototype;
 export interface AgriculturalTowerPrototype extends EntityWithOwnerPrototype {
+  accepted_seeds?: ItemID[];
   arm_extending_sound?: InterruptibleSound;
   arm_extending_sound_source?: string;
   central_orienting_sound?: InterruptibleSound;
@@ -32,8 +33,8 @@ export interface AgriculturalTowerPrototype extends EntityWithOwnerPrototype {
   circuit_wire_max_distance?: double;
   crane: AgriculturalCraneProperties;
   crane_energy_usage: Energy;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   energy_source: EnergySource;
   energy_usage: Energy;
   graphics_set?: CraftingMachineGraphicsSet;
@@ -41,6 +42,7 @@ export interface AgriculturalTowerPrototype extends EntityWithOwnerPrototype {
   grappler_extending_sound_source?: string;
   grappler_orienting_sound?: InterruptibleSound;
   grappler_orienting_sound_source?: string;
+  growth_area_radius?: double;
   growth_grid_tile_size?: uint32;
   harvesting_procedure_points?: Vector3D[];
   harvesting_sound?: Sound;
@@ -51,11 +53,13 @@ export interface AgriculturalTowerPrototype extends EntityWithOwnerPrototype {
   radius: double;
   radius_visualisation_picture?: Sprite;
   random_growth_offset?: double;
+  randomize_planting_tile?: boolean;
 }
 export interface AirbornePollutantPrototype extends Prototype {
-  affects_evolution: bool;
-  affects_water_tint: bool;
+  affects_evolution: boolean;
+  affects_water_tint: boolean;
   chart_color: Color;
+  damages_trees?: boolean;
   icon: Sprite;
   localised_name_with_amount?: string;
 }
@@ -79,47 +83,47 @@ export interface AmmoItemPrototype extends ItemPrototype {
   ammo_type: AmmoType | AmmoType[];
   magazine_size?: float;
   reload_time?: float;
-  shoot_protected?: bool;
+  shoot_protected?: boolean;
 }
 export interface AmmoTurretPrototype extends TurretPrototype {
   automated_ammo_count: ItemCountType;
   energy_per_shot?: Energy;
   energy_source?: ElectricEnergySource;
   inventory_size: ItemStackIndex;
-  prepare_with_no_ammo?: bool;
+  prepare_with_no_ammo?: boolean;
 }
 export interface AnimationPrototype {
-  allow_forced_downscale?: bool;
+  allow_forced_downscale?: boolean;
   animation_speed?: float;
-  apply_runtime_tint?: bool;
-  apply_special_effect?: bool;
+  apply_runtime_tint?: boolean;
+  apply_special_effect?: boolean;
   blend_mode?: BlendMode;
   dice?: uint8;
   dice_x?: uint8;
   dice_y?: uint8;
-  draw_as_glow?: bool;
-  draw_as_light?: bool;
-  draw_as_shadow?: bool;
+  draw_as_glow?: boolean;
+  draw_as_light?: boolean;
+  draw_as_shadow?: boolean;
   filename?: FileName;
   filenames?: FileName[];
   flags?: SpriteFlags;
   frame_count?: uint32;
   frame_sequence?: AnimationFrameSequence;
-  generate_sdf?: bool;
+  generate_sdf?: boolean;
   height?: SpriteSizeType;
-  invert_colors?: bool;
+  invert_colors?: boolean;
   layers?: Animation[];
   line_length?: uint32;
   lines_per_file?: uint32;
-  load_in_minimal_mode?: bool;
+  load_in_minimal_mode?: boolean;
   max_advance?: float;
   mipmap_count?: uint8;
   name: string;
   position?: [SpriteSizeType, SpriteSizeType];
-  premul_alpha?: bool;
+  premul_alpha?: boolean;
   priority?: SpritePriority;
   repeat_count?: uint8;
-  rotate_shift?: bool;
+  rotate_shift?: boolean;
   run_mode?: AnimationRunMode;
   scale?: double;
   shift?: Vector;
@@ -128,7 +132,7 @@ export interface AnimationPrototype {
   stripes?: Stripe[];
   surface?: SpriteUsageSurfaceHint;
   tint?: Color;
-  tint_as_overlay?: bool;
+  tint_as_overlay?: boolean;
   type: 'animation';
   usage?: SpriteUsageHint;
   width?: SpriteSizeType;
@@ -156,14 +160,14 @@ export interface ArmorPrototype extends ToolPrototype {
   inventory_size_bonus?: ItemStackIndex;
   landing_sound?: Sound;
   moving_sound?: Sound;
-  provides_flight?: bool;
+  provides_flight?: boolean;
   resistances?: Resistance[];
   steps_sound?: Sound;
   takeoff_sound?: Sound;
 }
 export interface ArrowPrototype extends EntityPrototype {
   arrow_picture: Sprite;
-  blinking?: bool;
+  blinking?: boolean;
   circle_picture?: Sprite;
 }
 export interface ArtilleryFlarePrototype extends EntityPrototype {
@@ -196,12 +200,12 @@ export interface ArtilleryProjectilePrototype extends EntityPrototype {
   height_from_ground?: float;
   map_color: Color;
   picture?: Sprite;
-  reveal_map: bool;
-  rotatable?: bool;
+  reveal_map: boolean;
+  rotatable?: boolean;
   shadow?: Sprite;
 }
 export interface ArtilleryTurretPrototype extends EntityWithOwnerPrototype {
-  alert_when_attacking?: bool;
+  alert_when_attacking?: boolean;
   ammo_stack_limit: ItemCountType;
   automated_ammo_count?: ItemCountType;
   base_picture?: Animation4Way;
@@ -217,12 +221,12 @@ export interface ArtilleryTurretPrototype extends EntityWithOwnerPrototype {
   cannon_parking_speed?: float;
   circuit_connector?: CircuitConnectorDefinition;
   circuit_wire_max_distance?: double;
-  disable_automatic_firing?: bool;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  disable_automatic_firing?: boolean;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   gun: ItemID;
   inventory_size: ItemStackIndex;
-  is_military_target?: bool;
+  is_military_target?: boolean;
   manual_range_modifier: double;
   rotating_sound?: InterruptibleSound;
   turn_after_shooting_cooldown?: uint16;
@@ -241,7 +245,7 @@ export interface ArtilleryWagonPrototype extends RollingStockPrototype {
   cannon_base_shift_when_vertical?: double;
   cannon_parking_frame_count?: uint16;
   cannon_parking_speed?: float;
-  disable_automatic_firing?: bool;
+  disable_automatic_firing?: boolean;
   gun: ItemID;
   inventory_size: ItemStackIndex;
   manual_range_modifier: double;
@@ -256,23 +260,30 @@ export interface AssemblingMachinePrototype extends CraftingMachinePrototype {
     CircuitConnectorDefinition,
     CircuitConnectorDefinition,
   ];
+  circuit_connector_flipped?: [
+    CircuitConnectorDefinition,
+    CircuitConnectorDefinition,
+    CircuitConnectorDefinition,
+    CircuitConnectorDefinition,
+  ];
   circuit_wire_max_distance?: double;
   default_recipe_finished_signal?: SignalIDConnector;
   default_working_signal?: SignalIDConnector;
-  disabled_when_recipe_not_researched?: bool;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
-  enable_logistic_control_behavior?: bool;
+  disabled_when_recipe_not_researched?: boolean;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
+  enable_logistic_control_behavior?: boolean;
   fixed_quality?: QualityID;
   fixed_recipe?: RecipeID;
-  fluid_boxes_off_when_no_fluid_recipe?: bool;
+  fluid_boxes_off_when_no_fluid_recipe?: boolean;
   gui_title_key?: string;
-  ingredient_count?: uint8;
+  ingredient_count?: uint16;
+  max_item_product_count?: uint16;
 }
 export interface AsteroidChunkPrototype extends Prototype {
   dying_trigger_effect?: TriggerEffect;
   graphics_set?: AsteroidGraphicsSet;
-  hide_from_signal_gui?: bool;
+  hide_from_signal_gui?: boolean;
   icon?: FileName;
   icon_size?: SpriteSizeType;
   icons?: IconData[];
@@ -303,8 +314,8 @@ export interface AsteroidCollectorPrototype extends EntityWithOwnerPrototype {
   collection_radius: double;
   deposit_radius?: float;
   deposit_sound?: Sound;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   energy_source: ElectricEnergySource | VoidEnergySource;
   energy_usage_quality_scaling?: float;
   graphics_set: AsteroidCollectorGraphicsSet;
@@ -327,9 +338,10 @@ export interface AsteroidPrototype extends EntityWithOwnerPrototype {
   mass?: double;
 }
 export interface AutoplaceControl extends Prototype {
-  can_be_disabled?: bool;
+  can_be_disabled?: boolean;
   category: 'resource' | 'terrain' | 'cliff' | 'enemy';
-  richness?: bool;
+  related_to_fight_achievements?: boolean;
+  richness?: boolean;
 }
 export type BatteryEquipmentPrototype = EquipmentPrototype;
 export interface BeaconPrototype extends EntityWithOwnerPrototype {
@@ -347,14 +359,14 @@ export interface BeaconPrototype extends EntityWithOwnerPrototype {
   perceived_performance?: PerceivedPerformance;
   profile?: double[];
   radius_visualisation_picture?: Sprite;
-  supply_area_distance: double;
+  supply_area_distance: uint32;
 }
 export interface BeamPrototype extends EntityPrototype {
   action?: Trigger;
-  action_triggered_automatically?: bool;
+  action_triggered_automatically?: boolean;
   damage_interval: uint32;
   graphics_set: BeamGraphicsSet;
-  random_target_offset?: bool;
+  random_target_offset?: boolean;
   target_offset?: Vector;
   width: float;
 }
@@ -363,7 +375,7 @@ export interface BeltImmunityEquipmentPrototype extends EquipmentPrototype {
 }
 export interface BlueprintBookPrototype
   extends Omit<ItemWithInventoryPrototype, 'inventory_size'> {
-  draw_label_for_cursor_render?: bool;
+  draw_label_for_cursor_render?: boolean;
   inventory_size: ItemStackIndex | 'dynamic';
   stack_size: 1;
 }
@@ -373,8 +385,8 @@ export interface BlueprintItemPrototype
     'selection_mode' | 'alt_selection_mode'
   > {
   alt_select: SelectionModeData;
-  always_include_tiles?: bool;
-  draw_label_for_cursor_render?: bool;
+  always_include_tiles?: boolean;
+  draw_label_for_cursor_render?: boolean;
   select: SelectionModeData;
   stack_size: 1;
 }
@@ -382,8 +394,8 @@ export interface BoilerPrototype extends EntityWithOwnerPrototype {
   burning_cooldown: uint16;
   energy_consumption: Energy;
   energy_source: EnergySource;
-  fire_flicker_enabled?: bool;
-  fire_glow_flicker_enabled?: bool;
+  fire_flicker_enabled?: boolean;
+  fire_glow_flicker_enabled?: boolean;
   fluid_box: FluidBox;
   mode?: 'heat-fluid-inside' | 'output-to-separate-pipe';
   output_fluid_box: FluidBox;
@@ -392,12 +404,12 @@ export interface BoilerPrototype extends EntityWithOwnerPrototype {
 }
 export interface BuildEntityAchievementPrototype extends AchievementPrototype {
   amount?: uint32;
-  limited_to_one_game?: bool;
+  limited_to_one_game?: boolean;
   to_build: EntityID;
   within?: MapTick;
 }
 export interface BurnerGeneratorPrototype extends EntityWithOwnerPrototype {
-  always_draw_idle_animation?: bool;
+  always_draw_idle_animation?: boolean;
   animation?: Animation4Way;
   burner: BurnerEnergySource;
   energy_source: ElectricEnergySource;
@@ -426,23 +438,24 @@ export interface CaptureRobotPrototype extends FlyingRobotPrototype {
 }
 export interface CarPrototype extends VehiclePrototype {
   animation?: RotatedAnimation;
-  auto_sort_inventory?: bool;
+  auto_sort_inventory?: boolean;
   consumption: Energy;
   darkness_to_render_light_animation?: float;
   effectivity: double;
   energy_source: BurnerEnergySource | VoidEnergySource;
   guns?: ItemID[];
-  has_belt_immunity?: bool;
-  immune_to_cliff_impacts?: bool;
-  immune_to_rock_impacts?: bool;
-  immune_to_tree_impacts?: bool;
+  has_belt_immunity?: boolean;
+  immune_to_cliff_impacts?: boolean;
+  immune_to_rock_impacts?: boolean;
+  immune_to_tree_impacts?: boolean;
   inventory_size: ItemStackIndex;
   light?: LightDefinition;
   light_animation?: RotatedAnimation;
   render_layer?: RenderLayer;
+  rotation_snap_angle: double;
   rotation_speed: double;
   sound_no_fuel?: Sound;
-  tank_driving?: bool;
+  tank_driving?: boolean;
   track_particle_triggers?: FootstepTriggerEffectList;
   trash_inventory_size?: ItemStackIndex;
   turret_animation?: RotatedAnimation;
@@ -460,8 +473,8 @@ export interface CargoLandingPadPrototype extends EntityWithOwnerPrototype {
   cargo_station_parameters: CargoStationParameters;
   circuit_connector?: CircuitConnectorDefinition;
   circuit_wire_max_distance?: double;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   graphics_set?: CargoBayConnectableGraphicsSet;
   inventory_size: ItemStackIndex;
   radar_range?: uint32;
@@ -483,7 +496,7 @@ export interface CargoPodPrototype extends EntityWithOwnerPrototype {
 }
 export interface CargoWagonPrototype extends RollingStockPrototype {
   inventory_size: ItemStackIndex;
-  quality_affects_inventory_size?: bool;
+  quality_affects_inventory_size?: boolean;
 }
 export interface ChainActiveTriggerPrototype extends ActiveTriggerPrototype {
   action?: Trigger;
@@ -523,10 +536,10 @@ export interface CharacterPrototype extends EntityWithOwnerPrototype {
   footstep_particle_triggers?: FootstepTriggerEffectList;
   grounded_landing_search_radius?: double;
   guns_inventory_size?: ItemStackIndex;
-  has_belt_immunity?: bool;
+  has_belt_immunity?: boolean;
   heartbeat: Sound;
   inventory_size: ItemStackIndex;
-  is_military_target?: bool;
+  is_military_target?: boolean;
   item_pickup_distance: double;
   left_footprint_frames?: float[];
   left_footprint_offset?: Vector;
@@ -566,7 +579,7 @@ export interface CombatRobotCountAchievementPrototype
 export interface CombatRobotPrototype extends FlyingRobotPrototype {
   attack_parameters: AttackParameters;
   destroy_action?: Trigger;
-  follows_player?: bool;
+  follows_player?: boolean;
   friction?: double;
   idle?: RotatedAnimation;
   in_motion?: RotatedAnimation;
@@ -583,8 +596,8 @@ export interface CombinatorPrototype extends EntityWithOwnerPrototype {
   activity_led_light_offsets: [Vector, Vector, Vector, Vector];
   activity_led_sprites?: Sprite4Way;
   circuit_wire_max_distance?: double;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   emissions_per_second?: Record<AirbornePollutantID, double>;
   energy_source: ElectricEnergySource | VoidEnergySource;
   frozen_patch?: Sprite4Way;
@@ -621,16 +634,16 @@ export interface ConstantCombinatorPrototype extends EntityWithOwnerPrototype {
     WireConnectionPoint,
   ];
   circuit_wire_max_distance?: double;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   pulse_duration?: uint32;
   sprites?: Sprite4Way;
 }
 export interface ConstructWithRobotsAchievementPrototype
   extends AchievementPrototype {
   amount?: uint32;
-  limited_to_one_game: bool;
-  more_than_manually?: bool;
+  limited_to_one_game: boolean;
+  more_than_manually?: boolean;
 }
 export interface ConstructionRobotPrototype
   extends RobotWithLogisticInterfacePrototype {
@@ -648,17 +661,17 @@ export interface ContainerPrototype extends EntityWithOwnerPrototype {
   circuit_connector?: CircuitConnectorDefinition;
   circuit_wire_max_distance?: double;
   default_status?: EntityStatus;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   inventory_size: ItemStackIndex;
   inventory_type?: 'normal' | 'with_bar' | 'with_filters_and_bar';
   picture?: Sprite;
-  quality_affects_inventory_size?: bool;
+  quality_affects_inventory_size?: boolean;
 }
 export interface CopyPasteToolPrototype extends SelectionToolPrototype {
   alt_select: SelectionModeData;
-  always_include_tiles?: bool;
-  cuts?: bool;
+  always_include_tiles?: boolean;
+  cuts?: boolean;
   select: SelectionModeData;
   stack_size: 1;
 }
@@ -668,12 +681,12 @@ export interface CorpsePrototype extends EntityPrototype {
   animation_overlay_final_render_layer?: RenderLayer;
   animation_overlay_render_layer?: RenderLayer;
   animation_render_layer?: RenderLayer;
-  auto_setup_collision_box?: bool;
+  auto_setup_collision_box?: boolean;
   decay_animation?: RotatedAnimationVariations;
   decay_frame_transition_duration?: float;
   direction_shuffle?: uint16[][];
   dying_speed?: float;
-  expires?: bool;
+  expires?: boolean;
   final_render_layer?: RenderLayer;
   ground_patch?: AnimationVariations;
   ground_patch_decay?: AnimationVariations;
@@ -683,8 +696,8 @@ export interface CorpsePrototype extends EntityPrototype {
   ground_patch_fade_out_start?: float;
   ground_patch_higher?: AnimationVariations;
   ground_patch_render_layer?: RenderLayer;
-  remove_on_entity_placement?: bool;
-  remove_on_tile_placement?: bool;
+  remove_on_entity_placement?: boolean;
+  remove_on_tile_placement?: boolean;
   shuffle_directions_at_frame?: uint8;
   splash?: AnimationVariations;
   splash_render_layer?: RenderLayer;
@@ -693,31 +706,31 @@ export interface CorpsePrototype extends EntityPrototype {
   time_before_shading_off?: uint32;
   underwater_layer_offset?: int8;
   underwater_patch?: RotatedSprite;
-  use_decay_layer?: bool;
-  use_tile_color_for_ground_patch_tint?: bool;
+  use_decay_layer?: boolean;
+  use_tile_color_for_ground_patch_tint?: boolean;
 }
 export interface CraftingMachinePrototype extends EntityWithOwnerPrototype {
   allowed_effects?: EffectTypeLimitation;
   allowed_module_categories?: ModuleCategoryID[];
   crafting_categories: RecipeCategoryID[];
   crafting_speed: double;
-  draw_entity_info_icon_background?: bool;
+  draw_entity_info_icon_background?: boolean;
   effect_receiver?: EffectReceiver;
   energy_source: EnergySource;
   energy_usage: Energy;
-  fast_transfer_modules_into_module_slots_only?: bool;
+  fast_transfer_modules_into_module_slots_only?: boolean;
   fluid_boxes?: FluidBox[];
   forced_symmetry?: Mirroring;
   graphics_set?: CraftingMachineGraphicsSet;
   graphics_set_flipped?: CraftingMachineGraphicsSet;
-  ignore_output_full?: bool;
-  match_animation_speed_to_activity?: bool;
+  ignore_output_full?: boolean;
+  match_animation_speed_to_activity?: boolean;
   module_slots?: ItemStackIndex;
   perceived_performance?: PerceivedPerformance;
   production_health_effect?: ProductionHealthEffect;
-  return_ingredients_on_change?: bool;
-  show_recipe_icon?: bool;
-  show_recipe_icon_on_map?: bool;
+  return_ingredients_on_change?: boolean;
+  show_recipe_icon?: boolean;
+  show_recipe_icon_on_map?: boolean;
   trash_inventory_size?: ItemStackIndex;
   vector_to_place_result?: Vector;
 }
@@ -740,14 +753,14 @@ export interface CustomInputPrototype extends Prototype {
     | 'toggle-personal-logistic-requests'
     | 'toggle-equipment-movement-bonus';
   alternative_key_sequence?: string;
-  block_modifiers?: bool;
+  block_modifiers?: boolean;
   consuming?: ConsumingType;
   controller_alternative_key_sequence?: string;
   controller_key_sequence?: string;
-  enabled?: bool;
-  enabled_while_in_cutscene?: bool;
-  enabled_while_spectating?: bool;
-  include_selected_prototype?: bool;
+  enabled?: boolean;
+  enabled_while_in_cutscene?: boolean;
+  enabled_while_spectating?: boolean;
+  include_selected_prototype?: boolean;
   item_to_spawn?: ItemID;
   key_sequence: string;
   linked_game_control?: LinkedGameControl;
@@ -773,7 +786,7 @@ export interface DeconstructionItemPrototype
     'selection_mode' | 'alt_selection_mode'
   > {
   alt_select: SelectionModeData;
-  always_include_tiles?: bool;
+  always_include_tiles?: boolean;
   entity_filter_count?: ItemStackIndex;
   select: SelectionModeData;
   stack_size: 1;
@@ -784,8 +797,9 @@ export interface DecorativePrototype extends Prototype {
   collision_box?: BoundingBox;
   collision_mask?: CollisionMaskConnector;
   decal_overdraw_priority?: uint16;
-  grows_through_rail_path?: bool;
+  grows_through_rail_path?: boolean;
   minimal_separation?: double;
+  opacity_over_water?: float;
   pictures: SpriteVariations;
   placed_effect?: TriggerEffect;
   render_layer?: RenderLayer;
@@ -798,7 +812,7 @@ export interface DecorativePrototype extends Prototype {
 }
 export interface DelayedActiveTriggerPrototype extends ActiveTriggerPrototype {
   action: Trigger;
-  cancel_when_source_is_destroyed?: bool;
+  cancel_when_source_is_destroyed?: boolean;
   delay: uint32;
   repeat_count?: uint32;
   repeat_delay?: uint32;
@@ -821,11 +835,11 @@ export interface DeliverImpactCombination {
 export interface DepleteResourceAchievementPrototype
   extends AchievementPrototype {
   amount?: uint32;
-  limited_to_one_game?: bool;
+  limited_to_one_game?: boolean;
 }
 export interface DestroyCliffAchievementPrototype extends AchievementPrototype {
   amount?: uint32;
-  limited_to_one_game?: bool;
+  limited_to_one_game?: boolean;
 }
 export interface DisplayPanelPrototype extends EntityWithOwnerPrototype {
   background_color?: Color;
@@ -836,8 +850,8 @@ export interface DisplayPanelPrototype extends EntityWithOwnerPrototype {
     CircuitConnectorDefinition,
   ];
   circuit_wire_max_distance?: double;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   max_text_width?: uint32;
   sprites?: Sprite4Way;
   text_color?: Color;
@@ -867,44 +881,43 @@ export interface DontUseEntityInEnergyProductionAchievementPrototype
   extends AchievementPrototypeWithCondition {
   excluded: EntityID | EntityID[];
   included?: EntityID | EntityID[];
-  last_hour_only?: bool;
+  last_hour_only?: boolean;
   minimum_energy_produced?: Energy;
 }
 export interface EditorControllerPrototype {
-  adjust_speed_based_off_zoom: bool;
-  enable_flash_light: bool;
-  fill_built_entity_energy_buffers: bool;
-  generate_neighbor_chunks: bool;
+  adjust_speed_based_off_zoom: boolean;
+  enable_flash_light: boolean;
+  fill_built_entity_energy_buffers: boolean;
+  generate_neighbor_chunks: boolean;
   gun_inventory_size: ItemStackIndex;
-  ignore_surface_conditions: bool;
-  ignore_tile_conditions: bool;
-  instant_blueprint_building: bool;
-  instant_deconstruction: bool;
-  instant_rail_planner: bool;
-  instant_upgrading: bool;
+  ignore_tile_conditions: boolean;
+  instant_blueprint_building: boolean;
+  instant_deconstruction: boolean;
+  instant_rail_planner: boolean;
+  instant_upgrading: boolean;
   inventory_size: ItemStackIndex;
   item_pickup_distance: double;
   loot_pickup_distance: double;
   mining_speed: double;
   movement_speed: double;
   name: string;
-  placed_corpses_never_expire: bool;
-  render_as_day: bool;
-  show_additional_entity_info_gui: bool;
-  show_character_tab_in_controller_gui: bool;
-  show_entity_health_bars: bool;
-  show_entity_tags: bool;
-  show_hidden_entities: bool;
-  show_infinity_filters_in_controller_gui: bool;
-  show_status_icons: bool;
+  placed_corpses_never_expire: boolean;
+  render_as_day: boolean;
+  show_additional_entity_info_gui: boolean;
+  show_character_tab_in_controller_gui: boolean;
+  show_entity_health_bars: boolean;
+  show_entity_tags: boolean;
+  show_hidden_entities: boolean;
+  show_infinity_filters_in_controller_gui: boolean;
+  show_status_icons: boolean;
   type: 'editor-controller';
 }
 export interface ElectricEnergyInterfacePrototype
   extends EntityWithOwnerPrototype {
-  allow_copy_paste?: bool;
+  allow_copy_paste?: boolean;
   animation?: Animation;
   animations?: Animation4Way;
-  continuous_animation?: bool;
+  continuous_animation?: boolean;
   energy_production?: Energy;
   energy_source: ElectricEnergySource;
   energy_usage?: Energy;
@@ -918,14 +931,15 @@ export interface ElectricPolePrototype extends EntityWithOwnerPrototype {
   active_picture?: Sprite;
   auto_connect_up_to_n_wires?: uint8;
   connection_points: WireConnectionPoint[];
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   light?: LightDefinition;
   maximum_wire_distance?: double;
   pictures?: RotatedSprite;
   radius_visualisation_picture?: Sprite;
+  rewire_neighbours_when_destroying?: boolean;
   supply_area_distance: double;
-  track_coverage_during_build_by_moving?: bool;
+  track_coverage_during_build_by_moving?: boolean;
 }
 export interface ElectricTurretPrototype extends TurretPrototype {
   energy_source: ElectricEnergySource | VoidEnergySource;
@@ -952,7 +966,7 @@ export interface EnemySpawnerPrototype extends EntityWithOwnerPrototype {
   min_darkness_to_spawn?: float;
   result_units: UnitSpawnDefinition[];
   spawn_decoration?: CreateDecorativesTriggerEffectItem[];
-  spawn_decorations_on_expansion?: bool;
+  spawn_decorations_on_expansion?: boolean;
   spawning_cooldown: [double, double];
   spawning_radius: double;
   spawning_spacing: double;
@@ -975,7 +989,7 @@ export interface EntityPrototype extends Prototype {
   additional_pastable_entities?: EntityID[];
   alert_icon_scale?: float;
   alert_icon_shift?: Vector;
-  allow_copy_paste?: bool;
+  allow_copy_paste?: boolean;
   ambient_sounds?: WorldAmbientSoundDefinition | WorldAmbientSoundDefinition[];
   ambient_sounds_group?: EntityID;
   autoplace?: AutoplaceSpecification;
@@ -1013,12 +1027,12 @@ export interface EntityPrototype extends Prototype {
   order?: Order;
   placeable_by?: ItemToPlace | ItemToPlace[];
   placeable_position_visualization?: Sprite;
-  protected_from_tile_building?: bool;
+  protected_from_tile_building?: boolean;
   radius_visualisation_specification?: RadiusVisualisationSpecification;
   remains_when_mined?: EntityID | EntityID[];
   remove_decoratives?: 'automatic' | 'true' | 'false';
   rotated_sound?: Sound;
-  selectable_in_game?: bool;
+  selectable_in_game?: boolean;
   selection_box?: BoundingBox;
   selection_priority?: uint8;
   shooting_cursor_size?: double;
@@ -1033,36 +1047,37 @@ export interface EntityPrototype extends Prototype {
   working_sound?: WorkingSound;
 }
 export interface EntityWithHealthPrototype extends EntityPrototype {
-  alert_when_damaged?: bool;
+  alert_when_damaged?: boolean;
   attack_reaction?: AttackReactionItem | AttackReactionItem[];
   corpse?: EntityID | EntityID[];
-  create_ghost_on_death?: bool;
+  create_ghost_on_death?: boolean;
   damaged_trigger_effect?: TriggerEffect;
   dying_explosion?: ExplosionDefinition | ExplosionDefinition[];
   dying_trigger_effect?: TriggerEffect;
   healing_per_tick?: float;
-  hide_resistances?: bool;
+  hide_resistances?: boolean;
   integration_patch?: Sprite4Way;
   integration_patch_render_layer?: RenderLayer;
   loot?: LootItem[];
   max_health?: float;
   overkill_fraction?: float;
-  random_corpse_variation?: bool;
+  random_corpse_variation?: boolean;
   repair_sound?: Sound;
   repair_speed_modifier?: float;
   resistances?: Resistance[];
 }
 export interface EntityWithOwnerPrototype extends EntityWithHealthPrototype {
-  allow_run_time_change_of_is_military_target?: bool;
-  is_military_target?: bool;
+  allow_run_time_change_of_is_military_target?: boolean;
+  is_military_target?: boolean;
   quality_indicator_scale?: double;
+  quality_indicator_shift?: Vector;
 }
 export interface EquipArmorAchievementPrototype extends AchievementPrototype {
   alternative_armor: ItemID;
   amount?: uint32;
   armor: ItemID;
   limit_quality: QualityID;
-  limited_to_one_game?: bool;
+  limited_to_one_game?: boolean;
 }
 export type EquipmentCategory = Prototype;
 export interface EquipmentGhostPrototype
@@ -1075,7 +1090,7 @@ export interface EquipmentGhostPrototype
 export interface EquipmentGridPrototype extends Prototype {
   equipment_categories: EquipmentCategoryID[];
   height: uint32;
-  locked?: bool;
+  locked?: boolean;
   width: uint32;
 }
 export interface EquipmentPrototype extends Prototype {
@@ -1090,8 +1105,11 @@ export interface EquipmentPrototype extends Prototype {
 }
 export interface ExplosionPrototype extends EntityPrototype {
   animations: AnimationVariations;
-  beam?: bool;
-  correct_rotation?: bool;
+  beam?: boolean;
+  correct_rotation?: boolean;
+  delay?: MapTick;
+  delay_deviation?: MapTick;
+  explosion_effect?: Trigger;
   fade_in_duration?: uint8;
   fade_out_duration?: uint8;
   height?: float;
@@ -1105,9 +1123,9 @@ export interface ExplosionPrototype extends EntityPrototype {
   light_size_peak_end_progress?: float;
   light_size_peak_start_progress?: float;
   render_layer?: RenderLayer;
-  rotate?: bool;
+  rotate?: boolean;
   scale?: float;
-  scale_animation_speed?: bool;
+  scale_animation_speed?: boolean;
   scale_deviation?: float;
   scale_end?: float;
   scale_in_duration?: uint8;
@@ -1142,7 +1160,7 @@ export interface FireFlamePrototype extends EntityPrototype {
   light?: LightDefinition;
   light_size_modifier_maximum?: float;
   light_size_modifier_per_flame?: float;
-  limit_overlapping_particles?: bool;
+  limit_overlapping_particles?: boolean;
   maximum_damage_multiplier?: float;
   maximum_lifetime?: uint32;
   maximum_spread_count?: uint16;
@@ -1166,13 +1184,13 @@ export interface FireFlamePrototype extends EntityPrototype {
   spread_delay: uint32;
   spread_delay_deviation: uint32;
   tree_dying_factor?: float;
-  uses_alternative_behavior?: bool;
+  uses_alternative_behavior?: boolean;
 }
 export interface FishPrototype extends EntityWithHealthPrototype {
   pictures?: SpriteVariations;
 }
 export interface FluidPrototype extends Prototype {
-  auto_barrel?: bool;
+  auto_barrel?: boolean;
   base_color: Color;
   default_temperature: float;
   emissions_multiplier?: double;
@@ -1190,7 +1208,7 @@ export interface FluidStreamPrototype extends EntityPrototype {
   action?: Trigger;
   ground_light?: LightDefinition;
   initial_action?: Trigger;
-  oriented_particle?: bool;
+  oriented_particle?: boolean;
   particle?: Animation;
   particle_alpha_per_part?: float;
   particle_buffer_size?: uint32;
@@ -1209,12 +1227,12 @@ export interface FluidStreamPrototype extends EntityPrototype {
   particle_vertical_acceleration: float;
   progress_to_create_smoke?: float;
   shadow?: Animation;
-  shadow_scale_enabled?: bool;
+  shadow_scale_enabled?: boolean;
   smoke_sources?: SmokeSource[];
   special_neutral_target_damage?: DamageParameters;
   spine_animation?: Animation;
   stream_light?: LightDefinition;
-  target_initial_position_only?: bool;
+  target_initial_position_only?: boolean;
   target_position_deviation?: double;
   width?: float;
 }
@@ -1242,13 +1260,13 @@ export interface FluidTurretPrototype extends TurretPrototype {
 }
 export interface FluidWagonPrototype extends RollingStockPrototype {
   capacity: FluidAmount;
-  quality_affects_capacity?: bool;
+  quality_affects_capacity?: boolean;
   tank_count?: uint8;
 }
 export interface FlyingRobotPrototype extends EntityWithOwnerPrototype {
   energy_per_move?: Energy;
   energy_per_tick?: Energy;
-  is_military_target?: bool;
+  is_military_target?: boolean;
   max_energy?: Energy;
   max_speed?: double;
   max_to_charge?: float;
@@ -1257,9 +1275,9 @@ export interface FlyingRobotPrototype extends EntityWithOwnerPrototype {
   speed_multiplier_when_out_of_energy?: float;
 }
 export interface FontPrototype {
-  border?: bool;
+  border?: boolean;
   border_color?: Color;
-  filtered?: bool;
+  filtered?: boolean;
   from: string;
   name: string;
   size: int32;
@@ -1271,7 +1289,24 @@ export interface FuelCategory extends Prototype {
 }
 export interface FurnacePrototype extends CraftingMachinePrototype {
   cant_insert_at_source_message_key?: string;
+  circuit_connector?: [
+    CircuitConnectorDefinition,
+    CircuitConnectorDefinition,
+    CircuitConnectorDefinition,
+    CircuitConnectorDefinition,
+  ];
+  circuit_connector_flipped?: [
+    CircuitConnectorDefinition,
+    CircuitConnectorDefinition,
+    CircuitConnectorDefinition,
+    CircuitConnectorDefinition,
+  ];
+  circuit_wire_max_distance?: double;
   custom_input_slot_tooltip_key?: string;
+  default_recipe_finished_signal?: SignalIDConnector;
+  default_working_signal?: SignalIDConnector;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   result_inventory_size: ItemStackIndex;
   source_inventory_size: ItemStackIndex;
 }
@@ -1294,7 +1329,8 @@ export interface FusionReactorPrototype extends EntityWithOwnerPrototype {
   output_fluid_box: FluidBox;
   perceived_performance?: PerceivedPerformance;
   power_input: Energy;
-  two_direction_only?: bool;
+  target_temperature?: float;
+  two_direction_only?: boolean;
 }
 export interface GatePrototype extends EntityWithOwnerPrototype {
   activation_distance: double;
@@ -1319,8 +1355,8 @@ export interface GeneratorEquipmentPrototype extends EquipmentPrototype {
   power: Energy;
 }
 export interface GeneratorPrototype extends EntityWithOwnerPrototype {
-  burns_fluid?: bool;
-  destroy_non_fuel_fluid?: bool;
+  burns_fluid?: boolean;
+  destroy_non_fuel_fluid?: boolean;
   effectivity?: double;
   energy_source: ElectricEnergySource;
   fluid_box: FluidBox;
@@ -1330,7 +1366,7 @@ export interface GeneratorPrototype extends EntityWithOwnerPrototype {
   max_power_output?: Energy;
   maximum_temperature: float;
   perceived_performance?: PerceivedPerformance;
-  scale_fluid_usage?: bool;
+  scale_fluid_usage?: boolean;
   smoke?: SmokeSource[];
   vertical_animation?: Animation;
   vertical_frozen_patch?: Sprite;
@@ -1378,9 +1414,14 @@ export interface ImpactCategory {
   name: string;
   type: 'impact-category';
 }
+export interface InfinityCargoWagonPrototype extends CargoWagonPrototype {
+  erase_contents_when_mined?: boolean;
+  gui_mode?: 'all' | 'none' | 'admins';
+  preserve_contents_when_created?: boolean;
+}
 export interface InfinityContainerPrototype
   extends Omit<LogisticContainerPrototype, 'logistic_mode'> {
-  erase_contents_when_mined: bool;
+  erase_contents_when_mined: boolean;
   gui_mode?: 'all' | 'none' | 'admins';
   inventory_size: ItemStackIndex;
   logistic_mode?:
@@ -1389,17 +1430,17 @@ export interface InfinityContainerPrototype
     | 'requester'
     | 'storage'
     | 'buffer';
-  preserve_contents_when_created?: bool;
-  render_not_in_network_icon?: bool;
+  preserve_contents_when_created?: boolean;
+  render_not_in_network_icon?: boolean;
 }
 export interface InfinityPipePrototype extends PipePrototype {
   gui_mode?: 'all' | 'none' | 'admins';
 }
 export interface InserterPrototype extends EntityWithOwnerPrototype {
-  allow_burner_leech?: bool;
-  allow_custom_vectors?: bool;
-  bulk?: bool;
-  chases_belt_items?: bool;
+  allow_burner_leech?: boolean;
+  allow_custom_vectors?: boolean;
+  bulk?: boolean;
+  chases_belt_items?: boolean;
   circuit_connector?: [
     CircuitConnectorDefinition,
     CircuitConnectorDefinition,
@@ -1408,17 +1449,17 @@ export interface InserterPrototype extends EntityWithOwnerPrototype {
   ];
   circuit_wire_max_distance?: double;
   default_stack_control_input_signal?: SignalIDConnector;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
-  draw_held_item?: bool;
-  draw_inserter_arrow?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
+  draw_held_item?: boolean;
+  draw_inserter_arrow?: boolean;
   energy_per_movement?: Energy;
   energy_per_rotation?: Energy;
   energy_source: EnergySource;
-  enter_drop_mode_if_held_stack_spoiled?: bool;
+  enter_drop_mode_if_held_stack_spoiled?: boolean;
   extension_speed: double;
   filter_count?: uint8;
-  grab_less_to_match_belt_stack?: bool;
+  grab_less_to_match_belt_stack?: boolean;
   hand_base_frozen?: Sprite;
   hand_base_picture?: Sprite;
   hand_base_shadow?: Sprite;
@@ -1437,8 +1478,8 @@ export interface InserterPrototype extends EntityWithOwnerPrototype {
   rotation_speed: double;
   stack_size_bonus?: uint8;
   starting_distance?: double;
-  use_easter_egg?: bool;
-  wait_for_full_hand?: bool;
+  use_easter_egg?: boolean;
+  wait_for_full_hand?: boolean;
 }
 export interface InventoryBonusEquipmentPrototype
   extends Omit<EquipmentPrototype, 'energy_source'> {
@@ -1455,6 +1496,7 @@ export interface ItemGroup extends Prototype {
   order_in_recipe?: Order;
 }
 export interface ItemPrototype extends Prototype {
+  auto_recycle?: boolean;
   burnt_result?: ItemID;
   close_sound?: Sound;
   color_hint?: ColorHintSpecification;
@@ -1473,7 +1515,7 @@ export interface ItemPrototype extends Prototype {
   fuel_top_speed_multiplier?: double;
   fuel_top_speed_multiplier_quality_bonus?: double;
   fuel_value?: Energy;
-  has_random_tint?: bool;
+  has_random_tint?: boolean;
   icon?: FileName;
   icon_size?: SpriteSizeType;
   icons?: IconData[];
@@ -1497,7 +1539,7 @@ export interface ItemPrototype extends Prototype {
   weight?: Weight;
 }
 export interface ItemRequestProxyPrototype extends EntityPrototype {
-  use_target_entity_alert_icon_shift?: bool;
+  use_target_entity_alert_icon_shift?: boolean;
 }
 export interface ItemSubGroup extends Prototype {
   group: ItemGroupID;
@@ -1521,15 +1563,15 @@ export interface ItemWithInventoryPrototype extends ItemWithLabelPrototype {
 }
 export interface ItemWithLabelPrototype extends ItemPrototype {
   default_label_color?: Color;
-  draw_label_for_cursor_render?: bool;
+  draw_label_for_cursor_render?: boolean;
 }
 export type ItemWithTagsPrototype = ItemWithLabelPrototype;
 export interface KillAchievementPrototype extends AchievementPrototype {
   amount?: uint32;
   damage_dealer?: EntityID | EntityID[];
   damage_type?: DamageTypeID;
-  in_vehicle?: bool;
-  personally?: bool;
+  in_vehicle?: boolean;
+  personally?: boolean;
   to_kill?: EntityID | EntityID[];
   type_to_kill?: string;
 }
@@ -1548,10 +1590,10 @@ export interface LabPrototype extends EntityWithOwnerPrototype {
   researching_speed?: double;
   science_pack_drain_rate_percent?: uint8;
   trash_inventory_size?: ItemStackIndex;
-  uses_quality_drain_modifier?: bool;
+  uses_quality_drain_modifier?: boolean;
 }
 export interface LampPrototype extends EntityWithOwnerPrototype {
-  always_on?: bool;
+  always_on?: boolean;
   circuit_connector?: CircuitConnectorDefinition;
   circuit_wire_max_distance?: double;
   darkness_for_all_lamps_off?: float;
@@ -1560,8 +1602,8 @@ export interface LampPrototype extends EntityWithOwnerPrototype {
   default_green_signal?: SignalIDConnector;
   default_red_signal?: SignalIDConnector;
   default_rgb_signal?: SignalIDConnector;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   energy_source: ElectricEnergySource | VoidEnergySource;
   energy_usage_per_tick: Energy;
   glow_color_intensity?: float;
@@ -1576,8 +1618,8 @@ export interface LampPrototype extends EntityWithOwnerPrototype {
 export interface LandMinePrototype extends EntityWithOwnerPrototype {
   action?: Trigger;
   ammo_category?: AmmoCategoryID;
-  force_die_on_attack?: bool;
-  is_military_target?: bool;
+  force_die_on_attack?: boolean;
+  is_military_target?: boolean;
   picture_safe?: Sprite;
   picture_set?: Sprite;
   picture_set_enemy?: Sprite;
@@ -1619,17 +1661,17 @@ export interface LightningPrototype extends EntityPrototype {
   time_to_damage?: uint16;
 }
 export interface LinkedBeltPrototype extends TransportBeltConnectablePrototype {
-  allow_blueprint_connection?: bool;
-  allow_clone_connection?: bool;
-  allow_side_loading?: bool;
+  allow_blueprint_connection?: boolean;
+  allow_clone_connection?: boolean;
+  allow_side_loading?: boolean;
   structure?: LinkedBeltStructure;
   structure_render_layer?: RenderLayer;
 }
 export interface LinkedContainerPrototype extends EntityWithOwnerPrototype {
   circuit_connector?: CircuitConnectorDefinition;
   circuit_wire_max_distance?: double;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   gui_mode?: 'all' | 'none' | 'admins';
   inventory_size: ItemStackIndex;
   inventory_type?: 'normal' | 'with_bar' | 'with_filters_and_bar';
@@ -1638,15 +1680,16 @@ export interface LinkedContainerPrototype extends EntityWithOwnerPrototype {
 export type Loader1x1Prototype = LoaderPrototype;
 export type Loader1x2Prototype = LoaderPrototype;
 export interface LoaderPrototype extends TransportBeltConnectablePrototype {
-  allow_container_interaction?: bool;
-  allow_rail_interaction?: bool;
+  adjustable_belt_stack_size?: boolean;
+  allow_container_interaction?: boolean;
+  allow_rail_interaction?: boolean;
   belt_length?: double;
   circuit_connector?: CircuitConnectorDefinition[];
   circuit_connector_layer?: RenderLayer;
   circuit_wire_max_distance?: double;
   container_distance?: double;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   energy_per_item?: Energy;
   energy_source?:
     | ElectricEnergySource
@@ -1655,7 +1698,7 @@ export interface LoaderPrototype extends TransportBeltConnectablePrototype {
     | VoidEnergySource;
   filter_count: uint8;
   max_belt_stack_size?: uint8;
-  per_lane_filters?: bool;
+  per_lane_filters?: boolean;
   structure?: LoaderStructure;
   structure_render_layer?: RenderLayer;
 }
@@ -1681,9 +1724,9 @@ export interface LogisticContainerPrototype
     | 'buffer';
   max_logistic_slots?: uint16;
   opened_duration?: uint8;
-  render_not_in_network_icon?: bool;
+  render_not_in_network_icon?: boolean;
   trash_inventory_size?: ItemStackIndex;
-  use_exact_mode?: bool;
+  use_exact_mode?: boolean;
 }
 export interface LogisticRobotPrototype
   extends RobotWithLogisticInterfacePrototype {
@@ -1711,7 +1754,7 @@ export interface MapSettings {
   unit_group: UnitGroupSettings;
 }
 export interface MarketPrototype extends EntityWithOwnerPrototype {
-  allow_access_to_all_forces?: bool;
+  allow_access_to_all_forces?: boolean;
   picture?: Sprite;
 }
 export interface MiningDrillPrototype extends EntityWithOwnerPrototype {
@@ -1726,12 +1769,12 @@ export interface MiningDrillPrototype extends EntityWithOwnerPrototype {
     CircuitConnectorDefinition,
   ];
   circuit_wire_max_distance?: double;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   drilling_sound?: InterruptibleSound;
   drilling_sound_animation_end_frame?: uint16;
   drilling_sound_animation_start_frame?: uint16;
-  drops_full_belt_stacks?: bool;
+  drops_full_belt_stacks?: boolean;
   effect_receiver?: EffectReceiver;
   energy_source: EnergySource;
   energy_usage: Energy;
@@ -1748,7 +1791,8 @@ export interface MiningDrillPrototype extends EntityWithOwnerPrototype {
   resource_categories: ResourceCategoryID[];
   resource_drain_rate_percent?: uint8;
   resource_searching_radius: double;
-  shuffle_resources_to_mine?: bool;
+  shuffle_resources_to_mine?: boolean;
+  uses_force_mining_productivity_bonus?: boolean;
   vector_to_place_result: Vector;
   wet_mining_graphics_set?: MiningDrillGraphicsSet;
 }
@@ -1758,13 +1802,13 @@ export interface ModulePrototype extends ItemPrototype {
   beacon_tint?: BeaconVisualizationTints;
   category: ModuleCategoryID;
   effect: Effect;
-  requires_beacon_alt_mode?: bool;
+  requires_beacon_alt_mode?: boolean;
   tier: uint32;
 }
 export interface ModuleTransferAchievementPrototype
   extends AchievementPrototype {
   amount?: uint32;
-  limited_to_one_game?: bool;
+  limited_to_one_game?: boolean;
   module: ItemID | ItemID[];
 }
 export interface MouseCursor {
@@ -1807,7 +1851,7 @@ export interface NightVisionEquipmentPrototype extends EquipmentPrototype {
   energy_input: Energy;
 }
 export interface OffshorePumpPrototype extends EntityWithOwnerPrototype {
-  always_draw_fluid?: bool;
+  always_draw_fluid?: boolean;
   circuit_connector?: [
     CircuitConnectorDefinition,
     CircuitConnectorDefinition,
@@ -1815,8 +1859,8 @@ export interface OffshorePumpPrototype extends EntityWithOwnerPrototype {
     CircuitConnectorDefinition,
   ];
   circuit_wire_max_distance?: double;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   energy_source: EnergySource;
   energy_usage: Energy;
   fluid_box: FluidBox;
@@ -1824,10 +1868,10 @@ export interface OffshorePumpPrototype extends EntityWithOwnerPrototype {
   graphics_set?: OffshorePumpGraphicsSet;
   perceived_performance?: PerceivedPerformance;
   pumping_speed: FluidAmount;
-  remove_on_tile_collision?: bool;
+  remove_on_tile_collision?: boolean;
 }
 export interface ParticlePrototype extends Prototype {
-  draw_shadow_when_on_ground?: bool;
+  draw_shadow_when_on_ground?: boolean;
   ended_in_water_trigger_effect?: TriggerEffect;
   ended_on_ground_trigger_effect?: TriggerEffect;
   fade_away_duration?: uint16;
@@ -1865,7 +1909,7 @@ export interface PipePrototype extends EntityWithOwnerPrototype {
 }
 export interface PipeToGroundPrototype extends EntityWithOwnerPrototype {
   disabled_visualization?: Sprite4Way;
-  draw_fluid_icon_override?: bool;
+  draw_fluid_icon_override?: boolean;
   fluid_box: FluidBox;
   frozen_patch?: Sprite4Way;
   pictures?: Sprite4Way;
@@ -1877,10 +1921,10 @@ export interface PlaceEquipmentAchievementPrototype
   armor: ItemID;
   limit_equip_quality: QualityID;
   limit_quality: QualityID;
-  limited_to_one_game?: bool;
+  limited_to_one_game?: boolean;
 }
 export interface PlanetPrototype extends SpaceLocationPrototype {
-  entities_require_heating?: bool;
+  entities_require_heating?: boolean;
   lightning_properties?: LightningProperties;
   map_gen_settings?: PlanetPrototypeMapGenSettings;
   map_seed_offset?: uint32;
@@ -1899,14 +1943,14 @@ export interface PlantPrototype extends TreePrototype {
 export interface PlayerDamagedAchievementPrototype
   extends AchievementPrototype {
   minimum_damage: float;
-  should_survive: bool;
+  should_survive: boolean;
   type_of_dealer?: string;
 }
 export type PlayerPortPrototype = EntityWithOwnerPrototype;
 export interface PowerSwitchPrototype extends EntityWithOwnerPrototype {
   circuit_wire_connection_point: WireConnectionPoint;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   frozen_patch?: Sprite;
   led_off?: Sprite;
   led_on?: Sprite;
@@ -1932,7 +1976,7 @@ export interface ProduceAchievementPrototype extends AchievementPrototype {
   amount: MaterialAmountType;
   fluid_product?: FluidID;
   item_product?: ItemIDFilter;
-  limited_to_one_game: bool;
+  limited_to_one_game: boolean;
 }
 export interface ProducePerHourAchievementPrototype
   extends AchievementPrototype {
@@ -1944,8 +1988,8 @@ export interface ProgrammableSpeakerPrototype extends EntityWithOwnerPrototype {
   audible_distance_modifier?: float;
   circuit_connector?: CircuitConnectorDefinition;
   circuit_wire_max_distance?: double;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   energy_source: ElectricEnergySource | VoidEnergySource;
   energy_usage_per_tick: Energy;
   instruments: ProgrammableSpeakerInstrument[];
@@ -1956,22 +2000,22 @@ export interface ProjectilePrototype extends EntityPrototype {
   acceleration: double;
   action?: Trigger;
   animation?: RotatedAnimationVariations;
-  direction_only?: bool;
-  enable_drawing_with_mask?: bool;
+  direction_only?: boolean;
+  enable_drawing_with_mask?: boolean;
   final_action?: Trigger;
   force_condition?: ForceCondition;
   height?: double;
-  hit_at_collision_position?: bool;
+  hit_at_collision_position?: boolean;
   hit_collision_mask?: CollisionMaskConnector;
   light?: LightDefinition;
   max_speed?: double;
   piercing_damage?: float;
-  rotatable?: bool;
+  rotatable?: boolean;
   shadow?: RotatedAnimationVariations;
   smoke?: SmokeSource[];
   speed_modifier?: Vector;
   turn_speed?: float;
-  turning_speed_increases_exponentially_with_projectile_speed?: bool;
+  turning_speed_increases_exponentially_with_projectile_speed?: boolean;
 }
 export interface Prototype extends PrototypeBase {
   factoriopedia_alternative?: string;
@@ -1979,15 +2023,23 @@ export interface Prototype extends PrototypeBase {
 export interface PrototypeBase {
   factoriopedia_description?: LocalisedString;
   factoriopedia_simulation?: SimulationDefinition;
-  hidden?: bool;
-  hidden_in_factoriopedia?: bool;
+  hidden?: boolean;
+  hidden_in_factoriopedia?: boolean;
   localised_description?: LocalisedString;
   localised_name?: LocalisedString;
   name: string;
   order?: Order;
-  parameter?: bool;
+  parameter?: boolean;
   subgroup?: ItemSubGroupID;
   type: string;
+}
+export interface ProxyContainerPrototype extends EntityWithOwnerPrototype {
+  circuit_connector?: CircuitConnectorDefinition;
+  circuit_wire_max_distance?: double;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
+  draw_inventory_content?: boolean;
+  picture?: Sprite;
 }
 export interface PumpPrototype extends EntityWithOwnerPrototype {
   animations?: Animation4Way;
@@ -1998,10 +2050,11 @@ export interface PumpPrototype extends EntityWithOwnerPrototype {
     CircuitConnectorDefinition,
   ];
   circuit_wire_max_distance?: double;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   energy_source: EnergySource;
   energy_usage: Energy;
+  flow_scaling?: boolean;
   fluid_animation?: Animation4Way;
   fluid_box: FluidBox;
   fluid_wagon_connector_alignment_tolerance?: double;
@@ -2015,7 +2068,7 @@ export interface PumpPrototype extends EntityWithOwnerPrototype {
 export interface QualityPrototype extends Prototype {
   beacon_power_usage_multiplier?: float;
   color: Color;
-  draw_sprite_by_default?: bool;
+  draw_sprite_by_default?: boolean;
   icon?: FileName;
   icon_size?: SpriteSizeType;
   icons?: IconData[];
@@ -2029,9 +2082,9 @@ export interface QualityPrototype extends Prototype {
 export interface RadarPrototype extends EntityWithOwnerPrototype {
   circuit_connector?: CircuitConnectorDefinition;
   circuit_wire_max_distance?: double;
-  connects_to_other_radars?: bool;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  connects_to_other_radars?: boolean;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   energy_fraction_to_connect?: float;
   energy_fraction_to_disconnect?: float;
   energy_per_nearby_scan: Energy;
@@ -2039,12 +2092,12 @@ export interface RadarPrototype extends EntityWithOwnerPrototype {
   energy_source: EnergySource;
   energy_usage: Energy;
   frozen_patch?: Sprite;
-  is_military_target?: bool;
+  is_military_target?: boolean;
   max_distance_of_nearby_sector_revealed: uint32;
   max_distance_of_sector_revealed: uint32;
   pictures?: RotatedSprite;
   radius_minimap_visualisation_color?: Color;
-  reset_orientation_when_frozen?: bool;
+  reset_orientation_when_frozen?: boolean;
   rotation_speed?: double;
 }
 export type RailChainSignalPrototype = RailSignalBasePrototype;
@@ -2062,7 +2115,7 @@ export interface RailPrototype extends EntityWithOwnerPrototype {
   fence_pictures?: RailFenceGraphicsSet;
   forced_fence_segment_count?: uint8;
   pictures: RailPictureSet;
-  removes_soft_decoratives?: bool;
+  removes_soft_decoratives?: boolean;
   selection_box?: BoundingBox;
   walking_sound?: Sound;
 }
@@ -2085,8 +2138,8 @@ export interface RailSignalBasePrototype extends EntityWithOwnerPrototype {
   default_green_output_signal?: SignalIDConnector;
   default_orange_output_signal?: SignalIDConnector;
   default_red_output_signal?: SignalIDConnector;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   elevated_collision_mask?: CollisionMaskConnector;
   elevated_picture_set: RailSignalPictureSet;
   elevated_selection_priority?: uint8;
@@ -2099,7 +2152,7 @@ export interface RailSupportPrototype extends EntityWithOwnerPrototype {
   collision_mask_allow_on_deep_oil_ocean?: CollisionMaskConnector;
   elevated_selection_boxes?: BoundingBox[];
   graphics_set: RailSupportGraphicsSet;
-  not_buildable_if_no_rails?: bool;
+  not_buildable_if_no_rails?: boolean;
   snap_to_spots_distance?: float;
   support_range?: float;
 }
@@ -2111,8 +2164,8 @@ export interface ReactorPrototype extends EntityWithOwnerPrototype {
   consumption: Energy;
   default_fuel_glow_color?: Color;
   default_temperature_signal?: SignalIDConnector;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   energy_source: EnergySource;
   heat_buffer: HeatBuffer;
   heat_connection_patches_connected?: SpriteVariations;
@@ -2124,38 +2177,40 @@ export interface ReactorPrototype extends EntityWithOwnerPrototype {
   meltdown_action?: Trigger;
   neighbour_bonus?: double;
   picture?: Sprite;
-  scale_energy_usage?: bool;
-  use_fuel_glow_color?: bool;
+  scale_energy_usage?: boolean;
+  use_fuel_glow_color?: boolean;
   working_light_picture?: Animation;
 }
 export type RecipeCategory = Prototype;
 export interface RecipePrototype extends Prototype {
-  allow_as_intermediate?: bool;
-  allow_consumption?: bool;
+  additional_categories?: RecipeCategoryID[];
+  allow_as_intermediate?: boolean;
+  allow_consumption?: boolean;
   allow_consumption_message?: LocalisedString;
-  allow_decomposition?: bool;
-  allow_inserter_overload?: bool;
-  allow_intermediates?: bool;
-  allow_pollution?: bool;
+  allow_decomposition?: boolean;
+  allow_inserter_overload?: boolean;
+  allow_intermediates?: boolean;
+  allow_pollution?: boolean;
   allow_pollution_message?: LocalisedString;
-  allow_productivity?: bool;
+  allow_productivity?: boolean;
   allow_productivity_message?: LocalisedString;
-  allow_quality?: bool;
+  allow_quality?: boolean;
   allow_quality_message?: LocalisedString;
-  allow_speed?: bool;
+  allow_speed?: boolean;
   allow_speed_message?: LocalisedString;
   allowed_module_categories?: ModuleCategoryID[];
   alternative_unlock_methods?: TechnologyID[];
-  always_show_made_in?: bool;
-  always_show_products?: bool;
+  always_show_made_in?: boolean;
+  always_show_products?: boolean;
+  auto_recycle?: boolean;
   category?: RecipeCategoryID;
   crafting_machine_tint?: RecipeTints;
   emissions_multiplier?: double;
-  enabled?: bool;
+  enabled?: boolean;
   energy_required?: double;
-  hide_from_player_crafting?: bool;
-  hide_from_signal_gui?: bool;
-  hide_from_stats?: bool;
+  hide_from_player_crafting?: boolean;
+  hide_from_signal_gui?: boolean;
+  hide_from_stats?: boolean;
   icon?: FileName;
   icon_size?: SpriteSizeType;
   icons?: IconData[];
@@ -2163,13 +2218,14 @@ export interface RecipePrototype extends Prototype {
   main_product?: string;
   maximum_productivity?: double;
   overload_multiplier?: uint32;
-  preserve_products_in_machine_output?: bool;
+  preserve_products_in_machine_output?: boolean;
   requester_paste_multiplier?: uint32;
-  result_is_always_fresh?: bool;
+  reset_freshness_on_craft?: boolean;
+  result_is_always_fresh?: boolean;
   results?: ProductPrototype[];
-  show_amount_in_title?: bool;
+  show_amount_in_title?: boolean;
   surface_conditions?: SurfaceCondition[];
-  unlock_results?: bool;
+  unlock_results?: boolean;
 }
 export interface RemoteControllerPrototype {
   movement_speed: double;
@@ -2180,7 +2236,7 @@ export interface RepairToolPrototype extends ToolPrototype {
   speed: float;
 }
 export interface ResearchAchievementPrototype extends AchievementPrototype {
-  research_all?: bool;
+  research_all?: boolean;
   technology?: TechnologyID;
 }
 export interface ResearchWithSciencePackAchievementPrototype
@@ -2192,21 +2248,21 @@ export type ResourceCategory = Prototype;
 export interface ResourceEntityPrototype extends EntityPrototype {
   category?: ResourceCategoryID;
   cliff_removal_probability?: double;
-  draw_stateless_visualisation_under_building?: bool;
+  draw_stateless_visualisation_under_building?: boolean;
   driving_sound?: InterruptibleSound;
   effect_animation_period?: float;
   effect_animation_period_deviation?: float;
   effect_darkness_multiplier?: float;
-  highlight?: bool;
-  infinite?: bool;
+  highlight?: boolean;
+  infinite?: boolean;
   infinite_depletion_amount?: uint32;
-  map_grid?: bool;
+  map_grid?: boolean;
   max_effect_alpha?: float;
   min_effect_alpha?: float;
   minimum?: uint32;
   mining_visualisation_tint?: Color;
   normal?: uint32;
-  randomize_visual_position?: bool;
+  randomize_visual_position?: boolean;
   resource_patch_search_radius?: uint32;
   stage_counts: uint32[];
   stages?: AnimationVariations;
@@ -2222,18 +2278,18 @@ export interface RoboportEquipmentPrototype extends EquipmentPrototype {
   charging_energy: Energy;
   charging_offsets?: Vector[];
   charging_station_count?: uint32;
-  charging_station_count_affected_by_quality?: bool;
+  charging_station_count_affected_by_quality?: boolean;
   charging_station_shift?: Vector;
   charging_threshold_distance?: float;
   construction_radius: float;
-  draw_construction_radius_visualization?: bool;
-  draw_logistic_radius_visualization?: bool;
+  draw_construction_radius_visualization?: boolean;
+  draw_logistic_radius_visualization?: boolean;
   power?: Energy;
   recharging_animation?: Animation;
   recharging_light?: LightDefinition;
   robot_limit?: ItemCountType;
   robot_vertical_acceleration?: float;
-  robots_shrink_when_entering_and_exiting?: bool;
+  robots_shrink_when_entering_and_exiting?: boolean;
   spawn_and_station_height: float;
   spawn_and_station_shadow_height_offset?: float;
   spawn_minimum?: Energy;
@@ -2249,7 +2305,7 @@ export interface RoboportPrototype extends EntityWithOwnerPrototype {
   charging_energy: Energy;
   charging_offsets?: Vector[];
   charging_station_count?: uint32;
-  charging_station_count_affected_by_quality?: bool;
+  charging_station_count_affected_by_quality?: boolean;
   charging_station_shift?: Vector;
   charging_threshold_distance?: float;
   circuit_connector?: CircuitConnectorDefinition;
@@ -2258,15 +2314,15 @@ export interface RoboportPrototype extends EntityWithOwnerPrototype {
   construction_radius: float;
   default_available_construction_output_signal?: SignalIDConnector;
   default_available_logistic_output_signal?: SignalIDConnector;
-  default_roboports_output_signal?: SignalIDConnector;
+  default_roboport_count_output_signal?: SignalIDConnector;
   default_total_construction_output_signal?: SignalIDConnector;
   default_total_logistic_output_signal?: SignalIDConnector;
   door_animation_down?: Animation;
   door_animation_up?: Animation;
-  draw_circuit_wires?: bool;
-  draw_construction_radius_visualization?: bool;
-  draw_copper_wires?: bool;
-  draw_logistic_radius_visualization?: bool;
+  draw_circuit_wires?: boolean;
+  draw_construction_radius_visualization?: boolean;
+  draw_copper_wires?: boolean;
+  draw_logistic_radius_visualization?: boolean;
   energy_source: ElectricEnergySource | VoidEnergySource;
   energy_usage: Energy;
   frozen_patch?: Sprite;
@@ -2284,7 +2340,7 @@ export interface RoboportPrototype extends EntityWithOwnerPrototype {
   robot_limit?: ItemCountType;
   robot_slots_count: ItemStackIndex;
   robot_vertical_acceleration?: float;
-  robots_shrink_when_entering_and_exiting?: bool;
+  robots_shrink_when_entering_and_exiting?: boolean;
   spawn_and_station_height: float;
   spawn_and_station_shadow_height_offset?: float;
   stationing_offset?: Vector;
@@ -2294,7 +2350,7 @@ export interface RobotWithLogisticInterfacePrototype
   extends FlyingRobotPrototype {
   charging_sound?: InterruptibleSound;
   destroy_action?: Trigger;
-  draw_cargo?: bool;
+  draw_cargo?: boolean;
   idle?: RotatedAnimation;
   in_motion?: RotatedAnimation;
   max_payload_size: ItemCountType;
@@ -2315,6 +2371,7 @@ export interface RocketSiloPrototype extends AssemblingMachinePrototype {
   base_frozen?: Sprite;
   base_light?: LightDefinition;
   base_night_sprite?: Sprite;
+  can_launch_without_landing_pads?: boolean;
   cargo_station_parameters: CargoStationParameters;
   clamps_off_sound?: Sound;
   clamps_off_trigger?: TriggerEffect;
@@ -2334,7 +2391,7 @@ export interface RocketSiloPrototype extends AssemblingMachinePrototype {
   hole_light_sprite?: Sprite;
   hole_sprite?: Sprite;
   lamp_energy_usage: Energy;
-  launch_to_space_platforms?: bool;
+  launch_to_space_platforms?: boolean;
   launch_wait_time?: uint8;
   light_blinking_speed: double;
   logistic_trash_inventory_size?: ItemStackIndex;
@@ -2343,7 +2400,7 @@ export interface RocketSiloPrototype extends AssemblingMachinePrototype {
   raise_rocket_trigger?: TriggerEffect;
   red_lights_back_sprites?: Sprite;
   red_lights_front_sprites?: Sprite;
-  render_not_in_network_icon?: bool;
+  render_not_in_network_icon?: boolean;
   rocket_entity: EntityID;
   rocket_glow_overlay_sprite?: Sprite;
   rocket_parts_required: uint32;
@@ -2351,7 +2408,6 @@ export interface RocketSiloPrototype extends AssemblingMachinePrototype {
   rocket_quick_relaunch_start_offset: double;
   rocket_rising_delay?: uint8;
   rocket_shadow_overlay_sprite?: Sprite;
-  rocket_supply_inventory_size?: ItemStackIndex;
   satellite_animation?: Animation;
   satellite_shadow_animation?: Animation;
   shadow_sprite?: Sprite;
@@ -2403,12 +2459,12 @@ export interface RocketSiloRocketPrototype extends EntityPrototype {
 export type RocketSiloRocketShadowPrototype = EntityPrototype;
 export interface RollingStockPrototype extends VehiclePrototype {
   air_resistance: double;
-  allow_manual_color?: bool;
-  allow_robot_dispatch_in_automatic_mode?: bool;
+  allow_manual_color?: boolean;
+  allow_robot_dispatch_in_automatic_mode?: boolean;
   back_light?: LightDefinition;
   color?: Color;
   connection_distance: double;
-  default_copy_color_from_train_stop?: bool;
+  default_copy_color_from_train_stop?: boolean;
   door_closing_sound?: InterruptibleSound;
   door_opening_sound?: InterruptibleSound;
   drive_over_elevated_tie_trigger?: TriggerEffect;
@@ -2464,11 +2520,11 @@ export interface SegmentedUnitPrototype extends SegmentPrototype {
 export interface SelectionToolPrototype extends ItemWithLabelPrototype {
   alt_reverse_select?: SelectionModeData;
   alt_select: SelectionModeData;
-  always_include_tiles?: bool;
+  always_include_tiles?: boolean;
   mouse_cursor?: MouseCursorID;
   reverse_select?: SelectionModeData;
   select: SelectionModeData;
-  skip_fog_of_war?: bool;
+  skip_fog_of_war?: boolean;
   super_forced_select?: SelectionModeData;
 }
 export interface SelectorCombinatorPrototype extends CombinatorPrototype {
@@ -2488,11 +2544,11 @@ export interface ShortcutPrototype extends Prototype {
   action:
     | 'toggle-alt-mode'
     | 'undo'
-    | 'copy'
-    | 'cut'
+    | 'redo'
     | 'paste'
     | 'import-string'
     | 'toggle-personal-roboport'
+    | 'toggle-personal-logistic-requests'
     | 'toggle-equipment-movement-bonus'
     | 'spawn-item'
     | 'lua';
@@ -2507,25 +2563,25 @@ export interface ShortcutPrototype extends Prototype {
   small_icons?: IconData[];
   style?: 'default' | 'blue' | 'red' | 'green';
   technology_to_unlock?: TechnologyID;
-  toggleable?: bool;
-  unavailable_until_unlocked?: bool;
+  toggleable?: boolean;
+  unavailable_until_unlocked?: boolean;
 }
 export interface SimpleEntityPrototype extends EntityWithHealthPrototype {
   animations?: AnimationVariations;
-  count_as_rock_for_filtered_deconstruction?: bool;
+  count_as_rock_for_filtered_deconstruction?: boolean;
   lower_pictures?: SpriteVariations;
   lower_render_layer?: RenderLayer;
   picture?: Sprite4Way;
   pictures?: SpriteVariations;
-  random_animation_offset?: bool;
-  random_variation_on_create?: bool;
+  random_animation_offset?: boolean;
+  random_variation_on_create?: boolean;
   render_layer?: RenderLayer;
   secondary_draw_order?: int8;
   stateless_visualisation_variations?: StatelessVisualisations[];
 }
 export interface SimpleEntityWithForcePrototype
   extends SimpleEntityWithOwnerPrototype {
-  is_military_target?: bool;
+  is_military_target?: boolean;
 }
 export interface SimpleEntityWithOwnerPrototype
   extends EntityWithOwnerPrototype {
@@ -2535,18 +2591,18 @@ export interface SimpleEntityWithOwnerPrototype
   lower_render_layer?: RenderLayer;
   picture?: Sprite4Way;
   pictures?: SpriteVariations;
-  random_animation_offset?: bool;
-  random_variation_on_create?: bool;
+  random_animation_offset?: boolean;
+  random_variation_on_create?: boolean;
   render_layer?: RenderLayer;
   secondary_draw_order?: int8;
   stateless_visualisation_variations?: StatelessVisualisations[];
 }
 export interface SmokePrototype extends EntityPrototype {
-  affected_by_wind?: bool;
+  affected_by_wind?: boolean;
   animation?: Animation;
   collision_box?: BoundingBox;
   color?: Color;
-  cyclic?: bool;
+  cyclic?: boolean;
   duration?: uint32;
   end_scale?: double;
   fade_away_duration?: uint32;
@@ -2555,15 +2611,15 @@ export interface SmokePrototype extends EntityPrototype {
   glow_fade_away_duration?: uint32;
   movement_slow_down_factor?: double;
   render_layer?: RenderLayer;
-  show_when_smoke_off?: bool;
+  show_when_smoke_off?: boolean;
   spread_duration?: uint32;
   start_scale?: double;
 }
 export interface SmokeWithTriggerPrototype extends SmokePrototype {
   action?: Trigger;
   action_cooldown?: uint32;
-  attach_to_target?: bool;
-  fade_when_attachment_is_destroyed?: bool;
+  attach_to_target?: boolean;
+  fade_when_attachment_is_destroyed?: boolean;
   particle_count?: uint8;
   particle_distance_scale_factor?: float;
   particle_duration_variation?: uint32;
@@ -2579,13 +2635,16 @@ export interface SolarPanelEquipmentPrototype extends EquipmentPrototype {
 export interface SolarPanelPrototype extends EntityWithOwnerPrototype {
   energy_source: ElectricEnergySource;
   overlay?: SpriteVariations;
+  performance_at_day?: double;
+  performance_at_night?: double;
   picture?: SpriteVariations;
   production: Energy;
+  solar_coefficient_property?: SurfacePropertyID;
 }
 export interface SoundPrototype {
   advanced_volume_control?: AdvancedVolumeControl;
   aggregation?: AggregationSpecification;
-  allow_random_repeat?: bool;
+  allow_random_repeat?: boolean;
   audible_distance_modifier?: double;
   category?: SoundType;
   filename?: FileName;
@@ -2596,7 +2655,7 @@ export interface SoundPrototype {
   min_volume?: float;
   modifiers?: SoundModifier | SoundModifier[];
   name: string;
-  preload?: bool;
+  preload?: boolean;
   priority?: uint8;
   speed?: float;
   speed_smoothing_window_size?: uint32;
@@ -2607,7 +2666,7 @@ export interface SoundPrototype {
 export interface SpaceConnectionDistanceTraveledAchievementPrototype
   extends AchievementPrototype {
   distance: uint32;
-  reversed: bool;
+  reversed: boolean;
   tracked_connection: SpaceConnectionID;
 }
 export interface SpaceConnectionPrototype extends Prototype {
@@ -2622,11 +2681,11 @@ export interface SpaceConnectionPrototype extends Prototype {
 export interface SpaceLocationPrototype extends Prototype {
   asteroid_spawn_definitions?: SpaceLocationAsteroidSpawnDefinition[];
   asteroid_spawn_influence?: double;
-  auto_save_on_first_trip?: bool;
+  auto_save_on_first_trip?: boolean;
   distance: double;
-  draw_orbit?: bool;
-  fly_condition?: bool;
-  gravity_pull: double;
+  draw_orbit?: boolean;
+  fly_condition?: boolean;
+  gravity_pull?: double;
   icon?: FileName;
   icon_size?: SpriteSizeType;
   icons?: IconData[];
@@ -2650,8 +2709,8 @@ export interface SpacePlatformHubPrototype extends EntityWithOwnerPrototype {
   circuit_wire_max_distance?: double;
   default_damage_taken_signal?: SignalIDConnector;
   default_speed_signal?: SignalIDConnector;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   dump_container: EntityID;
   graphics_set?: CargoBayConnectableGraphicsSet;
   inventory_size: ItemStackIndex;
@@ -2661,7 +2720,7 @@ export interface SpacePlatformHubPrototype extends EntityWithOwnerPrototype {
   weight?: Weight;
 }
 export interface SpacePlatformStarterPackPrototype extends ItemPrototype {
-  create_electric_network?: bool;
+  create_electric_network?: boolean;
   initial_items?: ItemProductPrototype[];
   surface?: SurfaceID;
   tiles?: SpacePlatformTileDefinition[];
@@ -2715,7 +2774,7 @@ export interface SpiderUnitPrototype extends EntityWithOwnerPrototype {
   warcry?: Sound;
 }
 export interface SpiderVehiclePrototype extends VehiclePrototype {
-  automatic_weapon_cycling: bool;
+  automatic_weapon_cycling: boolean;
   chain_shooting_cooldown_modifier: float;
   energy_source: BurnerEnergySource | VoidEnergySource;
   graphics_set?: SpiderVehicleGraphicsSet;
@@ -2729,6 +2788,7 @@ export interface SpiderVehiclePrototype extends VehiclePrototype {
   trash_inventory_size?: ItemStackIndex;
 }
 export interface SpidertronRemotePrototype extends SelectionToolPrototype {
+  icon_color_indicator_mask?: FileName;
   stack_size: 1;
 }
 export interface SplitterPrototype extends TransportBeltConnectablePrototype {
@@ -2740,35 +2800,35 @@ export interface SplitterPrototype extends TransportBeltConnectablePrototype {
   structure_patch?: Animation4Way;
 }
 export interface SpritePrototype {
-  allow_forced_downscale?: bool;
-  apply_runtime_tint?: bool;
-  apply_special_effect?: bool;
+  allow_forced_downscale?: boolean;
+  apply_runtime_tint?: boolean;
+  apply_special_effect?: boolean;
   blend_mode?: BlendMode;
   dice?: SpriteSizeType;
   dice_x?: SpriteSizeType;
   dice_y?: SpriteSizeType;
-  draw_as_glow?: bool;
-  draw_as_light?: bool;
-  draw_as_shadow?: bool;
+  draw_as_glow?: boolean;
+  draw_as_light?: boolean;
+  draw_as_shadow?: boolean;
   filename?: FileName;
   flags?: SpriteFlags;
-  generate_sdf?: bool;
+  generate_sdf?: boolean;
   height?: SpriteSizeType;
-  invert_colors?: bool;
+  invert_colors?: boolean;
   layers?: Sprite[];
-  load_in_minimal_mode?: bool;
+  load_in_minimal_mode?: boolean;
   mipmap_count?: uint8;
   name: string;
   position?: [SpriteSizeType, SpriteSizeType];
-  premul_alpha?: bool;
+  premul_alpha?: boolean;
   priority?: SpritePriority;
-  rotate_shift?: bool;
+  rotate_shift?: boolean;
   scale?: double;
   shift?: Vector;
   size?: SpriteSizeType | [SpriteSizeType, SpriteSizeType];
   surface?: SpriteUsageSurfaceHint;
   tint?: Color;
-  tint_as_overlay?: bool;
+  tint_as_overlay?: boolean;
   type: 'sprite';
   usage?: SpriteUsageHint;
   width?: SpriteSizeType;
@@ -2783,12 +2843,12 @@ export interface StickerPrototype extends EntityPrototype {
   fire_spread_cooldown?: uint8;
   fire_spread_radius?: float;
   force_visibility?: ForceCondition;
-  ground_target?: bool;
-  hidden?: bool;
-  hidden_in_factoriopedia?: bool;
+  ground_target?: boolean;
+  hidden?: boolean;
+  hidden_in_factoriopedia?: boolean;
   render_layer?: RenderLayer;
   selection_box_type?: CursorBoxType;
-  single_particle?: bool;
+  single_particle?: boolean;
   spread_fire_entity?: EntityID;
   stickers_per_square_meter?: float;
   target_movement_max?: float;
@@ -2798,6 +2858,7 @@ export interface StickerPrototype extends EntityPrototype {
   target_movement_modifier_from?: float;
   target_movement_modifier_to?: float;
   update_effects?: TriggerEffectWithCooldown[];
+  use_damage_substitute?: boolean;
   vehicle_friction_modifier?: float;
   vehicle_friction_modifier_from?: float;
   vehicle_friction_modifier_to?: float;
@@ -2816,13 +2877,13 @@ export interface StorageTankPrototype extends EntityWithOwnerPrototype {
     CircuitConnectorDefinition,
   ];
   circuit_wire_max_distance?: double;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   flow_length_in_ticks: uint32;
   fluid_box: FluidBox;
   pictures?: StorageTankPictures;
-  show_fluid_icon?: bool;
-  two_direction_only?: bool;
+  show_fluid_icon?: boolean;
+  two_direction_only?: boolean;
   window_bounding_box: BoundingBox;
 }
 export interface StraightRailPrototype extends RailPrototype {
@@ -2830,7 +2891,7 @@ export interface StraightRailPrototype extends RailPrototype {
 }
 export interface SurfacePropertyPrototype extends Prototype {
   default_value: double;
-  is_time?: bool;
+  is_time?: boolean;
   localised_unit_key?: string;
 }
 export interface SurfacePrototype extends Prototype {
@@ -2839,25 +2900,26 @@ export interface SurfacePrototype extends Prototype {
   surface_properties?: Record<SurfacePropertyID, double>;
 }
 export interface TechnologyPrototype extends Prototype {
-  allows_productivity?: bool;
+  allows_productivity?: boolean;
   effects?: Modifier[];
-  enabled?: bool;
-  essential?: bool;
+  enabled?: boolean;
+  essential?: boolean;
   icon?: FileName;
   icon_size?: SpriteSizeType;
   icons?: IconData[];
-  ignore_tech_cost_multiplier?: bool;
+  ignore_tech_cost_multiplier?: boolean;
   max_level?: uint32 | 'infinite';
   name: string;
   prerequisites?: TechnologyID[];
   research_trigger?: TechnologyTrigger;
+  show_levels_info?: boolean;
   unit?: TechnologyUnit;
-  upgrade?: bool;
-  visible_when_disabled?: bool;
+  upgrade?: boolean;
+  visible_when_disabled?: boolean;
 }
 export interface TemporaryContainerPrototype extends ContainerPrototype {
   alert_after_time?: uint32;
-  destroy_on_empty?: bool;
+  destroy_on_empty?: boolean;
   time_to_live?: uint32;
 }
 export interface ThrusterPrototype extends EntityWithOwnerPrototype {
@@ -2880,7 +2942,7 @@ export type TileGhostPrototype = EntityPrototype;
 export interface TilePrototype extends Prototype {
   absorptions_per_second?: Record<AirbornePollutantID, double>;
   allowed_neighbors?: TileID[];
-  allows_being_covered?: bool;
+  allows_being_covered?: boolean;
   ambient_sounds?: WorldAmbientSoundDefinition | WorldAmbientSoundDefinition[];
   ambient_sounds_group?: TileID;
   autoplace?: AutoplaceSpecification;
@@ -2889,39 +2951,39 @@ export interface TilePrototype extends Prototype {
   build_animations_background?: Animation4Way;
   build_sound?: Sound | TileBuildSound;
   built_animation_frame?: uint32;
-  can_be_part_of_blueprint?: bool;
-  check_collision_with_entities?: bool;
+  can_be_part_of_blueprint?: boolean;
+  check_collision_with_entities?: boolean;
   collision_mask: CollisionMaskConnector;
   decorative_removal_probability?: float;
   default_cover_tile?: TileID;
   default_destroyed_dropped_item_trigger?: Trigger;
-  destroys_dropped_items?: bool;
+  destroys_dropped_items?: boolean;
   driving_sound?: Sound;
   dying_explosion?: ExplosionDefinition | ExplosionDefinition[];
   effect?: TileEffectDefinitionID;
   effect_color?: Color;
   effect_color_secondary?: Color;
-  effect_is_opaque?: bool;
+  effect_is_opaque?: boolean;
   fluid?: FluidID;
   frozen_variant?: TileID;
   icon?: FileName;
   icon_size?: SpriteSizeType;
   icons?: IconData[];
-  is_foundation?: bool;
+  is_foundation?: boolean;
   landing_steps_sound?: Sound;
   layer: uint8;
   layer_group?: TileRenderLayer;
-  lowland_fog?: bool;
+  lowland_fog?: boolean;
   map_color: Color;
   max_health?: float;
   minable?: MinableProperties;
   mined_sound?: Sound;
-  needs_correction?: bool;
+  needs_correction?: boolean;
   next_direction?: TileID;
   particle_tints?: TileBasedParticleTints;
   placeable_by?: ItemToPlace | ItemToPlace[];
   scorch_mark_color?: Color;
-  searchable?: bool;
+  searchable?: boolean;
   sprite_usage_surface?: SpriteUsageSurfaceHint;
   thawed_variant?: TileID;
   tint?: Color;
@@ -2944,7 +3006,7 @@ export interface TipsAndTricksItem extends PrototypeBase {
   icons?: IconData[];
   image?: FileName;
   indent?: uint8;
-  is_title?: bool;
+  is_title?: boolean;
   order?: Order;
   player_input_method_filter?: PlayerInputMethodFilter;
   simulation?: SimulationDefinition;
@@ -2963,7 +3025,7 @@ export interface ToolPrototype extends ItemPrototype {
   durability?: double;
   durability_description_key?: string;
   durability_description_value?: string;
-  infinite?: bool;
+  infinite?: boolean;
 }
 export interface TrainPathAchievementPrototype extends AchievementPrototype {
   minimum_distance: double;
@@ -2972,7 +3034,7 @@ export interface TrainStopPrototype extends EntityWithOwnerPrototype {
   animation_ticks_per_frame: uint32;
   animations?: Animation4Way;
   build_grid_size?: 2;
-  chart_name?: bool;
+  chart_name?: boolean;
   circuit_connector?: [
     CircuitConnectorDefinition,
     CircuitConnectorDefinition,
@@ -2985,8 +3047,8 @@ export interface TrainStopPrototype extends EntityWithOwnerPrototype {
   default_train_stopped_signal?: SignalIDConnector;
   default_trains_count_signal?: SignalIDConnector;
   default_trains_limit_signal?: SignalIDConnector;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   drawing_boxes?: TrainStopDrawingBoxes;
   light1?: TrainStopLight;
   light2?: TrainStopLight;
@@ -3010,8 +3072,8 @@ export interface TransportBeltPrototype
   circuit_connector?: CircuitConnectorDefinition[];
   circuit_wire_max_distance?: double;
   connector_frame_sprites?: TransportBeltConnectorFrame;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   related_underground_belt?: EntityID;
 }
 export interface TreePrototype extends EntityWithHealthPrototype {
@@ -3028,10 +3090,10 @@ export interface TriggerTargetType {
   type: 'trigger-target-type';
 }
 export interface TrivialSmokePrototype extends Prototype {
-  affected_by_wind?: bool;
+  affected_by_wind?: boolean;
   animation: Animation;
   color?: Color;
-  cyclic?: bool;
+  cyclic?: boolean;
   duration: uint32;
   end_scale?: float;
   fade_away_duration?: uint32;
@@ -3040,28 +3102,28 @@ export interface TrivialSmokePrototype extends Prototype {
   glow_fade_away_duration?: uint32;
   movement_slow_down_factor?: double;
   render_layer?: RenderLayer;
-  show_when_smoke_off?: bool;
+  show_when_smoke_off?: boolean;
   spread_duration?: uint32;
   start_scale?: float;
 }
 export interface TurretPrototype extends EntityWithOwnerPrototype {
-  alert_when_attacking?: bool;
-  allow_turning_when_starting_attack?: bool;
-  attack_from_start_frame?: bool;
+  alert_when_attacking?: boolean;
+  allow_turning_when_starting_attack?: boolean;
+  attack_from_start_frame?: boolean;
   attack_parameters: AttackParameters;
   attack_target_mask?: TriggerTargetMask;
   attacking_animation?: RotatedAnimation8Way;
   attacking_speed?: float;
   call_for_help_radius: double;
-  can_retarget_while_starting_attack?: bool;
+  can_retarget_while_starting_attack?: boolean;
   circuit_connector?: CircuitConnectorDefinition[];
   circuit_wire_max_distance?: double;
   default_speed?: float;
   default_speed_secondary?: float;
   default_speed_when_killed?: float;
   default_starting_progress_when_killed?: float;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   dying_sound?: Sound;
   ending_attack_animation?: RotatedAnimation8Way;
   ending_attack_speed?: float;
@@ -3071,7 +3133,7 @@ export interface TurretPrototype extends EntityWithOwnerPrototype {
   energy_glow_animation?: RotatedAnimation8Way;
   energy_glow_animation_flicker_strength?: float;
   folded_animation: RotatedAnimation8Way;
-  folded_animation_is_stateless?: bool;
+  folded_animation_is_stateless?: boolean;
   folded_speed?: float;
   folded_speed_secondary?: float;
   folded_speed_when_killed?: float;
@@ -3089,7 +3151,7 @@ export interface TurretPrototype extends EntityWithOwnerPrototype {
   gun_animation_secondary_draw_order?: uint8;
   ignore_target_mask?: TriggerTargetMask;
   integration?: Sprite;
-  is_military_target?: bool;
+  is_military_target?: boolean;
   prepare_range?: double;
   prepared_alternative_animation?: RotatedAnimation8Way;
   prepared_alternative_chance?: float;
@@ -3110,26 +3172,26 @@ export interface TurretPrototype extends EntityWithOwnerPrototype {
   preparing_speed_secondary?: float;
   preparing_speed_when_killed?: float;
   preparing_starting_progress_when_killed?: float;
-  random_animation_offset?: bool;
+  random_animation_offset?: boolean;
   resource_indicator_animation?: RotatedAnimation8Way;
   rotating_sound?: InterruptibleSound;
   rotation_speed?: float;
   rotation_speed_secondary?: float;
   rotation_speed_when_killed?: float;
   rotation_starting_progress_when_killed?: float;
-  shoot_in_prepare_state?: bool;
+  shoot_in_prepare_state?: boolean;
   spawn_decoration?: CreateDecorativesTriggerEffectItem[];
-  spawn_decorations_on_expansion?: bool;
+  spawn_decorations_on_expansion?: boolean;
   special_effect?: TurretSpecialEffect;
-  start_attacking_only_when_can_shoot?: bool;
+  start_attacking_only_when_can_shoot?: boolean;
   starting_attack_animation?: RotatedAnimation8Way;
   starting_attack_sound?: Sound;
   starting_attack_speed?: float;
   starting_attack_speed_secondary?: float;
   starting_attack_speed_when_killed?: float;
   starting_attack_starting_progress_when_killed?: float;
-  turret_base_has_direction?: bool;
-  unfolds_before_dying?: bool;
+  turret_base_has_direction?: boolean;
+  unfolds_before_dying?: boolean;
 }
 export interface TutorialDefinition extends PrototypeBase {
   order?: Order;
@@ -3147,21 +3209,21 @@ export interface UndergroundBeltPrototype
 }
 export interface UnitPrototype extends EntityWithOwnerPrototype {
   absorptions_to_join_attack?: Record<AirbornePollutantID, float>;
-  affected_by_tiles?: bool;
+  affected_by_tiles?: boolean;
   ai_settings?: UnitAISettings;
   allow_run_time_change_of_is_military_target?: false;
   alternative_attacking_frame_sequence?: UnitAlternativeFrameSequence;
   attack_parameters: AttackParameters;
-  can_open_gates?: bool;
+  can_open_gates?: boolean;
   distance_per_frame: float;
   distraction_cooldown: uint32;
   dying_sound?: Sound;
-  has_belt_immunity?: bool;
+  has_belt_immunity?: boolean;
   is_military_target?: true;
   light?: LightDefinition;
   max_pursue_distance?: double;
   min_pursue_time?: uint32;
-  move_while_shooting?: bool;
+  move_while_shooting?: boolean;
   movement_speed: float;
   radar_range?: uint32;
   render_layer?: RenderLayer;
@@ -3179,8 +3241,8 @@ export interface UpgradeItemPrototype
     'selection_mode' | 'alt_selection_mode'
   > {
   alt_select: SelectionModeData;
-  always_include_tiles?: bool;
-  draw_label_for_cursor_render?: bool;
+  always_include_tiles?: boolean;
+  draw_label_for_cursor_render?: boolean;
   select: SelectionModeData;
   stack_size: 1;
 }
@@ -3194,7 +3256,7 @@ export interface UseEntityInEnergyProductionAchievementPrototype
 export interface UseItemAchievementPrototype extends AchievementPrototype {
   amount?: uint32;
   limit_quality: QualityID;
-  limited_to_one_game?: bool;
+  limited_to_one_game?: boolean;
   to_use: ItemID;
 }
 export interface UtilityConstants extends PrototypeBase {
@@ -3217,6 +3279,7 @@ export interface UtilityConstants extends PrototypeBase {
   building_no_tint: Color;
   building_not_buildable_tint: Color;
   capsule_range_visualization_color: Color;
+  capture_water_mask_at_layer: uint8;
   chart: ChartUtilityConstants;
   chart_search_highlight: Color;
   checkerboard_black: Color;
@@ -3257,6 +3320,9 @@ export interface UtilityConstants extends PrototypeBase {
   equipment_default_background_color: Color;
   equipment_default_grabbed_background_color: Color;
   explosions_in_simulation_volume_modifier: float;
+  factoriopedia_recycling_recipe_categories: RecipeCategoryID[];
+  feedback_screenshot_file_name: string;
+  feedback_screenshot_subfolder_name: string;
   filter_outline_color: Color;
   flying_text_ttl: uint32;
   forced_enabled_recipe_slot_background_tint: Color;
@@ -3269,6 +3335,7 @@ export interface UtilityConstants extends PrototypeBase {
   gui_remark_color: Color;
   gui_search_match_background_color: Color;
   gui_search_match_foreground_color: Color;
+  huge_platform_animation_sound_area: float;
   icon_shadow_color: Color;
   icon_shadow_inset: float;
   icon_shadow_radius: float;
@@ -3331,18 +3398,23 @@ export interface UtilityConstants extends PrototypeBase {
   small_blueprint_area_size: float;
   space_LPF_max_cutoff_frequency: float;
   space_LPF_min_cutoff_frequency: float;
-  space_platform_default_speed_formula: MathExpression;
+  space_platform_acceleration_expression: MathExpression;
   space_platform_dump_cooldown: uint32;
+  space_platform_manual_dump_cooldown: uint32;
   space_platform_max_size: SimpleBoundingBox;
   space_platform_relative_speed_factor: double;
   space_platform_starfield_movement_vector: Vector;
   spawner_evolution_factor_health_modifier: float;
+  starmap_orbit_clicked_color: Color;
+  starmap_orbit_default_color: Color;
+  starmap_orbit_disabled_color: Color;
+  starmap_orbit_hovered_color: Color;
   time_to_show_full_health_bar: MapTick;
   tooltip_monitor_edge_border: int32;
   train_inactivity_wait_condition_default: uint32;
   train_on_elevated_rail_shadow_shift_multiplier: Vector;
   train_path_finding: TrainPathFinderConstants;
-  train_pushed_by_player_ignores_friction: bool;
+  train_pushed_by_player_ignores_friction: boolean;
   train_pushed_by_player_max_acceleration: double;
   train_pushed_by_player_max_speed: double;
   train_temporary_stop_wait_time: uint32;
@@ -3365,7 +3437,7 @@ export interface UtilityConstants extends PrototypeBase {
   water_collision_mask: CollisionMaskConnector;
   weapons_in_simulation_volume_modifier: float;
   zero_count_value_tint: Color;
-  zoom_to_world_can_use_nightvision: bool;
+  zoom_to_world_can_use_nightvision: boolean;
   zoom_to_world_daytime_color_lookup: DaytimeColorLookupTable;
   zoom_to_world_effect_strength: float;
 }
@@ -3740,6 +3812,7 @@ export interface UtilitySprites extends PrototypeBase {
   entity_info_dark_background: Sprite;
   equipment_collision: Sprite;
   equipment_grid: Sprite;
+  equipment_grid_small: Sprite;
   equipment_slot: Sprite;
   expand: Sprite;
   expand_dots: Sprite;
@@ -4019,9 +4092,17 @@ export interface UtilitySprites extends PrototypeBase {
   worker_robot_storage_modifier_constant?: Sprite;
   worker_robot_storage_modifier_icon: Sprite;
 }
+export interface ValvePrototype extends EntityWithOwnerPrototype {
+  animations?: Animation4Way;
+  flow_rate: FluidAmount;
+  fluid_box: FluidBox;
+  frozen_patch?: Sprite4Way;
+  mode: ValveMode;
+  threshold?: float;
+}
 export interface VehiclePrototype extends EntityWithOwnerPrototype {
-  allow_passengers?: bool;
-  allow_remote_driving?: bool;
+  allow_passengers?: boolean;
+  allow_remote_driving?: boolean;
   braking_power: Energy | double;
   chunk_exploration_radius?: uint32;
   crash_trigger?: TriggerEffect;
@@ -4047,8 +4128,8 @@ export interface WallPrototype extends EntityWithOwnerPrototype {
   circuit_wire_max_distance?: double;
   connected_gate_visualization?: Sprite;
   default_output_signal?: SignalIDConnector;
-  draw_circuit_wires?: bool;
-  draw_copper_wires?: bool;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   pictures?: WallPictures;
   visual_merge_group?: uint32;
   wall_diode_green?: Sprite4Way;
@@ -4084,7 +4165,7 @@ export type ActivityBarStyleSpecification = BaseStyleSpecification & {
   type: 'activity_bar_style';
 };
 export type ActivityMatchingModifiers = {
-  inverted?: bool;
+  inverted?: boolean;
   maximum?: float;
   minimum?: float;
   multiplier?: float;
@@ -4103,11 +4184,11 @@ export type AdvancedVolumeControl = {
   fades?: Fades;
 };
 export type AggregationSpecification = {
-  count_already_playing?: bool;
+  count_already_playing?: boolean;
   max_count: uint32;
   priority?: 'closest' | 'farthest' | 'newest' | 'oldest';
   progress_threshold?: float;
-  remove: bool;
+  remove: boolean;
   volume_reduction_rate?: float;
 };
 export type AgriculturalCraneProperties = {
@@ -4129,12 +4210,24 @@ export type AgriculturalCraneSpeedArm = {
   turn_rate?: double;
 };
 export type AgriculturalCraneSpeedGrappler = {
-  allow_transpolar_movement?: bool;
+  allow_transpolar_movement?: boolean;
   extension_speed?: double;
   horizontal_turn_rate?: double;
   vertical_turn_rate?: double;
 };
 export type AirbornePollutantID = string;
+export type Alignment =
+  | 'top-left'
+  | 'middle-left'
+  | 'left'
+  | 'bottom-left'
+  | 'top-center'
+  | 'middle-center'
+  | 'center'
+  | 'bottom-center'
+  | 'top-right'
+  | 'right'
+  | 'bottom-right';
 export type AlternativeBuildTipTrigger = CountBasedTipTrigger & {
   type: 'alternative-build';
 };
@@ -4146,15 +4239,15 @@ export type AmbientSoundType =
 export type AmmoCategoryID = string;
 export type AmmoDamageModifier = BaseModifier & {
   ammo_category: AmmoCategoryID;
-  infer_icon?: bool;
+  infer_icon?: boolean;
   modifier: double;
   type: 'ammo-damage';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type AmmoSourceType = 'default' | 'player' | 'turret' | 'vehicle';
 export type AmmoType = {
   action?: Trigger;
-  clamp_position?: bool;
+  clamp_position?: boolean;
   consumption_modifier?: float;
   cooldown_modifier?: double;
   energy_consumption?: Energy;
@@ -4190,9 +4283,9 @@ export type Animation4Way =
     }
   | Animation;
 export type AnimationElement = {
-  always_draw?: bool;
+  always_draw?: boolean;
   animation?: Animation;
-  apply_tint?: bool;
+  apply_tint?: boolean;
   render_layer?: RenderLayer;
   secondary_draw_order?: int8;
 };
@@ -4204,7 +4297,7 @@ export type AnimationParameters = SpriteParameters & {
   dice_y?: uint8;
   frame_count?: uint32;
   frame_sequence?: AnimationFrameSequence;
-  generate_sdf?: bool;
+  generate_sdf?: boolean;
   height?: SpriteSizeType;
   line_length?: uint32;
   max_advance?: float;
@@ -4352,6 +4445,7 @@ export type AnyPrototype =
   | HeatPipePrototype
   | HighlightBoxEntityPrototype
   | ImpactCategory
+  | InfinityCargoWagonPrototype
   | InfinityContainerPrototype
   | InfinityPipePrototype
   | InserterPrototype
@@ -4413,6 +4507,7 @@ export type AnyPrototype =
   | ProjectilePrototype
   | Prototype
   | PrototypeBase
+  | ProxyContainerPrototype
   | PumpPrototype
   | QualityPrototype
   | RadarPrototype
@@ -4498,6 +4593,7 @@ export type AnyPrototype =
   | UtilityConstants
   | UtilitySounds
   | UtilitySprites
+  | ValvePrototype
   | VehiclePrototype
   | VirtualSignalPrototype
   | WallPrototype;
@@ -4507,20 +4603,20 @@ export type ApplyStarterPackTipTrigger = CountBasedTipTrigger & {
 export type AreaTriggerItem = TriggerItem & {
   collision_mode?: 'distance-from-collision-box' | 'distance-from-center';
   radius: double;
-  show_in_tooltip?: bool;
-  target_enemies?: bool;
-  target_entities?: bool;
-  trigger_from_target?: bool;
+  show_in_tooltip?: boolean;
+  target_enemies?: boolean;
+  target_entities?: boolean;
+  trigger_from_target?: boolean;
   type: 'area';
 };
 export type ArtilleryRangeModifier = SimpleModifier & {
-  infer_icon?: bool;
+  infer_icon?: boolean;
   type: 'artillery-range';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type ArtilleryRemoteCapsuleAction = {
   flare: EntityID;
-  play_sound_on_failure?: bool;
+  play_sound_on_failure?: boolean;
   type: 'artillery-remote';
 };
 export type ArtilleryTriggerDelivery = TriggerDeliveryItem & {
@@ -4529,7 +4625,7 @@ export type ArtilleryTriggerDelivery = TriggerDeliveryItem & {
   range_deviation?: float;
   starting_speed: float;
   starting_speed_deviation?: float;
-  trigger_fired_artillery?: bool;
+  trigger_fired_artillery?: boolean;
   type: 'artillery';
 };
 export type AsteroidChunkID = string;
@@ -4564,7 +4660,7 @@ export type AsteroidSettings = {
   spawning_rate: double;
 };
 export type AsteroidSpawnPoint = {
-  angle_when_stopped?: double;
+  angle_when_stopped?: float;
   probability: double;
   speed: double;
 };
@@ -4598,11 +4694,11 @@ export type AttenuationType =
 export type AutoplaceControlID = string;
 export type AutoplaceSettings = {
   settings?: Record<EntityID | TileID | DecorativeID, FrequencySizeRichness>;
-  treat_missing_as_default?: bool;
+  treat_missing_as_default?: boolean;
 };
 export type AutoplaceSpecification = {
   control?: AutoplaceControlID;
-  default_enabled?: bool;
+  default_enabled?: boolean;
   force?: 'enemy' | 'player' | 'neutral' | string;
   local_expressions?: Record<string, NoiseExpression>;
   local_functions?: Record<string, NoiseFunction>;
@@ -4635,17 +4731,18 @@ export type BaseAttackParameters = {
   range_mode?: RangeMode;
   rotate_penalty?: float;
   sound?: LayeredSound;
+  true_collinear_ejection?: boolean;
   turn_range?: float;
-  use_shooter_direction?: bool;
+  use_shooter_direction?: boolean;
   warmup?: uint32;
 };
 export type BaseEnergySource = {
   emissions_per_minute?: Record<AirbornePollutantID, double>;
-  render_no_network_icon?: bool;
-  render_no_power_icon?: bool;
+  render_no_network_icon?: boolean;
+  render_no_power_icon?: boolean;
 };
 export type BaseModifier = {
-  hidden?: bool;
+  hidden?: boolean;
   icon?: FileName;
   icon_size?: SpriteSizeType;
   icons?: IconData[];
@@ -4659,7 +4756,7 @@ export type BaseStyleSpecification = {
   horizontal_align?: HorizontalAlign;
   horizontally_squashable?: StretchRule;
   horizontally_stretchable?: StretchRule;
-  ignored_by_search?: bool;
+  ignored_by_search?: boolean;
   left_margin?: int16;
   left_padding?: int16;
   margin?: int16;
@@ -4670,7 +4767,7 @@ export type BaseStyleSpecification = {
   natural_height?: uint32;
   natural_size?: uint32 | [uint32, uint32];
   natural_width?: uint32;
-  never_hide_by_search?: bool;
+  never_hide_by_search?: boolean;
   padding?: int16;
   parent?: string;
   right_margin?: int16;
@@ -4685,9 +4782,9 @@ export type BaseStyleSpecification = {
   width?: uint32;
 };
 export type BeaconDistributionModifier = SimpleModifier & {
-  infer_icon?: bool;
+  infer_icon?: boolean;
   type: 'beacon-distribution';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type BeaconGraphicsSet = {
   animation_layer?: RenderLayer;
@@ -4695,21 +4792,21 @@ export type BeaconGraphicsSet = {
   animation_progress?: float;
   apply_module_tint?: ModuleTint;
   base_layer?: RenderLayer;
-  draw_animation_when_idle?: bool;
-  draw_light_when_idle?: bool;
+  draw_animation_when_idle?: boolean;
+  draw_light_when_idle?: boolean;
   frozen_patch?: Sprite;
   light?: LightDefinition;
-  module_icons_suppressed?: bool;
+  module_icons_suppressed?: boolean;
   module_tint_mode?: 'single-module' | 'mix';
   module_visualisations?: BeaconModuleVisualizations[];
   no_modules_tint?: Color;
-  random_animation_offset?: bool;
-  reset_animation_when_frozen?: bool;
+  random_animation_offset?: boolean;
+  reset_animation_when_frozen?: boolean;
   top_layer?: RenderLayer;
 };
 export type BeaconModuleVisualization = {
   apply_module_tint?: ModuleTint;
-  has_empty_slot?: bool;
+  has_empty_slot?: boolean;
   pictures?: SpriteVariations;
   render_layer?: RenderLayer;
   secondary_draw_order?: int8;
@@ -4718,7 +4815,7 @@ export type BeaconModuleVisualizations = {
   art_style: string;
   slots?: BeaconModuleVisualization[][];
   tier_offset?: int32;
-  use_for_empty_slots?: bool;
+  use_for_empty_slots?: boolean;
 };
 export type BeaconVisualizationTints = {
   primary?: Color;
@@ -4743,14 +4840,14 @@ export type BeamGraphicsSet = {
   beam?: BeamAnimationSet;
   desired_segment_length?: float;
   ground?: BeamAnimationSet;
-  random_end_animation_rotation?: bool;
-  randomize_animation_per_segment?: bool;
-  transparent_start_end_animations?: bool;
+  random_end_animation_rotation?: boolean;
+  randomize_animation_per_segment?: boolean;
+  transparent_start_end_animations?: boolean;
 };
 export type BeamTriggerDelivery = TriggerDeliveryItem & {
-  add_to_shooter?: bool;
+  add_to_shooter?: boolean;
   beam: EntityID;
-  destroy_with_source_or_target?: bool;
+  destroy_with_source_or_target?: boolean;
   duration?: uint32;
   max_length?: uint32;
   source_offset?: Vector;
@@ -4762,7 +4859,7 @@ export type BeltReaderLayer = {
 };
 export type BeltStackSizeBonusModifier = SimpleModifier & {
   type: 'belt-stack-size-bonus';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type BeltTraverseTipTrigger = CountBasedTipTrigger & {
   type: 'belt-traverse';
@@ -4800,7 +4897,7 @@ export type BonusGuiOrdering = {
   turret_attack: Order;
   worker_robots: Order;
 };
-export type BoolModifier = BaseModifier & { modifier: bool };
+export type BoolModifier = BaseModifier & { modifier: boolean };
 export type BorderImageSet = {
   border_width?: int32;
   bottom_end?: Sprite;
@@ -4826,9 +4923,10 @@ export type BoundingBox =
       orientation?: RealOrientation;
       right_bottom: MapPosition;
     }
-  | [MapPosition, MapPosition];
+  | [MapPosition, MapPosition]
+  | [MapPosition, MapPosition, RealOrientation];
 export type BoxSpecification = {
-  is_whole_box?: bool;
+  is_whole_box?: boolean;
   max_side_length?: double;
   side_height?: double;
   side_length?: double;
@@ -4842,20 +4940,20 @@ export type BuildEntityTechnologyTrigger = {
   type: 'build-entity';
 };
 export type BuildEntityTipTrigger = CountBasedTipTrigger & {
-  build_by_dragging?: bool;
-  build_in_line?: bool;
-  consecutive?: bool;
+  build_by_dragging?: boolean;
+  build_in_line?: boolean;
+  consecutive?: boolean;
   entity?: EntityID;
-  linear_power_pole_line?: bool;
-  match_type_only?: bool;
+  linear_power_pole_line?: boolean;
+  match_type_only?: boolean;
   quality?: QualityID;
   type: 'build-entity';
 };
 export type BuildMode = 'normal' | 'forced' | 'superforced';
 export type BulkInserterCapacityBonusModifier = SimpleModifier & {
-  infer_icon?: bool;
+  infer_icon?: boolean;
   type: 'bulk-inserter-capacity-bonus';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type BurnerEnergySource = BaseEnergySource & {
   burner_usage?: BurnerUsageID;
@@ -4876,13 +4974,13 @@ export type ButtonStyleSpecification =
     clicked_vertical_offset?: uint32;
     default_font_color?: Color;
     disabled_font_color?: Color;
-    draw_grayscale_picture?: bool;
-    draw_shadow_under_picture?: bool;
+    draw_grayscale_picture?: boolean;
+    draw_shadow_under_picture?: boolean;
     font?: string;
     hovered_font_color?: Color;
     icon_horizontal_align?: HorizontalAlign;
-    invert_colors_of_picture_when_disabled?: bool;
-    invert_colors_of_picture_when_hovered_or_toggled?: bool;
+    invert_colors_of_picture_when_disabled?: boolean;
+    invert_colors_of_picture_when_hovered_or_toggled?: boolean;
     pie_progress_color?: Color;
     selected_clicked_font_color?: Color;
     selected_font_color?: Color;
@@ -4957,12 +5055,12 @@ export type CargoHatchDefinition = {
 };
 export type CargoLandingPadLimitModifier = SimpleModifier & {
   type: 'cargo-landing-pad-count';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CargoStationParameters = {
   giga_hatch_definitions?: GigaCargoHatchDefinition[];
   hatch_definitions?: CargoHatchDefinition[];
-  prefer_packed_cargo_units?: bool;
+  prefer_packed_cargo_units?: boolean;
 };
 export type ChainTriggerDelivery = TriggerDeliveryItem & {
   chain: ActiveTriggerID;
@@ -4972,7 +5070,7 @@ export type ChangeRecipeProductivityModifier = BaseModifier & {
   change: EffectValue;
   recipe: RecipeID;
   type: 'change-recipe-productivity';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type ChangeSurfaceTipTrigger = CountBasedTipTrigger & {
   surface: string;
@@ -4999,59 +5097,59 @@ export type CharacterArmorAnimation = {
 };
 export type CharacterBuildDistanceModifier = SimpleModifier & {
   type: 'character-build-distance';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CharacterCraftingSpeedModifier = SimpleModifier & {
   type: 'character-crafting-speed';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CharacterHealthBonusModifier = SimpleModifier & {
   type: 'character-health-bonus';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CharacterInventorySlotsBonusModifier = SimpleModifier & {
   type: 'character-inventory-slots-bonus';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CharacterItemDropDistanceModifier = SimpleModifier & {
   type: 'character-item-drop-distance';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CharacterItemPickupDistanceModifier = SimpleModifier & {
   type: 'character-item-pickup-distance';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CharacterLogisticRequestsModifier = BoolModifier & {
   type: 'character-logistic-requests';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CharacterLogisticTrashSlotsModifier = SimpleModifier & {
   type: 'character-logistic-trash-slots';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CharacterLootPickupDistanceModifier = SimpleModifier & {
   type: 'character-loot-pickup-distance';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CharacterMiningSpeedModifier = SimpleModifier & {
   type: 'character-mining-speed';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CharacterReachDistanceModifier = SimpleModifier & {
   type: 'character-reach-distance';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CharacterResourceReachDistanceModifier = SimpleModifier & {
   type: 'character-resource-reach-distance';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CharacterRunningSpeedModifier = SimpleModifier & {
   type: 'character-running-speed';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type ChargableGraphics = {
   charge_animation?: Animation;
-  charge_animation_is_looped?: bool;
+  charge_animation_is_looped?: boolean;
   charge_cooldown?: uint16;
   charge_light?: LightDefinition;
   discharge_animation?: Animation;
@@ -5090,7 +5188,7 @@ export type ChartUtilityConstants = {
   elevated_rail_color: Color;
   enabled_switch_color: Color;
   entity_ghost_color: Color;
-  explosion_visualization_duration: uint32;
+  explosion_visualization_duration: MapTick;
   green_signal_color: Color;
   green_wire_color: Color;
   rail_color: Color;
@@ -5152,7 +5250,7 @@ export type CircuitConnectorSprites = {
 };
 export type CircuitNetworkModifier = BoolModifier & {
   type: 'unlock-circuit-network';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CircularParticleCreationSpecification = {
   center?: Vector;
@@ -5167,7 +5265,7 @@ export type CircularParticleCreationSpecification = {
   speed_deviation?: float;
   starting_frame_speed: float;
   starting_frame_speed_deviation?: float;
-  use_source_position?: bool;
+  use_source_position?: boolean;
   vertical_speed?: float;
   vertical_speed_deviation?: float;
 };
@@ -5180,7 +5278,7 @@ export type ClearCursorTipTrigger = CountBasedTipTrigger & {
 };
 export type CliffDeconstructionEnabledModifier = BoolModifier & {
   type: 'cliff-deconstruction-enabled';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CliffPlacementSettings = {
   cliff_elevation_0?: float;
@@ -5234,10 +5332,10 @@ export type ClusterTriggerItem = TriggerItem & {
 };
 export type CollisionLayerID = string;
 export type CollisionMaskConnector = {
-  colliding_with_tiles_only?: bool;
-  consider_tile_transitions?: bool;
+  colliding_with_tiles_only?: boolean;
+  consider_tile_transitions?: boolean;
   layers: Record<CollisionLayerID, true>;
-  not_colliding_with_itself?: bool;
+  not_colliding_with_itself?: boolean;
 };
 export type Color =
   | { a?: float; b?: float; g?: float; r?: float }
@@ -5250,22 +5348,7 @@ export type ColorFilterData = {
 };
 export type ColorHintSpecification = { text?: string; text_color?: Color };
 export type ColorLookupTable = FileName | 'identity';
-export type ColumnAlignment = {
-  alignment:
-    | 'center'
-    | 'left'
-    | 'right'
-    | 'top-left'
-    | 'middle-left'
-    | 'bottom-left'
-    | 'top-center'
-    | 'middle-center'
-    | 'bottom-center'
-    | 'top-right'
-    | 'middle-right'
-    | 'bottom-right';
-  column: uint32;
-};
+export type ColumnAlignment = { alignment: Alignment; column: uint32 };
 export type ColumnWidth = ColumnWidthItem & { column: uint32 };
 export type ColumnWidthItem = {
   maximal_width?: int32;
@@ -5319,13 +5402,13 @@ export type CoverGraphicProcessionLayer = {
   frames: CoverGraphicProcessionLayerBezierControlPoint[];
   graphic?: ProcessionGraphic;
   inherit_from?: ProcessionLayerInheritanceGroupID;
-  is_cloud_effect_advanced?: bool;
-  is_quad_texture?: bool;
+  is_cloud_effect_advanced?: boolean;
+  is_quad_texture?: boolean;
   mask_graphic?: ProcessionGraphic;
   pod_movement_strength?: Vector;
   reference_group?: ProcessionLayerInheritanceGroupID;
   render_layer?: RenderLayer;
-  rotate_with_pod?: bool;
+  rotate_with_pod?: boolean;
   secondary_draw_order?: int8;
   texture_relative_to?: EffectRelativeTo;
   type: 'cover-graphic';
@@ -5369,7 +5452,7 @@ export type CraftItemTechnologyTrigger = {
   type: 'craft-item';
 };
 export type CraftItemTipTrigger = CountBasedTipTrigger & {
-  consecutive?: bool;
+  consecutive?: boolean;
   event_type:
     | 'crafting-of-single-item-ordered'
     | 'crafting-of-multiple-items-ordered'
@@ -5384,14 +5467,14 @@ export type CraftingMachineGraphicsSet = WorkingVisualisations & {
     | int8
     | CircuitConnectorSecondaryDrawOrder;
   frozen_patch?: Sprite4Way;
-  reset_animation_when_frozen?: bool;
+  reset_animation_when_frozen?: boolean;
 };
 export type CranePart = {
-  allow_sprite_rotation?: bool;
+  allow_sprite_rotation?: boolean;
   dying_effect?: CranePartDyingEffect;
   extendable_length?: Vector3D;
   extendable_length_grappler?: Vector3D;
-  is_contractible_by_cropping?: bool;
+  is_contractible_by_cropping?: boolean;
   layer?: int8;
   name?: string;
   orientation_shift?: float;
@@ -5400,8 +5483,8 @@ export type CranePart = {
   rotated_sprite?: RotatedSprite;
   rotated_sprite_reflection?: RotatedSprite;
   rotated_sprite_shadow?: RotatedSprite;
-  scale_to_fit_model?: bool;
-  should_scale_for_perspective?: bool;
+  scale_to_fit_model?: boolean;
+  should_scale_for_perspective?: boolean;
   snap_end?: float;
   snap_end_arm_extent_multiplier?: float;
   snap_start?: float;
@@ -5415,7 +5498,9 @@ export type CranePartDyingEffect = {
   explosion?: ExplosionDefinition;
   explosion_linear_distance_step?: float;
   particle_effect_linear_distance_step?: float;
-  particle_effects?: CreateParticleTriggerEffectItem[];
+  particle_effects?:
+    | CreateParticleTriggerEffectItem
+    | CreateParticleTriggerEffectItem[];
 };
 export type CraterPlacementDefinition = {
   minimum_segments_to_place?: uint32;
@@ -5430,36 +5515,36 @@ export type CreateAsteroidChunkEffectItem = TriggerEffectItem & {
   type: 'create-asteroid-chunk';
 };
 export type CreateDecorativesTriggerEffectItem = TriggerEffectItem & {
-  apply_projection?: bool;
+  apply_projection?: boolean;
   decorative: DecorativeID;
   radius_curve?: float;
   spawn_max: uint16;
   spawn_max_radius: float;
   spawn_min?: uint16;
   spawn_min_radius: float;
-  spread_evenly?: bool;
+  spread_evenly?: boolean;
   type: 'create-decorative';
 };
 export type CreateEntityTriggerEffectItem = TriggerEffectItem & {
-  as_enemy?: bool;
-  check_buildability?: bool;
+  as_enemy?: boolean;
+  check_buildability?: boolean;
   entity_name: EntityID;
-  find_non_colliding_position?: bool;
-  ignore_no_enemies_mode?: bool;
+  find_non_colliding_position?: boolean;
+  ignore_no_enemies_mode?: boolean;
   non_colliding_fail_result?: Trigger;
   non_colliding_search_precision?: double;
   non_colliding_search_radius?: double;
   offset_deviation?: BoundingBox;
   offsets?: Vector[];
-  protected?: bool;
-  show_in_tooltip?: bool;
+  protected?: boolean;
+  show_in_tooltip?: boolean;
   tile_collision_mask?: CollisionMaskConnector;
-  trigger_created_entity?: bool;
+  trigger_created_entity?: boolean;
   type: 'create-entity';
 };
 export type CreateExplosionTriggerEffectItem = CreateEntityTriggerEffectItem & {
-  cycle_while_moving?: bool;
-  inherit_movement_distance_from_projectile?: bool;
+  cycle_while_moving?: boolean;
+  inherit_movement_distance_from_projectile?: boolean;
   max_movement_distance?: float;
   max_movement_distance_deviation?: float;
   type: 'create-explosion';
@@ -5470,7 +5555,7 @@ export type CreateFireTriggerEffectItem = CreateEntityTriggerEffectItem & {
 };
 export type CreateGhostOnEntityDeathModifier = BoolModifier & {
   type: 'create-ghost-on-entity-death';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type CreateParticleTriggerEffectItem = TriggerEffectItem & {
   apply_tile_tint?: 'primary' | 'secondary';
@@ -5483,10 +5568,10 @@ export type CreateParticleTriggerEffectItem = TriggerEffectItem & {
   movement_multiplier?: float;
   offset_deviation?: SimpleBoundingBox;
   offsets?: Vector[];
-  only_when_visible?: bool;
+  only_when_visible?: boolean;
   particle_name: ParticleID;
-  rotate_offsets?: bool;
-  show_in_tooltip?: bool;
+  rotate_offsets?: boolean;
+  show_in_tooltip?: boolean;
   speed_from_center?: float;
   speed_from_center_deviation?: float;
   tail_length?: uint8;
@@ -5511,9 +5596,9 @@ export type CreateSpacePlatformTechnologyTrigger = {
   type: 'create-space-platform';
 };
 export type CreateStickerTriggerEffectItem = TriggerEffectItem & {
-  show_in_tooltip?: bool;
+  show_in_tooltip?: boolean;
   sticker: EntityID;
-  trigger_created_entity?: bool;
+  trigger_created_entity?: boolean;
   type: 'create-sticker';
 };
 export type CreateTrivialSmokeEffectItem = TriggerEffectItem & {
@@ -5521,7 +5606,7 @@ export type CreateTrivialSmokeEffectItem = TriggerEffectItem & {
   max_radius?: float;
   offset_deviation?: BoundingBox;
   offsets?: Vector[];
-  only_when_visible?: float;
+  only_when_visible?: boolean;
   smoke_name: TrivialSmokeID;
   speed?: Vector;
   speed_from_center?: float;
@@ -5541,8 +5626,8 @@ export type CursorBoxSpecification = {
   not_allowed: BoxSpecification[];
   pair: BoxSpecification[];
   regular: BoxSpecification[];
-  rts_selected: BoxSpecification[];
-  rts_to_be_selected: BoxSpecification[];
+  spidertron_remote_selected: BoxSpecification[];
+  spidertron_remote_to_be_selected: BoxSpecification[];
   train_visualization: BoxSpecification[];
 };
 export type CursorBoxType =
@@ -5562,38 +5647,38 @@ export type CyclicSound = {
   end_sound?: Sound;
   middle_sound?: Sound;
 };
-export type DamageParameters = { amount: float; type: DamageTypeID };
-export type DamageTileTriggerEffectItem = TriggerEffectItem & {
-  damage: DamageParameters;
-  radius?: float;
-  type: 'damage';
-};
-export type DamageTriggerEffectItem = TriggerEffectItem & {
-  apply_damage_to_trees?: bool;
+export type DamageEntityTriggerEffectItem = TriggerEffectItem & {
+  apply_damage_to_trees?: boolean;
   damage: DamageParameters;
   lower_damage_modifier?: float;
   lower_distance_threshold?: uint16;
   type: 'damage';
   upper_damage_modifier?: float;
   upper_distance_threshold?: uint16;
-  use_substitute?: bool;
-  vaporize?: bool;
+  use_substitute?: boolean;
+  vaporize?: boolean;
+};
+export type DamageParameters = { amount: float; type: DamageTypeID };
+export type DamageTileTriggerEffectItem = TriggerEffectItem & {
+  damage: DamageParameters;
+  radius?: float;
+  type: 'damage-tile';
 };
 export type DamageTypeFilters =
-  | { types: DamageTypeID | DamageTypeID[]; whitelist?: bool }
+  | { types: DamageTypeID | DamageTypeID[]; whitelist?: boolean }
   | DamageTypeID
   | DamageTypeID[];
 export type DamageTypeID = string;
 export type Data = {
   extend: DataExtendMethod;
-  is_demo: bool;
+  is_demo: boolean;
   raw: Record<string, Record<string, AnyPrototype>>;
 };
 export type DataExtendMethod = (extension: unknown) => void;
 export type DaytimeColorLookupTable = [double, ColorLookupTable][];
 export type DeconstructionTimeToLiveModifier = SimpleModifier & {
   type: 'deconstruction-time-to-live';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type DecorativeID = string;
 export type DelayedTriggerDelivery = TriggerDeliveryItem & {
@@ -5603,11 +5688,11 @@ export type DelayedTriggerDelivery = TriggerDeliveryItem & {
 export type DependenciesMetTipTrigger = { type: 'dependencies-met' };
 export type DestroyCliffsCapsuleAction = {
   attack_parameters: AttackParameters;
-  play_sound_on_failure?: bool;
+  play_sound_on_failure?: boolean;
   radius: float;
   timeout?: uint32;
   type: 'destroy-cliffs';
-  uses_stack?: bool;
+  uses_stack?: boolean;
 };
 export type DestroyCliffsTriggerEffectItem = TriggerEffectItem & {
   explosion_at_cliff?: EntityID;
@@ -5616,11 +5701,11 @@ export type DestroyCliffsTriggerEffectItem = TriggerEffectItem & {
   type: 'destroy-cliffs';
 };
 export type DestroyDecorativesTriggerEffectItem = TriggerEffectItem & {
-  decoratives_with_trigger_only?: bool;
+  decoratives_with_trigger_only?: boolean;
   from_render_layer?: RenderLayer;
-  include_decals?: bool;
-  include_soft_decoratives?: bool;
-  invoke_decorative_trigger?: bool;
+  include_decals?: boolean;
+  include_soft_decoratives?: boolean;
+  invoke_decorative_trigger?: boolean;
   radius: float;
   to_render_layer?: RenderLayer;
   type: 'destroy-decoratives';
@@ -5630,7 +5715,7 @@ export type DifficultySettings = {
   technology_price_multiplier?: double;
 };
 export type DirectTriggerItem = TriggerItem & {
-  filter_enabled?: bool;
+  filter_enabled?: boolean;
   type: 'direct';
 };
 export type Direction =
@@ -5685,7 +5770,7 @@ export type DropDownStyleSpecification = BaseStyleSpecification & {
   type: 'dropdown_style';
 };
 export type DropItemTipTrigger = CountBasedTipTrigger & {
-  drop_into_entity?: bool;
+  drop_into_entity?: boolean;
   type: 'drop-item';
 };
 export type Effect = {
@@ -5697,9 +5782,9 @@ export type Effect = {
 };
 export type EffectReceiver = {
   base_effect?: Effect;
-  uses_beacon_effects?: bool;
-  uses_module_effects?: bool;
-  uses_surface_effects?: bool;
+  uses_beacon_effects?: boolean;
+  uses_module_effects?: boolean;
+  uses_surface_effects?: boolean;
 };
 export type EffectRelativeTo = 'ground-origin' | 'pod' | 'spawn-origin';
 export type EffectTexture = SpriteSource & {};
@@ -5733,18 +5818,18 @@ export type ElementImageSet =
   | ElementImageSetLayer;
 export type ElementImageSetLayer =
   | {
-      background_blur?: bool;
+      background_blur?: boolean;
       background_blur_sigma?: float;
       border?: int32;
       bottom?: Sprite;
       bottom_border?: int32;
       bottom_outer_border_shift?: int32;
-      bottom_tiling?: bool;
+      bottom_tiling?: boolean;
       bottom_width?: SpriteSizeType;
       center?: Sprite;
       center_height?: SpriteSizeType;
-      center_tiling_horizontal?: bool;
-      center_tiling_vertical?: bool;
+      center_tiling_horizontal?: boolean;
+      center_tiling_vertical?: boolean;
       center_width?: SpriteSizeType;
       corner_size?: uint16 | [uint16, uint16];
       custom_horizontal_tiling_sizes?: uint32[];
@@ -5755,9 +5840,9 @@ export type ElementImageSetLayer =
       left_bottom?: Sprite;
       left_height?: SpriteSizeType;
       left_outer_border_shift?: int32;
-      left_tiling?: bool;
+      left_tiling?: boolean;
       left_top?: Sprite;
-      load_in_minimal_mode?: bool;
+      load_in_minimal_mode?: boolean;
       opacity?: double;
       overall_tiling_horizontal_padding?: uint16;
       overall_tiling_horizontal_size?: uint16;
@@ -5771,15 +5856,15 @@ export type ElementImageSetLayer =
       right_bottom?: Sprite;
       right_height?: SpriteSizeType;
       right_outer_border_shift?: int32;
-      right_tiling?: bool;
+      right_tiling?: boolean;
       right_top?: Sprite;
       scale?: double;
-      stretch_monolith_image_to_size?: bool;
+      stretch_monolith_image_to_size?: boolean;
       tint?: Color;
       top?: Sprite;
       top_border?: int32;
       top_outer_border_shift?: int32;
-      top_tiling?: bool;
+      top_tiling?: boolean;
       top_width?: SpriteSizeType;
       type?: 'none' | 'composition';
     }
@@ -5790,13 +5875,13 @@ export type EmptyWidgetStyleSpecification = BaseStyleSpecification & {
 };
 export type EnemyEvolutionSettings = {
   destroy_factor: double;
-  enabled: bool;
+  enabled: boolean;
   pollution_factor: double;
   time_factor: double;
 };
 export type EnemyExpansionSettings = {
   building_coefficient: double;
-  enabled: bool;
+  enabled: boolean;
   enemy_building_influence_radius: uint32;
   friendly_base_influence_radius: uint32;
   max_colliding_tiles_coefficient: double;
@@ -5813,7 +5898,7 @@ export type EnemySpawnerAbsorption = { absolute: double; proportional: double };
 export type EnemySpawnerGraphicsSet = {
   animations?: AnimationVariations;
   integration?: SpriteVariations;
-  random_animation_offset?: bool;
+  random_animation_offset?: boolean;
   underwater_animations?: AnimationVariations;
   underwater_layer_offset?: int8;
   water_effect_map_animations?: AnimationVariations;
@@ -5826,7 +5911,7 @@ export type EnergySource =
   | FluidEnergySource
   | VoidEnergySource;
 export type EnterVehicleTipTrigger = CountBasedTipTrigger & {
-  match_type_only?: bool;
+  match_type_only?: boolean;
   type: 'enter-vehicle';
   vehicle?: EntityID;
 };
@@ -5857,7 +5942,6 @@ export type EntityPrototypeFlags = (
   | 'not-deconstructable'
   | 'not-blueprintable'
   | 'hide-alt-info'
-  | 'no-gap-fill-while-building'
   | 'not-flammable'
   | 'no-automated-item-removal'
   | 'no-automated-item-insertion'
@@ -5966,19 +6050,19 @@ export type FastBeltBendTipTrigger = CountBasedTipTrigger & {
   type: 'fast-belt-bend';
 };
 export type FastReplaceTipTrigger = CountBasedTipTrigger & {
-  match_type_only?: bool;
+  match_type_only?: boolean;
   source?: EntityID;
   target?: EntityID;
   type: 'fast-replace';
 };
 export type FeatureFlags = {
-  expansion_shaders: bool;
-  freezing: bool;
-  quality: bool;
-  rail_bridges: bool;
-  segmented_units: bool;
-  space_travel: bool;
-  spoiling: bool;
+  expansion_shaders: boolean;
+  freezing: boolean;
+  quality: boolean;
+  rail_bridges: boolean;
+  segmented_units: boolean;
+  space_travel: boolean;
+  spoiling: boolean;
 };
 export type FileName = string;
 export type FlipEntityTipTrigger = CountBasedTipTrigger & {
@@ -5992,11 +6076,11 @@ export type FlowStyleSpecification = BaseStyleSpecification & {
 };
 export type FluidAmount = double;
 export type FluidBox = {
-  always_draw_covers?: bool;
-  draw_only_when_connected?: bool;
+  always_draw_covers?: boolean;
+  draw_only_when_connected?: boolean;
   enable_working_visualisations?: string[];
   filter?: FluidID;
-  hide_connection_info?: bool;
+  hide_connection_info?: boolean;
   max_pipeline_extent?: uint32;
   maximum_temperature?: float;
   minimum_temperature?: float;
@@ -6012,6 +6096,7 @@ export type FluidBox = {
   secondary_draw_order?: int8;
   secondary_draw_orders?: FluidBoxSecondaryDrawOrders;
   volume: FluidAmount;
+  volume_reservation_fraction?: float;
 };
 export type FluidBoxLinkedConnectionID = uint32;
 export type FluidBoxSecondaryDrawOrders = {
@@ -6021,17 +6106,18 @@ export type FluidBoxSecondaryDrawOrders = {
   west?: int8;
 };
 export type FluidEnergySource = BaseEnergySource & {
-  burns_fluid?: bool;
-  destroy_non_fuel_fluid?: bool;
+  burns_fluid?: boolean;
+  destroy_non_fuel_fluid?: boolean;
   effectivity?: double;
   fluid_box: FluidBox;
   fluid_usage_per_tick?: FluidAmount;
   light_flicker?: LightFlickeringDefinition;
   maximum_temperature?: float;
-  scale_fluid_usage?: bool;
+  scale_fluid_usage?: boolean;
   smoke?: SmokeSource[];
   type: 'fluid';
 };
+export type FluidFlowDirection = 'input-output' | 'input' | 'output';
 export type FluidID = string;
 export type FluidIngredientPrototype = {
   amount: FluidAmount;
@@ -6053,7 +6139,7 @@ export type FluidProductPrototype = {
   ignored_by_stats?: FluidAmount;
   name: FluidID;
   probability?: double;
-  show_details_in_recipe_tooltip?: bool;
+  show_details_in_recipe_tooltip?: boolean;
   temperature?: float;
   type: 'fluid';
 };
@@ -6074,19 +6160,19 @@ export type FogMaskShapeDefinition = {
   rect: SimpleBoundingBox;
 };
 export type FollowerRobotLifetimeModifier = SimpleModifier & {
-  infer_icon?: bool;
+  infer_icon?: boolean;
   type: 'follower-robot-lifetime';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type FootprintParticle = {
   particle_name?: ParticleID;
   tiles: TileID[];
-  use_as_default?: bool;
+  use_as_default?: boolean;
 };
 export type FootstepTriggerEffectItem = CreateParticleTriggerEffectItem & {
   actions?: CreateParticleTriggerEffectItem[];
   tiles: TileID[];
-  use_as_default?: bool;
+  use_as_default?: boolean;
 };
 export type FootstepTriggerEffectList = FootstepTriggerEffectItem[];
 export type ForceCondition =
@@ -6100,7 +6186,7 @@ export type ForceCondition =
 export type FrameStyleSpecification = BaseStyleSpecification & {
   background_graphical_set?: ElementImageSet;
   border?: BorderImageSet;
-  drag_by_title?: bool;
+  drag_by_title?: boolean;
   graphical_set?: ElementImageSet;
   header_background?: ElementImageSet;
   header_filler_style?: EmptyWidgetStyleSpecification;
@@ -6108,7 +6194,7 @@ export type FrameStyleSpecification = BaseStyleSpecification & {
   horizontal_flow_style?: HorizontalFlowStyleSpecification;
   title_style?: LabelStyleSpecification;
   type: 'frame_style';
-  use_header_filler?: bool;
+  use_header_filler?: boolean;
   vertical_flow_style?: VerticalFlowStyleSpecification;
 };
 export type FrequencySizeRichness = {
@@ -6151,7 +6237,7 @@ export type FusionReactorGraphicsSet = {
   plasma_category: NeighbourConnectableConnectionCategory;
   render_layer?: RenderLayer;
   structure?: Sprite4Way;
-  use_fuel_glow_color?: bool;
+  use_fuel_glow_color?: boolean;
   working_light_pictures?: Sprite4Way;
 };
 export type GameControllerVibrationData = {
@@ -6161,23 +6247,23 @@ export type GameControllerVibrationData = {
   play_for?: PlayFor;
 };
 export type GameViewSettings = {
-  default_show_value?: bool;
-  show_alert_gui?: bool;
-  show_controller_gui?: bool;
-  show_crafting_queue?: bool;
-  show_entity_info?: bool;
-  show_entity_tooltip?: bool;
-  show_hotkey_suggestions?: bool;
-  show_map_view_options?: bool;
-  show_minimap?: bool;
-  show_quickbar?: bool;
-  show_rail_block_visualisation?: bool;
-  show_research_info?: bool;
-  show_shortcut_bar?: bool;
-  show_side_menu?: bool;
-  show_surface_list?: bool;
-  show_tool_bar?: bool;
-  update_entity_selection?: bool;
+  default_show_value?: boolean;
+  show_alert_gui?: boolean;
+  show_controller_gui?: boolean;
+  show_crafting_queue?: boolean;
+  show_entity_info?: boolean;
+  show_entity_tooltip?: boolean;
+  show_hotkey_suggestions?: boolean;
+  show_map_view_options?: boolean;
+  show_minimap?: boolean;
+  show_quickbar?: boolean;
+  show_rail_block_visualisation?: boolean;
+  show_research_info?: boolean;
+  show_shortcut_bar?: boolean;
+  show_side_menu?: boolean;
+  show_surface_list?: boolean;
+  show_tool_bar?: boolean;
+  update_entity_selection?: boolean;
 };
 export type GateOverRailBuildTipTrigger = CountBasedTipTrigger & {
   type: 'gate-over-rail-build';
@@ -6190,9 +6276,9 @@ export type GhostShimmerConfig = {
   distortion: float;
   distortion_layers: GhostShimmerDistortionData[];
   overlay_layers: GhostShimmerOverlayData[];
-  proportional_distortion: bool;
+  proportional_distortion: boolean;
   tint: Color;
-  visualize_borders: bool;
+  visualize_borders: boolean;
   world_uv_modulo: int32;
 };
 export type GhostShimmerDistortionData = {
@@ -6230,7 +6316,7 @@ export type GiveItemModifier = BaseModifier & {
   item: ItemID;
   quality?: QualityID;
   type: 'give-item';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type GlobalRecipeTints = {
   primary?: Color;
@@ -6282,10 +6368,10 @@ export type GunShift4Way = {
 };
 export type GunSpeedModifier = BaseModifier & {
   ammo_category: AmmoCategoryID;
-  infer_icon?: bool;
+  infer_icon?: boolean;
   modifier: double;
   type: 'gun-speed';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type HeatBuffer = {
   connections?: HeatConnection[];
@@ -6326,7 +6412,8 @@ export type HorizontalFlowStyleSpecification = BaseStyleSpecification & {
 export type HorizontalScrollBarStyleSpecification =
   ScrollBarStyleSpecification & { type: 'horizontal_scrollbar_style' };
 export type IconData = {
-  draw_background?: bool;
+  draw_background?: boolean;
+  floating?: boolean;
   icon: FileName;
   icon_size?: SpriteSizeType;
   scale?: double;
@@ -6353,8 +6440,8 @@ export type IconSequencePositioning = {
 };
 export type ImageStyleSpecification = BaseStyleSpecification & {
   graphical_set?: ElementImageSet;
-  invert_colors_of_picture_when_hovered_or_toggled?: bool;
-  stretch_image_to_widget_size?: bool;
+  invert_colors_of_picture_when_hovered_or_toggled?: boolean;
+  stretch_image_to_widget_size?: boolean;
   type: 'image_style';
 };
 export type IngredientPrototype =
@@ -6367,9 +6454,9 @@ export type InsertItemTriggerEffectItem = TriggerEffectItem & {
   type: 'insert-item';
 };
 export type InserterStackSizeBonusModifier = SimpleModifier & {
-  infer_icon?: bool;
+  infer_icon?: boolean;
   type: 'inserter-stack-size-bonus';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type InstantTriggerDelivery = TriggerDeliveryItem & { type: 'instant' };
 export type InterruptibleSound = {
@@ -6406,7 +6493,7 @@ export type ItemProductPrototype = {
   name: ItemID;
   percent_spoiled?: float;
   probability?: double;
-  show_details_in_recipe_tooltip?: bool;
+  show_details_in_recipe_tooltip?: boolean;
   type: 'item';
 };
 export type ItemPrototypeFlags = (
@@ -6429,7 +6516,7 @@ export type ItemToPlace = { count: ItemCountType; item: ItemID };
 export type KillTipTrigger = CountBasedTipTrigger & {
   damage_type?: DamageTypeID;
   entity?: EntityID;
-  match_type_only?: bool;
+  match_type_only?: boolean;
   type: 'kill';
 };
 export type LabelStyleSpecification = BaseStyleSpecification & {
@@ -6444,19 +6531,19 @@ export type LabelStyleSpecification = BaseStyleSpecification & {
   rich_text_highlight_ok_color?: Color;
   rich_text_highlight_warning_color?: Color;
   rich_text_setting?: RichTextSetting;
-  single_line?: bool;
+  single_line?: boolean;
   type: 'label_style';
-  underlined?: bool;
+  underlined?: boolean;
 };
 export type LaboratoryProductivityModifier = SimpleModifier & {
-  infer_icon?: bool;
+  infer_icon?: boolean;
   type: 'laboratory-productivity';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type LaboratorySpeedModifier = SimpleModifier & {
-  infer_icon?: bool;
+  infer_icon?: boolean;
   type: 'laboratory-speed';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type LayeredSound = { layers: Sound[] } | Sound;
 export type LayeredSprite = Sprite &
@@ -6464,14 +6551,14 @@ export type LayeredSprite = Sprite &
 export type LayeredSpriteVariations = LayeredSprite[];
 export type LightDefinition =
   | {
-      add_perspective?: bool;
+      add_perspective?: boolean;
       color?: Color;
       flicker_interval?: uint8;
       flicker_max_modifier?: float;
       flicker_min_modifier?: float;
       intensity: float;
       minimum_darkness?: float;
-      offset_flicker?: bool;
+      offset_flicker?: boolean;
       picture?: Sprite;
       rotation_shift?: RealOrientation;
       shift?: Vector;
@@ -6480,14 +6567,14 @@ export type LightDefinition =
       type?: 'basic' | 'oriented';
     }
   | {
-      add_perspective?: bool;
+      add_perspective?: boolean;
       color?: Color;
       flicker_interval?: uint8;
       flicker_max_modifier?: float;
       flicker_min_modifier?: float;
       intensity: float;
       minimum_darkness?: float;
-      offset_flicker?: bool;
+      offset_flicker?: boolean;
       picture?: Sprite;
       rotation_shift?: RealOrientation;
       shift?: Vector;
@@ -6535,8 +6622,12 @@ export type LightningPriorityRule = LightningRuleBase & {
 };
 export type LightningProperties = {
   exemption_rules: LightningRuleBase[];
+  lightning_multiplier_at_day?: double;
+  lightning_multiplier_at_night?: double;
   lightning_types: EntityID[];
+  lightning_warning_icon?: Sprite;
   lightnings_per_chunk_per_tick: double;
+  multiplier_surface_property?: SurfacePropertyID;
   priority_rules: LightningPriorityRule[];
   search_radius: double;
 };
@@ -6761,7 +6852,8 @@ export type LinkedGameControl =
   | 'move-blueprint-entities-right'
   | 'play-next-track'
   | 'play-previous-track'
-  | 'pause-resume-music';
+  | 'pause-resume-music'
+  | '';
 export type ListBoxStyleSpecification = BaseStyleSpecification & {
   item_style?: ButtonStyleSpecification;
   scroll_pane_style?: ScrollPaneStyleSpecification;
@@ -6789,9 +6881,9 @@ export type MainSound = {
   activity_to_volume_modifiers?: ActivityMatchingModifiers;
   fade_in_ticks?: uint32;
   fade_out_ticks?: uint32;
-  match_progress_to_activity?: bool;
-  match_speed_to_activity?: bool;
-  match_volume_to_activity?: bool;
+  match_progress_to_activity?: boolean;
+  match_speed_to_activity?: boolean;
+  match_volume_to_activity?: boolean;
   play_for_working_visualisations?: string[];
   probability?: double;
   sound?: Sound;
@@ -6801,7 +6893,7 @@ export type ManualTransferTipTrigger = CountBasedTipTrigger & {
   type: 'manual-transfer';
 };
 export type ManualWireDragTipTrigger = CountBasedTipTrigger & {
-  match_type_only?: bool;
+  match_type_only?: boolean;
   source?: EntityID;
   target?: EntityID;
   type: 'manual-wire-drag';
@@ -6828,7 +6920,7 @@ export type MapEditorConstants = {
 export type MapGenPreset = {
   advanced_settings?: AdvancedMapGenSettings;
   basic_settings?: MapGenSettings;
-  default?: bool;
+  default?: boolean;
   order: Order;
 };
 export type MapGenPresetAsteroidSettings = {
@@ -6840,12 +6932,12 @@ export type MapGenPresetDifficultySettings = {
 };
 export type MapGenPresetEnemyEvolutionSettings = {
   destroy_factor?: double;
-  enabled?: bool;
+  enabled?: boolean;
   pollution_factor?: double;
   time_factor?: double;
 };
 export type MapGenPresetEnemyExpansionSettings = {
-  enabled?: bool;
+  enabled?: boolean;
   max_expansion_cooldown?: uint32;
   max_expansion_distance?: uint32;
   min_expansion_cooldown?: uint32;
@@ -6855,7 +6947,7 @@ export type MapGenPresetEnemyExpansionSettings = {
 export type MapGenPresetPollutionSettings = {
   ageing?: double;
   diffusion_ratio?: double;
-  enabled?: bool;
+  enabled?: boolean;
   enemy_attack_pollution_consumption_modifier?: double;
   min_pollution_to_damage_trees?: double;
   pollution_restored_per_tree_damage?: double;
@@ -6867,11 +6959,11 @@ export type MapGenSettings = {
     AutoplaceSettings
   >;
   cliff_settings?: CliffPlacementSettings;
-  default_enable_all_autoplace_controls?: bool;
+  default_enable_all_autoplace_controls?: boolean;
   height?: uint32;
-  no_enemies_mode?: bool;
-  peaceful_mode?: bool;
-  property_expression_names?: Record<string, string | bool | double>;
+  no_enemies_mode?: boolean;
+  peaceful_mode?: boolean;
+  property_expression_names?: Record<string, string | boolean | double>;
   seed?: uint32;
   starting_area?: MapGenSize;
   starting_points?: MapPosition[];
@@ -6896,7 +6988,7 @@ export type MapGenSize =
   | 'very-high'
   | 'very-big'
   | 'very-good';
-export type MapLocation = { direction: MapPosition; position: MapPosition };
+export type MapLocation = { direction: Direction; position: MapPosition };
 export type MapPosition = { x: double; y: double } | [double, double];
 export type MapTick = uint64;
 export type MaterialAmountType = double;
@@ -6912,29 +7004,29 @@ export type MathExpression = string;
 export type MaxFailedAttemptsPerTickPerConstructionQueueModifier =
   SimpleModifier & {
     type: 'max-failed-attempts-per-tick-per-construction-queue';
-    use_icon_overlay_constant?: bool;
+    use_icon_overlay_constant?: boolean;
   };
 export type MaxSuccessfulAttemptsPerTickPerConstructionQueueModifier =
   SimpleModifier & {
     type: 'max-successful-attempts-per-tick-per-construction-queue';
-    use_icon_overlay_constant?: bool;
+    use_icon_overlay_constant?: boolean;
   };
 export type MaximumFollowingRobotsCountModifier = SimpleModifier & {
-  infer_icon?: bool;
+  infer_icon?: boolean;
   type: 'maximum-following-robots-count';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type MinableProperties = {
   count?: uint16;
   fluid_amount?: FluidAmount;
-  include_in_show_counts?: bool;
+  include_in_show_counts?: boolean;
   mining_particle?: ParticleID;
   mining_time: double;
   mining_trigger?: Trigger;
   required_fluid?: FluidID;
   result?: ItemID;
   results?: ProductPrototype[];
-  transfer_entity_health_to_products?: bool;
+  transfer_entity_health_to_products?: boolean;
 };
 export type MineEntityTechnologyTrigger = {
   entity: EntityID;
@@ -6954,23 +7046,23 @@ export type MiningDrillGraphicsSet = WorkingVisualisations & {
     | CircuitConnectorSecondaryDrawOrder;
   drilling_vertical_movement_duration?: uint16;
   frozen_patch?: Sprite4Way;
-  reset_animation_when_frozen?: bool;
+  reset_animation_when_frozen?: boolean;
 };
 export type MiningDrillProductivityBonusModifier = SimpleModifier & {
-  infer_icon?: bool;
+  infer_icon?: boolean;
   type: 'mining-drill-productivity-bonus';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type MiningWithFluidModifier = BoolModifier & {
   type: 'mining-with-fluid';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type Mirroring =
   | 'horizontal'
   | 'vertical'
   | 'diagonal-pos'
   | 'diagonal-neg';
-export type ModSetting = { value: int32 | double | bool | string | Color };
+export type ModSetting = { value: int32 | double | boolean | string | Color };
 export type Modifier =
   | InserterStackSizeBonusModifier
   | BulkInserterCapacityBonusModifier
@@ -7034,7 +7126,7 @@ export type ModuleTransferTipTrigger = CountBasedTipTrigger & {
 };
 export type MouseCursorID = string;
 export type NeighbourConnectable = {
-  affected_by_direction?: bool;
+  affected_by_direction?: boolean;
   connections: NeighbourConnectableConnectionDefinition[];
   neighbour_search_distance?: float;
 };
@@ -7048,7 +7140,7 @@ export type NestedTriggerEffectItem = TriggerEffectItem & {
   action: Trigger;
   type: 'nested-result';
 };
-export type NoiseExpression = string | bool | double;
+export type NoiseExpression = string | boolean | double;
 export type NoiseFunction = {
   expression: NoiseExpression;
   local_expressions?: Record<string, NoiseExpression>;
@@ -7058,7 +7150,7 @@ export type NoiseFunction = {
 export type NothingModifier = BaseModifier & {
   effect_description?: LocalisedString;
   type: 'nothing';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type OffshorePumpGraphicsSet = {
   animation?: Animation4Way;
@@ -7106,7 +7198,7 @@ export type OtherColors = {
 };
 export type ParticleID = string;
 export type PasteEntitySettingsTipTrigger = CountBasedTipTrigger & {
-  match_type_only?: bool;
+  match_type_only?: boolean;
   source?: EntityID;
   target?: EntityID;
   type: 'paste-entity-settings';
@@ -7144,7 +7236,7 @@ export type PathFinderSettings = {
   short_request_ratio: double;
   stale_enemy_with_same_destination_collision_penalty: double;
   start_to_goal_cost_multiplier_to_terminate_path_find: double;
-  use_path_cache: bool;
+  use_path_cache: boolean;
 };
 export type PerceivedPerformance = {
   maximum?: double;
@@ -7172,7 +7264,7 @@ export type PipeConnectionDefinition = {
   connection_type?: PipeConnectionType;
   direction?: Direction;
   enable_working_visualisations?: string[];
-  flow_direction?: 'input-output' | 'input' | 'output';
+  flow_direction?: FluidFlowDirection;
   linked_connection_id?: FluidBoxLinkedConnectionID;
   max_distance_tint?: Color;
   max_underground_distance?: uint8;
@@ -7265,7 +7357,7 @@ export type PipePictures = {
 export type PlaceAsTile = {
   condition: CollisionMaskConnector;
   condition_size: uint32;
-  invert?: bool;
+  invert?: boolean;
   result: TileID;
   tile_condition?: TileID[];
 };
@@ -7283,17 +7375,17 @@ export type PlanetPrototypeMapGenSettings = {
     'entity' | 'tile' | 'decorative',
     AutoplaceSettings
   >;
-  aux_climate_control?: bool;
+  aux_climate_control?: boolean;
   cliff_settings?: CliffPlacementSettings;
-  moisture_climate_control?: bool;
-  property_expression_names?: Record<string, string | bool | double>;
+  moisture_climate_control?: boolean;
+  property_expression_names?: Record<string, string | boolean | double>;
   territory_settings?: TerritorySettings;
 };
 export type PlayFor = 'character_actions' | 'everything';
 export type PlaySoundTriggerEffectItem = TriggerEffectItem & {
   max_distance?: float;
   min_distance?: float;
-  play_on_target_position?: bool;
+  play_on_target_position?: boolean;
   sound: Sound;
   type: 'play-sound';
 };
@@ -7314,6 +7406,7 @@ export type PlumesSpecification = {
   max_y_offset?: float;
   min_probability?: float;
   min_y_offset?: float;
+  render_box?: BoundingBox;
   stateless_visualisations?: PlumeEffect | PlumeEffect[];
 };
 export type PodAnimationProcessionBezierControlPoint = {
@@ -7331,7 +7424,7 @@ export type PodDistanceTraveledProcessionBezierControlPoint = {
   timestamp?: MapTick;
 };
 export type PodDistanceTraveledProcessionLayer = {
-  contribute_to_distance_traveled?: bool;
+  contribute_to_distance_traveled?: boolean;
   distance_traveled_contribution?: float;
   frames: PodDistanceTraveledProcessionBezierControlPoint[];
   reference_group?: ProcessionLayerInheritanceGroupID;
@@ -7347,7 +7440,7 @@ export type PodMovementProcessionBezierControlPoint = {
   timestamp?: MapTick;
 };
 export type PodMovementProcessionLayer = {
-  contribute_to_distance_traveled?: bool;
+  contribute_to_distance_traveled?: boolean;
   distance_traveled_contribution?: float;
   frames: PodMovementProcessionBezierControlPoint[];
   inherit_from?: ProcessionLayerInheritanceGroupID;
@@ -7371,7 +7464,7 @@ export type PodOpacityProcessionLayer = {
 export type PollutionSettings = {
   ageing: double;
   diffusion_ratio: double;
-  enabled: bool;
+  enabled: boolean;
   enemy_attack_pollution_consumption_modifier: double;
   expected_max_per_chunk: double;
   max_pollution_to_restore_trees: double;
@@ -7442,13 +7535,12 @@ export type ProcessionLayer =
   | TintProcessionLayer
   | PodAnimationProcessionLayer;
 export type ProcessionLayerInheritanceGroupID = string;
-export type ProcessionLayerWithTime = ProcessionLayer;
 export type ProcessionSet = {
   arrival: ProcessionID[];
   departure: ProcessionID[];
 };
 export type ProcessionTimeline = {
-  audio_events: ProcessionAudioEvent[];
+  audio_events?: ProcessionAudioEvent[];
   draw_switch_tick?: MapTick;
   duration: MapTick;
   intermezzo_max_duration?: MapTick;
@@ -7469,13 +7561,17 @@ export type ProgrammableSpeakerInstrument = {
   name: string;
   notes: ProgrammableSpeakerNote[];
 };
-export type ProgrammableSpeakerNote = { name: string; sound: Sound };
+export type ProgrammableSpeakerNote = {
+  cyclic_sound?: CyclicSound;
+  name: string;
+  sound?: Sound;
+};
 export type ProgressBarStyleSpecification = BaseStyleSpecification & {
   bar?: ElementImageSet;
   bar_background?: ElementImageSet;
   bar_width?: uint32;
   color?: Color;
-  embed_text_in_bar?: bool;
+  embed_text_in_bar?: boolean;
   filled_font_color?: Color;
   font?: string;
   font_color?: Color;
@@ -7484,7 +7580,7 @@ export type ProgressBarStyleSpecification = BaseStyleSpecification & {
   type: 'progressbar_style';
 };
 export type ProjectileAttackParameters = BaseAttackParameters & {
-  apply_projection_to_projectile_creation_position?: bool;
+  apply_projection_to_projectile_creation_position?: boolean;
   projectile_center?: Vector;
   projectile_creation_distance?: float;
   projectile_creation_offsets?: Vector[];
@@ -7505,7 +7601,7 @@ export type ProjectileTriggerDelivery = TriggerDeliveryItem & {
 };
 export type PrototypeStrafeSettings = {
   clockwise_chance?: float;
-  face_target?: bool;
+  face_target?: boolean;
   ideal_distance?: double;
   ideal_distance_importance?: float;
   ideal_distance_importance_variance?: float;
@@ -7546,8 +7642,8 @@ export type RadioButtonStyleSpecification =
   };
 export type RadiusVisualisationSpecification = {
   distance?: double;
-  draw_in_cursor?: bool;
-  draw_on_selection?: bool;
+  draw_in_cursor?: boolean;
+  draw_on_selection?: boolean;
   offset?: Vector;
   sprite?: Sprite;
 };
@@ -7594,7 +7690,7 @@ export type RailPictureSet = {
   north: RailPieceLayers;
   northeast: RailPieceLayers;
   northwest: RailPieceLayers;
-  rail_endings: Sprite16Way;
+  rail_endings?: Sprite16Way;
   render_layers: RailRenderLayers;
   secondary_render_layers?: RailRenderLayers;
   segment_visualisation_endings?: RotatedAnimation;
@@ -7618,7 +7714,7 @@ export type RailPieceLayers = {
 };
 export type RailPlannerAllowElevatedRailsModifier = BoolModifier & {
   type: 'rail-planner-allow-elevated-rails';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type RailRenderLayers = {
   back_end?: RenderLayer;
@@ -7661,8 +7757,8 @@ export type RailSignalPictureSet = {
 };
 export type RailSignalStaticSpriteLayer = {
   align_to_frame_index?: uint8[];
-  hide_if_not_connected_to_rails?: bool;
-  hide_if_simulation?: bool;
+  hide_if_not_connected_to_rails?: boolean;
+  hide_if_simulation?: boolean;
   render_layer?: RenderLayer;
   shifts?: MapPosition[];
   sprites: Animation;
@@ -7675,7 +7771,7 @@ export type RailSupportGraphicsSet = {
 };
 export type RailSupportOnDeepOilOceanModifier = BoolModifier & {
   type: 'rail-support-on-deep-oil-ocean';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type RailsFogMaskDefinitions = {
   east?: FogMaskShapeDefinition;
@@ -7800,16 +7896,16 @@ export type RichTextSetting = 'enabled' | 'disabled' | 'highlight';
 export type RollingStockRotatedSlopedGraphics = {
   rotated: RotatedSprite;
   slope_angle_between_frames?: double;
-  slope_back_equals_front?: bool;
+  slope_back_equals_front?: boolean;
   sloped?: RotatedSprite;
 };
 export type RotateEntityTipTrigger = CountBasedTipTrigger & {
   type: 'rotate-entity';
 };
 export type RotatedAnimation = AnimationParameters & {
-  apply_projection?: bool;
-  axially_symmetrical?: bool;
-  counterclockwise?: bool;
+  apply_projection?: boolean;
+  axially_symmetrical?: boolean;
+  counterclockwise?: boolean;
   direction_count?: uint32;
   filename?: FileName;
   filenames?: FileName[];
@@ -7835,11 +7931,11 @@ export type RotatedAnimation8Way =
   | RotatedAnimation;
 export type RotatedAnimationVariations = RotatedAnimation | RotatedAnimation[];
 export type RotatedSprite = SpriteParameters & {
-  allow_low_quality_rotation?: bool;
-  apply_projection?: bool;
-  axially_symmetrical?: bool;
-  back_equals_front?: bool;
-  counterclockwise?: bool;
+  allow_low_quality_rotation?: boolean;
+  apply_projection?: boolean;
+  axially_symmetrical?: boolean;
+  back_equals_front?: boolean;
+  counterclockwise?: boolean;
   dice?: SpriteSizeType;
   dice_x?: SpriteSizeType;
   dice_y?: SpriteSizeType;
@@ -7847,7 +7943,7 @@ export type RotatedSprite = SpriteParameters & {
   filename?: FileName;
   filenames?: FileName[];
   frames?: RotatedSpriteFrame[];
-  generate_sdf?: bool;
+  generate_sdf?: boolean;
   layers?: RotatedSprite[];
   line_length?: uint32;
   lines_per_file?: uint64;
@@ -7868,9 +7964,9 @@ export type ScrollBarStyleSpecification = BaseStyleSpecification & {
   thumb_button_style?: ButtonStyleSpecification;
 };
 export type ScrollPaneStyleSpecification = BaseStyleSpecification & {
-  always_draw_borders?: bool;
+  always_draw_borders?: boolean;
   background_graphical_set?: ElementImageSet;
-  dont_force_clipping_rect_for_contents?: bool;
+  dont_force_clipping_rect_for_contents?: boolean;
   extra_bottom_margin_when_activated?: int32;
   extra_bottom_padding_when_activated?: int32;
   extra_left_margin_when_activated?: int32;
@@ -7883,7 +7979,7 @@ export type ScrollPaneStyleSpecification = BaseStyleSpecification & {
   extra_top_padding_when_activated?: int32;
   graphical_set?: ElementImageSet;
   horizontal_scrollbar_style?: HorizontalScrollBarStyleSpecification;
-  scrollbars_go_outside?: bool;
+  scrollbars_go_outside?: boolean;
   type: 'scroll_pane_style';
   vertical_flow_style?: VerticalFlowStyleSpecification;
   vertical_scrollbar_style?: VerticalScrollBarStyleSpecification;
@@ -7900,7 +7996,7 @@ export type SelectionModeData = {
   entity_filters?: EntityID[];
   entity_type_filters?: string[];
   mode: SelectionModeFlags;
-  play_ended_sound_when_nothing_selected?: bool;
+  play_ended_sound_when_nothing_selected?: boolean;
   started_sound?: Sound;
   tile_filter_mode?: 'whitelist' | 'blacklist';
   tile_filters?: TileID[];
@@ -7972,33 +8068,33 @@ export type SendItemToOrbitTechnologyTrigger = {
   type: 'send-item-to-orbit';
 };
 export type SendSpidertronTipTrigger = CountBasedTipTrigger & {
-  append?: bool;
+  append?: boolean;
   type: 'send-spidertron';
 };
 export type SendToOrbitMode = 'not-sendable' | 'manual' | 'automated';
 export type SequenceTipTrigger = { triggers: TipTrigger[]; type: 'sequence' };
 export type SetFilterTipTrigger = CountBasedTipTrigger & {
-  consecutive?: bool;
+  consecutive?: boolean;
   entity?: EntityID;
-  match_type_only?: bool;
+  match_type_only?: boolean;
   type: 'set-filter';
 };
 export type SetLogisticRequestTipTrigger = CountBasedTipTrigger & {
   entity?: EntityID;
-  logistic_chest_only?: bool;
+  logistic_chest_only?: boolean;
   type: 'set-logistic-request';
 };
 export type SetRecipeTipTrigger = CountBasedTipTrigger & {
-  any_quality?: bool;
-  consecutive?: bool;
+  any_quality?: boolean;
+  consecutive?: boolean;
   machine?: EntityID;
   recipe?: RecipeID;
   type: 'set-recipe';
-  uses_fluid?: bool;
+  uses_fluid?: boolean;
 };
 export type SetTileTriggerEffectItem = TriggerEffectItem & {
-  apply_on_space_platform?: bool;
-  apply_projection?: bool;
+  apply_on_space_platform?: boolean;
+  apply_projection?: boolean;
   radius: float;
   tile_collision_mask?: CollisionMaskConnector;
   tile_name: TileID;
@@ -8045,20 +8141,20 @@ export type SimpleBoundingBox =
   | [MapPosition, MapPosition];
 export type SimpleModifier = BaseModifier & { modifier: double };
 export type SimulationDefinition = {
-  checkboard?: bool;
+  checkboard?: boolean;
   game_view_settings?: GameViewSettings;
-  generate_map?: bool;
-  hide_factoriopedia_gradient?: bool;
-  hide_health_bars?: bool;
+  generate_map?: boolean;
+  hide_factoriopedia_gradient?: boolean;
+  hide_health_bars?: boolean;
   init?: string;
   init_file?: FileName;
   init_update_count?: uint32;
   length?: uint32;
   mods?: string[];
-  mute_alert_sounds?: bool;
-  mute_technology_finished_sound?: bool;
-  mute_wind_sounds?: bool;
-  override_volume?: bool;
+  mute_alert_sounds?: boolean;
+  mute_technology_finished_sound?: boolean;
+  mute_wind_sounds?: boolean;
+  override_volume?: boolean;
   planet?: SpaceLocationID;
   save?: FileName;
   update?: string;
@@ -8066,7 +8162,7 @@ export type SimulationDefinition = {
   volume_modifier?: float;
 };
 export type SingleGraphicLayerProcessionBezierControlPoint = {
-  frame: float;
+  frame?: float;
   opacity?: double;
   opacity_t?: double;
   rotation?: double;
@@ -8082,22 +8178,22 @@ export type SingleGraphicLayerProcessionBezierControlPoint = {
   tint_t?: Color;
 };
 export type SingleGraphicProcessionLayer = {
-  animation_driven_by_curve?: bool;
-  clip_with_hatches?: bool;
-  compensated_pivot?: bool;
+  animation_driven_by_curve?: boolean;
+  clip_with_hatches?: boolean;
+  compensated_pivot?: boolean;
   frames: SingleGraphicLayerProcessionBezierControlPoint[];
   graphic: ProcessionGraphic;
-  is_passenger_only?: bool;
+  is_passenger_only?: boolean;
   relative_to?: EffectRelativeTo;
   render_layer?: RenderLayer;
-  rotates_with_pod?: bool;
+  rotates_with_pod?: boolean;
   secondary_draw_order?: int8;
-  shift_rotates_with_pod?: bool;
+  shift_rotates_with_pod?: boolean;
   type: 'single-graphic';
 };
 export type SliderStyleSpecification = BaseStyleSpecification & {
   button?: ButtonStyleSpecification;
-  draw_notches?: bool;
+  draw_notches?: boolean;
   empty_bar?: ElementImageSet;
   empty_bar_disabled?: ElementImageSet;
   full_bar?: ElementImageSet;
@@ -8110,7 +8206,7 @@ export type SmokeSource = {
   deviation?: Vector;
   east_position?: Vector;
   frequency: float;
-  has_8_directions?: bool;
+  has_8_directions?: boolean;
   height?: float;
   height_deviation?: float;
   name: TrivialSmokeID;
@@ -8133,7 +8229,7 @@ export type Sound =
   | {
       advanced_volume_control?: AdvancedVolumeControl;
       aggregation?: AggregationSpecification;
-      allow_random_repeat?: bool;
+      allow_random_repeat?: boolean;
       audible_distance_modifier?: double;
       category?: SoundType;
       filename?: FileName;
@@ -8143,13 +8239,14 @@ export type Sound =
       min_speed?: float;
       min_volume?: float;
       modifiers?: SoundModifier | SoundModifier[];
-      preload?: bool;
+      preload?: boolean;
       priority?: uint8;
       speed?: float;
       speed_smoothing_window_size?: uint32;
       variations?: SoundDefinition | SoundDefinition[];
       volume?: float;
     }
+  | SoundDefinition
   | SoundDefinition[];
 export type SoundAccent = {
   frame?: uint16;
@@ -8164,7 +8261,7 @@ export type SoundDefinition =
       min_speed?: float;
       min_volume?: float;
       modifiers?: SoundModifier | SoundModifier[];
-      preload?: bool;
+      preload?: boolean;
       speed?: float;
       volume?: float;
     }
@@ -8220,7 +8317,7 @@ export type SpacePlatformTileDefinition = {
 };
 export type SpacePlatformsModifier = BoolModifier & {
   type: 'unlock-space-platforms';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type SpaceTileEffectParameters = {
   nebula_brightness?: float;
@@ -8249,7 +8346,7 @@ export type SpeechBubbleStyleSpecification = BaseStyleSpecification & {
   close_color?: Color;
   frame_style?: FrameStyleSpecification;
   label_style?: LabelStyleSpecification;
-  pass_through_mouse?: bool;
+  pass_through_mouse?: boolean;
   type: 'speech_bubble_style';
 };
 export type SpiderEngineSpecification = {
@@ -8307,6 +8404,7 @@ export type SpiderVehicleGraphicsSet = SpiderTorsoGraphicsSet & {
   autopilot_destination_visualisation_render_layer?: RenderLayer;
   autopilot_path_visualisation_line_width?: float;
   autopilot_path_visualisation_on_map_line_width?: float;
+  default_color?: float;
   eye_light?: LightDefinition;
   light?: LightDefinition;
   light_positions?: Vector[][];
@@ -8389,26 +8487,27 @@ export type SpriteFlags = (
 )[];
 export type SpriteNWaySheet = SpriteParameters & {
   frames?: uint32;
-  generate_sdf?: bool;
+  generate_sdf?: boolean;
 };
 export type SpriteParameters = SpriteSource & {
-  apply_runtime_tint?: bool;
-  apply_special_effect?: bool;
+  apply_runtime_tint?: boolean;
+  apply_special_effect?: boolean;
   blend_mode?: BlendMode;
-  draw_as_glow?: bool;
-  draw_as_light?: bool;
-  draw_as_shadow?: bool;
+  draw_as_glow?: boolean;
+  draw_as_light?: boolean;
+  draw_as_shadow?: boolean;
   flags?: SpriteFlags;
-  generate_sdf?: bool;
-  invert_colors?: bool;
+  generate_sdf?: boolean;
+  invert_colors?: boolean;
   mipmap_count?: uint8;
+  occludes_light?: boolean;
   priority?: SpritePriority;
-  rotate_shift?: bool;
+  rotate_shift?: boolean;
   scale?: double;
   shift?: Vector;
   surface?: SpriteUsageSurfaceHint;
   tint?: Color;
-  tint_as_overlay?: bool;
+  tint_as_overlay?: boolean;
   usage?: SpriteUsageHint;
 };
 export type SpritePriority =
@@ -8432,12 +8531,12 @@ export type SpriteSheet = SpriteParameters & {
 };
 export type SpriteSizeType = int16;
 export type SpriteSource = {
-  allow_forced_downscale?: bool;
+  allow_forced_downscale?: boolean;
   filename: FileName;
   height?: SpriteSizeType;
-  load_in_minimal_mode?: bool;
+  load_in_minimal_mode?: boolean;
   position?: [SpriteSizeType, SpriteSizeType];
-  premul_alpha?: bool;
+  premul_alpha?: boolean;
   size?: SpriteSizeType | [SpriteSizeType, SpriteSizeType];
   width?: SpriteSizeType;
   x?: SpriteSizeType;
@@ -8472,7 +8571,7 @@ export type StackTransferTipTrigger = CountBasedTipTrigger & {
   type: 'stack-transfer';
 };
 export type StateSteeringSettings = {
-  force_unit_fuzzy_goto_behavior: bool;
+  force_unit_fuzzy_goto_behavior: boolean;
   radius: double;
   separation_factor: double;
   separation_force: double;
@@ -8481,11 +8580,11 @@ export type StatelessVisualisation = {
   acceleration_x?: float;
   acceleration_y?: float;
   acceleration_z?: float;
-  adjust_animation_speed_by_base_scale?: bool;
-  affected_by_wind?: bool;
+  adjust_animation_speed_by_base_scale?: boolean;
+  affected_by_wind?: boolean;
   animation?: AnimationVariations;
   begin_scale?: float;
-  can_lay_on_the_ground?: bool;
+  can_lay_on_the_ground?: boolean;
   count?: uint16;
   end_scale?: float;
   fade_in_progress_duration?: float;
@@ -8613,7 +8712,7 @@ export type SurfacePropertyID = string;
 export type SurfaceRenderParameters = {
   clouds?: CloudsEffectProperties;
   day_night_cycle_color_lookup?: DaytimeColorLookupTable;
-  draw_sprite_clouds?: bool;
+  draw_sprite_clouds?: boolean;
   fog?: FogEffectProperties;
   shadow_opacity?: float;
   space_dust_background?: SpaceDustEffectProperties;
@@ -8642,12 +8741,12 @@ export type TabStyleSpecification =
     disabled_badge_font_color?: Color;
     disabled_badge_graphical_set?: ElementImageSet;
     disabled_font_color?: Color;
-    draw_grayscale_picture?: bool;
+    draw_grayscale_picture?: boolean;
     font?: string;
     hover_badge_graphical_set?: ElementImageSet;
-    increase_height_when_selected?: bool;
+    increase_height_when_selected?: boolean;
     left_edge_selected_graphical_set?: ElementImageSet;
-    override_graphics_on_edges?: bool;
+    override_graphics_on_edges?: boolean;
     press_badge_graphical_set?: ElementImageSet;
     right_edge_selected_graphical_set?: ElementImageSet;
     selected_badge_font_color?: Color;
@@ -8662,7 +8761,7 @@ export type TabbedPaneStyleSpecification = BaseStyleSpecification & {
   vertical_spacing?: uint32;
 };
 export type TableStyleSpecification = BaseStyleSpecification & {
-  apply_row_graphical_set_per_column?: bool;
+  apply_row_graphical_set_per_column?: boolean;
   background_graphical_set?: ElementImageSet;
   border?: BorderImageSet;
   bottom_cell_padding?: int16;
@@ -8692,7 +8791,7 @@ export type TableStyleSpecification = BaseStyleSpecification & {
   type: 'table_style';
   vertical_line_color?: Color;
   vertical_spacing?: int32 | SpacingItem[];
-  wide_as_column_count?: bool;
+  wide_as_column_count?: boolean;
 };
 export type TechnologyID = string;
 export type TechnologySlotStyleSpecification = ButtonStyleSpecification & {
@@ -8773,7 +8872,7 @@ export type TextBoxStyleSpecification = BaseStyleSpecification & {
 export type ThrowCapsuleAction = {
   attack_parameters: AttackParameters;
   type: 'throw';
-  uses_stack?: bool;
+  uses_stack?: boolean;
 };
 export type ThrusterGraphicsSet = WorkingVisualisations & {
   flame?: Sprite;
@@ -8798,7 +8897,7 @@ export type TileBuildSound = {
 export type TileBuildabilityRule = {
   area: SimpleBoundingBox;
   colliding_tiles?: CollisionMaskConnector;
-  remove_on_collision?: bool;
+  remove_on_collision?: boolean;
   required_tiles?: CollisionMaskConnector;
 };
 export type TileEffectDefinitionID = string;
@@ -8927,40 +9026,41 @@ export type TileTransitionVariantLayout = TileSpriteLayoutVariant & {
   y_offset?: SpriteSizeType;
 };
 export type TileTransitions = {
-  apply_effect_color_to_overlay?: bool;
-  apply_waving_effect_on_background_mask?: bool;
-  apply_waving_effect_on_masks?: bool;
-  auxiliary_effect_mask_enabled?: bool;
+  apply_effect_color_to_overlay?: boolean;
+  apply_waving_effect_on_background_mask?: boolean;
+  apply_waving_effect_on_masks?: boolean;
+  auxiliary_effect_mask_enabled?: boolean;
   auxiliary_effect_mask_layout?: TileTransitionVariantLayout;
   auxiliary_effect_mask_spritesheet?: FileName;
-  background_enabled?: bool;
+  background_enabled?: boolean;
   background_layer_group?: TileRenderLayer;
+  background_layer_occludes_light?: boolean;
   background_layer_offset?: int8;
   background_layout?: TileTransitionVariantLayout;
-  background_mask_enabled?: bool;
+  background_mask_enabled?: boolean;
   background_mask_layout?: TileTransitionVariantLayout;
   background_mask_spritesheet?: FileName;
   background_spritesheet?: FileName;
   double_side_variations_in_group?: uint8;
   double_side_weights?: float[];
-  draw_background_layer_under_tiles?: bool;
-  draw_simple_outer_corner_over_diagonal?: bool;
-  effect_map_enabled?: bool;
+  draw_background_layer_under_tiles?: boolean;
+  draw_simple_outer_corner_over_diagonal?: boolean;
+  effect_map_enabled?: boolean;
   effect_map_layout?: TileTransitionVariantLayout;
   effect_map_spritesheet?: FileName;
   inner_corner_weights?: float[];
   layout?: TileTransitionSpritesheetLayout;
-  lightmap_enabled?: bool;
+  lightmap_enabled?: boolean;
   lightmap_layout?: TileTransitionVariantLayout;
   lightmap_spritesheet?: FileName;
-  mask_enabled?: bool;
+  mask_enabled?: boolean;
   mask_layout?: TileTransitionVariantLayout;
   mask_spritesheet?: FileName;
   masked_background_layer_offset?: int8;
   masked_overlay_layer_offset?: int8;
-  offset_background_layer_by_tile_layer?: bool;
+  offset_background_layer_by_tile_layer?: boolean;
   outer_corner_weights?: float[];
-  overlay_enabled?: bool;
+  overlay_enabled?: boolean;
   overlay_layer_group?: TileRenderLayer;
   overlay_layer_offset?: int8;
   overlay_layout?: TileTransitionVariantLayout;
@@ -8980,7 +9080,7 @@ export type TileTransitionsToTiles = TileTransitions & {
   transition_group: uint8;
 };
 export type TileTransitionsVariants = {
-  empty_transitions?: bool;
+  empty_transitions?: boolean;
   light?: TileLightPictures[];
   main?: TileMainPictures[];
   material_background?: MaterialTextureParameters;
@@ -9074,9 +9174,9 @@ export type ToggleShowEntityInfoTipTrigger = CountBasedTipTrigger & {
   type: 'toggle-show-entity-info';
 };
 export type TrainBrakingForceBonusModifier = SimpleModifier & {
-  infer_icon?: bool;
+  infer_icon?: boolean;
   type: 'train-braking-force-bonus';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type TrainPathFinderConstants = {
   signal_reserved_by_circuit_network_penalty: uint32;
@@ -9114,12 +9214,12 @@ export type TrainVisualizationConstants = {
   stock_number_scale: float;
 };
 export type TransitionApplication = {
-  offset?: bool;
-  pod_offset?: bool;
-  rotation?: bool;
+  offset?: boolean;
+  pod_offset?: boolean;
+  rotation?: boolean;
 };
 export type TransportBeltAnimationSet = {
-  alternate?: bool;
+  alternate?: boolean;
   animation_set: RotatedAnimation;
   belt_reader?: BeltReaderLayer[];
   east_index?: uint8;
@@ -9194,9 +9294,17 @@ export type TransportBeltConnectorFrame = {
 };
 export type TreeVariation = {
   branch_generation: CreateParticleTriggerEffectItem;
+  branches_when_damaged?: uint8;
+  branches_when_destroyed?: uint8;
+  branches_when_mined_automatically?: uint8;
+  branches_when_mined_manually?: uint8;
   disable_shadow_distortion_beginning_at_frame?: uint32;
   leaf_generation: CreateParticleTriggerEffectItem;
   leaves: Animation;
+  leaves_when_damaged?: uint8;
+  leaves_when_destroyed?: uint8;
+  leaves_when_mined_automatically?: uint8;
+  leaves_when_mined_manually?: uint8;
   normal?: Animation;
   overlay?: Animation;
   shadow?: Animation;
@@ -9227,7 +9335,7 @@ export type TriggerDeliveryItem = {
 };
 export type TriggerEffect =
   | (
-      | DamageTileTriggerEffectItem /* LIE */
+      | DamageEntityTriggerEffectItem
       | DamageTileTriggerEffectItem
       | CreateEntityTriggerEffectItem
       | CreateExplosionTriggerEffectItem
@@ -9252,7 +9360,7 @@ export type TriggerEffect =
       | ActivateImpactTriggerEffectItem
     )
   | (
-      | DamageTileTriggerEffectItem /* LIE */
+      | DamageEntityTriggerEffectItem
       | DamageTileTriggerEffectItem
       | CreateEntityTriggerEffectItem
       | CreateExplosionTriggerEffectItem
@@ -9277,12 +9385,12 @@ export type TriggerEffect =
       | ActivateImpactTriggerEffectItem
     )[];
 export type TriggerEffectItem = {
-  affects_target?: bool;
+  affects_target?: boolean;
   damage_type_filters?: DamageTypeFilters;
   probability?: float;
   repeat_count?: uint16;
   repeat_count_deviation?: uint16;
-  show_in_tooltip?: bool;
+  show_in_tooltip?: boolean;
 };
 export type TriggerEffectWithCooldown = {
   distance_cooldown?: double;
@@ -9296,7 +9404,7 @@ export type TriggerItem = {
   collision_mask?: CollisionMaskConnector;
   entity_flags?: EntityPrototypeFlags;
   force?: ForceCondition;
-  ignore_collision_condition?: bool;
+  ignore_collision_condition?: boolean;
   probability?: float;
   repeat_count?: uint32;
   trigger_target_mask?: TriggerTargetMask;
@@ -9304,20 +9412,20 @@ export type TriggerItem = {
 export type TriggerTargetMask = string[];
 export type TrivialSmokeID = string;
 export type TurretAttackModifier = BaseModifier & {
-  infer_icon?: bool;
+  infer_icon?: boolean;
   modifier: double;
   turret_id: EntityID;
   type: 'turret-attack';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type TurretBaseVisualisation = {
   animation: Animation4Way;
-  draw_when_frozen?: bool;
-  draw_when_has_ammo?: bool;
-  draw_when_has_energy?: bool;
-  draw_when_no_ammo?: bool;
-  draw_when_no_energy?: bool;
-  draw_when_not_frozen?: bool;
+  draw_when_frozen?: boolean;
+  draw_when_has_ammo?: boolean;
+  draw_when_has_energy?: boolean;
+  draw_when_no_ammo?: boolean;
+  draw_when_no_energy?: boolean;
+  draw_when_not_frozen?: boolean;
   enabled_states?: TurretState[];
   render_layer?: RenderLayer;
   secondary_draw_order?: int8;
@@ -9368,10 +9476,10 @@ export type UndergroundBeltStructure = {
   frozen_patch_out?: Sprite4Way;
 };
 export type UnitAISettings = {
-  allow_try_return_to_spawner?: bool;
-  destroy_when_commands_fail?: bool;
-  do_separation?: bool;
-  join_attacks?: bool;
+  allow_try_return_to_spawner?: boolean;
+  destroy_when_commands_fail?: boolean;
+  do_separation?: boolean;
+  join_attacks?: boolean;
   path_resolution_modifier?: int8;
   size_in_group?: float;
   strafe_settings?: PrototypeStrafeSettings;
@@ -9410,12 +9518,12 @@ export type UnitSpawnDefinition =
 export type UnlockQualityModifier = BaseModifier & {
   quality: QualityID;
   type: 'unlock-quality';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type UnlockRecipeModifier = BaseModifier & {
   recipe: RecipeID;
   type: 'unlock-recipe';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type UnlockRecipeTipTrigger = {
   recipe: RecipeID;
@@ -9424,7 +9532,7 @@ export type UnlockRecipeTipTrigger = {
 export type UnlockSpaceLocationModifier = BaseModifier & {
   space_location: SpaceLocationID;
   type: 'unlock-space-location';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type UseConfirmTipTrigger = CountBasedTipTrigger & {
   type: 'use-confirm';
@@ -9432,7 +9540,7 @@ export type UseConfirmTipTrigger = CountBasedTipTrigger & {
 export type UseOnSelfCapsuleAction = {
   attack_parameters: AttackParameters;
   type: 'use-on-self';
-  uses_stack?: bool;
+  uses_stack?: boolean;
 };
 export type UsePipetteTipTrigger = CountBasedTipTrigger & {
   type: 'use-pipette';
@@ -9441,6 +9549,7 @@ export type UseRailPlannerTipTrigger = CountBasedTipTrigger & {
   build_mode: BuildMode;
   type: 'use-rail-planner';
 };
+export type ValveMode = 'one-way' | 'overflow' | 'top-up';
 export type VariableAmbientSoundCompositionMode =
   | 'randomized'
   | 'semi-randomized'
@@ -9450,8 +9559,8 @@ export type VariableAmbientSoundLayer = {
   composition_mode: VariableAmbientSoundCompositionMode;
   control_layer?: string;
   control_layer_sample_mapping?: uint8[][];
-  has_end_sample?: bool;
-  has_start_sample?: bool;
+  has_end_sample?: boolean;
+  has_start_sample?: boolean;
   name: string;
   number_of_sublayers?: uint8;
   sample_length?: RandomRange;
@@ -9461,7 +9570,7 @@ export type VariableAmbientSoundLayer = {
 };
 export type VariableAmbientSoundLayerSample = [string, uint32];
 export type VariableAmbientSoundLayerStateProperties = {
-  enabled?: bool;
+  enabled?: boolean;
   end_pause?: RandomRange;
   number_of_repetitions?: RandomRange | ProbabilityTable;
   pause_between_repetitions?: RandomRange;
@@ -9516,7 +9625,7 @@ export type Vector4f =
 export type VectorRotation = { frames: Vector[]; render_layer?: RenderLayer };
 export type VehicleLogisticsModifier = BoolModifier & {
   type: 'vehicle-logistics';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type VerticalAlign = 'top' | 'center' | 'bottom';
 export type VerticalFlowStyleSpecification = BaseStyleSpecification & {
@@ -9548,9 +9657,9 @@ export type WallPictures = {
   water_connection_patch?: Sprite4Way;
 };
 export type WaterReflectionDefinition = {
-  orientation_to_variation?: bool;
+  orientation_to_variation?: boolean;
   pictures?: SpriteVariations;
-  rotate?: bool;
+  rotate?: boolean;
 };
 export type WaterTileEffectParameters = {
   animation_scale: float | [float, float];
@@ -9559,6 +9668,7 @@ export type WaterTileEffectParameters = {
   far_zoom?: float;
   foam_color: Color;
   foam_color_multiplier: float;
+  lightmap_alpha?: float;
   near_zoom?: float;
   reflection_threshold: float | [float, float];
   secondary_texture_variations_columns?: uint8;
@@ -9575,39 +9685,39 @@ export type Weight = double;
 export type WireConnectionPoint = { shadow: WirePosition; wire: WirePosition };
 export type WirePosition = { copper?: Vector; green?: Vector; red?: Vector };
 export type WorkerRobotBatteryModifier = SimpleModifier & {
-  infer_icon?: bool;
+  infer_icon?: boolean;
   type: 'worker-robot-battery';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type WorkerRobotSpeedModifier = SimpleModifier & {
-  infer_icon?: bool;
+  infer_icon?: boolean;
   type: 'worker-robot-speed';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type WorkerRobotStorageModifier = SimpleModifier & {
-  infer_icon?: bool;
+  infer_icon?: boolean;
   type: 'worker-robot-storage';
-  use_icon_overlay_constant?: bool;
+  use_icon_overlay_constant?: boolean;
 };
 export type WorkingSound = MainSound &
   (
     | {
         activate_sound?: Sound;
         deactivate_sound?: Sound;
-        extra_sounds_ignore_limit?: bool;
+        extra_sounds_ignore_limit?: boolean;
         idle_sound?: Sound;
         main_sounds?: MainSound | MainSound[];
         max_sounds_per_prototype?: uint8;
-        persistent?: bool;
+        persistent?: boolean;
         sound_accents?: SoundAccent | SoundAccent[];
-        use_doppler_shift?: bool;
+        use_doppler_shift?: boolean;
       }
     | Sound
   );
 export type WorkingVisualisation = {
-  align_to_waypoint?: bool;
-  always_draw?: bool;
-  animated_shift?: bool;
+  align_to_waypoint?: boolean;
+  always_draw?: boolean;
+  animated_shift?: boolean;
   animation?: Animation;
   apply_recipe_tint?:
     | 'primary'
@@ -9622,22 +9732,22 @@ export type WorkingVisualisation = {
     | 'status'
     | 'none'
     | 'visual-state-color';
-  constant_speed?: bool;
+  constant_speed?: boolean;
   draw_in_states?: string[];
-  draw_when_state_filter_matches?: bool;
+  draw_when_state_filter_matches?: boolean;
   east_animation?: Animation;
   east_fog_mask?: FogMaskShapeDefinition;
   east_position?: Vector;
   east_secondary_draw_order?: int8;
   effect?: 'flicker' | 'uranium-glow' | 'none';
-  enabled_by_name?: bool;
-  enabled_in_animated_shift_during_transition?: bool;
-  enabled_in_animated_shift_during_waypoint_stop?: bool;
-  fadeout?: bool;
+  enabled_by_name?: boolean;
+  enabled_in_animated_shift_during_transition?: boolean;
+  enabled_in_animated_shift_during_waypoint_stop?: boolean;
+  fadeout?: boolean;
   fog_mask?: FogMaskShapeDefinition;
-  frame_based_on_shift_animation_progress?: bool;
+  frame_based_on_shift_animation_progress?: boolean;
   light?: LightDefinition;
-  mining_drill_scorch_mark?: bool;
+  mining_drill_scorch_mark?: boolean;
   name?: string;
   north_animation?: Animation;
   north_fog_mask?: FogMaskShapeDefinition;
@@ -9652,14 +9762,14 @@ export type WorkingVisualisation = {
   south_fog_mask?: FogMaskShapeDefinition;
   south_position?: Vector;
   south_secondary_draw_order?: int8;
-  synced_fadeout?: bool;
+  synced_fadeout?: boolean;
   west_animation?: Animation;
   west_fog_mask?: FogMaskShapeDefinition;
   west_position?: Vector;
   west_secondary_draw_order?: int8;
 };
 export type WorkingVisualisations = {
-  always_draw_idle_animation?: bool;
+  always_draw_idle_animation?: boolean;
   animation?: Animation4Way;
   default_recipe_tint?: GlobalRecipeTints;
   idle_animation?: Animation4Way;
@@ -9681,12 +9791,11 @@ export type WorldAmbientSoundDefinition =
       sound?: Sound;
     }
   | Sound;
-export type bool = boolean;
+export type boolean = boolean;
 export type double = number;
 export type float = number;
 export type int16 = number;
 export type int32 = number;
-export type int64 = number;
 export type int8 = number;
 export type uint16 = number;
 export type uint32 = number;
@@ -9854,6 +9963,7 @@ export interface RawData {
   'heat-pipe': Record<string, HeatPipePrototype>;
   'highlight-box': Record<string, HighlightBoxEntityPrototype>;
   'impact-category': Record<string, ImpactCategory>;
+  'infinity-cargo-wagon': Record<string, InfinityCargoWagonPrototype>;
   'infinity-container': Record<string, InfinityContainerPrototype>;
   'infinity-pipe': Record<string, InfinityPipePrototype>;
   inserter: Record<string, InserterPrototype>;
@@ -9927,6 +10037,7 @@ export interface RawData {
   >;
   'programmable-speaker': Record<string, ProgrammableSpeakerPrototype>;
   projectile: Record<string, ProjectilePrototype>;
+  'proxy-container': Record<string, ProxyContainerPrototype>;
   pump: Record<string, PumpPrototype>;
   quality: Record<QualityID, QualityPrototype>;
   radar: Record<string, RadarPrototype>;
@@ -10018,6 +10129,7 @@ export interface RawData {
   'utility-constants': Record<string, UtilityConstants>;
   'utility-sounds': Record<string, UtilitySounds>;
   'utility-sprites': Record<string, UtilitySprites>;
+  valve: Record<string, ValvePrototype>;
   'virtual-signal': Record<VirtualSignalID, VirtualSignalPrototype>;
   wall: Record<string, WallPrototype>;
 }
@@ -10135,6 +10247,7 @@ export const allKeys: (keyof RawData)[] = [
   'heat-pipe',
   'highlight-box',
   'impact-category',
+  'infinity-cargo-wagon',
   'infinity-container',
   'infinity-pipe',
   'inserter',
@@ -10194,6 +10307,7 @@ export const allKeys: (keyof RawData)[] = [
   'produce-per-hour-achievement',
   'programmable-speaker',
   'projectile',
+  'proxy-container',
   'pump',
   'quality',
   'radar',
@@ -10275,6 +10389,7 @@ export const allKeys: (keyof RawData)[] = [
   'utility-constants',
   'utility-sounds',
   'utility-sprites',
+  'valve',
   'virtual-signal',
   'wall',
 ];

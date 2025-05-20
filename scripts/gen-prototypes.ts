@@ -198,6 +198,7 @@ function builtInMapping(type: string): string {
     case 'double':
       return 'number';
     case 'bool':
+    case 'boolean':
       return 'boolean';
     case 'string':
       return 'string';
