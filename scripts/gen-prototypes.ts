@@ -89,7 +89,11 @@ function toProp(
 
 function toAlias(ty: Type, typeDict: Record<string, Type>) {
   if (ty.type === 'builtin') {
-    return `export type ${ty.name} = ${builtInMapping(ty.name)};`;
+    const aliasTo = builtInMapping(ty.name);
+    if (ty.name === aliasTo) {
+      return `// built-in built-in: ${ty.name}`;
+    }
+    return `export type ${ty.name} = ${aliasTo};`;
   }
 
   let body = tsType(typeDict, ty.type, ty.properties);

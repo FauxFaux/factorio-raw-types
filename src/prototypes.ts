@@ -9791,7 +9791,7 @@ export type WorldAmbientSoundDefinition =
       sound?: Sound;
     }
   | Sound;
-export type boolean = boolean;
+// built-in built-in: boolean
 export type double = number;
 export type float = number;
 export type int16 = number;

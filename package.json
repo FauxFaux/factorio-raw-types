@@ -21,11 +21,11 @@
     "@typescript-eslint/parser": "^8",
     "change-case": "^5",
     "eslint": "^9",
-    "prettier": "~3.4",
+    "prettier": "~3.5",
     "sharp": "^0.33",
     "spritesmith": "^3",
     "tsx": "^4",
-    "typescript": "~5.7"
+    "typescript": "~5.8"
   },
   "files": [
     "./dist"
