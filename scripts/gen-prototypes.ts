@@ -200,12 +200,16 @@ function builtInMapping(type: string): string {
     case 'int64':
     case 'float':
     case 'double':
+    case 'number':
       return 'number';
     case 'bool':
     case 'boolean':
       return 'boolean';
     case 'string':
       return 'string';
+    case 'table':
+      // used only for arbitrary mod json (so far!)
+      return 'Record<string, unknown>';
     case 'DataExtendMethod':
       return '(extension: unknown) => void';
     default:

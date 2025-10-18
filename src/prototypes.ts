@@ -340,6 +340,7 @@ export interface AsteroidPrototype extends EntityWithOwnerPrototype {
 export interface AutoplaceControl extends Prototype {
   can_be_disabled?: boolean;
   category: 'resource' | 'terrain' | 'cliff' | 'enemy';
+  hidden?: boolean;
   related_to_fight_achievements?: boolean;
   richness?: boolean;
 }
@@ -358,6 +359,8 @@ export interface BeaconPrototype extends EntityWithOwnerPrototype {
   module_slots: ItemStackIndex;
   perceived_performance?: PerceivedPerformance;
   profile?: double[];
+  quality_affects_module_slots?: boolean;
+  quality_affects_supply_area_distance?: boolean;
   radius_visualisation_picture?: Sprite;
   supply_area_distance: uint32;
 }
@@ -488,6 +491,7 @@ export interface CargoLandingPadPrototype extends EntityWithOwnerPrototype {
 export interface CargoPodPrototype extends EntityWithOwnerPrototype {
   default_graphic?: ProcessionGraphic;
   default_shadow_graphic?: ProcessionGraphic;
+  impact_trigger?: Trigger;
   inventory_size: ItemStackIndex;
   procession_audio_catalogue?: ProcessionAudioCatalogue;
   procession_graphic_catalogue?: ProcessionGraphicCatalogue;
@@ -525,10 +529,10 @@ export interface CharacterPrototype extends EntityWithOwnerPrototype {
   build_distance: uint32;
   character_corpse?: EntityID;
   crafting_categories?: RecipeCategoryID[];
+  crafting_speed?: double;
   damage_hit_tint: Color;
   distance_per_frame: double;
   drop_item_distance: uint32;
-  eat: Sound;
   enter_vehicle_distance?: double;
   flying_bob_speed?: float;
   flying_collision_mask?: CollisionMaskConnector;
@@ -537,7 +541,7 @@ export interface CharacterPrototype extends EntityWithOwnerPrototype {
   grounded_landing_search_radius?: double;
   guns_inventory_size?: ItemStackIndex;
   has_belt_immunity?: boolean;
-  heartbeat: Sound;
+  heartbeat?: Sound;
   inventory_size: ItemStackIndex;
   is_military_target?: boolean;
   item_pickup_distance: double;
@@ -663,8 +667,15 @@ export interface ContainerPrototype extends EntityWithOwnerPrototype {
   default_status?: EntityStatus;
   draw_circuit_wires?: boolean;
   draw_copper_wires?: boolean;
+  inventory_properties?: InventoryWithCustomStackSizeSpecification;
   inventory_size: ItemStackIndex;
-  inventory_type?: 'normal' | 'with_bar' | 'with_filters_and_bar';
+  inventory_type?:
+    | 'normal'
+    | 'with_bar'
+    | 'with_filters_and_bar'
+    | 'with_custom_stack_size'
+    | 'with_weight_limit';
+  inventory_weight_limit?: Weight;
   picture?: Sprite;
   quality_affects_inventory_size?: boolean;
 }
@@ -696,6 +707,7 @@ export interface CorpsePrototype extends EntityPrototype {
   ground_patch_fade_out_start?: float;
   ground_patch_higher?: AnimationVariations;
   ground_patch_render_layer?: RenderLayer;
+  protected_from_tile_building?: boolean;
   remove_on_entity_placement?: boolean;
   remove_on_tile_placement?: boolean;
   shuffle_directions_at_frame?: uint8;
@@ -714,10 +726,12 @@ export interface CraftingMachinePrototype extends EntityWithOwnerPrototype {
   allowed_module_categories?: ModuleCategoryID[];
   crafting_categories: RecipeCategoryID[];
   crafting_speed: double;
+  crafting_speed_quality_multiplier?: Record<QualityID, double>;
   draw_entity_info_icon_background?: boolean;
   effect_receiver?: EffectReceiver;
   energy_source: EnergySource;
   energy_usage: Energy;
+  energy_usage_quality_multiplier?: Record<QualityID, double>;
   fast_transfer_modules_into_module_slots_only?: boolean;
   fluid_boxes?: FluidBox[];
   forced_symmetry?: Mirroring;
@@ -726,8 +740,11 @@ export interface CraftingMachinePrototype extends EntityWithOwnerPrototype {
   ignore_output_full?: boolean;
   match_animation_speed_to_activity?: boolean;
   module_slots?: ItemStackIndex;
+  module_slots_quality_bonus?: Record<QualityID, ItemStackIndex>;
   perceived_performance?: PerceivedPerformance;
   production_health_effect?: ProductionHealthEffect;
+  quality_affects_energy_usage?: boolean;
+  quality_affects_module_slots?: boolean;
   return_ingredients_on_change?: boolean;
   show_recipe_icon?: boolean;
   show_recipe_icon_on_map?: boolean;
@@ -803,8 +820,11 @@ export interface DecorativePrototype extends Prototype {
   pictures: SpriteVariations;
   placed_effect?: TriggerEffect;
   render_layer?: RenderLayer;
-  stateless_visualisation?: StatelessVisualisations;
-  stateless_visualisation_variations?: StatelessVisualisations[];
+  stateless_visualisation?: StatelessVisualisation | StatelessVisualisation[];
+  stateless_visualisation_variations?: (
+    | StatelessVisualisation
+    | StatelessVisualisation[]
+  )[];
   target_count?: uint16;
   tile_layer?: int16;
   trigger_effect?: TriggerEffect;
@@ -829,7 +849,7 @@ export interface DeliverImpactCombination {
   deliver_category: string;
   impact_category: string;
   name: string;
-  trigger_effect_item: TriggerEffectItem;
+  trigger_effect_item: TriggerEffect;
   type: 'deliver-impact-combination';
 }
 export interface DepleteResourceAchievementPrototype
@@ -944,10 +964,19 @@ export interface ElectricPolePrototype extends EntityWithOwnerPrototype {
 export interface ElectricTurretPrototype extends TurretPrototype {
   energy_source: ElectricEnergySource | VoidEnergySource;
 }
-export type ElevatedCurvedRailAPrototype = CurvedRailAPrototype;
-export type ElevatedCurvedRailBPrototype = CurvedRailBPrototype;
-export type ElevatedHalfDiagonalRailPrototype = HalfDiagonalRailPrototype;
-export type ElevatedStraightRailPrototype = StraightRailPrototype;
+export interface ElevatedCurvedRailAPrototype extends CurvedRailAPrototype {
+  name: string;
+}
+export interface ElevatedCurvedRailBPrototype extends CurvedRailBPrototype {
+  name: string;
+}
+export interface ElevatedHalfDiagonalRailPrototype
+  extends HalfDiagonalRailPrototype {
+  name: string;
+}
+export interface ElevatedStraightRailPrototype extends StraightRailPrototype {
+  name: string;
+}
 export interface EnemySpawnerPrototype extends EntityWithOwnerPrototype {
   absorptions_per_second?: Record<AirbornePollutantID, EnemySpawnerAbsorption>;
   allow_run_time_change_of_is_military_target?: false;
@@ -1003,6 +1032,7 @@ export interface EntityPrototype extends Prototype {
   created_smoke?: CreateTrivialSmokeEffectItem;
   deconstruction_alternative?: EntityID;
   diagonal_tile_grid_size?: TilePosition;
+  draw_stateless_visualisations_in_ghost?: boolean;
   drawing_box_vertical_extension?: double;
   emissions_per_second?: Record<AirbornePollutantID, double>;
   enemy_map_color?: Color;
@@ -1036,7 +1066,7 @@ export interface EntityPrototype extends Prototype {
   selection_box?: BoundingBox;
   selection_priority?: uint8;
   shooting_cursor_size?: double;
-  stateless_visualisation?: StatelessVisualisations;
+  stateless_visualisation?: StatelessVisualisation | StatelessVisualisation[];
   sticker_box?: BoundingBox;
   surface_conditions?: SurfaceCondition[];
   tile_buildability_rules?: TileBuildabilityRule[];
@@ -1198,6 +1228,7 @@ export interface FluidPrototype extends Prototype {
   fuel_value?: Energy;
   gas_temperature?: float;
   heat_capacity?: Energy;
+  hidden?: boolean;
   icon?: FileName;
   icon_size?: SpriteSizeType;
   icons?: IconData[];
@@ -1260,6 +1291,7 @@ export interface FluidTurretPrototype extends TurretPrototype {
 }
 export interface FluidWagonPrototype extends RollingStockPrototype {
   capacity: FluidAmount;
+  connection_category?: string | string[];
   quality_affects_capacity?: boolean;
   tank_count?: uint8;
 }
@@ -1311,6 +1343,8 @@ export interface FurnacePrototype extends CraftingMachinePrototype {
   source_inventory_size: ItemStackIndex;
 }
 export interface FusionGeneratorPrototype extends EntityWithOwnerPrototype {
+  burns_fluid?: boolean;
+  effectivity?: double;
   energy_source: ElectricEnergySource;
   graphics_set?: FusionGeneratorGraphicsSet;
   input_fluid_box: FluidBox;
@@ -1401,6 +1435,7 @@ export interface HalfDiagonalRailPrototype extends RailPrototype {
 export interface HeatInterfacePrototype extends EntityWithOwnerPrototype {
   gui_mode?: 'all' | 'none' | 'admins';
   heat_buffer: HeatBuffer;
+  heating_radius?: float;
   picture?: Sprite;
 }
 export interface HeatPipePrototype extends EntityWithOwnerPrototype {
@@ -1479,6 +1514,7 @@ export interface InserterPrototype extends EntityWithOwnerPrototype {
   stack_size_bonus?: uint8;
   starting_distance?: double;
   use_easter_egg?: boolean;
+  uses_inserter_stack_size_bonus?: boolean;
   wait_for_full_hand?: boolean;
 }
 export interface InventoryBonusEquipmentPrototype
@@ -1516,11 +1552,13 @@ export interface ItemPrototype extends Prototype {
   fuel_top_speed_multiplier_quality_bonus?: double;
   fuel_value?: Energy;
   has_random_tint?: boolean;
+  hidden?: boolean;
   icon?: FileName;
   icon_size?: SpriteSizeType;
   icons?: IconData[];
   ingredient_to_weight_coefficient?: double;
   inventory_move_sound?: Sound;
+  moved_to_hub_when_building?: boolean;
   open_sound?: Sound;
   pick_sound?: Sound;
   pictures?: SpriteVariations;
@@ -1587,6 +1625,7 @@ export interface LabPrototype extends EntityWithOwnerPrototype {
   module_slots?: ItemStackIndex;
   off_animation?: Animation;
   on_animation?: Animation;
+  quality_affects_module_slots?: boolean;
   researching_speed?: double;
   science_pack_drain_rate_percent?: uint8;
   trash_inventory_size?: ItemStackIndex;
@@ -1626,6 +1665,7 @@ export interface LandMinePrototype extends EntityWithOwnerPrototype {
   timeout?: uint32;
   trigger_collision_mask?: CollisionMaskConnector;
   trigger_force?: ForceCondition;
+  trigger_interval?: uint32;
   trigger_radius: double;
 }
 export interface LaneSplitterPrototype
@@ -1650,6 +1690,7 @@ export interface LightningAttractorPrototype extends EntityWithOwnerPrototype {
 }
 export interface LightningPrototype extends EntityPrototype {
   attracted_volume_modifier?: float;
+  attractor_hit_effect?: Trigger;
   damage?: double;
   effect_duration: uint16;
   energy?: Energy;
@@ -1673,8 +1714,15 @@ export interface LinkedContainerPrototype extends EntityWithOwnerPrototype {
   draw_circuit_wires?: boolean;
   draw_copper_wires?: boolean;
   gui_mode?: 'all' | 'none' | 'admins';
+  inventory_properties?: InventoryWithCustomStackSizeSpecification;
   inventory_size: ItemStackIndex;
-  inventory_type?: 'normal' | 'with_bar' | 'with_filters_and_bar';
+  inventory_type?:
+    | 'normal'
+    | 'with_bar'
+    | 'with_filters_and_bar'
+    | 'with_custom_stack_size'
+    | 'with_weight_limit';
+  inventory_weight_limit?: Weight;
   picture?: Sprite;
 }
 export type Loader1x1Prototype = LoaderPrototype;
@@ -1699,8 +1747,10 @@ export interface LoaderPrototype extends TransportBeltConnectablePrototype {
   filter_count: uint8;
   max_belt_stack_size?: uint8;
   per_lane_filters?: boolean;
+  respect_insert_limits?: boolean;
   structure?: LoaderStructure;
   structure_render_layer?: RenderLayer;
+  wait_for_full_stack?: boolean;
 }
 export interface LocomotivePrototype extends RollingStockPrototype {
   darkness_to_render_light_animation?: float;
@@ -1787,14 +1837,21 @@ export interface MiningDrillPrototype extends EntityWithOwnerPrototype {
   moving_sound?: InterruptibleSound;
   output_fluid_box?: FluidBox;
   perceived_performance?: PerceivedPerformance;
+  quality_affects_mining_radius?: boolean;
+  quality_affects_module_slots?: boolean;
   radius_visualisation_picture?: Sprite;
   resource_categories: ResourceCategoryID[];
   resource_drain_rate_percent?: uint8;
+  resource_searching_offset?: Vector;
   resource_searching_radius: double;
   shuffle_resources_to_mine?: boolean;
   uses_force_mining_productivity_bonus?: boolean;
   vector_to_place_result: Vector;
   wet_mining_graphics_set?: MiningDrillGraphicsSet;
+}
+export interface ModData extends Prototype {
+  data: Record<string, AnyBasic>;
+  data_type?: string;
 }
 export type ModuleCategory = Prototype;
 export interface ModulePrototype extends ItemPrototype {
@@ -2018,6 +2075,7 @@ export interface ProjectilePrototype extends EntityPrototype {
   turning_speed_increases_exponentially_with_projectile_speed?: boolean;
 }
 export interface Prototype extends PrototypeBase {
+  custom_tooltip_fields?: CustomTooltipField[];
   factoriopedia_alternative?: string;
 }
 export interface PrototypeBase {
@@ -2066,18 +2124,42 @@ export interface PumpPrototype extends EntityWithOwnerPrototype {
   pumping_speed: FluidAmount;
 }
 export interface QualityPrototype extends Prototype {
+  accumulator_capacity_multiplier?: double;
+  asteroid_collector_collection_radius_bonus?: double;
+  beacon_module_slots_bonus?: ItemStackIndex;
   beacon_power_usage_multiplier?: float;
+  beacon_supply_area_distance_bonus?: float;
   color: Color;
+  crafting_machine_energy_usage_multiplier?: double;
+  crafting_machine_module_slots_bonus?: ItemStackIndex;
+  crafting_machine_speed_multiplier?: double;
+  default_multiplier?: double;
   draw_sprite_by_default?: boolean;
+  electric_pole_supply_area_distance_bonus?: float;
+  electric_pole_wire_reach_bonus?: float;
+  equipment_grid_height_bonus?: int16;
+  equipment_grid_width_bonus?: int16;
+  fluid_wagon_capacity_multiplier?: double;
+  flying_robot_max_energy_multiplier?: double;
   icon?: FileName;
   icon_size?: SpriteSizeType;
   icons?: IconData[];
+  inserter_speed_multiplier?: double;
+  inventory_size_multiplier?: double;
+  lab_module_slots_bonus?: ItemStackIndex;
+  lab_research_speed_multiplier?: double;
   level: uint32;
+  logistic_cell_charging_energy_multiplier?: double;
+  logistic_cell_charging_station_count_bonus?: uint32;
+  mining_drill_mining_radius_bonus?: float;
+  mining_drill_module_slots_bonus?: ItemStackIndex;
   mining_drill_resource_drain_multiplier?: float;
   name: string;
   next?: QualityID;
   next_probability?: double;
+  range_multiplier?: double;
   science_pack_drain_multiplier?: float;
+  tool_durability_multiplier?: double;
 }
 export interface RadarPrototype extends EntityWithOwnerPrototype {
   circuit_connector?: CircuitConnectorDefinition;
@@ -2122,6 +2204,7 @@ export interface RailPrototype extends EntityWithOwnerPrototype {
 export interface RailRampPrototype extends RailPrototype {
   collision_box?: BoundingBox;
   collision_mask_allow_on_deep_oil_ocean?: CollisionMaskConnector;
+  name: string;
   support_range?: float;
 }
 export interface RailRemnantsPrototype extends CorpsePrototype {
@@ -2152,6 +2235,7 @@ export interface RailSupportPrototype extends EntityWithOwnerPrototype {
   collision_mask_allow_on_deep_oil_ocean?: CollisionMaskConnector;
   elevated_selection_boxes?: BoundingBox[];
   graphics_set: RailSupportGraphicsSet;
+  name: string;
   not_buildable_if_no_rails?: boolean;
   snap_to_spots_distance?: float;
   support_range?: float;
@@ -2208,6 +2292,8 @@ export interface RecipePrototype extends Prototype {
   emissions_multiplier?: double;
   enabled?: boolean;
   energy_required?: double;
+  hidden?: boolean;
+  hide_from_bonus_gui?: boolean;
   hide_from_player_crafting?: boolean;
   hide_from_signal_gui?: boolean;
   hide_from_stats?: boolean;
@@ -2336,6 +2422,7 @@ export interface RoboportPrototype extends EntityWithOwnerPrototype {
   recharge_minimum: Energy;
   recharging_animation?: Animation;
   recharging_light?: LightDefinition;
+  render_recharge_icon?: boolean;
   request_to_open_door_timeout: uint32;
   robot_limit?: ItemCountType;
   robot_slots_count: ItemStackIndex;
@@ -2354,6 +2441,7 @@ export interface RobotWithLogisticInterfacePrototype
   idle?: RotatedAnimation;
   in_motion?: RotatedAnimation;
   max_payload_size: ItemCountType;
+  max_payload_size_after_bonus?: ItemCountType;
   shadow_idle?: RotatedAnimation;
   shadow_in_motion?: RotatedAnimation;
 }
@@ -2500,7 +2588,7 @@ export interface SegmentedUnitPrototype extends SegmentPrototype {
   acceleration_rate: double;
   attack_parameters?: AttackParameters;
   attacking_speed: double;
-  enraged_duration: uint32;
+  enraged_duration: MapTick;
   enraged_speed: double;
   hurt_roar?: Sound;
   hurt_thresholds?: float[];
@@ -2577,7 +2665,10 @@ export interface SimpleEntityPrototype extends EntityWithHealthPrototype {
   random_variation_on_create?: boolean;
   render_layer?: RenderLayer;
   secondary_draw_order?: int8;
-  stateless_visualisation_variations?: StatelessVisualisations[];
+  stateless_visualisation_variations?: (
+    | StatelessVisualisation
+    | StatelessVisualisation[]
+  )[];
 }
 export interface SimpleEntityWithForcePrototype
   extends SimpleEntityWithOwnerPrototype {
@@ -2595,7 +2686,10 @@ export interface SimpleEntityWithOwnerPrototype
   random_variation_on_create?: boolean;
   render_layer?: RenderLayer;
   secondary_draw_order?: int8;
-  stateless_visualisation_variations?: StatelessVisualisations[];
+  stateless_visualisation_variations?: (
+    | StatelessVisualisation
+    | StatelessVisualisation[]
+  )[];
 }
 export interface SmokePrototype extends EntityPrototype {
   affected_by_wind?: boolean;
@@ -2630,7 +2724,10 @@ export interface SmokeWithTriggerPrototype extends SmokePrototype {
   wave_speed?: Vector;
 }
 export interface SolarPanelEquipmentPrototype extends EquipmentPrototype {
+  performance_at_day?: double;
+  performance_at_night?: double;
   power: Energy;
+  solar_coefficient_property?: SurfacePropertyID;
 }
 export interface SolarPanelPrototype extends EntityWithOwnerPrototype {
   energy_source: ElectricEnergySource;
@@ -2686,6 +2783,7 @@ export interface SpaceLocationPrototype extends Prototype {
   draw_orbit?: boolean;
   fly_condition?: boolean;
   gravity_pull?: double;
+  hidden?: boolean;
   icon?: FileName;
   icon_size?: SpriteSizeType;
   icons?: IconData[];
@@ -2699,6 +2797,7 @@ export interface SpaceLocationPrototype extends Prototype {
   procession_graphic_catalogue?: ProcessionGraphicCatalogue;
   solar_power_in_space?: double;
   starmap_icon?: FileName;
+  starmap_icon_orientation?: RealOrientation;
   starmap_icon_size?: SpriteSizeType;
   starmap_icons?: IconData[];
 }
@@ -2792,6 +2891,19 @@ export interface SpidertronRemotePrototype extends SelectionToolPrototype {
   stack_size: 1;
 }
 export interface SplitterPrototype extends TransportBeltConnectablePrototype {
+  circuit_connector?: [
+    CircuitConnectorDefinition,
+    CircuitConnectorDefinition,
+    CircuitConnectorDefinition,
+    CircuitConnectorDefinition,
+  ];
+  circuit_wire_max_distance?: double;
+  default_input_left_condition?: CircuitConditionConnector;
+  default_input_right_condition?: CircuitConditionConnector;
+  default_output_left_condition?: CircuitConditionConnector;
+  default_output_right_condition?: CircuitConditionConnector;
+  draw_circuit_wires?: boolean;
+  draw_copper_wires?: boolean;
   frozen_patch?: Sprite4Way;
   related_transport_belt?: EntityID;
   structure?: Animation4Way;
@@ -2844,8 +2956,8 @@ export interface StickerPrototype extends EntityPrototype {
   fire_spread_radius?: float;
   force_visibility?: ForceCondition;
   ground_target?: boolean;
-  hidden?: boolean;
-  hidden_in_factoriopedia?: boolean;
+  hidden: true;
+  hidden_in_factoriopedia: true;
   render_layer?: RenderLayer;
   selection_box_type?: CursorBoxType;
   single_particle?: boolean;
@@ -2897,6 +3009,7 @@ export interface SurfacePropertyPrototype extends Prototype {
 export interface SurfacePrototype extends Prototype {
   icon?: FileName;
   icon_size?: SpriteSizeType;
+  icons?: IconData[];
   surface_properties?: Record<SurfacePropertyID, double>;
 }
 export interface TechnologyPrototype extends Prototype {
@@ -2904,6 +3017,7 @@ export interface TechnologyPrototype extends Prototype {
   effects?: Modifier[];
   enabled?: boolean;
   essential?: boolean;
+  hidden?: boolean;
   icon?: FileName;
   icon_size?: SpriteSizeType;
   icons?: IconData[];
@@ -2958,7 +3072,7 @@ export interface TilePrototype extends Prototype {
   default_cover_tile?: TileID;
   default_destroyed_dropped_item_trigger?: Trigger;
   destroys_dropped_items?: boolean;
-  driving_sound?: Sound;
+  driving_sound?: InterruptibleSound;
   dying_explosion?: ExplosionDefinition | ExplosionDefinition[];
   effect?: TileEffectDefinitionID;
   effect_color?: Color;
@@ -3081,7 +3195,10 @@ export interface TreePrototype extends EntityWithHealthPrototype {
   darkness_of_burnt_tree?: float;
   healing_per_tick?: float;
   pictures?: SpriteVariations;
-  stateless_visualisation_variations?: StatelessVisualisations[];
+  stateless_visualisation_variations?: (
+    | StatelessVisualisation
+    | StatelessVisualisation[]
+  )[];
   variation_weights?: float[];
   variations?: TreeVariation[];
 }
@@ -3266,11 +3383,13 @@ export interface UtilityConstants extends PrototypeBase {
   asteroid_collector_max_nurbs_control_point_separation: double;
   asteroid_collector_navmesh_refresh_tick_interval: uint32;
   asteroid_collector_static_head_swing_segment_count: uint32;
-  asteroid_collector_static_head_swing_strength_scale: double;
+  asteroid_collector_static_head_swing_strength_scale: float;
   asteroid_fading_range: float;
   asteroid_position_offset_to_speed_coefficient: double;
   asteroid_spawning_offset: SimpleBoundingBox;
   asteroid_spawning_with_random_orientation_max_speed: double;
+  blueprint_big_slots_per_row: uint8;
+  blueprint_small_slots_per_row: uint8;
   bonus_gui_ordering: BonusGuiOrdering;
   building_buildable_tint: Color;
   building_buildable_too_far_tint: Color;
@@ -3287,7 +3406,9 @@ export interface UtilityConstants extends PrototypeBase {
   clear_cursor_volume_modifier: float;
   clipboard_history_size: uint32;
   color_filters?: ColorFilterData[];
+  construction_robots_use_busy_robots_queue: boolean;
   count_button_size: int32;
+  crafting_queue_slots_per_row: uint8;
   daytime_color_lookup: DaytimeColorLookupTable;
   deconstruct_mark_tint: Color;
   default_alert_icon_scale: float;
@@ -3342,7 +3463,7 @@ export interface UtilityConstants extends PrototypeBase {
   icon_shadow_sharpness: float;
   inserter_hand_stack_items_per_sprite: ItemCountType;
   inserter_hand_stack_max_sprites: ItemCountType;
-  inventory_width: uint32;
+  inventory_width: uint8;
   item_ammo_magazine_left_bar_color: Color;
   item_default_random_tint_strength: Color;
   item_health_bar_colors: ItemHealthColorData[];
@@ -3353,6 +3474,7 @@ export interface UtilityConstants extends PrototypeBase {
   item_tool_durability_bar_color: Color;
   landing_area_clear_zone_radius: float;
   landing_area_max_radius: float;
+  landing_squash_immunity: MapTick;
   large_area_size: float;
   large_blueprint_area_size: float;
   light_renderer_search_distance_limit: uint8;
@@ -3360,6 +3482,8 @@ export interface UtilityConstants extends PrototypeBase {
   lightning_attractor_protection_range_color: Color;
   logistic_gui_selected_network_highlight_tint: Color;
   logistic_gui_unselected_network_highlight_tint: Color;
+  logistic_robots_use_busy_robots_queue: boolean;
+  logistic_slots_per_row: uint8;
   low_energy_robot_estimate_multiplier: double;
   main_menu_background_image_location: FileName;
   main_menu_background_vignette_intensity: float;
@@ -3371,17 +3495,20 @@ export interface UtilityConstants extends PrototypeBase {
   max_fluid_flow: FluidAmount;
   max_logistic_filter_count: LogisticFilterIndex;
   max_terrain_building_size: uint8;
+  maximum_quality_jump: uint8;
   maximum_recipe_overload_multiplier: uint32;
   medium_area_size: float;
   medium_blueprint_area_size: float;
+  merge_bonus_gui_production_bonuses?: boolean;
   minimap_slot_clicked_tint: Color;
   minimap_slot_hovered_tint: Color;
   minimum_recipe_overload_multiplier: uint32;
   missing_preview_sprite_location: FileName;
-  module_inventory_width: uint32;
+  module_inventory_width: uint8;
   moving_sound_count_reduction_rate: float;
   player_colors: PlayerColorData[];
   probability_product_count_tint: Color;
+  quality_selector_dropdown_threshold: uint8;
   rail_planner_count_button_color: Color;
   rail_segment_colors: Color[];
   recipe_step_limit: uint32;
@@ -3399,8 +3526,10 @@ export interface UtilityConstants extends PrototypeBase {
   space_LPF_max_cutoff_frequency: float;
   space_LPF_min_cutoff_frequency: float;
   space_platform_acceleration_expression: MathExpression;
+  space_platform_asteroid_chunk_trajectory_updates_per_tick: uint32;
   space_platform_dump_cooldown: uint32;
   space_platform_manual_dump_cooldown: uint32;
+  space_platform_max_relative_speed_deviation_for_asteroid_chunks_update: float;
   space_platform_max_size: SimpleBoundingBox;
   space_platform_relative_speed_factor: double;
   space_platform_starfield_movement_vector: Vector;
@@ -3420,6 +3549,7 @@ export interface UtilityConstants extends PrototypeBase {
   train_temporary_stop_wait_time: uint32;
   train_time_wait_condition_default: uint32;
   train_visualization: TrainVisualizationConstants;
+  trash_inventory_width: uint8;
   tree_leaf_distortion_distortion_far: Vector;
   tree_leaf_distortion_distortion_near: Vector;
   tree_leaf_distortion_speed_far: Vector;
@@ -3599,6 +3729,7 @@ export interface UtilitySprites extends PrototypeBase {
   close_map_preview: Sprite;
   clouds: Animation;
   collapse: Sprite;
+  collapse_dark: Sprite;
   color_effect: Sprite;
   color_picker: Sprite;
   confirm_slot: Sprite;
@@ -4226,6 +4357,7 @@ export type Alignment =
   | 'center'
   | 'bottom-center'
   | 'top-right'
+  | 'middle-right'
   | 'right'
   | 'bottom-right';
 export type AlternativeBuildTipTrigger = CountBasedTipTrigger & {
@@ -4319,6 +4451,7 @@ export type AnimationVariations =
   | { sheet?: AnimationSheet; sheets?: AnimationSheet[] }
   | Animation
   | Animation[];
+export type AnyBasic = string | boolean | number | table;
 export type AnyPrototype =
   | AccumulatorPrototype
   | AchievementPrototype
@@ -4480,6 +4613,7 @@ export type AnyPrototype =
   | MapSettings
   | MarketPrototype
   | MiningDrillPrototype
+  | ModData
   | ModuleCategory
   | ModulePrototype
   | ModuleTransferAchievementPrototype
@@ -4639,6 +4773,7 @@ export type AsteroidCollectorGraphicsSet = {
   status_lamp_picture_full?: RotatedSprite;
   status_lamp_picture_off?: RotatedSprite;
   status_lamp_picture_on?: RotatedSprite;
+  water_reflection?: WaterReflectionDefinition;
 };
 export type AsteroidGraphicsSet = {
   ambient_light?: Color;
@@ -4654,6 +4789,7 @@ export type AsteroidGraphicsSet = {
   sss_amount?: float;
   sss_contrast?: float;
   variations?: AsteroidVariation | AsteroidVariation[];
+  water_reflection?: WaterReflectionDefinition;
 };
 export type AsteroidSettings = {
   max_ray_portals_expanded_per_tick: uint32;
@@ -4803,6 +4939,7 @@ export type BeaconGraphicsSet = {
   random_animation_offset?: boolean;
   reset_animation_when_frozen?: boolean;
   top_layer?: RenderLayer;
+  water_reflection?: WaterReflectionDefinition;
 };
 export type BeaconModuleVisualization = {
   apply_module_tint?: ModuleTint;
@@ -4843,6 +4980,7 @@ export type BeamGraphicsSet = {
   random_end_animation_rotation?: boolean;
   randomize_animation_per_segment?: boolean;
   transparent_start_end_animations?: boolean;
+  water_reflection?: WaterReflectionDefinition;
 };
 export type BeamTriggerDelivery = TriggerDeliveryItem & {
   add_to_shooter?: boolean;
@@ -5016,6 +5154,7 @@ export type CargoBayConnectableGraphicsSet = {
   animation_render_layer?: RenderLayer;
   connections?: CargoBayConnections;
   picture?: LayeredSprite;
+  water_reflection?: WaterReflectionDefinition;
 };
 export type CargoBayConnections = {
   bottom_left_inner_corner?: LayeredSpriteVariations;
@@ -5060,6 +5199,8 @@ export type CargoLandingPadLimitModifier = SimpleModifier & {
 export type CargoStationParameters = {
   giga_hatch_definitions?: GigaCargoHatchDefinition[];
   hatch_definitions?: CargoHatchDefinition[];
+  is_input_station?: boolean;
+  is_output_station?: boolean;
   prefer_packed_cargo_units?: boolean;
 };
 export type ChainTriggerDelivery = TriggerDeliveryItem & {
@@ -5193,6 +5334,7 @@ export type ChartUtilityConstants = {
   green_wire_color: Color;
   rail_color: Color;
   rail_ramp_color: Color;
+  recipe_icon_scale: float;
   red_signal_color: Color;
   red_wire_color: Color;
   resource_outline_selection_color: Color;
@@ -5219,6 +5361,11 @@ export type CheckBoxStyleSpecification =
     text_padding?: uint32;
     type: 'checkbox_style';
   };
+export type CircuitConditionConnector = {
+  comparator?: ComparatorString;
+  first?: SignalIDConnector;
+  second?: SignalIDConnector | int32;
+};
 export type CircuitConnectorDefinition = {
   points?: WireConnectionPoint;
   sprites?: CircuitConnectorSprites;
@@ -5468,6 +5615,7 @@ export type CraftingMachineGraphicsSet = WorkingVisualisations & {
     | CircuitConnectorSecondaryDrawOrder;
   frozen_patch?: Sprite4Way;
   reset_animation_when_frozen?: boolean;
+  water_reflection?: WaterReflectionDefinition;
 };
 export type CranePart = {
   allow_sprite_rotation?: boolean;
@@ -5526,6 +5674,7 @@ export type CreateDecorativesTriggerEffectItem = TriggerEffectItem & {
   type: 'create-decorative';
 };
 export type CreateEntityTriggerEffectItem = TriggerEffectItem & {
+  abort_if_over_space?: boolean;
   as_enemy?: boolean;
   check_buildability?: boolean;
   entity_name: EntityID;
@@ -5536,6 +5685,7 @@ export type CreateEntityTriggerEffectItem = TriggerEffectItem & {
   non_colliding_search_radius?: double;
   offset_deviation?: BoundingBox;
   offsets?: Vector[];
+  only_when_visible?: boolean;
   protected?: boolean;
   show_in_tooltip?: boolean;
   tile_collision_mask?: CollisionMaskConnector;
@@ -5642,6 +5792,15 @@ export type CursorBoxType =
   | 'blueprint-snap-rectangle'
   | 'spidertron-remote-selected'
   | 'spidertron-remote-to-be-selected';
+export type CustomTooltipField = {
+  name: LocalisedString;
+  order?: uint8;
+  quality_header?: string;
+  quality_values?: Record<QualityID, LocalisedString>;
+  show_in_factoriopedia?: boolean;
+  show_in_tooltip?: boolean;
+  value: LocalisedString;
+};
 export type CyclicSound = {
   begin_sound?: Sound;
   end_sound?: Sound;
@@ -5902,6 +6061,7 @@ export type EnemySpawnerGraphicsSet = {
   underwater_animations?: AnimationVariations;
   underwater_layer_offset?: int8;
   water_effect_map_animations?: AnimationVariations;
+  water_reflection?: WaterReflectionDefinition;
 };
 export type Energy = string;
 export type EnergySource =
@@ -6221,6 +6381,7 @@ export type FusionGeneratorGraphicsSet = {
   north_graphics_set: FusionGeneratorDirectionGraphicsSet;
   render_layer?: RenderLayer;
   south_graphics_set: FusionGeneratorDirectionGraphicsSet;
+  water_reflection?: WaterReflectionDefinition;
   west_graphics_set: FusionGeneratorDirectionGraphicsSet;
 };
 export type FusionReactorConnectionGraphics = {
@@ -6238,6 +6399,7 @@ export type FusionReactorGraphicsSet = {
   render_layer?: RenderLayer;
   structure?: Sprite4Way;
   use_fuel_glow_color?: boolean;
+  water_reflection?: WaterReflectionDefinition;
   working_light_pictures?: Sprite4Way;
 };
 export type GameControllerVibrationData = {
@@ -6421,8 +6583,8 @@ export type IconData = {
   tint?: Color;
 };
 export type IconDrawSpecification = {
-  renderLayer?:
-    | 'entity-info-icon-below'
+  render_layer?:
+    | 'entity-info-icon'
     | 'entity-info-icon-above'
     | 'air-entity-info-icon';
   scale?: float;
@@ -6465,6 +6627,13 @@ export type InterruptibleSound = {
   minimal_sound_duration_for_stopped_sound?: uint16;
   sound?: Sound;
   stopped_sound?: Sound;
+};
+export type InventoryWithCustomStackSizeSpecification = {
+  stack_size_max?: ItemCountType;
+  stack_size_min?: ItemCountType;
+  stack_size_multiplier?: double;
+  stack_size_override?: Record<ItemID, ItemCountType>;
+  with_bar?: boolean;
 };
 export type InvokeTileEffectTriggerEffectItem = TriggerEffectItem & {
   tile_collision_mask?: CollisionMaskConnector;
@@ -6616,19 +6785,20 @@ export type LightningGraphicsSet = {
   min_relative_fork_length?: float;
   relative_cloud_fork_length?: float;
   shader_configuration?: LightningShaderConfiguration[];
+  water_reflection?: WaterReflectionDefinition;
 };
 export type LightningPriorityRule = LightningRuleBase & {
   priority_bonus: int32;
 };
 export type LightningProperties = {
-  exemption_rules: LightningRuleBase[];
+  exemption_rules?: LightningRuleBase[];
   lightning_multiplier_at_day?: double;
   lightning_multiplier_at_night?: double;
   lightning_types: EntityID[];
   lightning_warning_icon?: Sprite;
   lightnings_per_chunk_per_tick: double;
   multiplier_surface_property?: SurfacePropertyID;
-  priority_rules: LightningPriorityRule[];
+  priority_rules?: LightningPriorityRule[];
   search_radius: double;
 };
 export type LightningRuleBase = {
@@ -6671,6 +6841,10 @@ export type LinkedGameControl =
   | 'move-down'
   | 'move-left'
   | 'move-right'
+  | 'alternative-gui-move-up'
+  | 'alternative-gui-move-down'
+  | 'alternative-gui-move-left'
+  | 'alternative-gui-move-right'
   | 'open-character-gui'
   | 'open-gui'
   | 'confirm-gui'
@@ -6730,6 +6904,8 @@ export type LinkedGameControl =
   | 'previous-surface'
   | 'cycle-quality-up'
   | 'cycle-quality-down'
+  | 'scroll-tooltip-up'
+  | 'scroll-tooltip-down'
   | 'craft'
   | 'craft-5'
   | 'craft-all'
@@ -6806,7 +6982,6 @@ export type LinkedGameControl =
   | 'forward'
   | 'pause-game'
   | 'confirm-message'
-  | 'previous-technology'
   | 'previous-mod'
   | 'connect-train'
   | 'disconnect-train'
@@ -7047,6 +7222,7 @@ export type MiningDrillGraphicsSet = WorkingVisualisations & {
   drilling_vertical_movement_duration?: uint16;
   frozen_patch?: Sprite4Way;
   reset_animation_when_frozen?: boolean;
+  water_reflection?: WaterReflectionDefinition;
 };
 export type MiningDrillProductivityBonusModifier = SimpleModifier & {
   infer_icon?: boolean;
@@ -7160,6 +7336,7 @@ export type OffshorePumpGraphicsSet = {
   glass_pictures?: Sprite4Way;
   underwater_layer_offset?: int8;
   underwater_pictures?: Sprite4Way;
+  water_reflection?: WaterReflectionDefinition;
 };
 export type OrTipTrigger = { triggers: TipTrigger[]; type: 'or' };
 export type Order = string;
@@ -7516,7 +7693,7 @@ export type ProcessionGraphicCatalogue = ProcessionGraphicCatalogueItem[];
 export type ProcessionGraphicCatalogueItem = {
   animation?: Animation;
   index: uint32;
-  picture?: Sprite;
+  sprite?: Sprite;
 };
 export type ProcessionGraphicType =
   | 'none'
@@ -7548,10 +7725,7 @@ export type ProcessionTimeline = {
   layers: ProcessionLayer[];
   special_action_tick?: MapTick;
 };
-export type ProductPrototype =
-  | ItemProductPrototype
-  | FluidProductPrototype
-  | ResearchProgressProductPrototype;
+export type ProductPrototype = ItemProductPrototype | FluidProductPrototype;
 export type ProductionHealthEffect = {
   not_producing?: float;
   producing?: float;
@@ -7768,6 +7942,7 @@ export type RailSupportGraphicsSet = {
   structure: RotatedSprite;
   underwater_layer_offset?: int8;
   underwater_structure?: RotatedSprite;
+  water_reflection?: WaterReflectionDefinition;
 };
 export type RailSupportOnDeepOilOceanModifier = BoolModifier & {
   type: 'rail-support-on-deep-oil-ocean';
@@ -7873,11 +8048,6 @@ export type RenderLayer =
   | 'arrow'
   | 'cursor';
 export type ResearchIngredient = [ItemID, uint16];
-export type ResearchProgressProductPrototype = {
-  amount?: double;
-  research_item: ItemID;
-  type: 'research-progress';
-};
 export type ResearchTechnologyTipTrigger = {
   technology: TechnologyID;
   type: 'research';
@@ -7904,7 +8074,6 @@ export type RotateEntityTipTrigger = CountBasedTipTrigger & {
 };
 export type RotatedAnimation = AnimationParameters & {
   apply_projection?: boolean;
-  axially_symmetrical?: boolean;
   counterclockwise?: boolean;
   direction_count?: uint32;
   filename?: FileName;
@@ -7933,7 +8102,6 @@ export type RotatedAnimationVariations = RotatedAnimation | RotatedAnimation[];
 export type RotatedSprite = SpriteParameters & {
   allow_low_quality_rotation?: boolean;
   apply_projection?: boolean;
-  axially_symmetrical?: boolean;
   back_equals_front?: boolean;
   counterclockwise?: boolean;
   dice?: SpriteSizeType;
@@ -7958,6 +8126,13 @@ export type RotatedSpriteFrame = {
 export type ScriptTriggerEffectItem = TriggerEffectItem & {
   effect_id: string;
   type: 'script';
+};
+export type ScriptedTechnologyTrigger = {
+  icon?: FileName;
+  icon_size?: SpriteSizeType;
+  icons?: IconData[];
+  trigger_description?: LocalisedString;
+  type: 'scripted';
 };
 export type ScrollBarStyleSpecification = BaseStyleSpecification & {
   background_graphical_set?: ElementImageSet;
@@ -8366,6 +8541,7 @@ export type SpiderLegGraphicsSet = {
   upper_part?: SpiderLegPart;
   upper_part_shadow?: SpiderLegPart;
   upper_part_water_reflection?: SpiderLegPart;
+  water_reflection?: WaterReflectionDefinition;
 };
 export type SpiderLegPart = {
   bottom_end?: RotatedSprite;
@@ -8395,6 +8571,7 @@ export type SpiderTorsoGraphicsSet = {
   render_layer?: RenderLayer;
   shadow_animation?: RotatedAnimation;
   shadow_base_animation?: RotatedAnimation;
+  water_reflection?: WaterReflectionDefinition;
 };
 export type SpiderVehicleGraphicsSet = SpiderTorsoGraphicsSet & {
   autopilot_destination_on_map_visualisation?: Animation;
@@ -8522,6 +8699,7 @@ export type SpriteSheet = SpriteParameters & {
   dice?: SpriteSizeType;
   dice_x?: SpriteSizeType;
   dice_y?: SpriteSizeType;
+  filename?: FileName;
   filenames?: FileName[];
   layers?: SpriteSheet[];
   line_length?: uint32;
@@ -8611,9 +8789,6 @@ export type StatelessVisualisation = {
   speed_z?: RangedValue;
   spread_progress_duration?: float;
 };
-export type StatelessVisualisations =
-  | StatelessVisualisation
-  | StatelessVisualisation[];
 export type StatusColors = {
   disabled?: Color;
   full_output?: Color;
@@ -8838,7 +9013,8 @@ export type TechnologyTrigger =
   | SendItemToOrbitTechnologyTrigger
   | CaptureSpawnerTechnologyTrigger
   | BuildEntityTechnologyTrigger
-  | CreateSpacePlatformTechnologyTrigger;
+  | CreateSpacePlatformTechnologyTrigger
+  | ScriptedTechnologyTrigger;
 export type TechnologyUnit = {
   count?: uint64;
   count_formula?: MathExpression;
@@ -8882,6 +9058,7 @@ export type ThrusterGraphicsSet = WorkingVisualisations & {
   flame_effect_width?: float;
   flame_half_height?: float;
   flame_position?: Vector;
+  water_reflection?: WaterReflectionDefinition;
 };
 export type ThrusterPerformancePoint =
   | { effectivity: double; fluid_usage: FluidAmount; fluid_volume: double }
@@ -9210,7 +9387,9 @@ export type TrainVisualizationConstants = {
   final_margin: float;
   joint_distance: float;
   last_box_color: Color;
+  last_reverse_box_color: Color;
   not_last_box_color: Color;
+  reverse_box_color: Color;
   stock_number_scale: float;
 };
 export type TransitionApplication = {
@@ -9432,6 +9611,7 @@ export type TurretBaseVisualisation = {
 };
 export type TurretGraphicsSet = {
   base_visualisation?: TurretBaseVisualisation | TurretBaseVisualisation[];
+  water_reflection?: WaterReflectionDefinition;
 };
 export type TurretSpecialEffect = {
   attacking_falloff?: float;
@@ -9797,6 +9977,8 @@ export type float = number;
 export type int16 = number;
 export type int32 = number;
 export type int8 = number;
+// built-in built-in: number
+export type table = Record<string, unknown>;
 export type uint16 = number;
 export type uint32 = number;
 export type uint64 = number;
@@ -9997,6 +10179,7 @@ export interface RawData {
   'map-settings': Record<string, MapSettings>;
   market: Record<string, MarketPrototype>;
   'mining-drill': Record<string, MiningDrillPrototype>;
+  'mod-data': Record<string, ModData>;
   'module-category': Record<ModuleCategoryID, ModuleCategory>;
   module: Record<string, ModulePrototype>;
   'module-transfer-achievement': Record<
@@ -10281,6 +10464,7 @@ export const allKeys: (keyof RawData)[] = [
   'map-settings',
   'market',
   'mining-drill',
+  'mod-data',
   'module',
   'module-category',
   'module-transfer-achievement',
