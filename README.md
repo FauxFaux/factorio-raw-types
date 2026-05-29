@@ -9,7 +9,7 @@ upcoming idea, have a look at the undocumented [`scripts/`](scripts/) directory.
 You could export the raw JSON from factorio:
 
 ```shell
-APP=$HOME/SteamLibrary/steamapps/common/Factorio
+APP=~/.local/share/Steam/steamapps/common/Factorio
 ${APP}/bin/x64/factorio --dump-data
 ```
 
@@ -17,9 +17,8 @@ Then load it into your code:
 
 ```ts
 import { type RawData } from 'factorio-raw-types/prototypes';
-const raw: RawData = await import(
-  '/home/me/.factorio/script-output/data-raw-dump.json'
-);
+const raw: RawData =
+  await import('/home/me/.factorio/script-output/data-raw-dump.json');
 ```
 
 And get reasonable typechecking on:

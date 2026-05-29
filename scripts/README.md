@@ -1,7 +1,7 @@
 factorio-raw-data
 
 ```
-APP=$HOME/SteamLibrary/steamapps/common/Factorio
+APP=~/.local/share/Steam/steamapps/common/Factorio
 ${APP}/bin/x64/factorio --dump-data
 ${APP}/bin/x64/factorio --dump-prototype-locale
 ${APP}/bin/x64/factorio --dump-icon-sprites

@@ -1,6 +1,6 @@
 {
   "name": "factorio-raw-types",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "type": "module",
   "exports": {
     "./prototypes": "./dist/prototypes.js"
@@ -13,19 +13,19 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@tsconfig/node22": "^22",
+    "@tsconfig/node24": "^24",
     "@sinclair/typebox": "^0.34",
-    "@types/node": "^22",
+    "@types/node": "^24",
     "@types/spritesmith": "^3",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
     "change-case": "^5",
     "eslint": "^9",
-    "prettier": "~3.6",
+    "prettier": "~3.8",
     "sharp": "^0.34",
     "spritesmith": "^3",
     "tsx": "^4",
-    "typescript": "~5.9"
+    "typescript": "~6.0"
   },
   "files": [
     "./dist"

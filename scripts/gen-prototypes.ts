@@ -322,6 +322,10 @@ function tsType(
     return 'unknown /* defines.inventory */';
   }
 
+  if (type === 'defines.direction') {
+    return 'unknown /* defines.direction */';
+  }
+
   if (type === 'EmptyWidgetStyle') {
     return 'unknown /* EmptyWidgetStyle */';
   }

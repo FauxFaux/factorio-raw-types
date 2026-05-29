@@ -14,8 +14,7 @@ export interface AchievementPrototype extends Prototype {
   icons?: IconData[];
   steam_stats_name?: string;
 }
-export interface AchievementPrototypeWithCondition
-  extends AchievementPrototype {
+export interface AchievementPrototypeWithCondition extends AchievementPrototype {
   objective_condition?: 'game-finished' | 'rocket-launched' | 'late-research';
 }
 export interface ActiveDefenseEquipmentPrototype extends EquipmentPrototype {
@@ -169,6 +168,7 @@ export interface ArrowPrototype extends EntityPrototype {
   arrow_picture: Sprite;
   blinking?: boolean;
   circle_picture?: Sprite;
+  selection_priority?: uint8;
 }
 export interface ArtilleryFlarePrototype extends EntityPrototype {
   creation_shift?: Vector;
@@ -202,6 +202,7 @@ export interface ArtilleryProjectilePrototype extends EntityPrototype {
   picture?: Sprite;
   reveal_map: boolean;
   rotatable?: boolean;
+  selection_priority?: uint8;
   shadow?: Sprite;
 }
 export interface ArtilleryTurretPrototype extends EntityWithOwnerPrototype {
@@ -370,23 +371,25 @@ export interface BeamPrototype extends EntityPrototype {
   damage_interval: uint32;
   graphics_set: BeamGraphicsSet;
   random_target_offset?: boolean;
+  selection_priority?: uint8;
   target_offset?: Vector;
   width: float;
 }
 export interface BeltImmunityEquipmentPrototype extends EquipmentPrototype {
   energy_consumption: Energy;
 }
-export interface BlueprintBookPrototype
-  extends Omit<ItemWithInventoryPrototype, 'inventory_size'> {
+export interface BlueprintBookPrototype extends Omit<
+  ItemWithInventoryPrototype,
+  'inventory_size'
+> {
   draw_label_for_cursor_render?: boolean;
   inventory_size: ItemStackIndex | 'dynamic';
   stack_size: 1;
 }
-export interface BlueprintItemPrototype
-  extends Omit<
-    SelectionToolPrototype,
-    'selection_mode' | 'alt_selection_mode'
-  > {
+export interface BlueprintItemPrototype extends Omit<
+  SelectionToolPrototype,
+  'selection_mode' | 'alt_selection_mode'
+> {
   alt_select: SelectionModeData;
   always_include_tiles?: boolean;
   draw_label_for_cursor_render?: boolean;
@@ -495,6 +498,7 @@ export interface CargoPodPrototype extends EntityWithOwnerPrototype {
   inventory_size: ItemStackIndex;
   procession_audio_catalogue?: ProcessionAudioCatalogue;
   procession_graphic_catalogue?: ProcessionGraphicCatalogue;
+  selection_priority?: uint8;
   shadow_slave_entity?: EntityID;
   spawned_container: EntityID;
 }
@@ -513,8 +517,7 @@ export interface ChainActiveTriggerPrototype extends ActiveTriggerPrototype {
   max_range?: double;
   max_range_per_jump?: double;
 }
-export interface ChangedSurfaceAchievementPrototype
-  extends AchievementPrototype {
+export interface ChangedSurfaceAchievementPrototype extends AchievementPrototype {
   surface?: string;
 }
 export interface CharacterCorpsePrototype extends EntityPrototype {
@@ -576,8 +579,7 @@ export interface CliffPrototype extends EntityPrototype {
   place_as_crater?: CraterPlacementDefinition;
 }
 export type CollisionLayerPrototype = Prototype;
-export interface CombatRobotCountAchievementPrototype
-  extends AchievementPrototype {
+export interface CombatRobotCountAchievementPrototype extends AchievementPrototype {
   count?: uint32;
 }
 export interface CombatRobotPrototype extends FlyingRobotPrototype {
@@ -623,8 +625,7 @@ export interface CombinatorPrototype extends EntityWithOwnerPrototype {
   screen_light_offsets: [Vector, Vector, Vector, Vector];
   sprites?: Sprite4Way;
 }
-export interface CompleteObjectiveAchievementPrototype
-  extends AchievementPrototypeWithCondition {
+export interface CompleteObjectiveAchievementPrototype extends AchievementPrototypeWithCondition {
   within?: MapTick;
 }
 export interface ConstantCombinatorPrototype extends EntityWithOwnerPrototype {
@@ -643,14 +644,12 @@ export interface ConstantCombinatorPrototype extends EntityWithOwnerPrototype {
   pulse_duration?: uint32;
   sprites?: Sprite4Way;
 }
-export interface ConstructWithRobotsAchievementPrototype
-  extends AchievementPrototype {
+export interface ConstructWithRobotsAchievementPrototype extends AchievementPrototype {
   amount?: uint32;
   limited_to_one_game: boolean;
   more_than_manually?: boolean;
 }
-export interface ConstructionRobotPrototype
-  extends RobotWithLogisticInterfacePrototype {
+export interface ConstructionRobotPrototype extends RobotWithLogisticInterfacePrototype {
   collision_box?: BoundingBox;
   construction_vector: Vector;
   mined_sound_volume_modifier?: float;
@@ -710,6 +709,7 @@ export interface CorpsePrototype extends EntityPrototype {
   protected_from_tile_building?: boolean;
   remove_on_entity_placement?: boolean;
   remove_on_tile_placement?: boolean;
+  selection_priority?: uint8;
   shuffle_directions_at_frame?: uint8;
   splash?: AnimationVariations;
   splash_render_layer?: RenderLayer;
@@ -751,8 +751,7 @@ export interface CraftingMachinePrototype extends EntityWithOwnerPrototype {
   trash_inventory_size?: ItemStackIndex;
   vector_to_place_result?: Vector;
 }
-export interface CreatePlatformAchievementPrototype
-  extends AchievementPrototype {
+export interface CreatePlatformAchievementPrototype extends AchievementPrototype {
   amount?: uint32;
 }
 export interface CurvedRailAPrototype extends RailPrototype {
@@ -792,16 +791,14 @@ export interface DeciderCombinatorPrototype extends CombinatorPrototype {
   less_symbol_sprites?: Sprite4Way;
   not_equal_symbol_sprites?: Sprite4Way;
 }
-export interface DeconstructWithRobotsAchievementPrototype
-  extends AchievementPrototype {
+export interface DeconstructWithRobotsAchievementPrototype extends AchievementPrototype {
   amount: uint32;
 }
 export type DeconstructibleTileProxyPrototype = EntityPrototype;
-export interface DeconstructionItemPrototype
-  extends Omit<
-    SelectionToolPrototype,
-    'selection_mode' | 'alt_selection_mode'
-  > {
+export interface DeconstructionItemPrototype extends Omit<
+  SelectionToolPrototype,
+  'selection_mode' | 'alt_selection_mode'
+> {
   alt_select: SelectionModeData;
   always_include_tiles?: boolean;
   entity_filter_count?: ItemStackIndex;
@@ -837,8 +834,7 @@ export interface DelayedActiveTriggerPrototype extends ActiveTriggerPrototype {
   repeat_count?: uint32;
   repeat_delay?: uint32;
 }
-export interface DeliverByRobotsAchievementPrototype
-  extends AchievementPrototype {
+export interface DeliverByRobotsAchievementPrototype extends AchievementPrototype {
   amount: uint32;
 }
 export interface DeliverCategory {
@@ -852,8 +848,7 @@ export interface DeliverImpactCombination {
   trigger_effect_item: TriggerEffect;
   type: 'deliver-impact-combination';
 }
-export interface DepleteResourceAchievementPrototype
-  extends AchievementPrototype {
+export interface DepleteResourceAchievementPrototype extends AchievementPrototype {
   amount?: uint32;
   limited_to_one_game?: boolean;
 }
@@ -877,28 +872,23 @@ export interface DisplayPanelPrototype extends EntityWithOwnerPrototype {
   text_color?: Color;
   text_shift?: Vector;
 }
-export interface DontBuildEntityAchievementPrototype
-  extends AchievementPrototypeWithCondition {
+export interface DontBuildEntityAchievementPrototype extends AchievementPrototypeWithCondition {
   amount?: uint32;
   dont_build: EntityID | EntityID[];
   research_with?: ItemID | ItemID[];
 }
-export interface DontCraftManuallyAchievementPrototype
-  extends AchievementPrototypeWithCondition {
+export interface DontCraftManuallyAchievementPrototype extends AchievementPrototypeWithCondition {
   amount: uint32;
 }
-export interface DontKillManuallyAchievementPrototype
-  extends AchievementPrototypeWithCondition {
+export interface DontKillManuallyAchievementPrototype extends AchievementPrototypeWithCondition {
   to_kill?: EntityID;
   type_not_to_kill?: string;
 }
-export interface DontResearchBeforeResearchingAchievementPrototype
-  extends AchievementPrototypeWithCondition {
+export interface DontResearchBeforeResearchingAchievementPrototype extends AchievementPrototypeWithCondition {
   dont_research: ItemID | ItemID[];
   research_with: ItemID | ItemID[];
 }
-export interface DontUseEntityInEnergyProductionAchievementPrototype
-  extends AchievementPrototypeWithCondition {
+export interface DontUseEntityInEnergyProductionAchievementPrototype extends AchievementPrototypeWithCondition {
   excluded: EntityID | EntityID[];
   included?: EntityID | EntityID[];
   last_hour_only?: boolean;
@@ -932,8 +922,7 @@ export interface EditorControllerPrototype {
   show_status_icons: boolean;
   type: 'editor-controller';
 }
-export interface ElectricEnergyInterfacePrototype
-  extends EntityWithOwnerPrototype {
+export interface ElectricEnergyInterfacePrototype extends EntityWithOwnerPrototype {
   allow_copy_paste?: boolean;
   animation?: Animation;
   animations?: Animation4Way;
@@ -959,23 +948,26 @@ export interface ElectricPolePrototype extends EntityWithOwnerPrototype {
   radius_visualisation_picture?: Sprite;
   rewire_neighbours_when_destroying?: boolean;
   supply_area_distance: double;
-  track_coverage_during_build_by_moving?: boolean;
+  track_coverage_during_drag_building?: boolean;
 }
 export interface ElectricTurretPrototype extends TurretPrototype {
   energy_source: ElectricEnergySource | VoidEnergySource;
 }
 export interface ElevatedCurvedRailAPrototype extends CurvedRailAPrototype {
   name: string;
+  selection_priority?: uint8;
 }
 export interface ElevatedCurvedRailBPrototype extends CurvedRailBPrototype {
   name: string;
+  selection_priority?: uint8;
 }
-export interface ElevatedHalfDiagonalRailPrototype
-  extends HalfDiagonalRailPrototype {
+export interface ElevatedHalfDiagonalRailPrototype extends HalfDiagonalRailPrototype {
   name: string;
+  selection_priority?: uint8;
 }
 export interface ElevatedStraightRailPrototype extends StraightRailPrototype {
   name: string;
+  selection_priority?: uint8;
 }
 export interface EnemySpawnerPrototype extends EntityWithOwnerPrototype {
   absorptions_per_second?: Record<AirbornePollutantID, EnemySpawnerAbsorption>;
@@ -1110,8 +1102,10 @@ export interface EquipArmorAchievementPrototype extends AchievementPrototype {
   limited_to_one_game?: boolean;
 }
 export type EquipmentCategory = Prototype;
-export interface EquipmentGhostPrototype
-  extends Omit<EquipmentPrototype, 'categories' | 'energy_source' | 'shape'> {
+export interface EquipmentGhostPrototype extends Omit<
+  EquipmentPrototype,
+  'categories' | 'energy_source' | 'shape'
+> {
   categories?: EquipmentCategoryID[];
   energy_source?: ElectricEnergySource;
   shape?: EquipmentShape;
@@ -1163,6 +1157,7 @@ export interface ExplosionPrototype extends EntityPrototype {
   scale_initial?: float;
   scale_initial_deviation?: float;
   scale_out_duration?: uint8;
+  selection_priority?: uint8;
   smoke?: TrivialSmokeID;
   smoke_count?: uint16;
   smoke_slow_down_factor?: float;
@@ -1205,6 +1200,7 @@ export interface FireFlamePrototype extends EntityPrototype {
   secondary_picture_fade_out_start?: uint32;
   secondary_pictures?: AnimationVariations;
   secondary_render_layer?: RenderLayer;
+  selection_priority?: uint8;
   small_tree_fire_pictures?: AnimationVariations;
   smoke?: SmokeSource[];
   smoke_fade_in_duration?: uint32;
@@ -1257,6 +1253,7 @@ export interface FluidStreamPrototype extends EntityPrototype {
   particle_start_scale?: float;
   particle_vertical_acceleration: float;
   progress_to_create_smoke?: float;
+  selection_priority?: uint8;
   shadow?: Animation;
   shadow_scale_enabled?: boolean;
   smoke_sources?: SmokeSource[];
@@ -1303,6 +1300,7 @@ export interface FlyingRobotPrototype extends EntityWithOwnerPrototype {
   max_speed?: double;
   max_to_charge?: float;
   min_to_charge?: float;
+  selection_priority?: uint8;
   speed: double;
   speed_multiplier_when_out_of_energy?: float;
 }
@@ -1443,8 +1441,11 @@ export interface HeatPipePrototype extends EntityWithOwnerPrototype {
   heat_buffer: HeatBuffer;
   heat_glow_sprites?: ConnectableEntityGraphics;
   heating_radius?: float;
+  selection_priority?: uint8;
 }
-export type HighlightBoxEntityPrototype = EntityPrototype;
+export interface HighlightBoxEntityPrototype extends EntityPrototype {
+  selection_priority?: uint8;
+}
 export interface ImpactCategory {
   name: string;
   type: 'impact-category';
@@ -1454,8 +1455,10 @@ export interface InfinityCargoWagonPrototype extends CargoWagonPrototype {
   gui_mode?: 'all' | 'none' | 'admins';
   preserve_contents_when_created?: boolean;
 }
-export interface InfinityContainerPrototype
-  extends Omit<LogisticContainerPrototype, 'logistic_mode'> {
+export interface InfinityContainerPrototype extends Omit<
+  LogisticContainerPrototype,
+  'logistic_mode'
+> {
   erase_contents_when_mined: boolean;
   gui_mode?: 'all' | 'none' | 'admins';
   inventory_size: ItemStackIndex;
@@ -1517,8 +1520,10 @@ export interface InserterPrototype extends EntityWithOwnerPrototype {
   uses_inserter_stack_size_bonus?: boolean;
   wait_for_full_hand?: boolean;
 }
-export interface InventoryBonusEquipmentPrototype
-  extends Omit<EquipmentPrototype, 'energy_source'> {
+export interface InventoryBonusEquipmentPrototype extends Omit<
+  EquipmentPrototype,
+  'energy_source'
+> {
   energy_source?: ElectricEnergySource;
   inventory_size_bonus: ItemStackIndex;
 }
@@ -1662,14 +1667,14 @@ export interface LandMinePrototype extends EntityWithOwnerPrototype {
   picture_safe?: Sprite;
   picture_set?: Sprite;
   picture_set_enemy?: Sprite;
+  selection_priority?: uint8;
   timeout?: uint32;
   trigger_collision_mask?: CollisionMaskConnector;
   trigger_force?: ForceCondition;
   trigger_interval?: uint32;
   trigger_radius: double;
 }
-export interface LaneSplitterPrototype
-  extends TransportBeltConnectablePrototype {
+export interface LaneSplitterPrototype extends TransportBeltConnectablePrototype {
   structure: Animation4Way;
   structure_animation_movement_cooldown?: uint32;
   structure_animation_speed_coefficient?: double;
@@ -1761,8 +1766,10 @@ export interface LocomotivePrototype extends RollingStockPrototype {
   max_snap_to_train_stop_distance?: float;
   reversing_power_modifier: double;
 }
-export interface LogisticContainerPrototype
-  extends Omit<ContainerPrototype, 'picture'> {
+export interface LogisticContainerPrototype extends Omit<
+  ContainerPrototype,
+  'picture'
+> {
   animation?: Animation;
   animation_sound?: Sound;
   landing_location_offset?: Vector;
@@ -1778,8 +1785,7 @@ export interface LogisticContainerPrototype
   trash_inventory_size?: ItemStackIndex;
   use_exact_mode?: boolean;
 }
-export interface LogisticRobotPrototype
-  extends RobotWithLogisticInterfacePrototype {
+export interface LogisticRobotPrototype extends RobotWithLogisticInterfacePrototype {
   collision_box?: BoundingBox;
   idle_with_cargo?: RotatedAnimation;
   in_motion_with_cargo?: RotatedAnimation;
@@ -1862,8 +1868,7 @@ export interface ModulePrototype extends ItemPrototype {
   requires_beacon_alt_mode?: boolean;
   tier: uint32;
 }
-export interface ModuleTransferAchievementPrototype
-  extends AchievementPrototype {
+export interface ModuleTransferAchievementPrototype extends AchievementPrototype {
   amount?: uint32;
   limited_to_one_game?: boolean;
   module: ItemID | ItemID[];
@@ -1950,6 +1955,7 @@ export interface ParticleSourcePrototype extends EntityPrototype {
   horizontal_speed: float;
   horizontal_speed_deviation?: float;
   particle?: ParticleID;
+  selection_priority?: uint8;
   smoke?: SmokeSource[];
   time_before_start: float;
   time_before_start_deviation?: float;
@@ -1972,8 +1978,7 @@ export interface PipeToGroundPrototype extends EntityWithOwnerPrototype {
   pictures?: Sprite4Way;
   visualization?: Sprite4Way;
 }
-export interface PlaceEquipmentAchievementPrototype
-  extends AchievementPrototype {
+export interface PlaceEquipmentAchievementPrototype extends AchievementPrototype {
   amount?: uint32;
   armor: ItemID;
   limit_equip_quality: QualityID;
@@ -1997,13 +2002,14 @@ export interface PlantPrototype extends TreePrototype {
   growth_ticks: MapTick;
   harvest_emissions?: Record<AirbornePollutantID, double>;
 }
-export interface PlayerDamagedAchievementPrototype
-  extends AchievementPrototype {
+export interface PlayerDamagedAchievementPrototype extends AchievementPrototype {
   minimum_damage: float;
   should_survive: boolean;
   type_of_dealer?: string;
 }
-export type PlayerPortPrototype = EntityWithOwnerPrototype;
+export interface PlayerPortPrototype extends EntityWithOwnerPrototype {
+  selection_priority?: uint8;
+}
 export interface PowerSwitchPrototype extends EntityWithOwnerPrototype {
   circuit_wire_connection_point: WireConnectionPoint;
   draw_circuit_wires?: boolean;
@@ -2035,8 +2041,7 @@ export interface ProduceAchievementPrototype extends AchievementPrototype {
   item_product?: ItemIDFilter;
   limited_to_one_game: boolean;
 }
-export interface ProducePerHourAchievementPrototype
-  extends AchievementPrototype {
+export interface ProducePerHourAchievementPrototype extends AchievementPrototype {
   amount: MaterialAmountType;
   fluid_product?: FluidID;
   item_product?: ItemIDFilter;
@@ -2068,6 +2073,7 @@ export interface ProjectilePrototype extends EntityPrototype {
   max_speed?: double;
   piercing_damage?: float;
   rotatable?: boolean;
+  selection_priority?: uint8;
   shadow?: RotatedAnimationVariations;
   smoke?: SmokeSource[];
   speed_modifier?: Vector;
@@ -2199,6 +2205,7 @@ export interface RailPrototype extends EntityWithOwnerPrototype {
   pictures: RailPictureSet;
   removes_soft_decoratives?: boolean;
   selection_box?: BoundingBox;
+  selection_priority?: uint8;
   walking_sound?: Sound;
 }
 export interface RailRampPrototype extends RailPrototype {
@@ -2228,6 +2235,7 @@ export interface RailSignalBasePrototype extends EntityWithOwnerPrototype {
   elevated_selection_priority?: uint8;
   flags?: EntityPrototypeFlags;
   ground_picture_set: RailSignalPictureSet;
+  selection_priority?: uint8;
 }
 export type RailSignalPrototype = RailSignalBasePrototype;
 export interface RailSupportPrototype extends EntityWithOwnerPrototype {
@@ -2325,8 +2333,7 @@ export interface ResearchAchievementPrototype extends AchievementPrototype {
   research_all?: boolean;
   technology?: TechnologyID;
 }
-export interface ResearchWithSciencePackAchievementPrototype
-  extends AchievementPrototype {
+export interface ResearchWithSciencePackAchievementPrototype extends AchievementPrototype {
   amount?: uint32;
   science_pack: ItemID;
 }
@@ -2350,6 +2357,7 @@ export interface ResourceEntityPrototype extends EntityPrototype {
   normal?: uint32;
   randomize_visual_position?: boolean;
   resource_patch_search_radius?: uint32;
+  selection_priority?: uint8;
   stage_counts: uint32[];
   stages?: AnimationVariations;
   stages_effect?: AnimationVariations;
@@ -2433,8 +2441,7 @@ export interface RoboportPrototype extends EntityWithOwnerPrototype {
   stationing_offset?: Vector;
   stationing_render_layer_swap_height?: float;
 }
-export interface RobotWithLogisticInterfacePrototype
-  extends FlyingRobotPrototype {
+export interface RobotWithLogisticInterfacePrototype extends FlyingRobotPrototype {
   charging_sound?: InterruptibleSound;
   destroy_action?: Trigger;
   draw_cargo?: boolean;
@@ -2540,11 +2547,14 @@ export interface RocketSiloRocketPrototype extends EntityPrototype {
   rocket_smoke_top3_animation?: Animation;
   rocket_sprite?: Sprite;
   rocket_visible_distance_from_center: float;
+  selection_priority?: uint8;
   shadow_fade_out_end_ratio: double;
   shadow_fade_out_start_ratio: double;
   shadow_slave_entity?: EntityID;
 }
-export type RocketSiloRocketShadowPrototype = EntityPrototype;
+export interface RocketSiloRocketShadowPrototype extends EntityPrototype {
+  selection_priority?: uint8;
+}
 export interface RollingStockPrototype extends VehiclePrototype {
   air_resistance: double;
   allow_manual_color?: boolean;
@@ -2670,12 +2680,10 @@ export interface SimpleEntityPrototype extends EntityWithHealthPrototype {
     | StatelessVisualisation[]
   )[];
 }
-export interface SimpleEntityWithForcePrototype
-  extends SimpleEntityWithOwnerPrototype {
+export interface SimpleEntityWithForcePrototype extends SimpleEntityWithOwnerPrototype {
   is_military_target?: boolean;
 }
-export interface SimpleEntityWithOwnerPrototype
-  extends EntityWithOwnerPrototype {
+export interface SimpleEntityWithOwnerPrototype extends EntityWithOwnerPrototype {
   animations?: AnimationVariations;
   force_visibility?: ForceCondition;
   lower_pictures?: SpriteVariations;
@@ -2705,6 +2713,7 @@ export interface SmokePrototype extends EntityPrototype {
   glow_fade_away_duration?: uint32;
   movement_slow_down_factor?: double;
   render_layer?: RenderLayer;
+  selection_priority?: uint8;
   show_when_smoke_off?: boolean;
   spread_duration?: uint32;
   start_scale?: double;
@@ -2760,8 +2769,7 @@ export interface SoundPrototype {
   variations?: SoundDefinition | SoundDefinition[];
   volume?: float;
 }
-export interface SpaceConnectionDistanceTraveledAchievementPrototype
-  extends AchievementPrototype {
+export interface SpaceConnectionDistanceTraveledAchievementPrototype extends AchievementPrototype {
   distance: uint32;
   reversed: boolean;
   tracked_connection: SpaceConnectionID;
@@ -2832,6 +2840,7 @@ export interface SpectatorControllerPrototype {
 }
 export interface SpeechBubblePrototype extends EntityPrototype {
   fade_in_out_ticks?: uint32;
+  selection_priority?: uint8;
   style: string;
   wrapper_flow_style?: string;
   y_offset?: double;
@@ -2848,6 +2857,7 @@ export interface SpiderLegPrototype extends EntityWithOwnerPrototype {
   minimal_step_size: double;
   movement_acceleration: double;
   movement_based_position_selection_distance: double;
+  selection_priority?: uint8;
   stretch_force_scalar?: double;
   target_position_randomisation_distance: double;
   upper_leg_dying_trigger_effects?: SpiderLegTriggerEffect[];
@@ -2960,6 +2970,7 @@ export interface StickerPrototype extends EntityPrototype {
   hidden_in_factoriopedia: true;
   render_layer?: RenderLayer;
   selection_box_type?: CursorBoxType;
+  selection_priority?: uint8;
   single_particle?: boolean;
   spread_fire_entity?: EntityID;
   stickers_per_square_meter?: float;
@@ -3169,19 +3180,18 @@ export interface TrainStopPrototype extends EntityWithOwnerPrototype {
   rail_overlay_animations?: Animation4Way;
   top_animations?: Animation4Way;
 }
-export interface TransportBeltConnectablePrototype
-  extends EntityWithOwnerPrototype {
+export interface TransportBeltConnectablePrototype extends EntityWithOwnerPrototype {
   animation_speed_coefficient?: double;
   belt_animation_set?: TransportBeltAnimationSet;
   collision_box?: BoundingBox;
   flags?: EntityPrototypeFlags;
+  selection_priority?: uint8;
   speed: double;
 }
-export interface TransportBeltPrototype
-  extends Omit<
-    TransportBeltConnectablePrototype,
-    'animation_set' | 'belt_animation_set'
-  > {
+export interface TransportBeltPrototype extends Omit<
+  TransportBeltConnectablePrototype,
+  'animation_set' | 'belt_animation_set'
+> {
   belt_animation_set?: TransportBeltAnimationSetWithCorners;
   circuit_connector?: CircuitConnectorDefinition[];
   circuit_wire_max_distance?: double;
@@ -3314,8 +3324,7 @@ export interface TutorialDefinition extends PrototypeBase {
   order?: Order;
   scenario: string;
 }
-export interface UndergroundBeltPrototype
-  extends TransportBeltConnectablePrototype {
+export interface UndergroundBeltPrototype extends TransportBeltConnectablePrototype {
   max_distance: uint8;
   max_distance_tint?: Color;
   max_distance_underground_remove_belts_sprite?: Sprite;
@@ -3352,19 +3361,17 @@ export interface UnitPrototype extends EntityWithOwnerPrototype {
   walking_sound?: Sound;
   warcry?: Sound;
 }
-export interface UpgradeItemPrototype
-  extends Omit<
-    SelectionToolPrototype,
-    'selection_mode' | 'alt_selection_mode'
-  > {
+export interface UpgradeItemPrototype extends Omit<
+  SelectionToolPrototype,
+  'selection_mode' | 'alt_selection_mode'
+> {
   alt_select: SelectionModeData;
   always_include_tiles?: boolean;
   draw_label_for_cursor_render?: boolean;
   select: SelectionModeData;
   stack_size: 1;
 }
-export interface UseEntityInEnergyProductionAchievementPrototype
-  extends AchievementPrototype {
+export interface UseEntityInEnergyProductionAchievementPrototype extends AchievementPrototype {
   consumed_condition?: ItemIDFilter;
   entity: EntityID;
   produced_condition?: ItemIDFilter;
@@ -3612,6 +3619,7 @@ export interface UtilitySounds extends PrototypeBase {
   game_lost: Sound;
   game_won: Sound;
   gui_click: Sound;
+  gui_switch: Sound;
   inventory_click: Sound;
   inventory_move: Sound;
   item_deleted: Sound;
@@ -4734,6 +4742,7 @@ export type AnyPrototype =
 export type ApplyStarterPackTipTrigger = CountBasedTipTrigger & {
   type: 'apply-starter-pack';
 };
+export type ApplyTileTint = 'primary' | 'secondary';
 export type AreaTriggerItem = TriggerItem & {
   collision_mode?: 'distance-from-collision-box' | 'distance-from-center';
   radius: double;
@@ -5708,7 +5717,7 @@ export type CreateGhostOnEntityDeathModifier = BoolModifier & {
   use_icon_overlay_constant?: boolean;
 };
 export type CreateParticleTriggerEffectItem = TriggerEffectItem & {
-  apply_tile_tint?: 'primary' | 'secondary';
+  apply_tile_tint?: ApplyTileTint;
   frame_speed?: float;
   frame_speed_deviation?: float;
   initial_height: float;
@@ -5877,23 +5886,6 @@ export type DirectTriggerItem = TriggerItem & {
   filter_enabled?: boolean;
   type: 'direct';
 };
-export type Direction =
-  | 0
-  | 1
-  | 2
-  | 3
-  | 4
-  | 5
-  | 6
-  | 7
-  | 8
-  | 9
-  | 10
-  | 11
-  | 12
-  | 13
-  | 14
-  | 15;
 export type DirectionShift = {
   east?: Vector;
   north?: Vector;
@@ -6549,7 +6541,10 @@ export type HeatBuffer = {
   pipe_covers?: Sprite4Way;
   specific_heat: Energy;
 };
-export type HeatConnection = { direction: Direction; position: MapPosition };
+export type HeatConnection = {
+  direction: unknown /* defines.direction */;
+  position: MapPosition;
+};
 export type HeatEnergySource = BaseEnergySource & {
   connections?: HeatConnection[];
   default_temperature?: double;
@@ -7163,7 +7158,10 @@ export type MapGenSize =
   | 'very-high'
   | 'very-big'
   | 'very-good';
-export type MapLocation = { direction: Direction; position: MapPosition };
+export type MapLocation = {
+  direction: unknown /* defines.direction */;
+  position: MapPosition;
+};
 export type MapPosition = { x: double; y: double } | [double, double];
 export type MapTick = uint64;
 export type MaterialAmountType = double;
@@ -7439,7 +7437,7 @@ export type PersistentWorldAmbientSoundsDefinitionCrossfade = Fade & {
 export type PipeConnectionDefinition = {
   connection_category?: string | string[];
   connection_type?: PipeConnectionType;
-  direction?: Direction;
+  direction?: unknown /* defines.direction */;
   enable_working_visualisations?: string[];
   flow_direction?: FluidFlowDirection;
   linked_connection_id?: FluidBoxLinkedConnectionID;
